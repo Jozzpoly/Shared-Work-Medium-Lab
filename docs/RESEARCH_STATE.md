@@ -181,6 +181,14 @@ The campaign is grounded in recurring real patterns:
 - very short "continue" instructions work well when task identity and current truth are already recoverable;
 - chat UI liveness is not a reliable proxy for tool/run liveness.
 
+## Phase boundary — reconnaissance complete
+
+`semantic-medium-v0` is now treated as a **reconnaissance specimen**, not proto-architecture.
+
+The next architecture-bearing implementation is gated by the structural research program in [docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md](./STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md).
+
+Temporary mechanisms from reconnaissance — GitHub as world model, Browser as central mind, Cloudflare primitives, AXTree, WebMCP, current observation IDs, polling/cache shapes — are donor hypotheses only. The next serious specimen should be designed cleanly from the underlying properties and evidence rather than by extending v0.
+
 ## Current frontier
 
 Investigate whether a **self-updating semantic web surface** can become a dual-use medium: ordinary and useful for a human, while exposing enough stable structure, source links, state, and affordances that a browser agent can treat it almost like a rich API.
