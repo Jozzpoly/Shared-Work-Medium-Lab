@@ -80,6 +80,8 @@ The next architecture-bearing specimen must select mechanisms again from evidenc
 
 ### A. Primary-source genealogy
 
+Current source-bounded audit: [docs/PRIMARY_SOURCE_GENEALOGY_PARTIAL_2026-10-03.md](./PRIMARY_SOURCE_GENEALOGY_PARTIAL_2026-10-03.md)
+
 Complete the originating conversation audit before architecture freeze.
 
 Recover:
