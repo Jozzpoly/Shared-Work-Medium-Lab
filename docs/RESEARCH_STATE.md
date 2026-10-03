@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** first high-capability Codex recovery source-verified; lower-capability recovery threshold next
+**Status:** high-capability recovery verified; first Luna probe exposed invocation/capability-routing friction
 
 **Last material update:** 2026-10-03
 
@@ -174,7 +174,25 @@ The model should recover the active experiment from repository state, respect th
 
 This next experiment is tracked in Issue #2.
 
-The Browser↔Codex bridge currently has **one source-verified high-capability Codex recovery**. Automatic instruction discovery, lower-capability reliability, interruption recovery, repeated reliability, and a clean independent Browser return leg remain unproven.
+The Browser↔Codex bridge currently has **one source-verified high-capability Codex recovery**.
+
+### First Luna probe — invocation friction observed
+
+A fresh Luna-class session was given the repository URL and a minimal continuation prompt, but the session started in a generic workspace rather than inside a checkout of this repository.
+
+Luna correctly detected that mismatch and did not claim to possess live repo state. Ordinary web access did not recover the repository. After the Owner explicitly invoked the GitHub connector, Luna recovered the current commit, Issue #2, the orientation files, and the scoped evidence boundaries correctly.
+
+It also correctly refused to treat that run as completion of SWM-0002 because repository-native `AGENTS.md` discovery had not been exercised.
+
+This creates a useful distinction:
+
+- **environment comprehension:** promising at the Luna level once the GitHub sensor was available;
+- **body/capability discovery:** still weak enough that the Owner had to manually route the agent to `@GitHub`;
+- **in-repo automatic orientation:** still untested.
+
+The next clean test remains a fresh Luna session started with this repository already opened/checked out, with only the minimal continuation prompt.
+
+Automatic instruction discovery, clean lower-capability in-repo reliability, interruption recovery, repeated reliability, and a clean independent Browser return leg remain unproven.
 
 ## Deliberately unresolved
 
