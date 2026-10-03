@@ -136,6 +136,20 @@ class JsonlSubjectProcess:
         self.tempdir.cleanup()
 
 
+def validate_action_contract(action: str):
+    if action == "go_back()":
+        return
+
+    match = re.fullmatch(r"""click\((['"])([^'"\\r\\n]+)\\1\)""", action)
+    if match:
+        return
+
+    raise RuntimeError(
+        "subject action violates frozen action contract; only "
+        "click(<single quoted bid>) or go_back() are allowed"
+    )
+
+
 def validate_subject_reply(reply: dict):
     kind = reply.get("kind")
     if kind == "action":
@@ -143,6 +157,7 @@ def validate_subject_reply(reply: dict):
             raise RuntimeError(f"unexpected action reply keys: {sorted(reply.keys())}")
         if not isinstance(reply.get("action"), str):
             raise RuntimeError("action reply missing action string")
+        validate_action_contract(reply["action"])
         return
     if kind == "final":
         if set(reply.keys()) - {"kind", "answer"}:
