@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import argparse
 import hashlib
 import json
@@ -140,15 +141,61 @@ def validate_action_contract(action: str):
     if action == "go_back()":
         return
 
-    match = re.fullmatch(r"""click\((['"])([^'"\\r\\n]+)\\1\)""", action)
-    if match:
+    try:
+        expr = ast.parse(action, mode="eval").body
+    except SyntaxError as exc:
+        raise RuntimeError("subject action is not one allowed expression") from exc
+
+    if (
+        isinstance(expr, ast.Call)
+        and isinstance(expr.func, ast.Name)
+        and expr.func.id == "click"
+        and len(expr.args) == 1
+        and not expr.keywords
+        and isinstance(expr.args[0], ast.Constant)
+        and isinstance(expr.args[0].value, str)
+        and bool(expr.args[0].value)
+    ):
         return
 
     raise RuntimeError(
         "subject action violates frozen action contract; only "
-        "click(<single quoted bid>) or go_back() are allowed"
+        "click(<one non-empty string bid>) or go_back() are allowed"
     )
 
+
+def self_test_action_contract():
+    allowed = [
+        "go_back()",
+        "click('12')",
+        'click("abc-7")',
+    ]
+    forbidden = [
+        "noop()",
+        "goto('https://example.com')",
+        "click(12)",
+        "click('12', button='right')",
+        "click('12')\ngo_back()",
+        "click('')",
+        "some prose click('12')",
+    ]
+
+    for action in allowed:
+        validate_action_contract(action)
+
+    unexpectedly_allowed = []
+    for action in forbidden:
+        try:
+            validate_action_contract(action)
+        except RuntimeError:
+            continue
+        unexpectedly_allowed.append(action)
+
+    if unexpectedly_allowed:
+        raise RuntimeError(
+            "action-contract negative test failed; unexpectedly allowed: "
+            f"{unexpectedly_allowed!r}"
+        )
 
 def validate_subject_reply(reply: dict):
     kind = reply.get("kind")
@@ -306,6 +353,8 @@ def run_treatment(treatment: str, subject_command: list[str]) -> dict:
 
 
 def main():
+    self_test_action_contract()
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--subject-command",
