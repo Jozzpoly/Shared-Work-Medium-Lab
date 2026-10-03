@@ -247,6 +247,26 @@ Therefore:
 
 This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
 
+### MP-1A generated pilot-world seam — PASS
+
+Branch `experiment/mp1a-pilot-world-generator` now generates one deterministic canonical project world and compiles it into P0/P1 treatments.
+
+GitHub Actions run `37146692319` established:
+
+- 25-resource world generated deterministically twice with byte-identical output;
+- unique resource IDs and fully resolved declared relations;
+- no evaluator motif-label leakage into treatments;
+- normalized visible text and raw link labels/targets identical;
+- screenshot mismatch **0.0%**;
+- P0 AXTree has no heading/article/listitem semantics;
+- P1 exposes **29 headings, 25 articles, 25 listitems** while preserving the same pixels.
+
+Scoped result:
+
+> **PASS — generated-world treatment compilation can preserve human-visible parity while changing machine-legible semantic topology.**
+
+No LLM subject has run. The next bounded gate is evaluator/logging validation on deterministic synthetic traces before introducing an isolated model runtime.
+
 ### MP-1A apparatus seam — BrowserGym PASS
 
 A clean GitHub Actions spike on branch `experiment/mp1a-browsergym-apparatus-spike` validated BrowserGym as a controlled laboratory body for the first semantic-ablation experiment.
