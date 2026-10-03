@@ -185,6 +185,79 @@ That is closer to an epistemic cache with provenance than a magical always-corre
 
 It may eventually let the medium maintain itself with far less rewriting: deterministic sensors can keep observations current, while agent/human interpretations are re-run only when their dependencies materially change.
 
+## Semantic channel matrix: the accessibility tree is useful but lossy
+
+A dedicated probe compared multiple channels carried by the same HTML document through Opera's accessibility-tree sensor.
+
+Observed through the current connector:
+
+| HTML / semantic channel | Visible in accessibility tree? | Observation |
+| --- | --- | --- |
+| ordinary visible text | yes | baseline |
+| visually-hidden accessibility text | yes | survives as semantic text |
+| `aria-describedby` | yes | becomes the target object's accessible `description` |
+| link `href` | yes | preserved as navigable URL |
+| native form controls/options | yes | role, label, value/options, and conceptual actions are exposed |
+| `<time datetime="…">` machine value | no | human-visible text survives, exact `datetime` does not |
+| link `rel="…"` | no | target URL/name survive, typed relation is absent |
+| `data-*` custom attributes | no | custom attribute value is absent |
+| embedded JSON-LD | no | absent from this observation channel |
+| content inside closed `<details>` | no | disclosure control survives; hidden content does not |
+
+This is a crucial correction to the phrase "HTML behaves like an API."
+
+The accessibility tree is closer to a **semantic low-bandwidth ABI**: excellent for roles, names, visible structure, links, controls and accessibility descriptions, but intentionally not a lossless DOM serialization.
+
+A useful design implication is to reserve accessibility semantics for information that is genuinely useful to assistive-technology users too. Provenance/authority hints are a good candidate. Arbitrary machine-only protocol data is not; use a richer projection such as WebMCP, DOM metadata, structured representation, or HTTP links for that.
+
+## Prior art points toward four separable problems, not one giant ontology
+
+Several mature or historical web standards solve pieces of the medium problem independently:
+
+- **ResourceSync** describes how a source advertises resources and incremental Change Lists so another system can remain synchronized without repeatedly rereading the full collection.
+- **OSLC Tracked Resource Set (TRS)** models a current Base plus an ordered Change Log of creations/modifications/deletions, with a cutoff connecting the two. This is very close to the specimen's emerging "observed world + changes since interpretation" pattern.
+- **Web Annotation** models a durable body attached to a target, including selectors and states for targeting a specific segment or state of a changing resource.
+- **Memento (RFC 7089)** models present resources, immutable prior states, and maps between them through typed temporal links.
+- **OSLC Core Discovery** separates discoverable query capabilities, creation factories, and human delegated dialogs instead of assuming every integration needs one universal interface.
+
+These are not proposed dependencies. They are evidence that synchronization, temporal identity, annotation/provenance, capability discovery, and human UI delegation have been attacked separately before.
+
+The potentially novel composition for an LLM medium is that a reasoning model may bridge these primitives without every relationship needing a rigid client-specific workflow.
+
+A plausible research decomposition is therefore:
+
+```text
+world mirror:       Base + incremental changes
+interpretations:    annotations/claims bound to exact source states
+time:               immutable versions / version navigation
+perception:         semantic HTML + accessibility projection
+actions:            forms / WebMCP / discovered capabilities
+agent coordination: durable environmental traces rather than message relays
+```
+
+Again, this is a research map, not an architecture commitment.
+
+## Cognitive/ecological correction: affordance is relational
+
+The native-form experiment accidentally reproduced a classic point from ecological psychology: an affordance is not simply a property of an object; it arises from the relation between an actor's capabilities and the environment.
+
+For SWM, that implies there is no globally true statement such as "this page affords form submission."
+
+More precisely:
+
+```text
+affords(agent, action)
+    only when
+environment exposes action
+AND agent's sensor represents it
+AND agent's actuator can execute it
+AND trust/permissions permit it
+```
+
+This also resembles the biological concept of an **Umwelt**: the same external world becomes a different actionable perception–action world for organisms with different sensory and effector capabilities.
+
+That framing is useful because SWM should not try to force all agents into an identical representation. It should preserve one underlying reality while allowing different agent bodies to inhabit different, partially overlapping actionable projections.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
