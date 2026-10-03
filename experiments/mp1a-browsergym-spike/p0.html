@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Atlas Project Surface</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f4f6;
+    color: #111827;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  h1, h2, p, ul, li, main, nav, section, article {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+  }
+  ul { list-style: none; }
+  .shell { width: 920px; margin: 32px auto; }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .title { font-size: 28px; font-weight: 700; line-height: 1.15; }
+  .nav { display: flex; gap: 14px; }
+  a { color: #1d4ed8; text-decoration: underline; }
+  .panel {
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .section-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .lead { margin-bottom: 14px; }
+  .resources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .resource {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 116px;
+  }
+  .resource-title { font-weight: 700; margin-bottom: 6px; }
+  .meta { font-size: 13px; color: #4b5563; margin-top: 8px; }
+  .status { display: inline-block; border: 1px solid #9ca3af; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
+</style></head>
+<body><div class="shell">
+  <div class="topbar">
+    <div class="title">Atlas Project Surface</div>
+    <div class="nav">
+      <a href="#current">Current state</a>
+      <a href="#resources">Resources</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+
+  <div id="current" class="panel">
+    <div class="section-title">Current project state</div>
+    <div class="lead">Three project resources are available. One resource changed after the current interpretation was written.</div>
+    <div><span class="status">Observed 2026-10-03</span></div>
+  </div>
+
+  <div id="resources" class="panel">
+    <div class="section-title">Project resources</div>
+    <div class="resources">
+      <div class="resource">
+        <div class="resource-title"><a href="#resource-alder">Alder decision</a></div>
+        <div>Defines the current acceptance rule for the import path.</div>
+        <div class="meta">Revision A3 · source: decision record</div>
+      </div>
+      <div class="resource">
+        <div class="resource-title"><a href="#resource-brine">Brine experiment</a></div>
+        <div>Tests parser behavior against the acceptance rule.</div>
+        <div class="meta">Revision B7 · source: experiment</div>
+      </div>
+      <div class="resource">
+        <div class="resource-title"><a href="#resource-cinder">Cinder observation</a></div>
+        <div>Records an Owner-visible failure after the parser test passed.</div>
+        <div class="meta">Revision C2 · source: observation</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sources" class="panel">
+    <div class="section-title">Source notes</div>
+    <div id="resource-alder">Alder decision: imports are accepted when the parser produces a valid normalized record.</div>
+    <div id="resource-brine">Brine experiment: the parser produced a valid normalized record for the fixture.</div>
+    <div id="resource-cinder">Cinder observation: the imported object was still unusable in the Owner-visible product flow.</div>
+  </div>
+</div></body>
+</html>
