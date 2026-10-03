@@ -299,6 +299,27 @@ Scoped result:
 
 The next gate is isolation of the subject interface itself. A real model subject must receive only task + observation + generic action contract/history, never evaluator ground truth or experiment-design context.
 
+### Live ecological specimen 001 — Feniks meta-work
+
+A material live-use specimen has emerged outside the SWM lab implementation.
+
+In current Feniks work, Codex independently used permission to contact Browser GPT / related project conversations, brought a real research question, received a corrective reframing, verified source truth, changed its next experiment, and built a local trace window to preserve where one work stream changed another.
+
+The Owner was able to observe and enter without acting as manual message courier.
+
+Canonical evidence note:
+[docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md](./LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md)
+
+Scoped judgement:
+
+> **MATERIAL FINDING — SWM-like behavior emerged spontaneously in live project work before the technical SWM exists.**
+
+The relevant property is not merely inter-agent messaging. It is:
+
+> independently continuing work streams can route toward one another through shared addressable evidence, materially change each other's continuation, and leave a recoverable trace while the Owner remains participant/authority rather than courier.
+
+This specimen strengthens the ecological-discovery side of the research loop and should be understood before further standardization.
+
 ### External-organism lane — Claude Free / Sonnet 5.5
 
 The project now has a second experimental lane alongside BrowserGym.
