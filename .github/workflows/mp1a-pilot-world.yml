@@ -64,6 +64,9 @@ jobs:
       - name: Validate BrowserGym interaction loop and trace capture
         run: python experiments/mp1a-pilot-world/validate_interaction_loop.py
 
+      - name: Validate external subject process boundary
+        run: python experiments/mp1a-pilot-world/validate_subject_boundary.py
+
       - name: Validate scoring seam on deterministic synthetic traces
         run: python experiments/mp1a-pilot-world/score_synthetic.py
 
