@@ -105,6 +105,29 @@ It is:
 
 GitHub Issue #1 is the first live specimen.
 
+### First implemented capability bridge
+
+A root `AGENTS.md` now gives Codex a lightweight repository-native orientation contract:
+
+- recover the project from `START_HERE.md` and live repository state;
+- follow source/authority distinctions;
+- inspect Issue #1 as the current shared referent;
+- avoid giant context dumps and premature infrastructure.
+
+This is intentionally a **map**, not a substitute for the project.
+
+### Next evidence needed
+
+Run a fresh Codex instance against this repository with minimal human instruction and observe whether it:
+
+1. discovers and follows `AGENTS.md`;
+2. recovers the project/frontier from the repository;
+3. understands Issue #1 without an Owner-written campaign handoff;
+4. makes a useful bounded judgement about the next repo-native step;
+5. leaves a result that Browser can later recover from the same shared referent.
+
+Until this happens, the Browser↔Codex bridge is **implemented only as an environmental affordance, not validated as a working collaboration loop**.
+
 ## Deliberately unresolved
 
 Not decided yet:
