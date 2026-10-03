@@ -8,8 +8,9 @@ Your first responsibility is to recover the real project state from the reposito
 
 1. Read `START_HERE.md`.
 2. Read `docs/RESEARCH_STATE.md`.
-3. Read `docs/NORTH_STAR.md` and `docs/DESIGN_GUARDRAILS.md` when direction or scope is material.
-4. Inspect the current live work objects named by `docs/RESEARCH_STATE.md`, plus relevant open issues and draft pull requests. Do not assume a previously named issue is still the frontier.
+3. While the post-reconnaissance phase is active, read `docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md` before proposing or extending architecture.
+4. Read `docs/NORTH_STAR.md` and `docs/DESIGN_GUARDRAILS.md` when direction or scope is material.
+5. Inspect the current live work objects named by `docs/RESEARCH_STATE.md`, plus relevant open issues and draft pull requests. Do not assume a previously named issue is still the frontier.
 
 ## Working contract
 
