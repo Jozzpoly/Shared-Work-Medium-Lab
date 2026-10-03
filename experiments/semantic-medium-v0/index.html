@@ -97,14 +97,15 @@
     <p class="muted">Shared Work Medium Lab · live semantic projection</p>
     <h1>Shared Work Medium</h1>
     <p class="lede">
-      A live view of the project assembled from source systems rather than manually maintained project status.
-      Follow the linked sources whenever a claim matters.
+      A live GitHub-backed projection of the project assembled from source objects rather than copied dashboard fields.
+      It is not yet the whole project world. Follow the linked sources whenever a claim matters.
     </p>
 
     <div class="statusline" role="status" aria-live="polite" aria-atomic="true">
       <span><strong>Projection:</strong> <span id="projection-health">loading</span></span>
       <span><strong>Fetched:</strong> <time id="fetched-at">not yet</time></span>
       <span><strong>Auto refresh:</strong> 10 minutes</span>
+      <span><strong>Source scope:</strong> public GitHub</span>
       <button id="refresh-button" type="button">Refresh now</button>
     </div>
 
@@ -135,6 +136,29 @@
           Open the full source state
         </a>
       </p>
+    </section>
+
+    <section aria-labelledby="observed-heading">
+      <h2 id="observed-heading">Observed repository activity</h2>
+      <dl>
+        <dt>Repository head</dt>
+        <dd id="observed-head">loading…</dd>
+        <dt>Latest observed change</dt>
+        <dd id="observed-change">loading…</dd>
+        <dt>Open issues</dt>
+        <dd id="observed-issues">loading…</dd>
+        <dt>Open pull requests</dt>
+        <dd id="observed-prs">loading…</dd>
+      </dl>
+      <p class="muted">These facts are derived directly from live repository objects rather than from the declared project-state document.</p>
+    </section>
+
+    <section aria-labelledby="experiments-heading">
+      <h2 id="experiments-heading">Live experiments and proposed changes</h2>
+      <p class="muted">Open pull requests, ordered by most recently updated.</p>
+      <div id="pulls" aria-live="polite">
+        <p>Loading pull requests…</p>
+      </div>
     </section>
 
     <section aria-labelledby="work-objects-heading">
@@ -216,9 +240,17 @@
         node.className = degraded ? "error" : "";
       }
 
+      function stripLightMarkdown(value) {
+        return (value || "")
+          .replace(/\*\*/g, "")
+          .replace(/`/g, "")
+          .replace(/^>\s?/gm, "")
+          .trim();
+      }
+
       function parseDeclaredState(markdown) {
-        const status = markdown.match(/\*\*Status:\*\*\s*(.+)/i)?.[1]?.trim() || "unknown";
-        const updated = markdown.match(/\*\*Last material update:\*\*\s*(.+)/i)?.[1]?.trim() || "unknown";
+        const status = stripLightMarkdown(markdown.match(/\*\*Status:\*\*\s*(.+)/i)?.[1]) || "unknown";
+        const updated = stripLightMarkdown(markdown.match(/\*\*Last material update:\*\*\s*(.+)/i)?.[1]) || "unknown";
         const frontierSection = markdown.split(/\n## Current frontier\s*\n/i)[1] || "";
         const frontierBlock = frontierSection.split(/\n##\s+/)[0] || "";
         const frontier = frontierBlock
@@ -231,7 +263,7 @@
         return {
           status,
           updated,
-          frontier: frontier || "No explicit frontier recovered from the source."
+          frontier: stripLightMarkdown(frontier) || "No explicit frontier recovered from the source."
         };
       }
 
@@ -251,6 +283,47 @@
         const binary = atob((value || "").replace(/\s/g, ""));
         const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
         return new TextDecoder("utf-8").decode(bytes);
+      }
+
+      function renderPulls(items) {
+        const host = el("pulls");
+        host.replaceChildren();
+
+        if (!items.length) {
+          const p = document.createElement("p");
+          p.textContent = "No open pull requests.";
+          host.appendChild(p);
+          return;
+        }
+
+        for (const pull of items) {
+          const article = document.createElement("article");
+          article.dataset.objectKind = "github-pull-request";
+          article.dataset.pullNumber = String(pull.number);
+
+          const h = document.createElement("h3");
+          const a = document.createElement("a");
+          a.href = pull.html_url;
+          a.textContent = "#" + pull.number + " — " + pull.title;
+          h.appendChild(a);
+
+          const meta = document.createElement("p");
+          meta.className = "muted";
+          const time = document.createElement("time");
+          time.dateTime = pull.updated_at;
+          time.textContent = new Date(pull.updated_at).toLocaleString();
+          meta.append(pull.draft ? "Draft · updated " : "Open · updated ", time);
+
+          const body = document.createElement("p");
+          const compact = (pull.body || "")
+            .replace(/[#>*_`-]/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+          body.textContent = compact ? compact.slice(0, 280) + (compact.length > 280 ? "…" : "") : "No pull request description.";
+
+          article.append(h, meta, body);
+          host.appendChild(article);
+        }
       }
 
       function renderIssues(items) {
@@ -327,7 +400,7 @@
         }
       }
 
-      function updateStructuredState({ declared, issues, commits, fetchedAt }) {
+      function updateStructuredState({ declared, issues, pulls, commits, fetchedAt }) {
         const json = {
           "@context": "https://schema.org",
           "@type": "CreativeWork",
@@ -339,12 +412,20 @@
             "https://github.com/" + REPO + "/blob/main/docs/RESEARCH_STATE.md",
             "https://github.com/" + REPO + "/issues"
           ],
-          "subjectOf": (issues || []).filter(x => !x.pull_request).map(x => ({
-            "@type": "CreativeWork",
-            "name": "#" + x.number + " — " + x.title,
-            "url": x.html_url,
-            "dateModified": x.updated_at
-          }))
+          "subjectOf": [
+            ...(issues || []).filter(x => !x.pull_request).map(x => ({
+              "@type": "CreativeWork",
+              "name": "Issue #" + x.number + " — " + x.title,
+              "url": x.html_url,
+              "dateModified": x.updated_at
+            })),
+            ...(pulls || []).map(x => ({
+              "@type": "CreativeWork",
+              "name": "Pull request #" + x.number + " — " + x.title,
+              "url": x.html_url,
+              "dateModified": x.updated_at
+            }))
+          ]
         };
         el("swm-structured-state").textContent = JSON.stringify(json, null, 2);
       }
@@ -355,15 +436,17 @@
         button.textContent = "Refreshing…";
         setHealth("refreshing");
 
-        const [stateResult, issuesResult, commitsResult] = await Promise.allSettled([
+        const [stateResult, issuesResult, pullsResult, commitsResult] = await Promise.allSettled([
           fetchJson(API + "/contents/docs/RESEARCH_STATE.md?ref=main"),
           fetchJson(API + "/issues?state=open&sort=updated&direction=desc&per_page=8"),
+          fetchJson(API + "/pulls?state=open&sort=updated&direction=desc&per_page=8"),
           fetchJson(API + "/commits?per_page=8")
         ]);
 
         const failures = [];
         let declared = null;
         let issues = null;
+        let pulls = null;
         let commits = null;
 
         if (stateResult.status === "fulfilled") {
@@ -386,12 +469,45 @@
           el("issues").innerHTML = '<p class="error">Issue source unavailable; live work objects are unknown.</p>';
         }
 
+        if (pullsResult.status === "fulfilled") {
+          pulls = pullsResult.value;
+          renderPulls(pulls);
+        } else {
+          failures.push("pull requests");
+          el("pulls").innerHTML = '<p class="error">Pull-request source unavailable; live experiments are unknown.</p>';
+        }
+
         if (commitsResult.status === "fulfilled") {
           commits = commitsResult.value;
           renderCommits(commits);
         } else {
           failures.push("commits");
           el("commits").innerHTML = '<li class="error">Commit source unavailable; recent changes are unknown.</li>';
+        }
+
+        const visibleIssues = (issues || []).filter(x => !x.pull_request);
+        el("observed-issues").textContent = issues ? String(visibleIssues.length) : "unknown";
+        el("observed-prs").textContent = pulls ? String(pulls.length) : "unknown";
+
+        if (commits?.length) {
+          const head = commits[0];
+          const headLink = document.createElement("a");
+          headLink.href = head.html_url;
+          headLink.textContent = head.sha.slice(0, 8) + " — " + (head.commit?.message || "commit").split("\n")[0];
+          el("observed-head").replaceChildren(headLink);
+
+          const iso = head.commit?.committer?.date || head.commit?.author?.date;
+          if (iso) {
+            const t = document.createElement("time");
+            t.dateTime = iso;
+            t.textContent = new Date(iso).toLocaleString();
+            el("observed-change").replaceChildren(t);
+          } else {
+            el("observed-change").textContent = "unknown";
+          }
+        } else {
+          el("observed-head").textContent = "unknown";
+          el("observed-change").textContent = "unknown";
         }
 
         const now = new Date();
@@ -408,6 +524,7 @@
         updateStructuredState({
           declared,
           issues: issues || [],
+          pulls: pulls || [],
           commits: commits || [],
           fetchedAt: now.toISOString()
         });
