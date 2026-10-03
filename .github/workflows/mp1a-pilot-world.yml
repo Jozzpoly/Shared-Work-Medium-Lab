@@ -1,0 +1,61 @@
+name: MP-1A generated pilot world
+
+on:
+  push:
+    branches:
+      - experiment/mp1a-pilot-world-generator
+    paths:
+      - "experiments/mp1a-pilot-world/**"
+      - ".github/workflows/mp1a-pilot-world.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pilot-world:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install apparatus dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install browsergym-core pillow
+          python -m playwright install chromium
+
+      - name: Generate pilot world twice
+        run: |
+          python experiments/mp1a-pilot-world/generate_pilot.py --out experiments/mp1a-pilot-world/out
+          python experiments/mp1a-pilot-world/generate_pilot.py --out experiments/mp1a-pilot-world/out-repeat
+
+      - name: Require deterministic generation
+        run: diff -qr experiments/mp1a-pilot-world/out experiments/mp1a-pilot-world/out-repeat
+
+      - name: Capture runtime
+        run: |
+          mkdir -p experiments/mp1a-pilot-world/artifacts
+          python -m pip freeze > experiments/mp1a-pilot-world/artifacts/pip-freeze.txt
+          python --version > experiments/mp1a-pilot-world/artifacts/runtime.txt
+
+      - name: Verify canonical world and P0/P1 parity
+        run: python experiments/mp1a-pilot-world/verify_pilot.py
+
+      - name: Upload pilot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mp1a-generated-pilot-world-evidence
+          path: |
+            experiments/mp1a-pilot-world/artifacts/
+            experiments/mp1a-pilot-world/out/
+          if-no-files-found: warn
+          retention-days: 14
