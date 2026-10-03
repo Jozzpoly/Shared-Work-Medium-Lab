@@ -36,6 +36,18 @@ The repository is an externalized working state, not a substitute for this prima
 
 Until that audit is complete, the current direction reset is **provisional** and no new architecture should be treated as established.
 
+## Owner-confirmed direction — self-updating dual-use medium
+
+After recovering the founding Shinden specimen, the Owner explicitly confirmed the following direction:
+
+- the medium must **maintain and refresh its own project-state projection**; manual Owner upkeep is not an acceptable steady-state workflow;
+- a key research target is a surface that remains genuinely useful to a human while exposing enough semantic structure that an agent can treat the same environment almost like a rich API;
+- this should be investigated deeply rather than prematurely optimized for speed, cost, or minimal implementation effort;
+- the research method should actively challenge and improve the design, looking for unexpected uses of existing tools rather than assuming their intended workflows;
+- the desired outcome is not merely better organization, but new capability horizons: a small set of legible, actionable primitives from which agents can discover workflows that were not explicitly programmed.
+
+This is **Owner-confirmed intent**, not a frozen architecture. A website is currently the strongest experimental medium because the founding specimen demonstrated browser-native capability emergence, but the exact substrate, schema, and interaction model remain open to evidence.
+
 ## Strategic direction reset — 2026-10-03
 
 The local Codex Desktop path reached a deliberate stop condition: setup and workspace friction became more expensive for the Owner than the experiment was worth.
