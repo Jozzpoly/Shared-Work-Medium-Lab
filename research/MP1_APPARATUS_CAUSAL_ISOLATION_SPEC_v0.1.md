@@ -2,9 +2,13 @@
 
 **Status:** pre-implementation apparatus design
 
+## Scope
+
+This document defines **MP-1A**, the narrow semantic-legibility mechanism test. It is not the complete Affordance Generativity experiment and must not be reported as a full test of the founding Shinden phenomenon.
+
 ## Central correction
 
-The first confirmatory MP-1 comparison should not be 'bad page versus good page'.
+The first MP-1A confirmatory comparison should not be 'bad page versus good page'.
 
 It should isolate semantic machine legibility as cleanly as practical while holding human-visible content constant.
 
@@ -141,7 +145,7 @@ This interaction is informative, not a nuisance.
 
 It tests the relational-affordance hypothesis directly.
 
-## Stage-1 primary comparison
+## MP-1A primary comparison
 
 Primary confirmatory pair:
 
@@ -255,3 +259,13 @@ AXTree structural summary P1
 ```
 
 If factual or visible-content parity fails, measured runs are prohibited.
+
+## Boundary to MP-1B
+
+A positive MP-1A result means semantic machine legibility changes behavior/cost/correctness under controlled conditions.
+
+It does **not** establish that a rich medium generates new workflows.
+
+MP-1B must use a broader environment and outcome-level prompts with latent opportunities. In particular, the Shinden-like task must not mention systematic verification or batching.
+
+A null MP-1A result also does not by itself falsify the wider medium hypothesis, because the founding phenomenon involved repeated addressable structure, navigable collections, browser affordances, and model strategy composition in combination.
