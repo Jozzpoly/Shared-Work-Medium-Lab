@@ -61,6 +61,9 @@ jobs:
       - name: Verify navigable acquisition world and per-page parity
         run: python experiments/mp1a-pilot-world/verify_navigable_pilot.py
 
+      - name: Validate BrowserGym interaction loop and trace capture
+        run: python experiments/mp1a-pilot-world/validate_interaction_loop.py
+
       - name: Validate scoring seam on deterministic synthetic traces
         run: python experiments/mp1a-pilot-world/score_synthetic.py
 
