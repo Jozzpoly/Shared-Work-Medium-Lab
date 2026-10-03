@@ -215,6 +215,20 @@ Do **not** respond by immediately building a large backend. The next research qu
 
 Candidate mechanisms now have evidence behind them: event/change feeds, shared caching, source validators, visibility-aware/adaptive sensing, and eventually a small authenticated event receiver/projection service if browser-only composition stops being sufficient.
 
+### Cloudflare observation-substrate probes
+
+Cloudflare is now being tested for a concrete reason produced by live evidence rather than as generic infrastructure.
+
+Two **undeployed** probes exist on `experiment/semantic-medium-v0`:
+
+- a cached dual-representation observation gateway that concentrates repeated GitHub reads and exposes a shared `observation_id` across HTML/JSON projections;
+- a signed GitHub-webhook → SQLite Durable Object event log with monotonic resume cursors.
+
+The research hypothesis is that shared transport/caching can reduce source pressure **and** give heterogeneous agents a common sampled reality, while interpretations remain independent.
+
+Current status: implementation exists and syntax-level checks passed; no Cloudflare deployment, webhook delivery, cache-hit ratio, or multi-observer behavior has been empirically validated yet.
+
+Do not treat Cloudflare as selected architecture until those live measurements exist.
 ### First implemented capability bridge
 
 A root `AGENTS.md` now gives Codex a lightweight repository-native orientation contract:
