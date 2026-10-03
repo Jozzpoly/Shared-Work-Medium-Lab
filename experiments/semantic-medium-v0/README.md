@@ -349,6 +349,104 @@ This is a stronger safety primitive than relying on an agent to remember to re-c
 
 No write path is added by v0 yet.
 
+## New live findings: attention, observation cursors, and transport interoception
+
+### Semantic topology can act as external attention
+
+The current Opera adapter can query the accessibility tree structurally before returning content to the model.
+
+On one healthy read of the current specimen:
+
+- full accessibility-tree payload: **19,910 characters**;
+- the `Changes since declared interpretation` region only: **2,393 characters**;
+- only links inside that semantic region: **215 characters**.
+
+That is roughly an **8.3×** reduction for the whole relevant region and a **92×** reduction for the final addressable change object compared with ingesting the whole page.
+
+This is not a universal benchmark; it is one measured specimen + adapter. But it demonstrates a different kind of leverage from summarization:
+
+> a semantically shaped environment can let the agent **move its attention to a small slice of the world before spending model context on the slice**.
+
+That resembles active perception and information-foraging more than a static dashboard. The environment is not merely storing knowledge; its topology helps decide where to look next.
+
+### Transport state is itself observable
+
+A fetch-diagnostics probe confirmed that the page can observe useful HTTP/GitHub transport metadata:
+
+- successful HTTP status;
+- GitHub rate-limit remaining/limit/reset headers;
+- an ETag validator.
+
+So source-budget and source-version state can become part of the medium's own interoception instead of hidden infrastructure.
+
+A conditional-observation probe then performed:
+
+1. ordinary GET → **200** + ETag;
+2. second GET with `If-None-Match: <observed ETag>`;
+3. source response → **304 Not Modified**.
+
+Scoped result:
+
+- **PASS — observation-version binding:** the source can explicitly confirm that the representation the agent reasoned from is still unchanged;
+- **not a request-budget optimization in this observation:** GitHub rate remaining moved from 54 to 53 across the conditional request.
+
+This matters even without writes: a reasoning step can carry an exact validator rather than only "I read this recently."
+
+### A tiny observer cursor can externalize continuity
+
+A first browser-local cursor stored only coarse snapshot timestamps for branch / Issue / PR activity.
+
+A deliberate PR comment was then added.
+
+On the immediately following observation the coarse cursor reported **no change**, even though the comment existed. A later direct read showed the PR timestamp had advanced, so the exact cause may be propagation/cache lag or endpoint timing rather than a permanent semantic mismatch.
+
+Either way, the experiment exposed a real weakness:
+
+> periodically comparing summary timestamps can temporarily miss environmental traces.
+
+A second probe therefore used the repository's public **event stream** as a change log.
+
+Sequence:
+
+1. first visit stored latest event id `22882559342`;
+2. a harmless PR comment was added;
+3. next visit saw new latest event `16340979308`;
+4. the medium recovered exactly **1 new trace**:
+   `IssueCommentEvent · #3 — Experiment: self-updating semantic project surface`.
+
+No model memory or Owner-written handoff was needed to identify what happened between visits.
+
+This is a tiny but real form of externalized continuity:
+
+```text
+observer cursor
+      +
+environmental change log
+      ↓
+only unseen traces
+      ↓
+selective re-orientation
+```
+
+Current limits are severe and explicit:
+
+- cursor is only browser-local `localStorage`;
+- GitHub public event history is finite and not a durable complete log contract for SWM;
+- the probe fetches only one bounded event window;
+- it does not yet decide which traces are semantically relevant.
+
+But it demonstrates the mechanism.
+
+### Working correction
+
+A future agent should not need to "remember the project" in one giant internal context.
+
+A more promising target may be:
+
+> remember / externalize a compact observation cursor, then let the environment provide the delta and enough information scent to decide what deserves deeper re-reading.
+
+That is materially different from both giant handoffs and perpetual full-project summarization.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
