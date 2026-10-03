@@ -9,7 +9,7 @@ Your first responsibility is to recover the real project state from the reposito
 1. Read `START_HERE.md`.
 2. Read `docs/RESEARCH_STATE.md`.
 3. Read `docs/NORTH_STAR.md` and `docs/DESIGN_GUARDRAILS.md` when direction or scope is material.
-4. Inspect the current live work object(s), beginning with GitHub Issue #1 while it remains the active frontier.
+4. Inspect the current live work objects named by `docs/RESEARCH_STATE.md`, plus relevant open issues and draft pull requests. Do not assume a previously named issue is still the frontier.
 
 ## Working contract
 
@@ -40,13 +40,13 @@ Escalate to the Owner when the question genuinely depends on:
 
 ## Current research posture
 
-The current leading hypothesis is:
+The current research target is a **self-updating dual-use web medium**: a surface that is useful to a human while remaining semantically legible enough for agents to discover and compose useful workflows.
 
-> a thin shared epistemic spine — shared referents, recoverable orientation, source/authority lineage — coupled to at least one real agent-native capability bridge.
+The central signal is not prettier organization. It is **emergent capability from environmental affordances**, as observed in the founding Shinden browser experiment.
 
 This is **not** a frozen architecture.
 
-The repository is intentionally being used as the first self-hosting substrate. Learn from its friction before proposing a database, MCP server, Cloudflare deployment, event system, or richer UI.
+The repository remains the first self-hosting substrate and source of evidence. The current bounded web specimen lives in draft PR #3. Learn from real use before proposing a database, MCP server, Cloudflare deployment, event system, or larger platform.
 
 ## Before material implementation
 
