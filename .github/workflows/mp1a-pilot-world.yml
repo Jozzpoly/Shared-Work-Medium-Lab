@@ -49,6 +49,9 @@ jobs:
       - name: Verify canonical world and P0/P1 parity
         run: python experiments/mp1a-pilot-world/verify_pilot.py
 
+      - name: Validate scoring seam on deterministic synthetic traces
+        run: python experiments/mp1a-pilot-world/score_synthetic.py
+
       - name: Upload pilot evidence
         if: always()
         uses: actions/upload-artifact@v4
