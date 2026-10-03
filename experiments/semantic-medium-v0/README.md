@@ -135,6 +135,56 @@ Therefore JSON-LD should not be treated as an invisible "agent API" for every br
 
 This again argues for layered semantic projections rather than assuming that one hidden metadata channel reaches every agent.
 
+## Human-friendly UI can hide the world from a weak agent sensor
+
+A progressive-disclosure probe compared three evidence placements:
+
+- content inside a closed native `<details>`;
+- content inside an open `<details open>`;
+- content always visible in the document.
+
+Opera's accessibility tree exposed the closed disclosure control itself, but **not the evidence inside it**. It exposed the evidence in the open and always-visible cases.
+
+Because the current Opera connector has no press/click actuator, the closed evidence is effectively inaccessible to this agent even though the page is perfectly valid and usable by a human.
+
+This produces another practical design rule for experimentation:
+
+> Do not hide critical orientation/provenance solely behind interaction that the weakest intended agent body cannot perform.
+
+That does not imply making every page visually flat. It means progressive disclosure needs a semantic fallback: visible summary, direct source link, alternate representation, or a richer agent channel.
+
+## Self-updating interpretation may be an invalidation problem before it is a summarization problem
+
+The current authored `RESEARCH_STATE.md` behaves like a materialized interpretation over changing source reality.
+
+Instead of assuming that "self-updating" means continuously rewriting that document, the specimen now exposes:
+
+- the exact source blob revision of the declared interpretation;
+- observed live repository/work-object activity;
+- a generic freshness signal when live source objects changed after the interpretation was last edited.
+
+This immediately produced an `attention` signal because live PR activity occurred after the current declared-state revision.
+
+The deeper hypothesis is:
+
+```text
+source observations
+      ↓
+derived / authored interpretation
+      ↓
+explicit dependencies + revision
+      ↓
+source changes
+      ↓
+invalidate / mark stale
+      ↓
+re-evaluate only when needed
+```
+
+That is closer to an epistemic cache with provenance than a magical always-correct summary.
+
+It may eventually let the medium maintain itself with far less rewriting: deterministic sensors can keep observations current, while agent/human interpretations are re-run only when their dependencies materially change.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
