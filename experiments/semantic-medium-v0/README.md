@@ -447,6 +447,62 @@ A more promising target may be:
 
 That is materially different from both giant handoffs and perpetual full-project summarization.
 
+## Information scent: links can carry why-to-look, not only where-to-go
+
+The change-frontier links were progressively enhanced with accessibility descriptions explaining **why each object was surfaced**.
+
+A structural Opera query over only links inside the change frontier now returns a compact object like:
+
+```text
+name:
+  PR #3 — Experiment: self-updating semantic project surface
+
+url:
+  .../pull/3
+
+description:
+  Reason surfaced: draft pull request changed after the declared
+  project interpretation revision; observed ...
+```
+
+The returned observation was **363 characters** in this probe.
+
+This is a useful distinction:
+
+- **address** answers "where is it?";
+- **identity/name** answers "what is it?";
+- **information scent / description** answers "why might it be worth spending attention on?".
+
+The description is carried with ordinary accessibility semantics and is also useful to human screen-reader users. It is not hidden agent-only prompt text.
+
+A promising read-side design pattern is therefore:
+
+```text
+cheap environmental cue
+       ↓
+agent estimates relevance
+       ↓
+only then acquire expensive evidence
+```
+
+That is closer to active perception / information foraging than to pushing a complete context dump into every agent turn.
+
+## Progressive semantic resolution
+
+The experiments suggest a possible perception ladder:
+
+```text
+L0  source health / cursor / changed dimensions
+L1  identities + links + reasons-to-attend
+L2  compact object summaries / deltas
+L3  exact source fragments
+L4  full source / wider project reconstruction
+```
+
+The environment should make moving downward cheap and reversible.
+
+The important property is not that every agent must use these exact levels. It is that **high-cost context acquisition becomes an action the agent can choose**, rather than an unconditional prerequisite for doing any work.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
