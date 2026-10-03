@@ -76,6 +76,47 @@ Current Cloudflare primitives line up unusually well with the experiment:
 
 None of those is selected as final architecture by this probe.
 
+## Shared observation epochs
+
+The Worker now assigns each aggregated project observation a stable semantic `observation_id` derived from source revisions and live-object versions.
+
+That id is exposed identically in both the HTML and JSON projections.
+
+This matters for more than caching.
+
+Two different agent bodies can now say, in effect:
+
+> I reasoned from observation `obs-…`.
+
+They may use different representations of that observation, but they can still establish whether they inhabited the **same sampled project world**.
+
+This is a potentially useful middle layer between:
+
+- one giant shared belief state, which is too restrictive; and
+- completely independent source reads, which can silently diverge in time.
+
+The intended pattern is:
+
+```text
+same observation epoch
+        ↓
+different representations / different minds
+        ↓
+independent interpretation
+```
+
+The HTTP representation ETags remain representation-specific (`-html` versus `-json`) so semantic observation identity is not confused with byte-level representation identity.
+
+## Current Cloudflare economics are compatible with the lab scale
+
+Current Cloudflare documentation makes the bounded probe plausible on the free tier:
+
+- Workers Free: 100,000 requests/day;
+- Pages static asset requests: free and unlimited;
+- Workers KV Free: 100,000 reads/day and 1,000 writes/day;
+- SQLite-backed Durable Objects are available on Workers Free if later evidence requires ordered/strongly-consistent shared coordination.
+
+These numbers are **not** architecture arguments. They only remove cost as a reason to avoid a serious experiment at this scale.
 ## Deployment boundary
 
 No deployment is required to keep researching the current branch.
