@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** semantic-medium-v0 has produced material perception/continuity evidence; naive per-tab GitHub polling is now falsified
+**Status:** structural research phase active; reconnaissance frozen; MP-1 affordance-generativity design is the leading next experiment
 
 **Last material update:** 2026-10-03
 
