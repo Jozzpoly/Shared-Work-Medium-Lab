@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** owner-confirmed self-updating dual-use web medium research; semantic-medium-v0 specimen underway
+**Status:** semantic-medium-v0 has produced material perception/continuity evidence; naive per-tab GitHub polling is now falsified
 
 **Last material update:** 2026-10-03
 
@@ -194,6 +194,26 @@ The first bounded specimen is the draft PR **[#3 — Experiment: self-updating s
 It deliberately starts read-only and uses the current public GitHub substrate as source truth. It fetches live project state instead of requiring Owner-maintained status.
 
 Issues #1 and #2 remain valuable historical specimens. They are no longer the immediate frontier.
+
+### Material evidence from semantic-medium-v0
+
+The current web specimen has now generated several scoped findings rather than only a design sketch:
+
+- native semantic HTML is richly exposed through Opera's accessibility-tree sensor, but that projection is deliberately lossy: roles, names, links, controls and accessibility descriptions survive while JSON-LD, custom data attributes, typed link relations, exact machine time values and closed disclosure content may not;
+- effective affordance is relational: a page can expose a control that one agent body can only perceive while another can actually operate;
+- semantic topology can act as an external attention/index layer: in one measured Opera read, the full project AXTree was ~19.9k characters, the relevant change region ~2.4k, and the final change-link query 215 characters;
+- source validators are usable: a conditional GET bound to an observed ETag returned 304 Not Modified, proving a bounded version-check mechanism;
+- a browser-local observer cursor plus GitHub's event stream recovered exactly one unseen IssueCommentEvent after a deliberate source-world change, demonstrating selective continuity without a handoff;
+- ordinary frontier hyperlinks can act as provisional interpretation dependencies, allowing the medium to mark authored state as a stale candidate when linked live objects move;
+- a naive client-only polling design is not viable as the steady state: repeated specimen reads exhausted the public unauthenticated GitHub core limit of 60 requests/hour. The page then degraded truthfully instead of silently inventing state.
+
+The last result is especially important. It is the first concrete infrastructure pressure produced by the specimen itself, not by architectural taste.
+
+Do **not** respond by immediately building a large backend. The next research question is narrower:
+
+> What is the smallest observation substrate that can maintain fresh project deltas, provenance, and observer cursors without every open surface repeatedly polling every source?
+
+Candidate mechanisms now have evidence behind them: event/change feeds, shared caching, source validators, visibility-aware/adaptive sensing, and eventually a small authenticated event receiver/projection service if browser-only composition stops being sufficient.
 
 ### First implemented capability bridge
 
