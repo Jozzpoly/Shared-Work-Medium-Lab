@@ -320,6 +320,20 @@ The relevant property is not merely inter-agent messaging. It is:
 
 This specimen strengthens the ecological-discovery side of the research loop and should be understood before further standardization.
 
+### Ecological routing + inhabitant-created affordance
+
+Owner feedback on Live Ecological Specimen 001 exposed two stronger properties.
+
+1. **Value is local; artifacts can migrate.** Codex's exchange-window idea had low immediate fit in Combat Lab but appears highly relevant to SWM. A mature medium should preserve addressable ideas/artifacts across local rejection or de-prioritization and let intelligent participants route them toward better-fitting contexts without requiring one global relevance score.
+
+2. **Participants may create affordances, not only consume them.** Codex did not merely use existing communication/source affordances. He noticed a missing representation — visibility of where one work stream changed another — and built a local window to expose it.
+
+This extends the Shinden criterion:
+
+> a strong medium should support not only unprogrammed workflow composition, but also local invention of new views/traces/tools/projections by its inhabitants, with later reuse/promote/discard decisions remaining evidence-driven.
+
+Do not standardize the exchange window yet. If Codex brings it to SWM, first recover his own originating need and interpretation before absorbing it into existing SWM theory.
+
 ### External-organism lane — Claude Free / Sonnet 5.5
 
 The project now has a second experimental lane alongside BrowserGym.
