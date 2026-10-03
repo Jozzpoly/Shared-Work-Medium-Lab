@@ -21,6 +21,27 @@ The ChatGPT UI currently stops that recovery with `Wczytywanie starszych wiadomo
 
 Therefore this document is **not** a complete conversation summary and must not be used to claim that the missing middle contains no additional Owner intent or corrections.
 
+## Recovered exact founding mechanics
+
+A direct reread of the founding Shinden branch recovered the concrete mechanics that triggered the project:
+
+- the season page exposed **94 titles** in the first sweep;
+- instead of human-style clicking, the agent extracted the repeated `/episodes` structure;
+- one working browser tab became a reusable probe;
+- each title page was reduced to the episode table and specifically the **`Wersja Online`** column;
+- the search was transformed into a pipeline:
+  `season list → episode endpoints → table rows → online marker`;
+- a later sweep over **95 titles** made the process more deterministic, used multiple work tabs, and explicitly separated “has an episode table” from “has an online upload”;
+- two broken resources were reported as unresolved rather than silently classified.
+
+The Owner's positive reaction focused not only on task completion but specifically on the agent's self-chosen optimization and planning.
+
+This sharpens the founding phenomenon:
+
+> The important event was not that semantic HTML was easier to parse. It was that a broad real task + a legible, repeated, addressable environment let the agent **invent a better computational strategy** than the human-style procedure implied by the request.
+
+That distinction matters for later experiment design.
+
 ## Founding phenomenon — directly recovered
 
 The Owner asked the agent to use Opera to inspect every anime in a new Shinden season, enter episode lists, and determine which already had online uploads.
@@ -146,3 +167,81 @@ Until the missing middle is recovered or independently reconstructed from durabl
 - do not fill gaps from conversational memory;
 - do not freeze architecture on the assumption that the missing segment merely agrees with current direction;
 - allow small reversible research specimens, but keep the structural research gate active.
+## Current-direction critique after rereading the trajectory
+
+The structural-research correction is necessary, but the project now has a new drift risk: **the apparatus itself can become the project**.
+
+The current MP-1 work is scientifically stronger than the fast reconnaissance, but several pieces are narrower than the founding phenomenon.
+
+### 1. Pixel-equivalent semantic ablation is a mechanism test, not the North Star experiment
+
+A P0/P1 treatment that changes semantic HTML while preserving visible pixels can cleanly test whether machine-legible structure changes perception/search behavior.
+
+That is valuable.
+
+But the Shinden event depended on a richer bundle:
+
+- repeated resource structure;
+- stable addressability;
+- real navigable collections;
+- enough regularity to support a batch transformation;
+- browser/tool access;
+- broad task freedom;
+- the model's ability to invent a strategy.
+
+Therefore a positive P0/P1 result would support **semantic-legibility leverage**, not prove the wider medium hypothesis.
+
+A null P0/P1 result would also not falsify the wider medium.
+
+### 2. The current T3 wording is too revealing for a strong emergence claim
+
+A task phrased as “find whether a broad repeated verification can be handled more systematically” already points the subject toward the desired Shinden-like strategy.
+
+That can test execution of a generic systematic strategy, but not spontaneous discovery of one.
+
+The serious generativity condition should state only the **world-level goal/outcome** and leave serial inspection versus batching entirely latent.
+
+### 3. Controlled micro-world and live dogfood should form a loop, not a one-way ladder
+
+The founding insight came from real work, not from a benchmark.
+
+A healthier research cycle is:
+
+```text
+real ecological surprise
+      ↓
+extract candidate environmental law
+      ↓
+controlled causal isolation
+      ↓
+reintegrate into live work
+      ↓
+look for transfer / new surprise
+```
+
+Controlled worlds protect causal claims. Live dogfood protects relevance and serendipity.
+
+Neither should become subordinate to the other.
+
+### 4. Emergence cannot be reduced entirely to a predefined binary
+
+Mechanical scoring is necessary for correctness, cost, coverage, and transfer.
+
+But if every valuable emergent behavior must already fit a preregistered taxonomy, the experiment can become blind to the very category of useful surprise that motivated SWM.
+
+The apparatus should therefore preserve a clearly separated **exploratory novelty ledger**:
+
+- unexpected useful behavior is recorded verbatim from traces/artifacts;
+- it does not retroactively change confirmatory primary outcomes;
+- it can generate the next controlled hypothesis.
+
+### 5. Research-document growth is now a real burden risk
+
+The campaign has accumulated multiple protocols and audits quickly.
+
+That rigor is useful only if each artifact changes an experiment boundary, exclusion rule, measurement, or implementation decision.
+
+From this point forward:
+
+> prefer executing/falsifying the frozen apparatus over adding another design document unless a concrete unresolved confound requires one.
+
