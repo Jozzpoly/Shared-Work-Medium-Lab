@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SWM probe — semantic channel matrix</title>
+  <style>
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
+  <script type="application/ld+json">
+    {"probe":"MARKER-JSONLD","meaning":"machine metadata in document source"}
+  </script>
+</head>
+<body>
+<main>
+  <h1>Semantic channel matrix</h1>
+  <p>Compares several ways of carrying extra meaning through one ordinary HTML document.</p>
+
+  <section aria-labelledby="baseline">
+    <h2 id="baseline">Visible baseline</h2>
+    <p>MARKER-VISIBLE: visible to everyone.</p>
+  </section>
+
+  <section aria-labelledby="sr">
+    <h2 id="sr">Visually hidden but accessibility-visible</h2>
+    <p class="visually-hidden">MARKER-SR-ONLY: hidden visually, intended for accessibility APIs.</p>
+    <p>Visible shell for the same section.</p>
+  </section>
+
+  <section aria-labelledby="desc">
+    <h2 id="desc">Accessible description</h2>
+    <p id="source-description" class="visually-hidden">MARKER-ARIA-DESCRIPTION: authored interpretation; verify against source before consequential use.</p>
+    <a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md"
+       aria-describedby="source-description"
+       data-swm-kind="declared-interpretation"
+       data-swm-authority="authored">
+       Research state
+    </a>
+  </section>
+
+  <section aria-labelledby="data">
+    <h2 id="data">DOM-only custom attributes</h2>
+    <p data-swm-marker="MARKER-DATA-ATTRIBUTE">Visible text without the custom attribute value.</p>
+  </section>
+</main>
+</body>
+</html>
