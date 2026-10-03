@@ -209,6 +209,29 @@ Record negative cases as seriously as positive ones.
 - Fresh agent contexts are preferred for each run.
 - If account/project memory may contaminate a Browser run, record it conspicuously and do not call the result blinded.
 
+
+## Public-repository contamination boundary
+
+The laboratory repository is public. Therefore measured MP-1 ground truth must **not** be committed in discoverable plaintext before the measured campaign.
+
+A web/GitHub-capable agent could otherwise retrieve evaluator answers outside the treatment environment.
+
+Use generated world instances with a hidden run seed.
+
+Recommended commitment protocol:
+
+1. before measured runs, generate a cryptographically random seed outside the public observed environment;
+2. publish only a commitment such as `SHA-256(protocol_version || generator_version || seed)` plus the frozen generator/version identifiers;
+3. generate treatment surfaces and evaluator ground truth from the hidden seed;
+4. run fresh agents without exposing the seed or answer ledger;
+5. after the campaign is frozen, reveal the seed and generated ground truth so the experiment can be reproduced and audited.
+
+This also prevents the experimenter from silently changing the hidden world after seeing agent outputs.
+
+Pilot worlds may be public, but they must never be reused as confirmatory measured instances.
+
+Controlled runs should restrict external tools to the declared treatment environment when the causal question requires it. Real dogfood runs can later restore ordinary web/repo capabilities and test ecological validity.
+
 ## Replication
 
 Pilot each treatment enough to catch obvious apparatus failures before measured runs.
