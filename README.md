@@ -2,6 +2,18 @@
 
 Experimental public laboratory for a developing shared work medium between an Owner, Browser ChatGPT, Codex, other agents, tools, and project reality.
 
+## Enter the project
+
+Fresh human or agent: start at **[START_HERE.md](START_HERE.md)**.
+
+Live research state: **[docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md)**.
+
+North Star: **[docs/NORTH_STAR.md](docs/NORTH_STAR.md)**.
+
+Anti-drift constraints: **[docs/DESIGN_GUARDRAILS.md](docs/DESIGN_GUARDRAILS.md)**.
+
+The first live shared work object is **GitHub Issue #1**.
+
 ## North Star
 
 We are not building an AI project manager, a memory dump, or a workflow engine as ends in themselves.
@@ -20,31 +32,25 @@ A compact anchor:
 
 ## Founding specimen
 
-The project grew out of a small browser experiment: given a live anime-season website and a broad goal, Browser ChatGPT used semantic page structure, stable URLs, and reasoning to discover a batch workflow that had never been explicitly programmed.
+The project grew out of a small browser experiment: given a live website and a broad goal, Browser ChatGPT used semantic page structure, stable URLs, and reasoning to discover a batch workflow that had never been explicitly programmed.
 
 That suggested a broader hypothesis:
 
 > A sufficiently legible and actionable environment can multiply effective agent capability without changing the model.
 
-This lab exists to investigate that hypothesis in serious project work.
+## Current direction
 
-## Current campaign
+The leading hypothesis is a **thin shared epistemic spine** — shared referents, recoverable orientation, source/authority lineage — coupled to at least one real **agent-native capability bridge**.
 
-The campaign is currently trying to identify the smallest high-leverage organism that can improve real collaboration.
+Browser ↔ Codex is the first concrete bridge being investigated because the two surfaces already have complementary strengths and currently require too much Owner-mediated context transfer.
 
-Current leading hypothesis:
-
-> a thin shared epistemic spine — shared referents, recoverable orientation, source/authority lineage — coupled to at least one real agent-native capability bridge.
-
-The first concrete bridge under consideration is Browser ↔ Codex, because the two surfaces already have complementary strengths and currently require too much Owner-mediated context transfer.
-
-This is still a hypothesis, not a frozen architecture.
+This is a live research direction, not a frozen architecture.
 
 ## Public boundary
 
-This repository is intentionally public. It may contain code, research notes, public protocols, synthetic specimens, and public development history.
+This repository is intentionally public and may eventually become useful open-source work.
 
-It is **not assumed to be the storage location for all future private project-world data**. Public implementation and private/source data may remain separate where useful.
+It may contain code, research, protocols, synthetic specimens, and public development history. There is no requirement to split public/private data prematurely, but the architecture must remain capable of attaching private sources or storage later when real use demands it.
 
 ## Working rule
 
