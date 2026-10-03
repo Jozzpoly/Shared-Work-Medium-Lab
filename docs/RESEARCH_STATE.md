@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** first Codex recovery observed; independent Browser readback pending
+**Status:** first high-capability Codex recovery source-verified; lower-capability recovery threshold next
 
 **Last material update:** 2026-10-03
 
@@ -148,18 +148,33 @@ In this environment, the initial Git clone failed in Windows Schannel. A command
 
 These are environment-specific observations, not reasons to build a backend. The existing Git and connector surfaces were sufficient to recover the shared object. A future participant should check its own capabilities and distinguish an access failure from a missing object or missing project context.
 
+### Browser source verification — 2026-10-03
+
+Browser independently fetched commit `df369fee0631f677c306b1ac4d449ce123ea23e6`, the current research state, Issue #1 and its comments, `AGENTS.md`, and `START_HERE.md`.
+
+The persisted Codex result is internally consistent with those sources and is correctly scoped.
+
+However, the Owner had already pasted the Codex transcript into the Browser chat before this repository verification. Therefore this is **source verification, not a clean blinded Browser return-leg observation**.
+
+Do not claim the full Browser↔Codex loop is validated from this run.
+
 ### Next evidence needed
 
-A fresh Browser participant should enter through the repository and [Issue #1](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/1), recover this Codex result without the Owner copying it, and attach a short source-linked readback to the same issue. The readback should identify:
+The first recovery used a very capable Codex configuration. That establishes that the environment is sufficient for one strong model, but does not isolate how much capability came from the environment itself.
 
-1. which version/result it actually read;
-2. the no-additional-structure judgement and its scope;
-3. what remains untested;
-4. the smallest justified next experiment, or that no new implementation is justified yet.
+The next useful experiment is therefore a **fresh lower-capability Codex recovery from inside the repository with minimal human instruction**.
 
-This is an evidence request, **not a dispatched task or an automatic wakeup**. No new service or workflow is required to attempt it. Keep Issue #1 open while this readback is pending. If access or interpretation fails, record the specific failed source/action before proposing an addition.
+The preferred first probe is a Luna-class Codex configuration at low/light reasoning effort. If it succeeds cleanly, stronger effort is unnecessary. If it fails materially, repeat with a higher Luna effort before concluding that the environment is insufficient.
 
-The Browser↔Codex bridge now has **one observed Codex recovery**, but is **not yet validated as a complete working collaboration loop**. A Browser readback would establish one return leg; it would still not prove automatic dispatch, interruption recovery, repeated reliability, or product-level acceptance.
+The run should start with the repository already open so that repository-native instruction discovery is exercised. The human prompt should be intentionally minimal, ideally only:
+
+> Continue consciously from the live project state.
+
+The model should recover the active experiment from repository state, respect the existing evidence boundaries, avoid inventing infrastructure, and persist any material result durably.
+
+This next experiment is tracked in Issue #2.
+
+The Browser↔Codex bridge currently has **one source-verified high-capability Codex recovery**. Automatic instruction discovery, lower-capability reliability, interruption recovery, repeated reliability, and a clean independent Browser return leg remain unproven.
 
 ## Deliberately unresolved
 
