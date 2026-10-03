@@ -18,6 +18,24 @@ GitHub is currently useful because it already provides:
 - issues, commits, PRs, and Actions as existing inspectable objects;
 - a place where the lab can later grow executable code.
 
+## Next-session gate — full conversation audit required
+
+Do **not** resume implementation or open another capability experiment merely from the current repository summary.
+
+Before the next serious phase, re-read the originating Browser conversation from its beginning as a primary source and reconstruct:
+
+- the actual problem that motivated SWM;
+- the progression from the founding browser/semantic-environment experiment into the broader shared-work idea;
+- Owner-confirmed needs versus assistant-generated architectural hypotheses;
+- points where the assistant narrowed the project too early;
+- decisions that were useful, accidental, premature, or contaminated by the experiment setup;
+- which current repository documents faithfully preserve the conversation and which may already encode drift;
+- the smallest serious next move after that audit.
+
+The repository is an externalized working state, not a substitute for this primary-source audit.
+
+Until that audit is complete, the current direction reset is **provisional** and no new architecture should be treated as established.
+
 ## Strategic direction reset — 2026-10-03
 
 The local Codex Desktop path reached a deliberate stop condition: setup and workspace friction became more expensive for the Owner than the experiment was worth.
