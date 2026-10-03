@@ -4,6 +4,8 @@
 
 ## Principle
 
+This scoring spec applies across MP-1A/MP-1B, but their claims differ. MP-1A scores semantic-legibility effects; MP-1B scores broader affordance-generativity effects.
+
 Do not compress MP-1 into one opaque score.
 
 Report a small vector of mechanistic and capability outcomes so a treatment can be better on efficiency and worse on serendipity without one result hiding the other.
@@ -303,3 +305,18 @@ This scoring spec becomes confirmatory only after pilots establish that:
 - cost logging is comparable between P0/P1.
 
 Any substantive scoring-rule change after pilots requires a new preregistration version and new measured worlds.
+
+## Exploratory novelty ledger
+
+Confirmatory metrics cannot anticipate every useful surprise without defeating the purpose of the research.
+
+Maintain a separate exploratory novelty ledger for behaviors that are:
+
+- useful;
+- observable in traces/artifacts;
+- not directly requested;
+- not already captured by a preregistered primary metric.
+
+The ledger records the behavior, environmental affordances used, evidence of utility, and whether it appears transferable.
+
+Novelty entries do **not** alter the current campaign's confirmatory primary outcomes after results are seen. They are hypothesis generators for later controlled tests.
