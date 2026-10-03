@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** direction reset after local Codex setup friction; next phase is broader collaboration/capability architecture review
+**Status:** owner-confirmed self-updating dual-use web medium research; semantic-medium-v0 specimen underway
 
 **Last material update:** 2026-10-03
 
@@ -18,23 +18,20 @@ GitHub is currently useful because it already provides:
 - issues, commits, PRs, and Actions as existing inspectable objects;
 - a place where the lab can later grow executable code.
 
-## Next-session gate — full conversation audit required
+## Primary-source audit remains required before architectural freeze
 
-Do **not** resume implementation or open another capability experiment merely from the current repository summary.
+The originating Browser conversation remains a primary research source and still needs a complete audit before any architecture is treated as settled.
 
-Before the next serious phase, re-read the originating Browser conversation from its beginning as a primary source and reconstruct:
+That audit should reconstruct:
 
 - the actual problem that motivated SWM;
 - the progression from the founding browser/semantic-environment experiment into the broader shared-work idea;
 - Owner-confirmed needs versus assistant-generated architectural hypotheses;
 - points where the assistant narrowed the project too early;
-- decisions that were useful, accidental, premature, or contaminated by the experiment setup;
-- which current repository documents faithfully preserve the conversation and which may already encode drift;
-- the smallest serious next move after that audit.
+- decisions that were useful, accidental, premature, or contaminated by experiment setup;
+- which repository documents faithfully preserve the conversation and which encode drift.
 
-The repository is an externalized working state, not a substitute for this primary-source audit.
-
-Until that audit is complete, the current direction reset is **provisional** and no new architecture should be treated as established.
+This does **not** block small, reversible specimens whose purpose is to generate evidence. It blocks premature architectural closure.
 
 ## Owner-confirmed direction — self-updating dual-use medium
 
@@ -137,9 +134,9 @@ A participant should be able to:
 
 This is the beginning of agent operational self-awareness / proprioception.
 
-## First capability bridge candidate
+## Earlier capability bridge hypothesis
 
-Browser ↔ Codex remains the strongest first candidate because the pair already exists in real work:
+Browser ↔ Codex was the first concrete bridge candidate because the pair already exists in real work:
 
 - Browser often has broader project/Owner context;
 - Codex has stronger repository-native execution;
@@ -186,17 +183,17 @@ The campaign is grounded in recurring real patterns:
 
 ## Current frontier
 
-Re-evaluate the first-build direction from the broader collaboration North Star before starting another setup-heavy experiment.
+Investigate whether a **self-updating semantic web surface** can become a dual-use medium: ordinary and useful for a human, while exposing enough stable structure, source links, state, and affordances that a browser agent can treat it almost like a rich API.
 
-Use the repository itself as the first self-hosting environment.
+The research target is not a prettier dashboard. It is **emergent capability**:
 
-The first question is not "which database do we need?"
+> Can a small set of web-native, self-maintaining affordances cause an agent to discover useful transformations or workflows that were not explicitly programmed?
 
-It is:
+The first bounded specimen is the draft PR **#3 — Experiment: self-updating semantic project surface**, on branch `experiment/semantic-medium-v0`.
 
-> Can a simple shared referent in this repository already reduce context transfer and let Browser and Codex coordinate around the same work object without turning the Owner into a courier?
+It deliberately starts read-only and uses the current public GitHub substrate as source truth. It fetches live project state instead of requiring Owner-maintained status.
 
-GitHub Issue #1 is the first live specimen.
+Issues #1 and #2 remain valuable historical specimens. They are no longer the immediate frontier.
 
 ### First implemented capability bridge
 
