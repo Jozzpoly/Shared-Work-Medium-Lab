@@ -309,6 +309,46 @@ For SWM, natural source links may provide part of that graph automatically. Agen
 
 This may be a more promising route to “self-updating project state” than continuously asking an LLM to rewrite a monolithic summary.
 
+## Working hypothesis: the Web already contains most of the primitive "physics"
+
+A nonconventional way to frame the experiment is that SWM may not need to invent a large protocol at all. The Web already supplies many orthogonal primitives:
+
+- **identity/addressability:** URIs;
+- **observation:** representations over HTTP;
+- **human + weak-agent semantics:** native HTML and accessibility mappings;
+- **relations:** hyperlinks and typed Web Links;
+- **actions:** HTTP methods, forms, and progressively WebMCP;
+- **freshness / concurrency:** validators such as ETag plus conditional requests such as `If-Match`;
+- **time/versioning:** immutable version URLs and Memento-style temporal relations;
+- **incremental world synchronization:** ResourceSync / OSLC TRS-style base + change logs;
+- **claims attached to sources:** Web Annotation-style body/target/state patterns;
+- **capability discovery:** OSLC/WebMCP-like discoverable query/action descriptions;
+- **coordination:** durable traces in the shared environment rather than mandatory direct agent-to-agent messaging.
+
+The research question may therefore be less:
+
+> What new protocol should SWM invent?
+
+and more:
+
+> What minimal composition of existing web primitives creates a sufficiently rich **perception–action environment** that LLM agents spontaneously exploit it beyond the workflows we explicitly designed?
+
+This also suggests a useful criterion: prefer primitives that compose orthogonally. A new feature is valuable when it increases the space of possible agent behavior more than it increases the number of prescribed workflows.
+
+## Write safety may already have a web-native answer
+
+If/when the specimen gains write actions, HTTP conditional requests deserve first-class testing.
+
+A state-changing action can carry a precondition tied to the representation the agent actually observed (for example an ETag / `If-Match`). If another actor changed the target meanwhile, the server can reject the stale write rather than silently overwriting newer reality.
+
+That is attractive for multi-agent work because it encodes:
+
+> act only if the world is still the world I reasoned about.
+
+This is a stronger safety primitive than relying on an agent to remember to re-check state immediately before every write.
+
+No write path is added by v0 yet.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
