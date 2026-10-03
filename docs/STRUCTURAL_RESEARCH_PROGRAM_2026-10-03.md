@@ -260,6 +260,22 @@ The current leading experimental decomposition is:
 
 These should be separable campaigns rather than one monolithic v1.
 
+## Preferred experiment ordering
+
+Unless new evidence changes the order, the first serious implementation should target **affordance generativity**, not infrastructure continuity.
+
+Reason:
+
+The founding Shinden result was capability emergence from a legible environment. Continuity, cursors, caching, and event transport are important supporting problems, but they can easily become an infrastructure gravity well and recreate the earlier Browser↔Codex drift.
+
+Preferred sequence:
+
+1. **Affordance generativity** — isolate whether environmental structure itself produces new useful agent behavior.
+2. **Continuity / active perception** — test selective delta recovery, observation manifests, and source/event economics.
+3. **Action ecology** — test discoverable actions, capability boundaries, trust, and consequential writes across heterogeneous bodies.
+
+Cloudflare research continues in parallel because it may become an excellent substrate for steps 2–3, but Cloudflare deployment is not a prerequisite for step 1.
+
 ## Replication discipline
 
 One successful agent run is evidence, not validation.
