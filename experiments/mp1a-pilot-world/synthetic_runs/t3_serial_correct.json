@@ -1,0 +1,53 @@
+{
+  "run_id": "synthetic-t3-serial",
+  "task_id": "T3",
+  "trace": [
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-cedar",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-elm",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-fir",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-grove",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-harbor",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-juniper",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-kelp",
+      "bytes": 600
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "release-larch",
+      "bytes": 600
+    }
+  ],
+  "final": {
+    "exceptions": [
+      "release-fir",
+      "release-harbor"
+    ],
+    "collection_coverage_confirmed": true
+  }
+}
