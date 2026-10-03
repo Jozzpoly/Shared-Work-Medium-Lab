@@ -132,9 +132,12 @@
         <dd id="declared-frontier">loading…</dd>
         <dt>Interpretation source revision</dt>
         <dd id="declared-revision">loading…</dd>
-        <dt>Interpretation freshness signal</dt>
+        <dt>Declared dependency freshness</dt>
+        <dd id="declared-dependency-freshness">loading…</dd>
+        <dt>Coarse interpretation freshness</dt>
         <dd id="declared-freshness">loading…</dd>
       </dl>
+      <div id="declared-dependencies" class="muted">Recovering explicit frontier links…</div>
       <p>
         <a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">
           Open the full source state
@@ -272,10 +275,14 @@
           .slice(0, 3)
           .join(" ");
 
+        const dependencyUrls = [...frontierBlock.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g)]
+          .map(match => match[1]);
+
         return {
           status,
           updated,
-          frontier: stripLightMarkdown(frontier) || "No explicit frontier recovered from the source."
+          frontier: stripLightMarkdown(frontier) || "No explicit frontier recovered from the source.",
+          dependencyUrls
         };
       }
 
@@ -335,6 +342,65 @@
 
           article.append(h, meta, body);
           host.appendChild(article);
+        }
+      }
+
+      function renderDeclaredDependencies({ declared, stateTime, issues, pulls }) {
+        const host = el("declared-dependencies");
+        host.replaceChildren();
+
+        if (!declared) {
+          host.textContent = "Declared dependencies unknown.";
+          el("declared-dependency-freshness").textContent = "unknown";
+          return;
+        }
+
+        const urls = declared.dependencyUrls || [];
+        const liveObjects = [...((issues || []).filter(x => !x.pull_request)), ...(pulls || [])];
+        const matched = liveObjects.filter(obj => urls.includes(obj.html_url));
+
+        if (!urls.length) {
+          host.textContent = "No explicit hyperlinks found in the current-frontier section.";
+          el("declared-dependency-freshness").textContent = "unknown — frontier declares no addressable dependencies";
+          return;
+        }
+
+        const label = document.createElement("strong");
+        label.textContent = "Explicit frontier links: ";
+        host.appendChild(label);
+
+        const list = document.createElement("ul");
+        for (const url of urls) {
+          const obj = liveObjects.find(item => item.html_url === url);
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = url;
+          a.textContent = obj
+            ? ((obj.pull_request ? "PR " : "Issue ") + "#" + obj.number + " — " + obj.title)
+            : url;
+          li.appendChild(a);
+          list.appendChild(li);
+        }
+        host.appendChild(list);
+
+        if (!stateTime) {
+          el("declared-dependency-freshness").textContent = "unknown — interpretation revision time unavailable";
+          return;
+        }
+
+        const changed = matched.filter(obj =>
+          obj.updated_at && new Date(obj.updated_at).getTime() > stateTime
+        );
+
+        if (changed.length) {
+          el("declared-dependency-freshness").textContent =
+            "stale candidate — " + changed.length + " explicitly linked live object(s) changed after interpretation revision";
+        } else if (matched.length === urls.length) {
+          el("declared-dependency-freshness").textContent =
+            "no explicitly linked live object changed after interpretation revision";
+        } else {
+          el("declared-dependency-freshness").textContent =
+            "partial — some frontier links are not represented by the current live-object sensors";
         }
       }
 
@@ -624,6 +690,13 @@
         ].filter(Boolean).map(value => new Date(value).getTime());
 
         const stateTime = stateCommitIso ? new Date(stateCommitIso).getTime() : null;
+
+        renderDeclaredDependencies({
+          declared,
+          stateTime,
+          issues: issues || [],
+          pulls: pulls || []
+        });
 
         renderInterpretationDelta({
           stateTime,
