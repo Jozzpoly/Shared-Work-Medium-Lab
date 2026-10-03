@@ -72,6 +72,17 @@
       padding: 1rem;
     }
     .source-card h3 { margin-top: 0; }
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
     .badge {
       display: inline-block;
       font-size: .82rem;
@@ -464,20 +475,30 @@
         }
 
         const ol = document.createElement("ol");
-        for (const event of events) {
+        events.forEach((event, index) => {
           const li = document.createElement("li");
           const a = document.createElement("a");
           a.href = event.url;
           a.textContent = event.label;
+
+          const description = document.createElement("span");
+          description.id = "delta-scent-" + index;
+          description.className = "visually-hidden";
+          description.textContent =
+            "Reason surfaced: " + event.kind +
+            " changed after the declared project interpretation revision; observed " +
+            new Date(event.iso).toLocaleString() + ".";
+          a.setAttribute("aria-describedby", description.id);
+
           const kind = document.createElement("span");
           kind.className = "badge";
           kind.textContent = event.kind;
           const time = document.createElement("time");
           time.dateTime = event.iso;
           time.textContent = new Date(event.iso).toLocaleString();
-          li.append(a, " ", kind, " · ", time);
+          li.append(a, description, " ", kind, " · ", time);
           ol.appendChild(li);
-        }
+        });
         host.appendChild(ol);
       }
 
