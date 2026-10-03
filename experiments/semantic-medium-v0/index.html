@@ -201,7 +201,6 @@
 
       const REPO = "Jozzpoly/Shared-Work-Medium-Lab";
       const API = "https://api.github.com/repos/" + REPO;
-      const RAW_STATE = "https://raw.githubusercontent.com/" + REPO + "/main/docs/RESEARCH_STATE.md";
       const REFRESH_MS = 10 * 60 * 1000;
       let lastSuccessfulRefresh = 0;
 
@@ -246,6 +245,12 @@
         const response = await fetch(url, { cache: "no-store" });
         if (!response.ok) throw new Error(response.status + " " + response.statusText);
         return response.json();
+      }
+
+      function decodeBase64Utf8(value) {
+        const binary = atob((value || "").replace(/\s/g, ""));
+        const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+        return new TextDecoder("utf-8").decode(bytes);
       }
 
       function renderIssues(items) {
@@ -351,7 +356,7 @@
         setHealth("refreshing");
 
         const [stateResult, issuesResult, commitsResult] = await Promise.allSettled([
-          fetchText(RAW_STATE),
+          fetchJson(API + "/contents/docs/RESEARCH_STATE.md?ref=main"),
           fetchJson(API + "/issues?state=open&sort=updated&direction=desc&per_page=8"),
           fetchJson(API + "/commits?per_page=8")
         ]);
@@ -362,7 +367,7 @@
         let commits = null;
 
         if (stateResult.status === "fulfilled") {
-          declared = parseDeclaredState(stateResult.value);
+          declared = parseDeclaredState(decodeBase64Utf8(stateResult.value.content));
           el("declared-status").textContent = declared.status;
           el("declared-update").textContent = declared.updated;
           el("declared-frontier").textContent = declared.frontier;
