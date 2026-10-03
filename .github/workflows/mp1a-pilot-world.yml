@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: mp1a-pilot-world-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   pilot-world:
     runs-on: ubuntu-latest
