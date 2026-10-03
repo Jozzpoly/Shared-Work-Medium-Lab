@@ -85,6 +85,56 @@ Scoped result:
 
 The caching failure is useful evidence: a medium must expose freshness and provenance explicitly rather than equating "request succeeded" with "state is current."
 
+## Critical correction: an affordance exists only through an adapter
+
+The native-form probe exposed an important boundary.
+
+In Opera Browser Connector, the accessibility tree clearly exposes a search box, a select control, their human labels, selectable options, and a submit button. However, the connector available to this Browser session exposes only read/navigation operations; it has no click, set-value, select, or submit actuator.
+
+So the environment can contain an action affordance while the current agent body still cannot execute it.
+
+A better working model is therefore:
+
+```text
+effective affordance
+    =
+environment capability
+∩ representation exposed by the browser/adapter
+∩ actuator exposed to the agent
+∩ permissions / trust
+```
+
+This prevents a dangerous category error: "the page supports X" does not imply "this agent can do X."
+
+### The same page can progressively expose more capability
+
+Current evidence suggests a useful experimental ladder rather than one universal representation:
+
+1. **human + accessibility-semantic HTML** — broadly useful, and already legible through Opera's accessibility tree;
+2. **DOM/source semantics** — typed links, data attributes, JSON-LD, microdata/profile conventions for clients that can inspect them;
+3. **WebMCP progressive enhancement** — ordinary forms or page JavaScript can become structured agent tools in browsers that implement the proposed API;
+4. **alternate structured representations / server tools** — only where headless or cross-surface access needs them.
+
+The important invariant is not "one serialization for every mind." It is **one underlying project reality with compatible projections**, each degrading gracefully when a richer channel is unavailable.
+
+### WebMCP is unexpectedly close to this experiment
+
+Current WebMCP work by Google and Microsoft explicitly explores turning standard HTML forms into structured tools by adding declarative annotations. Supporting browsers derive a tool name, description, and JSON-Schema-like input contract from the same form that remains visible and useful to a human.
+
+OpenAI's current desktop Site tools use WebMCP, so this is no longer merely a speculative standards idea.
+
+The safe GET-form probe on this branch has therefore been progressively enhanced with WebMCP annotations. It remains a normal form when WebMCP is absent.
+
+This is **not evidence that Opera Browser Connector can invoke WebMCP**; it cannot through the tool surface available in the current Browser session. The point of the probe is to keep the same human interaction usable while allowing richer agent bodies to discover a stronger contract.
+
+### Another boundary: JSON-LD is not the accessibility tree
+
+The main specimen embeds JSON-LD, but a direct Opera accessibility-tree query does not expose that JSON-LD content.
+
+Therefore JSON-LD should not be treated as an invisible "agent API" for every browser agent. It is useful only to clients whose observation path includes DOM/source/structured-data extraction.
+
+This again argues for layered semantic projections rather than assuming that one hidden metadata channel reaches every agent.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
