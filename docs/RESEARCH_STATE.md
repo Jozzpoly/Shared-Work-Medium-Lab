@@ -1,6 +1,7 @@
 # Research State
 
-**Status:** early live campaign; repository bootstrap started  
+**Status:** first Codex recovery observed; independent Browser readback pending
+
 **Last material update:** 2026-10-03
 
 ## Live truth
@@ -116,17 +117,49 @@ A root `AGENTS.md` now gives Codex a lightweight repository-native orientation c
 
 This is intentionally a **map**, not a substitute for the project.
 
+### First observed Codex recovery — 2026-10-03
+
+The Owner supplied the repository URL and asked Codex to recover the project, consciously continue the current work without an additional handoff, and persist any material result in the repository.
+
+**Source version:** [`f7a84c2f4e0c39c0e65a2bc5cf52efcdb6eaae34`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/commit/f7a84c2f4e0c39c0e65a2bc5cf52efcdb6eaae34).
+
+Codex cloned that version, read all six tracked files, followed `AGENTS.md` and `START_HERE.md`, and independently retrieved [Issue #1](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/1) and its [initial capability-bridge comment](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/1#issuecomment-5963506774). Live GitHub searches returned that single issue and no pull requests. No executable code, build configuration, or test suite existed at this version.
+
+The recovered task was the issue's **First bounded task**: determine the minimum additional repository structure needed to receive one precise investigation without an Owner-written campaign handoff. The repository's latest frontier explicitly asked for this fresh Codex observation. This run therefore continued the existing experiment rather than selecting a new architecture.
+
+**Bounded judgement:** no additional receiving structure or code is needed for this specimen. The entry files supplied purpose and authority rules; Issue #1 supplied a precise investigation, constraints, and a legitimate no-code outcome. Codex did not need the founding Browser conversation to answer that bounded task. The missing artifact was the observation and its result, now recorded in this existing state document and attached to the same issue. This adds evidence, not a new task schema, service, or mandatory form.
+
+Observed scope:
+
+| Question | Observation / limit |
+| --- | --- |
+| Can Codex find and follow the orientation map? | Yes in this run, after cloning and explicitly locating and reading `AGENTS.md`. Automatic instruction discovery was **not** independently tested: the chat began outside the repository. |
+| Can it recover the frontier without an Owner-written handoff? | Yes. The recovered frontier came from the versioned documents and live Issue #1; the Owner supplied no additional project context. |
+| Can it make a bounded repo-native judgement? | Yes: existing primitives suffice for this first investigation; persist the result and defer infrastructure. This is a research judgement for one specimen, not proof of general sufficiency. |
+| Can the result survive the Codex session? | The return path is this versioned document and an issue-linked result. The issue comment must carry the published commit reference and report remote readback; a local edit alone does not establish persistence. Interrupted execution was not exercised. |
+| Has Browser recovered the result independently? | Not observed in this run. No Browser participant has yet confirmed recovery from the published objects. |
+| Has Owner burden been reduced? | No campaign handoff or low-level technical decision was requested during this run. A quantified improvement, repeated reliability, and Owner experiential acceptance remain unmeasured. The Owner still initiated this run. |
+
+### Access friction observed
+
+Repository files alone did not contain the issue body or discussion. A participant needs an actual issue-reading capability; the reference does not imply access.
+
+In this environment, the initial Git clone failed in Windows Schannel. A command-scoped `git -c http.sslBackend=openssl clone ...` succeeded. Local `gh` reads returned HTTP 401, while the authenticated GitHub connector successfully read repository metadata, Issue #1, its comments, and issue/PR searches. The connector reported push permission as available, but a reported permission is not evidence of a completed write.
+
+These are environment-specific observations, not reasons to build a backend. The existing Git and connector surfaces were sufficient to recover the shared object. A future participant should check its own capabilities and distinguish an access failure from a missing object or missing project context.
+
 ### Next evidence needed
 
-Run a fresh Codex instance against this repository with minimal human instruction and observe whether it:
+A fresh Browser participant should enter through the repository and [Issue #1](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/1), recover this Codex result without the Owner copying it, and attach a short source-linked readback to the same issue. The readback should identify:
 
-1. discovers and follows `AGENTS.md`;
-2. recovers the project/frontier from the repository;
-3. understands Issue #1 without an Owner-written campaign handoff;
-4. makes a useful bounded judgement about the next repo-native step;
-5. leaves a result that Browser can later recover from the same shared referent.
+1. which version/result it actually read;
+2. the no-additional-structure judgement and its scope;
+3. what remains untested;
+4. the smallest justified next experiment, or that no new implementation is justified yet.
 
-Until this happens, the Browser↔Codex bridge is **implemented only as an environmental affordance, not validated as a working collaboration loop**.
+This is an evidence request, **not a dispatched task or an automatic wakeup**. No new service or workflow is required to attempt it. Keep Issue #1 open while this readback is pending. If access or interpretation fails, record the specific failed source/action before proposing an addition.
+
+The Browser↔Codex bridge now has **one observed Codex recovery**, but is **not yet validated as a complete working collaboration loop**. A Browser readback would establish one return leg; it would still not prove automatic dispatch, interruption recovery, repeated reliability, or product-level acceptance.
 
 ## Deliberately unresolved
 
