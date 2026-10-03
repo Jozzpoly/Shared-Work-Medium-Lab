@@ -247,6 +247,30 @@ Therefore:
 
 This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
 
+### MP-1 scoring seam — PASS; first real-subject boundary reached
+
+GitHub Actions run `37146844616` validated the deterministic evaluator on synthetic behavioral traces.
+
+The scorer correctly separated:
+
+- correct stale-state identification from an unjustified broader `proven_false` overclaim;
+- correct common-cause diagnosis from source-count / inference-scope requirements;
+- T3 serial inspection from a generic systematic workflow even when both produced the same correct exceptions;
+- acquisition cost from correctness.
+
+Synthetic T3 comparison:
+
+- serial: 4800 observation bytes, 8 resource reads, `systematic_workflow=0`;
+- generic systematic trace: 1900 observation bytes, 2 exact-source reads, `systematic_workflow=1`.
+
+Scoped result:
+
+> **PASS — BrowserGym body, generated P0/P1 world, and evaluator now form a mechanically tested apparatus seam.**
+
+The next materially new evidence requires a **real isolated LLM subject**.
+
+No Owner API key, OpenAI API account, or credential has been accessed or used for this apparatus work. A real subject run must explicitly select a stateless/isolated model runner and preserve the contamination boundary.
+
 ### MP-1A generated pilot-world seam — PASS
 
 Branch `experiment/mp1a-pilot-world-generator` now generates one deterministic canonical project world and compiles it into P0/P1 treatments.
