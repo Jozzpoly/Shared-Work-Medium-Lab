@@ -247,6 +247,22 @@ Therefore:
 
 This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
 
+### Draft PR #4 — MP-1A apparatus checkpoint
+
+Draft PR [#4 — Experiment: MP-1A generated semantic-ablation pilot](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/4) now preserves the tested apparatus specimen.
+
+It remains deliberately unmerged.
+
+The PR collects:
+
+- deterministic canonical pilot-world generation;
+- pixel-identical P0/P1 treatment compilation;
+- BrowserGym AXTree divergence evidence;
+- synthetic evaluator validation;
+- the explicit stop boundary before any real credentialed LLM subject.
+
+This is a durable experimental referent, not an architecture candidate.
+
 ### MP-1 scoring seam — PASS; first real-subject boundary reached
 
 GitHub Actions run `37146844616` validated the deterministic evaluator on synthetic behavioral traces.
