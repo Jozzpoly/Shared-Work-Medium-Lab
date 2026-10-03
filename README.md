@@ -12,7 +12,7 @@ North Star: **[docs/NORTH_STAR.md](docs/NORTH_STAR.md)**.
 
 Anti-drift constraints: **[docs/DESIGN_GUARDRAILS.md](docs/DESIGN_GUARDRAILS.md)**.
 
-The first live shared work object is **GitHub Issue #1**.
+The earliest live shared work object was **GitHub Issue #1**. The current frontier is tracked in **docs/RESEARCH_STATE.md** rather than hardcoded here.
 
 ## North Star
 
@@ -40,11 +40,11 @@ That suggested a broader hypothesis:
 
 ## Current direction
 
-The leading hypothesis is a **thin shared epistemic spine** — shared referents, recoverable orientation, source/authority lineage — coupled to at least one real **agent-native capability bridge**.
+The current research target is a **self-updating dual-use web medium**: an ordinary useful project surface for a human that is simultaneously structured enough for an agent to navigate almost like a rich API.
 
-Browser ↔ Codex is the first concrete bridge being investigated because the two surfaces already have complementary strengths and currently require too much Owner-mediated context transfer.
+The key question is whether a small set of stable, semantic, actionable web affordances can produce **emergent workflows that were not explicitly programmed**, reproducing deliberately the kind of capability amplification first observed in the Shinden browser experiment.
 
-This is a live research direction, not a frozen architecture.
+The first bounded specimen is being developed in draft PR #3. It is evidence-gathering, not a frozen architecture.
 
 ## Public boundary
 
