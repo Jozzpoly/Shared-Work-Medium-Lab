@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SWM probe — observer cursor</title></head>
+<body>
+<main>
+  <h1>Observer cursor probe</h1>
+  <p>
+    Tests whether the medium can remember what this browser previously observed and surface only
+    dimensions of the live project world that changed since that observation.
+  </p>
+
+  <section aria-labelledby="previous-heading">
+    <h2 id="previous-heading">Previous observation</h2>
+    <pre id="previous">loading…</pre>
+  </section>
+
+  <section aria-labelledby="current-heading">
+    <h2 id="current-heading">Current observation</h2>
+    <pre id="current">loading…</pre>
+  </section>
+
+  <section aria-labelledby="delta-heading">
+    <h2 id="delta-heading">Observer delta</h2>
+    <ul id="delta"><li>computing…</li></ul>
+  </section>
+
+  <p id="storage-state">not stored yet</p>
+</main>
+<script>
+(async () => {
+  const KEY = "swm-observer-cursor-v0";
+  const API = "https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab";
+
+  const previousRaw = localStorage.getItem(KEY);
+  const previous = previousRaw ? JSON.parse(previousRaw) : null;
+  document.getElementById("previous").textContent =
+    previous ? JSON.stringify(previous, null, 2) : "none — first observation for this browser origin";
+
+  const fetchJson = async (url) => {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(response.status + " " + response.statusText);
+    return response.json();
+  };
+
+  try {
+    const [repo, issues, pulls] = await Promise.all([
+      fetchJson(API),
+      fetchJson(API + "/issues?state=open&sort=updated&direction=desc&per_page=10"),
+      fetchJson(API + "/pulls?state=open&sort=updated&direction=desc&per_page=10")
+    ]);
+
+    const pureIssues = issues.filter(x => !x.pull_request);
+    const current = {
+      default_branch_pushed_at: repo.pushed_at || null,
+      latest_issue_updated_at: pureIssues[0]?.updated_at || null,
+      latest_pr_updated_at: pulls[0]?.updated_at || null
+    };
+
+    document.getElementById("current").textContent = JSON.stringify(current, null, 2);
+
+    const delta = document.getElementById("delta");
+    delta.replaceChildren();
+
+    if (!previous) {
+      const li = document.createElement("li");
+      li.textContent = "No prior cursor: establish baseline only.";
+      delta.appendChild(li);
+    } else {
+      const labels = {
+        default_branch_pushed_at: "default branch changed",
+        latest_issue_updated_at: "issue activity changed",
+        latest_pr_updated_at: "pull-request activity changed"
+      };
+      let count = 0;
+      for (const key of Object.keys(current)) {
+        if (current[key] !== previous[key]) {
+          count++;
+          const li = document.createElement("li");
+          li.textContent = labels[key] + ": " + String(previous[key]) + " → " + String(current[key]);
+          delta.appendChild(li);
+        }
+      }
+      if (!count) {
+        const li = document.createElement("li");
+        li.textContent = "No observed dimensions changed since the previous visit.";
+        delta.appendChild(li);
+      }
+    }
+
+    localStorage.setItem(KEY, JSON.stringify(current));
+    document.getElementById("storage-state").textContent =
+      "Current observation stored locally as the next resume cursor.";
+  } catch (error) {
+    document.getElementById("current").textContent = "observation failed";
+    document.getElementById("delta").innerHTML = "<li>unknown — live sources failed</li>";
+    document.getElementById("storage-state").textContent =
+      "Cursor NOT advanced because observation failed: " + error.name + ": " + error.message;
+  }
+})();
+</script>
+</body>
+</html>
