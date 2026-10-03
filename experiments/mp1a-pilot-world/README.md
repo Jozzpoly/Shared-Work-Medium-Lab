@@ -191,3 +191,34 @@ It must not receive:
 - the experiment-design repository as context.
 
 A provider/model adapter belongs outside the world/evaluator core.
+
+
+## External subject-process boundary — PASS
+
+Latest clean full run: `37149534726`.
+
+The apparatus now launches a **fresh external process per treatment** and communicates through JSONL protocol `mp1a-subject-jsonl-v0.1`.
+
+Observed in the clean run:
+
+- P0 and P1 used different subject process IDs;
+- outbound start packet contained only `type / protocol / task / action_contract`;
+- outbound observation packets contained only `type / protocol / step / observation`;
+- evaluator, motif ledger, hidden answers, scoring code, seed, and ground truth do not cross the subject protocol boundary;
+- subject environment in this boundary smoke is deliberately sparse;
+- BrowserGym actions are fail-closed to exactly one `click(<non-empty string bid>)` or `go_back()` per step;
+- negative contract tests reject `noop`, `goto`, multi-action payloads, numeric/empty bids, and extended click signatures before BrowserGym executes them.
+
+A prior full run failed only in packet-byte aggregation after the route completed; the logger incorrectly assumed the start packet and observation packet used the same metadata field name. The aggregation bug was fixed and the entire gate rerun from scratch.
+
+Scoped judgement:
+
+> **PASS — subject process isolation and the narrow browser-action boundary are mechanically exercised.**
+
+This is not model evidence. The current subject is deterministic and exists only to validate the isolation protocol.
+
+## Last non-model seam
+
+Before connecting any credentialed LLM, the apparatus still has to prove that a **real BrowserGym navigation trace** can be translated into the task scorer without synthetic event vocabulary.
+
+That trace→score bridge is the next gate.
