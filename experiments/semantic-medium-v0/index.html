@@ -267,7 +267,7 @@
         const status = stripLightMarkdown(markdown.match(/\*\*Status:\*\*\s*(.+)/i)?.[1]) || "unknown";
         const updated = stripLightMarkdown(markdown.match(/\*\*Last material update:\*\*\s*(.+)/i)?.[1]) || "unknown";
         const frontierSection = markdown.split(/\n## Current frontier\s*\n/i)[1] || "";
-        const frontierBlock = frontierSection.split(/\n##\s+/)[0] || "";
+        const frontierBlock = frontierSection.split(/\n#{2,6}\s+/)[0] || "";
         const frontier = frontierBlock
           .split(/\n+/)
           .map(line => line.replace(/^>\s?/, "").trim())
@@ -356,7 +356,9 @@
         }
 
         const urls = declared.dependencyUrls || [];
-        const liveObjects = [...((issues || []).filter(x => !x.pull_request)), ...(pulls || [])];
+        const issueObjects = (issues || []).filter(x => !x.pull_request).map(x => ({ ...x, _swmKind: "Issue" }));
+        const pullObjects = (pulls || []).map(x => ({ ...x, _swmKind: "PR" }));
+        const liveObjects = [...issueObjects, ...pullObjects];
         const matched = liveObjects.filter(obj => urls.includes(obj.html_url));
 
         if (!urls.length) {
@@ -376,7 +378,7 @@
           const a = document.createElement("a");
           a.href = url;
           a.textContent = obj
-            ? ((obj.pull_request ? "PR " : "Issue ") + "#" + obj.number + " — " + obj.title)
+            ? (obj._swmKind + " #" + obj.number + " — " + obj.title)
             : url;
           li.appendChild(a);
           list.appendChild(li);
