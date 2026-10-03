@@ -1,0 +1,36 @@
+{
+  "run_id": "synthetic-t2-good",
+  "task_id": "T2",
+  "trace": [
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "issue-relay-alpha",
+      "bytes": 510
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "issue-relay-bravo",
+      "bytes": 520
+    },
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "issue-relay-charlie",
+      "bytes": 530
+    },
+    {
+      "type": "VERIFY_SOURCE",
+      "resource_id": "source-relay-refresh",
+      "bytes": 680
+    }
+  ],
+  "final": {
+    "cause_resource": "source-relay-refresh",
+    "supporting_sources": [
+      "issue-relay-alpha",
+      "issue-relay-bravo",
+      "issue-relay-charlie"
+    ],
+    "claim_scope": "plausible_common_cause",
+    "selected_distractor": false
+  }
+}
