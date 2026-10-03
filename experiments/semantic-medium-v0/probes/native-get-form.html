@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SWM probe — native HTML action affordance</title>
+</head>
+<body>
+  <main>
+    <h1>Native HTML action-affordance probe</h1>
+    <p>
+      This page is intentionally boring. It tests what a browser agent can perceive and operate
+      from an ordinary native GET form without a custom agent protocol.
+    </p>
+
+    <form method="get" action="">
+      <fieldset>
+        <legend>Choose a project lens</legend>
+
+        <label for="q">Text query</label>
+        <input id="q" name="q" type="search" placeholder="e.g. Luna" autocomplete="off">
+
+        <label for="kind">Object kind</label>
+        <select id="kind" name="kind">
+          <option value="all">All live objects</option>
+          <option value="issue">Issues</option>
+          <option value="pr">Pull requests</option>
+          <option value="commit">Commits</option>
+        </select>
+
+        <button type="submit">Apply lens</button>
+      </fieldset>
+    </form>
+
+    <section aria-labelledby="current-request-heading">
+      <h2 id="current-request-heading">Current request</h2>
+      <dl>
+        <dt>q</dt><dd id="q-value">none</dd>
+        <dt>kind</dt><dd id="kind-value">all</dd>
+      </dl>
+    </section>
+
+    <p><a href="../index.html">Return to semantic-medium-v0</a></p>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    document.getElementById("q-value").textContent = params.get("q") || "none";
+    document.getElementById("kind-value").textContent = params.get("kind") || "all";
+    if (params.has("q")) document.getElementById("q").value = params.get("q");
+    if (params.has("kind")) document.getElementById("kind").value = params.get("kind");
+  </script>
+</body>
+</html>
