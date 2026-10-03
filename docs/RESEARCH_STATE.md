@@ -218,6 +218,17 @@ Current Cloudflare substrate-audit branch:
 
 Draft PR #3 and Issues #1/#2 remain historical research specimens and evidence. They are not the active implementation frontier.
 
+### Apparatus donor direction
+
+BrowserGym / AgentLab / WebArena-Verified are now strong candidates for **controlled experiment plumbing**, not SWM architecture.
+
+The intended reuse boundary is narrow:
+
+- borrow Chromium lifecycle, explicit action/observation spaces, resettable tasks, AXTree/DOM/screenshot capture, experiment running, and deterministic/network-trace evaluation where they fit;
+- keep MP-1's hidden-seed world generator, pixel-equivalent semantic ablation, parity checks, contamination controls, and emergence scoring independent.
+
+A donor spike is required before adoption.
+
 ### MP-1 apparatus status
 
 The leading controlled experiment has been narrowed further.
