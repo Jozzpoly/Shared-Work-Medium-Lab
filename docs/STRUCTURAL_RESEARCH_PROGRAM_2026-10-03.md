@@ -232,6 +232,34 @@ Record at least:
 
 The final metric is deliberately qualitative but central: **emergent capability** must remain a first-class result, not be displaced by infrastructure metrics.
 
+## Experimental method correction — controlled world + live dogfood
+
+The next serious experiments should use two complementary environments.
+
+### Controlled micro-world
+
+Use a small synthetic but realistic project world with known ground truth, seeded irrelevant noise, hidden relationships, versioned changes, and deliberate failure cases.
+
+Purpose: causal comparison, repeatability, contamination control, and reliable falsification.
+
+### Live SWM dogfood
+
+Run the same properties against the real Shared Work Medium project.
+
+Purpose: ecological validity, real Owner burden, real adapter/tool friction, and unexpected behavior.
+
+Neither environment is sufficient alone.
+
+A synthetic benchmark can reward its own design. Live dogfood can produce impressive anecdotes without isolating why they happened.
+
+The current leading experimental decomposition is:
+
+- **affordance generativity** — does environmental structure cause useful unprogrammed workflow composition?
+- **continuity / active perception** — can observers resume from selective deltas instead of giant context reconstruction?
+- **action ecology** — can heterogeneous bodies discover and safely use available actions without Owner routing?
+
+These should be separable campaigns rather than one monolithic v1.
+
 ## Replication discipline
 
 One successful agent run is evidence, not validation.
