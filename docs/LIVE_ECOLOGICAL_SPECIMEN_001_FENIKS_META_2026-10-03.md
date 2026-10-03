@@ -263,3 +263,120 @@ It is stronger in another dimension:
 > SWM-like behavior emerged spontaneously in live project work and changed the work itself.
 
 The immediate response should be to preserve and understand the specimen before attempting to standardize it.
+
+
+## Owner correction — the window idea initially landed in the wrong niche
+
+A later Owner observation adds a materially different reading of the episode.
+
+Codex's small exchange-window idea appears to have had **low immediate local value for Combat Lab** and much higher value for Shared Work Medium.
+
+Combat's response appropriately pulled the conversation back toward actor/activity continuity rather than enthusiastically adopting the window as a Combat priority.
+
+The Owner then independently noticed:
+
+> this idea should probably have been brought to SWM/Browser instead.
+
+This is not merely a social anecdote. It exposes another medium property.
+
+### Value is local; artifacts can migrate
+
+A useful artifact or idea need not have one global importance score.
+
+The same object can be:
+
+- peripheral in one project context;
+- central in another;
+- worth preserving even when its first recipient does not act on it.
+
+Therefore a mature medium should not optimize only for “deliver message to intended recipient.”
+
+It should make it possible for ideas/artifacts to remain addressable and later find a better-fitting context.
+
+This suggests **ecological routing** rather than one centralized relevance ranking.
+
+The desirable capability is not:
+
+> automatically assign every message to the globally correct project.
+
+It is:
+
+> expose enough of the surrounding projects, participants, current questions, and durable artifacts that an intelligent participant can recognize a better niche and route the artifact there.
+
+The Owner did this manually in this specimen.
+
+Long term, the medium should reduce the need for the Owner to be the mandatory switch while preserving the Owner's superior taste/judgement when it matters.
+
+## Stronger finding — Codex did not only use an affordance; he created one
+
+The exchange window is important for another reason.
+
+Codex noticed that the existing environment did not expose one thing he wanted to inspect:
+
+> where one real work stream actually changed another.
+
+He then created a local representation around that missing affordance.
+
+This is one level beyond the founding Shinden behavior.
+
+Shinden specimen:
+
+> agent exploits existing environmental regularity to invent a workflow.
+
+Feniks-meta specimen:
+
+> agent identifies a missing environmental affordance and locally reshapes the environment to support a new workflow.
+
+That distinction may be important for the long-term SWM target.
+
+The strongest medium may not merely be legible/actionable.
+
+It may also be **locally extensible by its inhabitants** without requiring a platform redesign every time a new useful representation is discovered.
+
+That does not imply arbitrary self-modification or ungoverned infrastructure changes.
+
+It suggests a softer property:
+
+> participants can create new views, indexes, traces, annotations, tools, or projections as ordinary artifacts of work, and the environment can later decide whether those local inventions deserve wider reuse.
+
+## Recursive relation with Feniks
+
+The episode also exposes a structural recursion between Feniks and SWM.
+
+Feniks asks:
+
+> can independent actor trajectories continue, collide through one world, and change each other's future?
+
+The live research process temporarily did the same thing:
+
+- Codex had one trajectory;
+- Browser/Combat had another;
+- the trajectories met;
+- Browser changed Codex's interpretation;
+- source truth changed both agents' confidence/scope;
+- Codex changed his next experiment;
+- the Owner later changed the routing of Codex's window idea toward SWM.
+
+This should not be promoted into a mystical equivalence.
+
+It is a useful structural analogy:
+
+> **continuity + shared reality + mutual susceptibility + survivable re-routing after mismatch.**
+
+That may be a deeper common property than “multiple agents talking.”
+
+## Conversation preparation implication
+
+If Codex later brings the window idea directly to SWM, do not greet it as a feature request.
+
+The useful first questions are about the originating need:
+
+- What exactly did Codex want to see that the existing environment hid?
+- At what moment did he decide transcript browsing was insufficient?
+- Which parts of the window were generated from hard evidence versus his interpretation?
+- What did he hope the Owner would be able to do differently while looking at it?
+- What did Combat's lukewarm response teach him about the idea?
+- Did he still want the window after that response, and if so, why?
+- What would he change now that the idea has a potentially better-fitting home?
+
+The purpose is to recover **Codex's own model of the affordance** before SWM absorbs it into its existing theory.
