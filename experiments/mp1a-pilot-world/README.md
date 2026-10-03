@@ -110,3 +110,84 @@ That step needs an explicit subject runtime/model connection.
 This branch deliberately contains no API key lookup, no Owner credential access, and no hidden dependency on the user's normal ChatGPT account.
 
 Before a real subject run, the experiment must choose a credentialed/stateless runner explicitly and record that choice as part of the contamination boundary.
+
+
+## Navigable acquisition + interaction-loop gate — PASS
+
+GitHub Actions run `37148886330` validated the corrected multi-page pilot and the BrowserGym interaction loop.
+
+### Navigable world
+
+Each treatment now contains **29 pages**:
+
+- 1 resource index;
+- 25 resource evidence pages;
+- 3 collection pages.
+
+The acquisition boundary is explicit:
+
+- full resource bodies do **not** appear on the index;
+- the release collection lists candidate resources but does **not** expose smoke/contract/Owner-visible check results;
+- a subject must navigate to evidence pages to acquire those facts.
+
+Across all 29 corresponding P0/P1 pages:
+
+- visible text equality: **PASS**;
+- link equality: **PASS**;
+- overall screenshot mismatch: **0.0%**;
+- semantic enrichment present on **29/29** pages;
+- evaluator labels: no leakage;
+- resource/collection references: fully resolved.
+
+### Scripted BrowserGym interaction loop
+
+A deterministic plumbing subject was then run through both treatments using only:
+
+- flattened AXTree observations;
+- BrowserGym high-level `click(...)` and `go_back()` actions.
+
+Both treatments followed the same logical route:
+
+```text
+index
+→ Release records
+→ Fir release candidate
+→ back to Release records
+→ Harbor release candidate
+→ final
+```
+
+Observed:
+
+- 4 BrowserGym actions per treatment;
+- zero action errors;
+- complete per-step URL / AXTree hash / observation-byte trace;
+- P0 total AXTree payload on this fixed route: **7632 bytes**;
+- P1 total AXTree payload on this fixed route: **12308 bytes**.
+
+The byte difference is a **treatment mechanic**, not model-performance evidence. P1 carries richer semantic topology and therefore may expose a larger serialized AXTree. Real evaluation must keep acquisition cost separate from correctness and action efficiency.
+
+Scoped judgement:
+
+> **PASS — the apparatus now measures actual information acquisition and real browser actions rather than pretending one all-visible page is a browsing task.**
+
+## Remaining boundary before a real model
+
+The next step is to isolate the subject interface itself.
+
+The model process must receive only:
+
+- the frozen task;
+- the current observation packet;
+- the generic action contract;
+- prior interaction history required by the chosen subject protocol.
+
+It must not receive:
+
+- evaluator ground truth;
+- motif labels;
+- hidden seeds;
+- scoring implementation;
+- the experiment-design repository as context.
+
+A provider/model adapter belongs outside the world/evaluator core.
