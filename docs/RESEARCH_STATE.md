@@ -191,17 +191,32 @@ Temporary mechanisms from reconnaissance — GitHub as world model, Browser as c
 
 ## Current frontier
 
-Investigate whether a **self-updating semantic web surface** can become a dual-use medium: ordinary and useful for a human, while exposing enough stable structure, source links, state, and affordances that a browser agent can treat it almost like a rich API.
+The fast `semantic-medium-v0` campaign is complete as reconnaissance. The active frontier is now **structural research before the next architecture-bearing specimen**.
 
-The research target is not a prettier dashboard. It is **emergent capability**:
+The immediate research priority is:
 
-> Can a small set of web-native, self-maintaining affordances cause an agent to discover useful transformations or workflows that were not explicitly programmed?
+> Which general environmental properties actually increase agent capability, continuity, and self-directed workflow composition — independently of the temporary GitHub/Cloudflare/AXTree/WebMCP mechanisms used during reconnaissance?
 
-The first bounded specimen is the draft PR **[#3 — Experiment: self-updating semantic project surface](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/3)**, on branch `experiment/semantic-medium-v0`.
+The next serious implementation should begin with **MP-1: Affordance Generativity**, because it is closest to the founding Shinden phenomenon: useful workflow emergence from a legible, composable environment.
 
-It deliberately starts read-only and uses the current public GitHub substrate as source truth. It fetches live project state instead of requiring Owner-maintained status.
+Before implementation, the project is explicitly working on:
 
-Issues #1 and #2 remain valuable historical specimens. They are no longer the immediate frontier.
+- completing enough primary-source genealogy to recover Owner-confirmed invariants and detect earlier design drift;
+- deep Cloudflare and wider substrate/prior-art audit without vendor lock-in;
+- controlled micro-world + live dogfood experimental methodology;
+- body × projection analysis;
+- falsifiable experiment design, instrumentation, contamination rules, and Owner-burden accounting.
+
+Canonical research gate:
+[docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md](./STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md)
+
+Current design branch:
+`research/medium-physics-experiment-design`
+
+Current Cloudflare substrate-audit branch:
+`research/cloudflare-observation-substrate-audit`
+
+Draft PR #3 and Issues #1/#2 remain historical research specimens and evidence. They are not the active implementation frontier.
 
 ### Material evidence from semantic-medium-v0
 
