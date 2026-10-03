@@ -262,6 +262,61 @@ The current leading experimental decomposition is:
 
 These should be separable campaigns rather than one monolithic v1.
 
+## Research loop correction — discovery and validation must alternate
+
+The founding Shinden phenomenon was discovered in live work. The next phase should not turn controlled benchmarking into the project's center of gravity.
+
+Use a repeating loop:
+
+1. **ecological discovery** — real work exposes an unexpected useful behavior or friction;
+2. **hypothesis extraction** — identify the smallest environmental property that may have caused it;
+3. **controlled isolation** — test that property in a generated/resettable world;
+4. **re-integration** — return the property to live SWM work;
+5. **transfer check** — look for capability gain, burden reduction, and new unplanned behavior outside the benchmark.
+
+Controlled evidence protects causal claims.
+Dogfood protects the project from optimizing a benchmark.
+
+### MP-1 should be treated as two linked experiments
+
+**MP-1A — Semantic Legibility Ablation**
+
+The pixel-equivalent P0/P1 experiment is a narrow mechanistic test:
+
+> does machine-legible semantic structure change perception/search cost or correctness when human-visible content is held constant?
+
+It must not be reported as a complete test of the founding Shinden phenomenon.
+
+**MP-1B — Affordance Generativity**
+
+A richer but still controlled world tests the wider claim:
+
+> given a real outcome-level task and generic composable affordances, does the agent invent a useful workflow that the prompt and tool surface did not prescribe?
+
+For the strongest Shinden-like task, the prompt must **not mention batching, systematic verification, repeated structure, or workflow optimization**.
+
+The repeated/batchable structure remains latent in the world.
+
+### Novelty ledger
+
+Confirmatory outcomes remain preregistered.
+
+Separately maintain an exploratory novelty ledger containing unexpected useful behaviors observed in traces or produced artifacts.
+
+Novelty entries:
+
+- never retroactively redefine a confirmatory success metric;
+- may become hypotheses for a later controlled experiment;
+- should be preserved even when the main measured result is negative.
+
+### Documentation stop rule
+
+The project now has enough pre-implementation design material to begin bounded apparatus spikes.
+
+Do not create additional research documents by default.
+
+Create or materially expand a design artifact only when a specific unresolved confound, safety boundary, or measurement ambiguity blocks the next experiment.
+
 ## Preferred experiment ordering
 
 Unless new evidence changes the order, the first serious implementation should target **affordance generativity**, not infrastructure continuity.
