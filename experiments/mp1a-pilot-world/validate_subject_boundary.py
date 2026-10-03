@@ -326,7 +326,11 @@ def run_treatment(treatment: str, subject_command: list[str]) -> dict:
                         if e["type"] == "OUTBOUND_OBSERVATION"
                     ),
                     "subject_packet_bytes": sum(
-                        e["packet_meta"]["bytes"]
+                        (
+                            e["meta"]["bytes"]
+                            if e["type"] == "OUTBOUND_START"
+                            else e["packet_meta"]["bytes"]
+                        )
                         for e in trace
                         if e["type"] in {"OUTBOUND_START", "OUTBOUND_OBSERVATION"}
                     ),
