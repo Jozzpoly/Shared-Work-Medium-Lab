@@ -189,7 +189,7 @@ The research target is not a prettier dashboard. It is **emergent capability**:
 
 > Can a small set of web-native, self-maintaining affordances cause an agent to discover useful transformations or workflows that were not explicitly programmed?
 
-The first bounded specimen is the draft PR **#3 — Experiment: self-updating semantic project surface**, on branch `experiment/semantic-medium-v0`.
+The first bounded specimen is the draft PR **[#3 — Experiment: self-updating semantic project surface](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/3)**, on branch `experiment/semantic-medium-v0`.
 
 It deliberately starts read-only and uses the current public GitHub substrate as source truth. It fetches live project state instead of requiring Owner-maintained status.
 
