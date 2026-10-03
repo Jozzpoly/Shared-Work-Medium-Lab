@@ -1,0 +1,148 @@
+# Primary-Source Genealogy — partial, source-bounded
+
+**Date:** 2026-10-03
+**Status:** partial audit; explicitly incomplete
+
+## Coverage boundary
+
+This document intentionally records only project genealogy that has been recovered from primary/live sources during the current campaign.
+
+Recovered directly:
+
+- the founding Shinden/Opera conversation segment, including the original all-season upload sweep, the agent-created browser-native batch pipeline, the Owner reaction, and the follow-up sweep;
+- the later Shared Work Medium conversation segment covering semantic-medium-v0, affordances, continuity probes, Cloudflare discussion, and the Owner's explicit warning against long-term lock-in from quick prototypes;
+- live repository history, issues, draft PR #3, canonical docs, and experimental branches.
+
+Not fully recovered:
+
+- the middle portion of the originating SWM conversation between the founding Shinden segment and the later currently loaded section.
+
+The ChatGPT UI currently stops that recovery with `Wczytywanie starszych wiadomości…` in the accessible conversation surface.
+
+Therefore this document is **not** a complete conversation summary and must not be used to claim that the missing middle contains no additional Owner intent or corrections.
+
+## Founding phenomenon — directly recovered
+
+The Owner asked the agent to use Opera to inspect every anime in a new Shinden season, enter episode lists, and determine which already had online uploads.
+
+The useful behavior that emerged was not human-like clicking.
+
+The agent discovered the repeated site structure, extracted the season's episode endpoints, reused one working browser tab as a probe, and reduced the task to a systematic browser-native pipeline over the `Wersja Online` column.
+
+The Owner's reaction emphasized the surprising capability gain and the cleanliness/optimization of the agent's self-chosen plan.
+
+The agent itself recognized the key property:
+
+> the value came from systematically exploiting the structure of the live web environment rather than merely imitating human interaction.
+
+A later sweep became more deterministic and parallel while preserving the same basic environmental leverage.
+
+### Source-bounded implication
+
+The founding evidence supports a strong invariant candidate:
+
+> **The project is fundamentally interested in capability emerging from legible, composable environment structure — not merely in memory, handoff, or project organization.**
+
+This is a candidate invariant because it is directly aligned with both the recovered founding behavior and the Owner's explicit reaction.
+
+## Owner-confirmed intent recovered later
+
+The later conversation directly confirms:
+
+- the medium should maintain/update its own projection of project state rather than requiring manual Owner maintenance;
+- a human-useful web surface that behaves almost like a rich API for agents is a high-value research direction;
+- research time/effort should not be prematurely minimized when discovering the medium's deeper possibilities;
+- unusual compositions of existing tools are explicitly desirable;
+- quick first specimens are bridges, not architecture;
+- Cloudflare deserves deep investigation because hidden useful primitives are likely present;
+- subsequent experiments must be dramatically more serious, structural, and fundamental;
+- temporary simplifications must not bind the long-term horizon.
+
+These are Owner-confirmed constraints, not assistant hypotheses.
+
+## Major drift episode — Browser ↔ Codex
+
+The project temporarily narrowed around a Browser↔Codex continuity experiment.
+
+That path produced useful evidence but also a strong negative result:
+
+- the Owner had to route tools manually;
+- local Codex setup/workspace friction exceeded the experimental value;
+- the Owner explicitly stopped the path for the day because the setup burden was larger than the work value.
+
+The resulting correction was not 'Codex is bad'.
+
+It was:
+
+> a medium that requires the Owner to provision, route, debug, or babysit agent bodies violates a central success criterion.
+
+Browser↔Codex remains a specimen, not architecture.
+
+## Second drift risk — semantic-medium-v0 becoming architecture
+
+The semantic web specimen recovered the founding direction better than the Browser↔Codex path and produced real evidence:
+
+- AXTree semantic legibility;
+- declared vs observed state distinction;
+- freshness/caching failure;
+- observer cursors and event traces;
+- information scent;
+- source-budget failure;
+- Cloudflare donor hypotheses.
+
+But the Owner explicitly corrected the trajectory again:
+
+> the quick probes were only a bridge; later experiments must be structurally serious and temporary simplifications must not constrain the long-term design.
+
+Therefore semantic-medium-v0 is reconnaissance evidence only.
+
+## Assistant-generated hypotheses — useful but not Owner invariants
+
+The following ideas have been generated or substantially shaped by the assistant and must remain hypotheses until independently supported:
+
+- `Project World` as a specific conceptual model;
+- `thin shared epistemic spine` as architecture;
+- Browser ChatGPT as primary/central project brain;
+- one shared observation plane;
+- one `observation_id` / observation epoch model;
+- Cloudflare as a sensory ganglion;
+- GitHub as primary long-term substrate;
+- event-log + cursor as the central continuity mechanism;
+- AXTree as canonical weak-agent representation;
+- WebMCP as the primary action layer;
+- Markdown `RESEARCH_STATE` as long-term interpretation storage;
+- incremental-build/dependency invalidation as the final epistemic model.
+
+Several are promising donor concepts. None is protected from falsification by having appeared repeatedly in the conversation.
+
+## Strong invariant candidates
+
+Subject to completion of the missing source audit, the currently strongest invariant candidates are:
+
+1. **Capability amplification over organization.** The medium must increase what participants can actually do, not only make work tidier.
+2. **Environment over prescribed workflow.** Prefer simple composable environmental laws from which intelligent participants can invent workflows.
+3. **Owner burden must not scale with agent/tool count.** The Owner should spend attention on vision, judgement, feel, priorities, and consequential tradeoffs — not courier/setup/routing work.
+4. **Shared reality, independent minds.** Participants should be able to ground themselves in the same addressable evidence without requiring one shared belief state.
+5. **Source truth and provenance survive abstraction.** Projections/interpretations may help, but cannot erase where claims came from or silently upgrade uncertainty.
+6. **Body heterogeneity is normal.** Different agents/humans perceive and act through different channels; the medium should not assume one universal adapter.
+7. **Graceful degradation.** Unknown/stale/unavailable is preferable to fabricated continuity or silent stale state.
+8. **Self-maintenance is part of the medium.** Manual Owner upkeep of duplicated state is not an acceptable steady-state design.
+9. **Serendipity/freedom must survive optimization.** Better routing and structure must not turn the environment into a cage that only supports designer-predicted tasks.
+10. **Temporary implementation choices are replaceable.** A quick successful specimen is evidence, not an architectural entitlement.
+
+## Open questions that the missing middle may materially affect
+
+- how early and how strongly the Owner endorsed/modified `shared reality, different minds`;
+- whether additional anti-goals or privacy/public/private constraints were established before the current repo;
+- whether the project had already identified other preferred first organisms before the Codex bridge;
+- whether specific Cloudflare/web/MCP directions were considered and rejected earlier;
+- whether the Owner made further corrections to project terminology or scope that are not visible in the recovered segments.
+
+## Audit rule going forward
+
+Until the missing middle is recovered or independently reconstructed from durable primary artifacts:
+
+- do not present this genealogy as complete;
+- do not fill gaps from conversational memory;
+- do not freeze architecture on the assumption that the missing segment merely agrees with current direction;
+- allow small reversible research specimens, but keep the structural research gate active.
