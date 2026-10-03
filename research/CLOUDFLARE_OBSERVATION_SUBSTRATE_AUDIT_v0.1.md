@@ -165,3 +165,57 @@ This suggests a more serious continuity experiment than an endless event table:
 TRS also warns that a base/change log can be eventually corrected and still may not represent an exact global point-in-time state. That warning is highly relevant to our observation-epoch concept.
 
 The lesson is not to adopt RDF/TRS wholesale. The lesson is to separate base snapshot, incremental change stream, event identity, cutoff, and completeness guarantees explicitly.
+## Cloudflare Agents SDK: powerful donor, dangerous center of gravity
+
+Cloudflare now has a substantial Agents runtime built on Durable Objects. It provides durable identity, embedded SQL state, WebSockets, scheduling, recovery, channels and tool integrations.
+
+This is highly relevant but should not become SWM's center by convenience.
+
+Potential donor properties:
+
+- durable body/session identity;
+- persistent local SQL state;
+- real-time synchronized client state;
+- schedulable work that survives restarts;
+- WebSocket communication;
+- recoverable execution;
+- MCP client/server integration;
+- Browser/Sandbox/other capability attachment;
+- built-in observability.
+
+Architectural risk:
+
+The product is explicitly optimized around hosting an Agent instance whose state is durable and synchronized. SWM is trying to preserve a different separation: shared external reality plus potentially many independent minds/bodies.
+
+Therefore Cloudflare Agents should initially be treated as a possible **agent body runtime**, not the Project World and not the mandatory orchestrator.
+
+## Important MCP finding: rich agent projections need not be stateful
+
+Cloudflare's current Agents SDK supports the newer stateless MCP path through createMcpHandler and MCP 2026-07-28-style discovery, while the older stateful McpAgent route is deprecated/frozen for migration.
+
+This strengthens the progressive-projection hypothesis.
+
+The same observation substrate could eventually expose:
+
+- ordinary semantic HTML for humans / weak browser bodies;
+- JSON or hypermedia for structured clients;
+- a stateless MCP resources/tools projection for compatible agents;
+- WebMCP tools inside the human page;
+
+without forcing the shared medium itself to become one long-lived agent session.
+
+That separation is strategically attractive: richer bodies can gain richer interfaces without making them prerequisites for the underlying project reality.
+
+## Another identity warning: agent identity is not observer identity
+
+Cloudflare Agent instances have durable identities and synchronized state. That is useful for a body that needs persistence.
+
+But SWM should distinguish at least:
+
+- identity of a project/world resource;
+- identity of an observation/observation manifest;
+- identity of an agent body/session;
+- identity of an interpretation/claim;
+- identity of an Owner/human actor where materially needed.
+
+Collapsing these into one Durable Object or session key would create subtle long-term coupling.
