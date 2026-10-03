@@ -611,6 +611,63 @@ Classical **blackboard architectures** also coordinate independent knowledge sou
 
 Treat these as intellectual donor systems, not architectures to copy.
 
+## Cloudflare shifts from hosting option to observation-substrate hypothesis
+
+The source-budget failure gave Cloudflare a concrete job instead of an infrastructure-aesthetic role.
+
+Two bounded Cloudflare probes now exist on this branch:
+
+1. **cached observation gateway** — one shared Worker observation is rendered as both semantic HTML and JSON, with adaptive cache lifetime based on observed GitHub source budget;
+2. **push-driven event substrate** — a signed GitHub webhook is normalized into one strongly-consistent SQLite-backed Durable Object event log and exposed through a monotonic resume cursor.
+
+Neither has been deployed yet, so both remain implementation hypotheses rather than live PASSes.
+
+### The deeper value is not only rate-limit relief
+
+A shared observation gateway can make many clients inhabit the same sampled project state.
+
+The gateway therefore assigns a semantic `observation_id` derived from source revisions. HTML and JSON remain different representations, but can identify the same underlying observation epoch.
+
+That creates an interesting middle ground:
+
+```text
+one sampled project reality
+        ↓
+shared observation id
+        ↓
+human HTML / AXTree / JSON / richer bodies
+        ↓
+different interpretations
+```
+
+This directly supports the project principle **shared reality, different minds** without requiring one shared belief state.
+
+### Cloudflare as a sensory ganglion
+
+The event-substrate probe suggests a better metaphor than 'backend':
+
+> a small shared sensory ganglion between noisy external sources and many heterogeneous observers.
+
+It can potentially:
+
+- receive one source change once;
+- verify and normalize it;
+- preserve an ordered trace/cursor;
+- serve many observers from shared state/cache;
+- expose sensor health and freshness;
+- let each observer decide how much richer evidence to acquire.
+
+That is materially different from moving project intelligence into a central server. Interpretation can remain distributed across agents and humans while observation transport is concentrated.
+
+### Why the current probes remain deliberately separate
+
+The cached snapshot path and ordered event-log path solve different problems:
+
+- snapshots answer **what does the world look like at observation epoch X?**
+- event cursors answer **what changed since cursor Y?**
+
+Conflating them too early would recreate a monolithic project-state service. The next useful experiment is to connect them only at the seam: event traces invalidate or refresh shared observation epochs.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
