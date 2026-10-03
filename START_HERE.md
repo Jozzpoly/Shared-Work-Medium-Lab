@@ -20,7 +20,9 @@ The compact North Star is in [docs/NORTH_STAR.md](docs/NORTH_STAR.md).
 
 Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md).
 
-The first live work object is GitHub Issue #1. Treat the issue as an experimental shared referent, not as a commitment to GitHub Issues as the final data model.
+Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect the relevant open issues and draft pull requests.
+
+Issue #1 remains the first historical shared-referent specimen; it is not automatically the current task.
 
 ## Authority and epistemic discipline
 
