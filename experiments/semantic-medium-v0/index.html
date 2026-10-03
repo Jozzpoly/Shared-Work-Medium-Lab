@@ -142,6 +142,14 @@
       </p>
     </section>
 
+    <section aria-labelledby="delta-heading">
+      <h2 id="delta-heading">Changes since declared interpretation</h2>
+      <p class="muted">A coarse invalidation frontier: live GitHub objects observed after the current Research State revision. Presence here means “re-check relevance,” not “this definitely invalidates the interpretation.”</p>
+      <div id="interpretation-delta" aria-live="polite">
+        <p>Computing change frontier…</p>
+      </div>
+    </section>
+
     <section aria-labelledby="observed-heading">
       <h2 id="observed-heading">Observed repository activity</h2>
       <dl>
@@ -328,6 +336,81 @@
           article.append(h, meta, body);
           host.appendChild(article);
         }
+      }
+
+      function renderInterpretationDelta({ stateTime, commits, issues, pulls }) {
+        const host = el("interpretation-delta");
+        host.replaceChildren();
+
+        if (!stateTime) {
+          const p = document.createElement("p");
+          p.className = "error";
+          p.textContent = "Cannot compute: declared interpretation revision time is unavailable.";
+          host.appendChild(p);
+          return;
+        }
+
+        const events = [];
+
+        for (const commit of commits || []) {
+          const iso = commit.commit?.committer?.date || commit.commit?.author?.date;
+          if (iso && new Date(iso).getTime() > stateTime) {
+            events.push({
+              kind: "commit",
+              iso,
+              label: commit.sha.slice(0, 8) + " — " + (commit.commit?.message || "commit").split("\n")[0],
+              url: commit.html_url
+            });
+          }
+        }
+
+        for (const issue of (issues || []).filter(x => !x.pull_request)) {
+          if (issue.updated_at && new Date(issue.updated_at).getTime() > stateTime) {
+            events.push({
+              kind: "issue",
+              iso: issue.updated_at,
+              label: "Issue #" + issue.number + " — " + issue.title,
+              url: issue.html_url
+            });
+          }
+        }
+
+        for (const pull of pulls || []) {
+          if (pull.updated_at && new Date(pull.updated_at).getTime() > stateTime) {
+            events.push({
+              kind: pull.draft ? "draft pull request" : "pull request",
+              iso: pull.updated_at,
+              label: "PR #" + pull.number + " — " + pull.title,
+              url: pull.html_url
+            });
+          }
+        }
+
+        events.sort((a, b) => new Date(b.iso) - new Date(a.iso));
+
+        if (!events.length) {
+          const p = document.createElement("p");
+          p.textContent = "No newer observed GitHub activity.";
+          host.appendChild(p);
+          return;
+        }
+
+        const ol = document.createElement("ol");
+        for (const event of events) {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = event.url;
+          a.textContent = event.label;
+          const kind = document.createElement("span");
+          kind.className = "badge";
+          kind.textContent = event.kind;
+          const time = document.createElement("time");
+          time.dateTime = event.iso;
+          time.textContent = new Date(event.iso).toLocaleString();
+          li.append(a, " ", kind, " · ", time);
+          ol.appendChild(li);
+        }
+        host.appendChild(ol);
       }
 
       function renderIssues(items) {
@@ -540,8 +623,16 @@
           pulls?.[0]?.updated_at
         ].filter(Boolean).map(value => new Date(value).getTime());
 
-        if (stateCommitIso) {
-          const stateTime = new Date(stateCommitIso).getTime();
+        const stateTime = stateCommitIso ? new Date(stateCommitIso).getTime() : null;
+
+        renderInterpretationDelta({
+          stateTime,
+          commits: commits || [],
+          issues: issues || [],
+          pulls: pulls || []
+        });
+
+        if (stateTime) {
           const newerSourceTime = sourceChangeTimes.length ? Math.max(...sourceChangeTimes) : null;
           if (newerSourceTime && newerSourceTime > stateTime) {
             el("declared-freshness").textContent =
