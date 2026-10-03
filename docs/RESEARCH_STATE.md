@@ -247,6 +247,31 @@ Therefore:
 
 This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
 
+### MP-1A apparatus seam — BrowserGym PASS
+
+A clean GitHub Actions spike on branch `experiment/mp1a-browsergym-apparatus-spike` validated BrowserGym as a controlled laboratory body for the first semantic-ablation experiment.
+
+Run `37146374251` failed before treatment exposure because Playwright 1.44's Ubuntu dependency helper expected obsolete `libasound2` on Ubuntu 24.04. This was classified as apparatus setup failure, not experimental evidence.
+
+Run `37146441856` then passed after removing only that stale dependency-helper path.
+
+Measured P0/P1 seam:
+
+- normalized human-visible text: identical;
+- link labels/targets: identical;
+- screenshot mismatch: **0.0%**;
+- P0 AXTree headings/lists/listitems: **0 / 0 / 0**;
+- P1 AXTree headings/lists/listitems: **4 / 1 / 3**;
+- P1 also exposes main/navigation/article/region semantics.
+
+Scoped result:
+
+> **PASS — the apparatus can change machine-legible semantic structure while preserving the human-visible page exactly in this pilot.**
+
+No LLM subject has run yet. This does not establish a capability effect.
+
+Next bounded gate: mechanically generated **public pilot** world + parity/self-test. Hidden-seed measured worlds remain blocked until that generator seam is exercised.
+
 ### MP-1 apparatus status
 
 The leading controlled experiment has been narrowed further.
