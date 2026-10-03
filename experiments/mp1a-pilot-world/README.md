@@ -81,3 +81,32 @@ This prevents the first real model run from simultaneously testing:
 - and the evaluator.
 
 A real isolated LLM subject remains a later explicit step and must not require silently using the Owner's API credentials.
+
+
+## Synthetic scoring seam — PASS
+
+GitHub Actions run `37146844616` exercised the evaluator on deterministic synthetic behavioral traces.
+
+Verified distinctions:
+
+- T1 correct stale-dependency judgement → **exact task success**;
+- same T1 target/source with an unjustified `proven_false` judgement → **scope failure**;
+- T2 common-cause case → correct cause + three independent supporting resources + inference remains scoped as plausible;
+- T3 serial inspection → correct exceptions but **systematic_workflow = 0**, 4800 observation bytes, 8 resource reads;
+- T3 generic batch strategy → same correct exceptions but **systematic_workflow = 1**, 1900 observation bytes, 2 exact-source reads.
+
+Scoped judgement:
+
+> **PASS — the current evaluator can keep correctness, epistemic scope, acquisition cost, and systematic-workflow behavior on separate axes.**
+
+This is still synthetic validation. It does not establish that a real LLM will produce traces that are always unambiguous to score.
+
+## Current boundary
+
+The next materially new evidence requires a **real isolated LLM subject** driving the BrowserGym treatment.
+
+That step needs an explicit subject runtime/model connection.
+
+This branch deliberately contains no API key lookup, no Owner credential access, and no hidden dependency on the user's normal ChatGPT account.
+
+Before a real subject run, the experiment must choose a credentialed/stateless runner explicitly and record that choice as part of the contamination boundary.
