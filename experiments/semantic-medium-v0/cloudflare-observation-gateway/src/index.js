@@ -118,6 +118,18 @@ function chooseTtlSeconds({ authenticated, remaining, limit }) {
   return ttl;
 }
 
+async function observationId(parts) {
+  const material = JSON.stringify(parts);
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(material)
+  );
+  const hex = [...new Uint8Array(digest)]
+    .map(byte => byte.toString(16).padStart(2, "0"))
+    .join("");
+  return "obs-" + hex.slice(0, 24);
+}
+
 async function observeProject(env) {
   const observedAt = new Date().toISOString();
 
@@ -145,8 +157,17 @@ async function observeProject(env) {
     limit
   });
 
+  const id = await observationId([
+    stateFile.data.sha,
+    repo.data.pushed_at,
+    pureIssues.map(issue => [issue.number, issue.updated_at]),
+    pulls.data.map(pull => [pull.number, pull.updated_at]),
+    commits.data.map(commit => commit.sha)
+  ]);
+
   return {
     schema: "swm.project-observation.v0",
+    observation_id: id,
     project: {
       name: REPO,
       source_url: `https://github.com/${REPO}`
@@ -210,6 +231,8 @@ function jsonResponse(observation) {
       "Content-Type": "application/json; charset=utf-8",
       "Vary": "Accept",
       "Cache-Control": `public, max-age=${observation.projection.recommended_cache_ttl_seconds}, stale-while-revalidate=300`,
+      "X-SWM-Observation-Id": observation.observation_id,
+      "ETag": `W/"${observation.observation_id}-json"`,
       "X-SWM-Observed-At": observation.projection.observed_at,
       "X-SWM-Source-Remaining": String(
         observation.projection.source_budget.remaining ?? "unknown"
@@ -254,6 +277,7 @@ function htmlResponse(observation) {
   <section aria-labelledby="health">
     <h2 id="health">Observation health</h2>
     <dl>
+      <dt>Observation id</dt><dd><code>${escapeHtml(observation.observation_id)}</code></dd>
       <dt>Observed at</dt><dd><time datetime="${escapeHtml(observation.projection.observed_at)}">${escapeHtml(observation.projection.observed_at)}</time></dd>
       <dt>Source auth</dt><dd>${escapeHtml(observation.projection.source_auth)}</dd>
       <dt>Source budget remaining</dt><dd>${escapeHtml(observation.projection.source_budget.remaining ?? "unknown")}</dd>
@@ -296,6 +320,8 @@ function htmlResponse(observation) {
       "Content-Type": "text/html; charset=utf-8",
       "Vary": "Accept",
       "Cache-Control": `public, max-age=${observation.projection.recommended_cache_ttl_seconds}, stale-while-revalidate=300`,
+      "X-SWM-Observation-Id": observation.observation_id,
+      "ETag": `W/"${observation.observation_id}-html"`,
       "X-SWM-Observed-At": observation.projection.observed_at,
       "X-SWM-Source-Remaining": String(
         observation.projection.source_budget.remaining ?? "unknown"
