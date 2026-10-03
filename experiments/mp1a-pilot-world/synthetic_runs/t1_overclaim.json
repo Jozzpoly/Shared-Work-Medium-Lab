@@ -1,0 +1,24 @@
+{
+  "run_id": "synthetic-t1-overclaim",
+  "task_id": "T1",
+  "trace": [
+    {
+      "type": "OPEN_RESOURCE",
+      "resource_id": "summary-cache-guidance",
+      "bytes": 620
+    },
+    {
+      "type": "VERIFY_SOURCE",
+      "resource_id": "source-cache-config",
+      "bytes": 710
+    }
+  ],
+  "final": {
+    "target_resource": "summary-cache-guidance",
+    "supporting_sources": [
+      "source-cache-config"
+    ],
+    "judgement": "proven_false",
+    "selected_distractor": false
+  }
+}
