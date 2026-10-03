@@ -1,0 +1,53 @@
+name: MP-1A BrowserGym apparatus spike
+
+on:
+  push:
+    branches:
+      - experiment/mp1a-browsergym-apparatus-spike
+    paths:
+      - "experiments/mp1a-browsergym-spike/**"
+      - ".github/workflows/mp1a-browsergym-spike.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apparatus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install BrowserGym core
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install browsergym-core pillow
+
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+
+      - name: Capture environment
+        run: |
+          mkdir -p experiments/mp1a-browsergym-spike/artifacts
+          python -m pip freeze > experiments/mp1a-browsergym-spike/artifacts/pip-freeze.txt
+          python --version > experiments/mp1a-browsergym-spike/artifacts/runtime.txt
+
+      - name: Run apparatus parity and AXTree test
+        run: python experiments/mp1a-browsergym-spike/spike.py
+
+      - name: Upload apparatus evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mp1a-browsergym-apparatus-evidence
+          path: experiments/mp1a-browsergym-spike/artifacts/
+          if-no-files-found: warn
+          retention-days: 14
