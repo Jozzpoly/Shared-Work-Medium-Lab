@@ -71,6 +71,9 @@ jobs:
       - name: Validate external subject process boundary
         run: python experiments/mp1a-pilot-world/validate_subject_boundary.py
 
+      - name: Validate real BrowserGym T1 trace to scorer bridge
+        run: python experiments/mp1a-pilot-world/validate_real_trace_scoring.py
+
       - name: Validate scoring seam on deterministic synthetic traces
         run: python experiments/mp1a-pilot-world/score_synthetic.py
 
