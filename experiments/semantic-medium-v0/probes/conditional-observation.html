@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SWM probe — conditional observation</title></head>
+<body>
+<main>
+  <h1>Conditional observation probe</h1>
+  <p>Tests whether the page can bind a later observation to the exact version it previously saw using HTTP validators.</p>
+  <dl>
+    <dt>First status</dt><dd id="s1">running</dd>
+    <dt>Observed ETag</dt><dd id="etag">unknown</dd>
+    <dt>Rate remaining after first</dt><dd id="r1">unknown</dd>
+    <dt>Conditional status</dt><dd id="s2">pending</dd>
+    <dt>Rate remaining after conditional</dt><dd id="r2">unknown</dd>
+    <dt>Interpretation</dt><dd id="meaning">pending</dd>
+    <dt>Error</dt><dd id="error">none</dd>
+  </dl>
+</main>
+<script>
+(async () => {
+  const url = "https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab/commits?per_page=1";
+  try {
+    const first = await fetch(url, { cache: "no-store" });
+    const etag = first.headers.get("etag");
+    document.getElementById("s1").textContent = first.status + " " + first.statusText;
+    document.getElementById("etag").textContent = etag || "not exposed";
+    document.getElementById("r1").textContent = first.headers.get("x-ratelimit-remaining") || "not exposed";
+    await first.text();
+
+    if (!etag) {
+      document.getElementById("meaning").textContent = "Cannot test: no validator exposed.";
+      return;
+    }
+
+    const second = await fetch(url, {
+      cache: "no-store",
+      headers: { "If-None-Match": etag }
+    });
+
+    document.getElementById("s2").textContent = second.status + " " + second.statusText;
+    document.getElementById("r2").textContent = second.headers.get("x-ratelimit-remaining") || "not exposed";
+    document.getElementById("meaning").textContent =
+      second.status === 304
+        ? "PASS — source confirms the observed representation has not changed since the first read."
+        : "Source returned a representation again; conditional version check did not produce 304.";
+  } catch (error) {
+    document.getElementById("error").textContent = error?.name + ": " + error?.message;
+    document.getElementById("meaning").textContent = "Probe failed before a reliable conclusion.";
+  }
+})();
+</script>
+</body>
+</html>
