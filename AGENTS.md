@@ -41,13 +41,15 @@ Escalate to the Owner when the question genuinely depends on:
 
 ## Current research posture
 
-The current research target is a **self-updating dual-use web medium**: a surface that is useful to a human while remaining semantically legible enough for agents to discover and compose useful workflows.
+The central signal remains **emergent capability from environmental affordances**, as observed in the founding Shinden browser experiment.
 
-The central signal is not prettier organization. It is **emergent capability from environmental affordances**, as observed in the founding Shinden browser experiment.
+The fast `semantic-medium-v0` / draft PR #3 campaign is now **reconnaissance evidence**, not proto-architecture.
 
-This is **not** a frozen architecture.
+The active phase is the structural research program in `docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md`.
 
-The repository remains the first self-hosting substrate and source of evidence. The current bounded web specimen lives in draft PR #3. Learn from real use before proposing a database, MCP server, Cloudflare deployment, event system, or larger platform.
+Do not extend v0 merely because its mechanisms already exist. Re-select any donor mechanism from evidence. Cloudflare, GitHub, AXTree, WebMCP, event logs, observation IDs, and the current HTML/JSON shapes are all hypotheses rather than commitments.
+
+The next architecture-bearing specimen should be clean-slate, falsifiable, instrumented, and explicitly compare against a baseline while measuring Owner burden and preserving room for unprogrammed useful behavior.
 
 ## Before material implementation
 
