@@ -247,6 +247,22 @@ Therefore:
 
 This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
 
+### MP-1A external subject boundary — PASS
+
+GitHub Actions run `37149534726` validated a fresh external JSONL subject process per treatment.
+
+The subject receives only the frozen task, narrow action contract, and current observation packet. Evaluator ground truth, motif labels, scoring implementation, and hidden-world material do not cross that protocol boundary.
+
+The BrowserGym action boundary is additionally fail-closed before execution to one action per step: `click(<non-empty string bid>)` or `go_back()`. Negative tests reject `noop`, arbitrary `goto`, multi-action payloads, malformed bids, and extended click signatures.
+
+A prior run exposed an ordinary packet-byte logging bug after route completion; it was fixed and the full gate rerun successfully.
+
+Scoped result:
+
+> **PASS — process/protocol isolation is mechanically exercised, but no LLM has yet been used.**
+
+The last non-model seam is real BrowserGym trace → task scoring. Current task scoring has been validated only on synthetic event traces.
+
 ### MP-1A navigable acquisition + BrowserGym interaction loop — PASS
 
 The original 25-resource pilot exposed full evidence on one page, which would have made search/acquisition-cost claims invalid.
