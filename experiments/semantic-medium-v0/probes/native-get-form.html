@@ -13,15 +13,15 @@
       from an ordinary native GET form without a custom agent protocol.
     </p>
 
-    <form method="get" action="">
+    <form method="get" action="" toolname="filter_project_objects" tooldescription="Choose a read-only lens over project objects. This changes only the current page view and does not modify project state.">
       <fieldset>
         <legend>Choose a project lens</legend>
 
         <label for="q">Text query</label>
-        <input id="q" name="q" type="search" placeholder="e.g. Luna" autocomplete="off">
+        <input id="q" name="q" type="search" placeholder="e.g. Luna" autocomplete="off" toolparamdescription="Optional text to match against project objects.">
 
         <label for="kind">Object kind</label>
-        <select id="kind" name="kind">
+        <select id="kind" name="kind" toolparamdescription="Which kind of project object the lens should show.">
           <option value="all">All live objects</option>
           <option value="issue">Issues</option>
           <option value="pr">Pull requests</option>
