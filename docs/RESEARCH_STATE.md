@@ -218,6 +218,22 @@ Current Cloudflare substrate-audit branch:
 
 Draft PR #3 and Issues #1/#2 remain historical research specimens and evidence. They are not the active implementation frontier.
 
+### MP-1 apparatus status
+
+The leading controlled experiment has been narrowed further.
+
+The first confirmatory causal contrast should be a **pixel-equivalent semantic ablation**: two surfaces expose the same visible facts, text, links, ordering and near-identical rendered UI, while differing in machine-legible semantic structure.
+
+This isolates environmental semantic legibility more cleanly than comparing a poor page to a polished page.
+
+A hidden-seed generator, body-calibration protocol, and contamination/preregistration protocol are now designed on `research/medium-physics-experiment-design`.
+
+Important contamination boundary:
+
+- the current Browser ChatGPT collaboration context helped design MP-1 and is therefore **not a clean blinded subject** for confirmatory runs;
+- confirmatory controlled subjects should use stateless/isolated contexts with restricted access to the treatment environment;
+- Browser ChatGPT remains valuable for live dogfood/ecological validation.
+
 ### Material evidence from semantic-medium-v0
 
 The current web specimen has now generated several scoped findings rather than only a design sketch:
