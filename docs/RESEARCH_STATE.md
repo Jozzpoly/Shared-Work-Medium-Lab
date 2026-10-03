@@ -247,6 +247,42 @@ Therefore:
 
 This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
 
+### MP-1A navigable acquisition + BrowserGym interaction loop — PASS
+
+The original 25-resource pilot exposed full evidence on one page, which would have made search/acquisition-cost claims invalid.
+
+That flaw was corrected before any real model run.
+
+GitHub Actions run `37148886330` validated a new navigable pilot:
+
+- 29 pages per treatment: 1 index + 25 resource evidence pages + 3 collection pages;
+- no full resource bodies leak to the index;
+- release collection pages do not expose the detailed acceptance-check results;
+- all 29 corresponding P0/P1 pages have identical visible text and links;
+- overall screenshot mismatch remains **0.0%**;
+- P1 is semantically richer on **29/29** pages;
+- all resource/collection references resolve;
+- evaluator labels do not leak.
+
+A deterministic scripted subject then exercised the real BrowserGym loop on both treatments:
+
+`index → Release records → Fir → back → Harbor → final`
+
+Both runs completed with 4 browser actions, zero action errors, and complete per-step URL / AXTree hash / observation-byte traces.
+
+On this fixed route:
+
+- P0 AXTree payload total: **7632 bytes**;
+- P1 AXTree payload total: **12308 bytes**.
+
+This byte difference is treatment mechanics, not capability evidence.
+
+Scoped result:
+
+> **PASS — the apparatus now represents real information acquisition and browser action, rather than treating one all-visible page as a search task.**
+
+The next gate is isolation of the subject interface itself. A real model subject must receive only task + observation + generic action contract/history, never evaluator ground truth or experiment-design context.
+
 ### Draft PR #4 — MP-1A apparatus checkpoint
 
 Draft PR [#4 — Experiment: MP-1A generated semantic-ablation pilot](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/4) now preserves the tested apparatus specimen.
