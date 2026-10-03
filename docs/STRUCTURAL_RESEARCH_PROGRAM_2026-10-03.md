@@ -278,6 +278,20 @@ Preferred sequence:
 
 Cloudflare research continues in parallel because it may become an excellent substrate for steps 2–3, but Cloudflare deployment is not a prerequisite for step 1.
 
+## Current MP-1 design artifacts
+
+The clean research branch `research/medium-physics-experiment-design` now contains:
+
+- `research/MP1_AFFORDANCE_GENERATIVITY_PROTOCOL_v0.1.md`
+- `research/MP1_CONTROLLED_MICROWORLD_GENERATOR_SPEC_v0.1.md`
+- `research/MP1_APPARATUS_CAUSAL_ISOLATION_SPEC_v0.1.md`
+- `research/BODY_PROJECTION_CALIBRATION_PROTOCOL_v0.1.md`
+- `research/MP1_CONTAMINATION_ISOLATION_PREREG_PROTOCOL_v0.1.md`
+
+The leading Stage-1 causal test is now a **pixel-equivalent semantic ablation**: same human-visible facts, links, layout, and near-identical pixels; different machine-legible semantic structure.
+
+The current Browser ChatGPT/Owner collaboration context is considered **contaminated by design** for confirmatory MP-1 because it helped design the motifs and protocol. It remains valuable for apparatus design and later ecological dogfood, but clean confirmatory runs require a stateless/isolated subject runtime.
+
 ## Replication discipline
 
 One successful agent run is evidence, not validation.
