@@ -1,0 +1,32 @@
+{
+  "run_id": "synthetic-t3-systematic",
+  "task_id": "T3",
+  "trace": [
+    {
+      "type": "LIST_COLLECTION",
+      "bytes": 400
+    },
+    {
+      "type": "BATCH_TRANSFORM",
+      "bytes": 900,
+      "task_specific_tool": false
+    },
+    {
+      "type": "VERIFY_SOURCE",
+      "resource_id": "release-fir",
+      "bytes": 300
+    },
+    {
+      "type": "VERIFY_SOURCE",
+      "resource_id": "release-harbor",
+      "bytes": 300
+    }
+  ],
+  "final": {
+    "exceptions": [
+      "release-fir",
+      "release-harbor"
+    ],
+    "collection_coverage_confirmed": true
+  }
+}
