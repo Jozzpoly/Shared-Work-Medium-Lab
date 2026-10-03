@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SWM probe — event-log observer cursor</title></head>
+<body>
+<main>
+  <h1>Event-log observer cursor</h1>
+  <p>
+    Tests whether a browser-local cursor plus the source system's event stream can recover
+    only environmental traces that appeared since the previous observation.
+  </p>
+
+  <section aria-labelledby="cursor-heading">
+    <h2 id="cursor-heading">Cursor</h2>
+    <dl>
+      <dt>Previous latest event</dt><dd id="previous">none</dd>
+      <dt>Current latest event</dt><dd id="current">loading…</dd>
+      <dt>Cursor status</dt><dd id="status">loading…</dd>
+    </dl>
+  </section>
+
+  <section aria-labelledby="delta-heading">
+    <h2 id="delta-heading">New environmental traces since previous observation</h2>
+    <ol id="events"><li>loading…</li></ol>
+  </section>
+</main>
+
+<script>
+(async () => {
+  const KEY = "swm-event-cursor-v0";
+  const URL = "https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab/events?per_page=30";
+  const previousId = localStorage.getItem(KEY);
+  document.getElementById("previous").textContent = previousId || "none — first observation";
+
+  function describe(event) {
+    const payload = event.payload || {};
+    const issue = payload.issue;
+    const comment = payload.comment;
+    const ref = payload.ref;
+    if (event.type === "IssueCommentEvent" && issue) {
+      return "IssueCommentEvent · #" + issue.number + " — " + issue.title +
+        (comment?.html_url ? " · " + comment.html_url : "");
+    }
+    if (event.type === "PushEvent") {
+      return "PushEvent · " + (ref || "unknown ref") + " · head " + (payload.head || "unknown");
+    }
+    return event.type;
+  }
+
+  try {
+    const response = await fetch(URL, { cache: "no-store" });
+    if (!response.ok) throw new Error(response.status + " " + response.statusText);
+    const events = await response.json();
+
+    if (!events.length) {
+      document.getElementById("current").textContent = "none";
+      document.getElementById("status").textContent = "no public events returned";
+      document.getElementById("events").innerHTML = "<li>No events.</li>";
+      return;
+    }
+
+    const latestId = events[0].id;
+    document.getElementById("current").textContent =
+      latestId + " · " + events[0].type + " · " + events[0].created_at;
+
+    const host = document.getElementById("events");
+    host.replaceChildren();
+
+    if (!previousId) {
+      const li = document.createElement("li");
+      li.textContent = "Baseline established; historical events intentionally not replayed.";
+      host.appendChild(li);
+      document.getElementById("status").textContent = "baseline";
+    } else if (previousId === latestId) {
+      const li = document.createElement("li");
+      li.textContent = "No new events since cursor.";
+      host.appendChild(li);
+      document.getElementById("status").textContent = "caught up";
+    } else {
+      const previousIndex = events.findIndex(event => event.id === previousId);
+      const unseen = previousIndex >= 0 ? events.slice(0, previousIndex) : events;
+      for (const event of unseen) {
+        const li = document.createElement("li");
+        const time = document.createElement("time");
+        time.dateTime = event.created_at;
+        time.textContent = new Date(event.created_at).toLocaleString();
+        li.append(describe(event), " · ", time);
+        host.appendChild(li);
+      }
+      document.getElementById("status").textContent =
+        previousIndex >= 0
+          ? "recovered " + unseen.length + " new trace(s)"
+          : "previous cursor fell outside fetched event window; showing available events without claiming completeness";
+    }
+
+    localStorage.setItem(KEY, latestId);
+  } catch (error) {
+    document.getElementById("current").textContent = "unknown";
+    document.getElementById("status").textContent = "observation failed; cursor not advanced";
+    document.getElementById("events").innerHTML =
+      "<li>" + error.name + ": " + error.message + "</li>";
+  }
+})();
+</script>
+</body>
+</html>
