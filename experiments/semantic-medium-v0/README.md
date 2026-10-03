@@ -560,6 +560,57 @@ Potential mechanisms now have real justification rather than aesthetic appeal:
 
 The failed `frontier-attention-router` load caused by exhausted source budget is retained as evidence. Its semantic composition hypothesis remains unvalidated until the public budget resets or the probe uses a more appropriate observation substrate.
 
+## Strong prior art: agent working environments already modeled this problem surprisingly well
+
+A deeper prior-art pass found that the broad idea "the environment should be an engineered first-class participant in agent capability" is **not new**, and SWM should not pretend otherwise.
+
+The closest historical line found so far is the **Agents & Artifacts / CArtAgO** work on multi-agent working environments.
+
+Its artifact abstraction separates roughly:
+
+- **observable properties** — persistent state agents can perceive;
+- **signals** — non-persistent observable events;
+- **operations** — actions agents can execute through the environment;
+- **link interfaces** — composition between artifacts.
+
+Agents can also **focus** only selected artifacts, receiving properties/events from the part of the environment they currently care about.
+
+That maps strikingly onto evidence already produced by semantic-medium-v0:
+
+```text
+A&A / CArtAgO                current web experiment
+
+observable properties   →    semantic live state / AXTree
+signals                 →    GitHub events / change traces
+operations              →    forms / WebMCP / connectors
+link interfaces         →    hyperlinks / dependencies
+focus                   →    structural queries / selective observation
+artifact manual         →    human descriptions / tool descriptions
+```
+
+This is useful for two reasons.
+
+First, it prevents false novelty claims. Environment-mediated agent coordination, observable state, signals and action artifacts have a serious research history.
+
+Second, modern LLMs + the Web introduce a potentially different composition opportunity:
+
+- the working environment can remain directly useful and legible to humans;
+- models can interpret natural-language labels and descriptions instead of requiring every semantic relation to be a rigid pre-agreed vocabulary;
+- the same ordinary HTML can progressively expose AXTree semantics, DOM metadata, WebMCP tools and richer representations;
+- heterogeneous agent bodies may use different projections of the same underlying resource instead of one mandatory agent runtime.
+
+So the interesting research target is **not inventing artifacts again**.
+
+It is testing whether the open Web can act as a lightweight, human-native artifact substrate for modern reasoning agents with much lower integration cost and much more emergent composition.
+
+### Related but different historical models
+
+Classical **blackboard architectures** also coordinate independent knowledge sources through shared state, often with a scheduler/control layer. They are relevant but risk pulling SWM toward a central orchestrator — currently an anti-goal.
+
+**Linda / tuple spaces** demonstrate another important property: producers and consumers can coordinate asynchronously through a shared associative space without direct message routing or temporal coupling. That supports the intuition that Owner-mediated agent-to-agent handoffs are not fundamental.
+
+Treat these as intellectual donor systems, not architectures to copy.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
