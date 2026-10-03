@@ -292,6 +292,16 @@ The leading Stage-1 causal test is now a **pixel-equivalent semantic ablation**:
 
 The current Browser ChatGPT/Owner collaboration context is considered **contaminated by design** for confirmatory MP-1 because it helped design the motifs and protocol. It remains valuable for apparatus design and later ecological dogfood, but clean confirmatory runs require a stateless/isolated subject runtime.
 
+## Experiment-harness donor candidate
+
+The MP-1 design branch now includes `research/WEB_AGENT_EXPERIMENT_HARNESS_DONOR_AUDIT_v0.1.md`.
+
+BrowserGym / AgentLab / WebArena-Verified are being treated as **apparatus donors**, not project architecture.
+
+Their relevant properties include explicit browser observation/action spaces, custom/resettable tasks, AXTree/DOM/screenshot capture, reusable experiment execution, and deterministic/network-trace-based evaluation.
+
+The current preference is to reuse mature browser-lifecycle/evaluation plumbing if a small donor spike confirms it preserves MP-1's causal controls. The hidden-seed world generator, semantic ablation compiler, parity verifier, contamination controls, and generativity scoring remain custom research apparatus.
+
 ## Replication discipline
 
 One successful agent run is evidence, not validation.
