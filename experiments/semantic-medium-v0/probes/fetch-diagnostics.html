@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SWM probe — fetch diagnostics</title></head>
+<body>
+<main>
+  <h1>Fetch diagnostics</h1>
+  <p>Diagnoses what this exact hosted page can observe about its source transport.</p>
+  <dl id="out">
+    <dt>State</dt><dd id="state">running</dd>
+    <dt>HTTP status</dt><dd id="status">unknown</dd>
+    <dt>Rate limit</dt><dd id="rate">unknown</dd>
+    <dt>ETag</dt><dd id="etag">unknown</dd>
+    <dt>Error</dt><dd id="error">none</dd>
+  </dl>
+</main>
+<script>
+(async () => {
+  const url = "https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab/commits?per_page=1";
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    document.getElementById("status").textContent = response.status + " " + response.statusText;
+    document.getElementById("rate").textContent =
+      "remaining=" + (response.headers.get("x-ratelimit-remaining") ?? "not exposed") +
+      " / limit=" + (response.headers.get("x-ratelimit-limit") ?? "not exposed") +
+      " / reset=" + (response.headers.get("x-ratelimit-reset") ?? "not exposed");
+    document.getElementById("etag").textContent = response.headers.get("etag") ?? "not exposed";
+    const text = await response.text();
+    document.getElementById("state").textContent =
+      response.ok ? "success; body chars=" + text.length : "HTTP failure; body chars=" + text.length;
+  } catch (error) {
+    document.getElementById("state").textContent = "fetch threw";
+    document.getElementById("error").textContent = error?.name + ": " + error?.message;
+  }
+})();
+</script>
+</body>
+</html>
