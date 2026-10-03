@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** high-capability recovery verified; first Luna probe exposed invocation/capability-routing friction
+**Status:** direction reset after local Codex setup friction; next phase is broader collaboration/capability architecture review
 
 **Last material update:** 2026-10-03
 
@@ -17,6 +17,66 @@ GitHub is currently useful because it already provides:
 - direct access for Browser through the GitHub connector;
 - issues, commits, PRs, and Actions as existing inspectable objects;
 - a place where the lab can later grow executable code.
+
+## Strategic direction reset — 2026-10-03
+
+The local Codex Desktop path reached a deliberate stop condition: setup and workspace friction became more expensive for the Owner than the experiment was worth.
+
+This is not merely a tooling inconvenience. It is direct evidence against a design direction that requires the Owner to provision, route, debug, or babysit agent bodies.
+
+The campaign is therefore stepping back from the narrow question:
+
+> How do we validate Browser ↔ Codex continuity first?
+
+and returning to the broader North Star:
+
+> How do we increase the Owner's ability to run increasingly ambitious work without proportional growth in AI/context/tool-management burden, while also expanding agent perception, action, continuity, and emergent capability?
+
+### Broader collaboration constraints recovered
+
+Across previous project work, the recurring successful pattern has been:
+
+- Browser ChatGPT as the primary project brain / integrator / Owner interface;
+- specialized bodies such as Codex for repo-native execution when they have a clear advantage;
+- repositories and artifacts as external authority;
+- short continuation prompts when the environment already exposes enough live state;
+- Owner involvement mainly for vision, feel, priorities, product judgement, and genuinely consequential choices.
+
+Recurring failures have been:
+
+- Owner acting as courier between surfaces;
+- long handoffs becoming stale compressed substitutes for reality;
+- local/tool-specific optimization drifting from project intent;
+- agent capability being present but undiscoverable or awkward to invoke;
+- technical setup and workflow ceremony exceeding the value of the task;
+- treating one special surface as mandatory for the whole system.
+
+### New directional consequence
+
+The first useful SWM organism should **not require a fragile specialized body to prove the concept**.
+
+The next phase should look for leverage in the Owner's default, already-used collaboration environment first — especially Browser ChatGPT plus durable shared sources — and treat Codex, Work, Opera, GitHub, future models, and future MCP services as attachable bodies/senses rather than prerequisites.
+
+A specialized body should join when it creates clear net leverage with low Owner setup cost.
+
+### Revised search target
+
+Before another implementation experiment, identify the smallest environmental capability that:
+
+- helps real Browser-led work immediately;
+- reduces Owner routing/context-repair burden;
+- is usable without bespoke local setup;
+- creates or amplifies agent capability rather than only organizing records;
+- remains compatible with later Codex/Work/other-agent attachment;
+- can be dogfooded by SWM itself.
+
+Candidate directions include shared durable orientation, capability discovery/proprioception, and agent-native project perception, but none is yet selected.
+
+### Current stop rule
+
+Do not spend further Owner attention on repairing the current Codex Desktop workspace path unless later evidence makes that path unusually valuable.
+
+Issue #2 remains useful evidence and can be revisited under better conditions, but it is no longer the campaign's immediate frontier.
 
 ## Current leading architectural hypothesis
 
@@ -95,6 +155,8 @@ The campaign is grounded in recurring real patterns:
 - chat UI liveness is not a reliable proxy for tool/run liveness.
 
 ## Current frontier
+
+Re-evaluate the first-build direction from the broader collaboration North Star before starting another setup-heavy experiment.
 
 Use the repository itself as the first self-hosting environment.
 
