@@ -31,6 +31,60 @@ Modern web standards already contain several underused ingredients for a dual hu
 
 These are reference points, not dependencies. Hydra in particular is useful conceptually but is not a W3C standard and its Community Group closed in 2026.
 
+## Emerging research axis: HTML itself may already be a small action protocol
+
+Standards research after the first live readback suggests a stronger hypothesis than "semantic HTML is easy to read."
+
+Ordinary HTML already bundles several useful layers:
+
+- **native structural semantics** — headings, regions, lists, tables, articles and controls are mapped by browsers into accessibility APIs;
+- **hyperlinks** — stable navigation plus typed relations can connect resources without copying them;
+- **forms** — HTML forms expose a destination, method, named parameters, values, validation constraints, and a submit action. In other words, a normal human UI can also describe a bounded parameterized operation to an automated client;
+- **embedded structured data** — JSON-LD can place a linked-data representation inside the same HTML document;
+- **HTTP representation semantics** — one resource can later expose alternate representations without creating a second project world.
+
+This suggests a possible progression:
+
+```text
+human-readable HTML
+      +
+browser accessibility semantics
+      +
+typed links / stable resource addresses
+      +
+native forms as discoverable actions
+      +
+optional structured representations
+      ↓
+a web surface that is simultaneously UI, observation surface, and partial action vocabulary
+```
+
+That is still a hypothesis. Do not add write forms merely to demonstrate it. First establish that read-only semantics produce useful agent behavior; then introduce one safe, reversible action and observe whether an agent discovers it naturally.
+
+## First live findings
+
+### Semantic readback
+
+The specimen was opened through the existing Opera Browser Connector. Its accessibility tree exposed project state, issue objects, a draft pull request, source links, commit history, timestamps, and the refresh control as meaningful browser objects.
+
+This matters because the browser agent did not need a custom SWM parser to recover those structures.
+
+### Freshness
+
+The first version read the declared research state through a raw-content URL. The preview path served stale state even while newer commits were visible.
+
+Switching the state read to GitHub's Contents API fixed the bounded freshness test: a commit-specific frozen copy of the specimen recovered the newly updated canonical project status without editing the page's project-state content.
+
+Scoped result:
+
+- **PASS:** GitHub-backed projection freshness;
+- **PASS:** observed live repository facts can be separated from authored interpretation;
+- **not proven:** autonomous reconstruction of project meaning;
+- **not proven:** cross-source state beyond public GitHub;
+- **not proven:** Shinden-class emergent workflow discovery.
+
+The caching failure is useful evidence: a medium must expose freshness and provenance explicitly rather than equating "request succeeded" with "state is current."
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
