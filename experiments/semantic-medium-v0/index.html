@@ -130,6 +130,10 @@
         <dd id="declared-update">unknown</dd>
         <dt>Current frontier</dt>
         <dd id="declared-frontier">loading…</dd>
+        <dt>Interpretation source revision</dt>
+        <dd id="declared-revision">loading…</dd>
+        <dt>Interpretation freshness signal</dt>
+        <dd id="declared-freshness">loading…</dd>
       </dl>
       <p>
         <a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">
@@ -436,8 +440,9 @@
         button.textContent = "Refreshing…";
         setHealth("refreshing");
 
-        const [stateResult, issuesResult, pullsResult, commitsResult] = await Promise.allSettled([
+        const [stateResult, stateCommitResult, issuesResult, pullsResult, commitsResult] = await Promise.allSettled([
           fetchJson(API + "/contents/docs/RESEARCH_STATE.md?ref=main"),
+          fetchJson(API + "/commits?path=docs/RESEARCH_STATE.md&per_page=1"),
           fetchJson(API + "/issues?state=open&sort=updated&direction=desc&per_page=8"),
           fetchJson(API + "/pulls?state=open&sort=updated&direction=desc&per_page=8"),
           fetchJson(API + "/commits?per_page=8")
@@ -445,6 +450,7 @@
 
         const failures = [];
         let declared = null;
+        let stateCommit = null;
         let issues = null;
         let pulls = null;
         let commits = null;
@@ -459,6 +465,23 @@
           el("declared-status").textContent = "unknown — source read failed";
           el("declared-update").textContent = "unknown";
           el("declared-frontier").textContent = "unknown";
+        }
+
+        if (stateResult.status === "fulfilled") {
+          const blob = stateResult.value.sha;
+          const source = stateResult.value.html_url;
+          const a = document.createElement("a");
+          a.href = source;
+          a.textContent = blob ? blob.slice(0, 12) : "source";
+          el("declared-revision").replaceChildren(a);
+        } else {
+          el("declared-revision").textContent = "unknown";
+        }
+
+        if (stateCommitResult.status === "fulfilled" && stateCommitResult.value?.length) {
+          stateCommit = stateCommitResult.value[0];
+        } else if (stateCommitResult.status === "rejected") {
+          failures.push("declared-state revision history");
         }
 
         if (issuesResult.status === "fulfilled") {
@@ -508,6 +531,27 @@
         } else {
           el("observed-head").textContent = "unknown";
           el("observed-change").textContent = "unknown";
+        }
+
+        const stateCommitIso = stateCommit?.commit?.committer?.date || stateCommit?.commit?.author?.date || null;
+        const sourceChangeTimes = [
+          commits?.[0]?.commit?.committer?.date || commits?.[0]?.commit?.author?.date,
+          visibleIssues?.[0]?.updated_at,
+          pulls?.[0]?.updated_at
+        ].filter(Boolean).map(value => new Date(value).getTime());
+
+        if (stateCommitIso) {
+          const stateTime = new Date(stateCommitIso).getTime();
+          const newerSourceTime = sourceChangeTimes.length ? Math.max(...sourceChangeTimes) : null;
+          if (newerSourceTime && newerSourceTime > stateTime) {
+            el("declared-freshness").textContent =
+              "attention — live repository/work objects changed after this interpretation was last edited";
+          } else {
+            el("declared-freshness").textContent =
+              "no newer observed GitHub activity than this interpretation revision";
+          }
+        } else {
+          el("declared-freshness").textContent = "unknown — interpretation revision time unavailable";
         }
 
         const now = new Date();
