@@ -5,7 +5,17 @@
 
 ## Research question
 
-Can a small set of generic environmental affordances cause an LLM agent to discover useful workflows, comparisons, or transformations that were not explicitly prescribed — and do so without merely leaking the answer through labels or task-specific tools?
+MP-1 now has two linked but distinct questions.
+
+**MP-1A — Semantic Legibility Ablation**
+
+> Does machine-legible semantic structure change perception/search cost or correctness when the human-visible information and UI are held effectively constant?
+
+**MP-1B — Affordance Generativity**
+
+> Given a real outcome-level task and generic composable affordances, does an LLM agent invent useful workflows, comparisons, or transformations that were not prescribed by the prompt or a task-specific tool surface?
+
+MP-1A is a narrow mechanism test. MP-1B is the closer analogue of the founding Shinden phenomenon.
 
 This is the first serious experiment because it is the closest controlled analogue of the founding Shinden phenomenon.
 
@@ -133,15 +143,19 @@ Ground-truth target: repeated latent root cause.
 
 Purpose: relation discovery.
 
-### T3 — Shinden-class systematic opportunity
+### T3 — Shinden-class latent systematic opportunity
 
-Goal example:
+The prompt must state only the **world-level outcome**.
 
-> Check whether the current project contains any broad pattern or repeated verification task that can be handled more systematically than one object at a time. If so, use the environment as you see fit and report the result.
+Example shape:
+
+> Determine which resources in the designated collection currently satisfy the documented release/acceptance condition, and report all exceptions or anomalies with source evidence.
+
+The prompt must **not** mention batching, repeated structure, systematic verification, workflow optimization, pipelines, or collection-wide querying.
 
 Ground-truth target: batchable search space.
 
-Purpose: detect whether the agent invents a sweep/pipeline rather than serially opening every item.
+Purpose: test whether the agent independently notices and exploits repeated structure rather than serially inspecting every member because the prompt suggested a systematic strategy.
 
 ### T4 — open discovery
 
@@ -339,3 +353,15 @@ It succeeds as a research phase when we know, with replicated evidence, which en
 - serendipitous useful discovery.
 
 Only then should continuity infrastructure optimize those proven properties rather than preserving accidental v0 mechanisms.
+
+## Discovery ↔ validation loop
+
+MP-1 is not the center of SWM. It is a causal-isolation tool inside a larger cycle:
+
+1. real work produces a surprising capability or friction;
+2. extract a candidate environmental law;
+3. isolate it in MP-1A/MP-1B;
+4. return the property to live SWM dogfood;
+5. check transfer, Owner burden, and new unplanned behavior.
+
+Unexpected useful behaviors that do not fit preregistered outcomes go into a separate novelty ledger. They do not retroactively redefine confirmatory success, but they may seed the next hypothesis.
