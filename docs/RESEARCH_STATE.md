@@ -299,6 +299,59 @@ Scoped result:
 
 The next gate is isolation of the subject interface itself. A real model subject must receive only task + observation + generic action contract/history, never evaluator ground truth or experiment-design context.
 
+### External-organism lane — Claude Free / Sonnet 5.5
+
+The project now has a second experimental lane alongside BrowserGym.
+
+**Controlled lane:** BrowserGym remains the laboratory body for causal isolation, deterministic observation channels, and exact traces.
+
+**Ecological lane:** ordinary external models should be able to enter the medium through normal web affordances with no custom API integration.
+
+The first candidate is Claude Free in an **incognito chat** using Sonnet 5.5:
+
+- live Opera inspection shows this account is on the Free plan, exposes Sonnet 5.5 in the model selector, and offers an incognito-chat control;
+- current Anthropic documentation states incognito chats are available on Free and do not use existing Claude memory or chat history;
+- current Anthropic documentation also exposes web search/fetch to Free accounts, with usage limits resetting on a five-hour session cycle.
+
+This is strategically important:
+
+> a model that can inhabit the medium from an ordinary URL with its own generic web tools is stronger evidence for the original Shinden-style vision than a model wired into a bespoke experimental API.
+
+Claude Free is therefore **not a substitute for BrowserGym**. It is a different organism/body whose native web projection must be calibrated first.
+
+Immediate ecological gate:
+
+1. give fresh incognito Sonnet 5.5 one blinded public P0/P1 page through its ordinary web fetch;
+2. determine whether Claude's native web body preserves any of the semantic distinction or normalizes both pages to the same representation;
+3. record that body/projection result before attempting capability comparisons;
+4. if the projection preserves useful structure, proceed to a small outcome-level ecological task;
+5. if it strips the structure, treat that as body-calibration evidence and adapt the medium only through generic web affordances the body can actually perceive.
+
+This lane explicitly avoids Owner/API credential use.
+
+### Navigable pilot correction — PASS
+
+The first generated pilot exposed too much evidence on one page, which would have made acquisition-cost and Shinden-like search claims invalid.
+
+The pilot was therefore rebuilt as a navigable 29-page world:
+
+- 25 separate resource pages;
+- 3 collection pages;
+- 1 index;
+- index contains summaries, not full evidence;
+- release collection lists members without leaking smoke/contract/Owner-visible check outcomes.
+
+GitHub Actions run `37148633286` passed:
+
+- 29/29 P0/P1 page pairs have identical visible text and link targets;
+- overall screenshot mismatch remains **0.0%**;
+- all 29 P1 pages are semantically richer than their P0 counterparts;
+- no full resource bodies leak to the index;
+- no release-detail evidence leaks to the collection page;
+- no evaluator labels leak into treatments.
+
+This fixes a material flaw before any real model subject is run.
+
 ### Draft PR #4 — MP-1A apparatus checkpoint
 
 Draft PR [#4 — Experiment: MP-1A generated semantic-ablation pilot](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/4) now preserves the tested apparatus specimen.
