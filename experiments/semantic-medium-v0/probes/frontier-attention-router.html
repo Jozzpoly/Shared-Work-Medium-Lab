@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SWM probe — frontier attention router</title></head>
+<body>
+<main>
+  <h1>Frontier attention router</h1>
+  <p>
+    Composes ordinary frontier hyperlinks with the repository event stream.
+    Events targeting an explicitly linked frontier object are surfaced as directly relevant
+    without a hand-authored rule for that object.
+  </p>
+
+  <section aria-labelledby="deps-heading">
+    <h2 id="deps-heading">Declared frontier dependencies</h2>
+    <ul id="deps"><li>loading…</li></ul>
+  </section>
+
+  <section aria-labelledby="direct-heading">
+    <h2 id="direct-heading">Directly frontier-related traces</h2>
+    <ol id="direct"><li>loading…</li></ol>
+  </section>
+
+  <section aria-labelledby="ambient-heading">
+    <h2 id="ambient-heading">Ambient traces</h2>
+    <ol id="ambient"><li>loading…</li></ol>
+  </section>
+</main>
+
+<script>
+(async () => {
+  const API = "https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab";
+
+  const fetchJson = async (url) => {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(response.status + " " + response.statusText);
+    return response.json();
+  };
+
+  const decodeBase64Utf8 = (value) => {
+    const binary = atob((value || "").replace(/\s/g, ""));
+    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+    return new TextDecoder("utf-8").decode(bytes);
+  };
+
+  const eventTarget = (event) => {
+    const p = event.payload || {};
+    if (p.issue?.html_url) return p.issue.html_url;
+    if (p.pull_request?.html_url) return p.pull_request.html_url;
+    return null;
+  };
+
+  const eventLabel = (event) => {
+    const target = eventTarget(event);
+    const p = event.payload || {};
+    if (event.type === "IssueCommentEvent" && p.issue) {
+      return "IssueCommentEvent · #" + p.issue.number + " — " + p.issue.title;
+    }
+    if (event.type === "PullRequestEvent" && p.pull_request) {
+      return "PullRequestEvent · " + p.action + " · #" + p.pull_request.number;
+    }
+    if (event.type === "IssuesEvent" && p.issue) {
+      return "IssuesEvent · " + p.action + " · #" + p.issue.number;
+    }
+    if (event.type === "PushEvent") {
+      return "PushEvent · " + (p.ref || "unknown ref");
+    }
+    return event.type + (target ? " · " + target : "");
+  };
+
+  const renderEvents = (host, events, reason) => {
+    host.replaceChildren();
+    if (!events.length) {
+      const li = document.createElement("li");
+      li.textContent = "None in current event window.";
+      host.appendChild(li);
+      return;
+    }
+    for (const event of events) {
+      const li = document.createElement("li");
+      const target = eventTarget(event);
+      if (target) {
+        const a = document.createElement("a");
+        a.href = target;
+        a.textContent = eventLabel(event);
+        if (reason) a.setAttribute("aria-label", eventLabel(event) + ". " + reason);
+        li.appendChild(a);
+      } else {
+        li.append(eventLabel(event));
+      }
+      const time = document.createElement("time");
+      time.dateTime = event.created_at;
+      time.textContent = new Date(event.created_at).toLocaleString();
+      li.append(" · ", time);
+      host.appendChild(li);
+    }
+  };
+
+  try {
+    const [stateFile, events] = await Promise.all([
+      fetchJson(API + "/contents/docs/RESEARCH_STATE.md?ref=main"),
+      fetchJson(API + "/events?per_page=30")
+    ]);
+
+    const markdown = decodeBase64Utf8(stateFile.content);
+    const frontierSection = markdown.split(/\n## Current frontier\s*\n/i)[1] || "";
+    const frontierBlock = frontierSection.split(/\n#{2,6}\s+/)[0] || "";
+    const dependencies = [...frontierBlock.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g)]
+      .map(match => match[1]);
+
+    const depHost = document.getElementById("deps");
+    depHost.replaceChildren();
+    if (!dependencies.length) {
+      const li = document.createElement("li");
+      li.textContent = "No explicit frontier links recovered.";
+      depHost.appendChild(li);
+    } else {
+      for (const url of dependencies) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = url;
+        a.textContent = url;
+        li.appendChild(a);
+        depHost.appendChild(li);
+      }
+    }
+
+    const direct = [];
+    const ambient = [];
+    for (const event of events) {
+      const target = eventTarget(event);
+      if (target && dependencies.includes(target)) direct.push(event);
+      else ambient.push(event);
+    }
+
+    renderEvents(
+      document.getElementById("direct"),
+      direct,
+      "Reason surfaced: this trace targets an object explicitly linked from the current project frontier."
+    );
+    renderEvents(document.getElementById("ambient"), ambient.slice(0, 8), null);
+  } catch (error) {
+    document.getElementById("deps").innerHTML = "<li>unknown — source read failed</li>";
+    document.getElementById("direct").innerHTML = "<li>unknown</li>";
+    document.getElementById("ambient").innerHTML =
+      "<li>" + error.name + ": " + error.message + "</li>";
+  }
+})();
+</script>
+</body>
+</html>
