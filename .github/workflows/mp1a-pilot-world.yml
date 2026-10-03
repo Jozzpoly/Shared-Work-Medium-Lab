@@ -40,14 +40,26 @@ jobs:
       - name: Require deterministic generation
         run: diff -qr experiments/mp1a-pilot-world/out experiments/mp1a-pilot-world/out-repeat
 
+      - name: Generate navigable pilot world twice
+        run: |
+          python experiments/mp1a-pilot-world/generate_navigable_pilot.py --out experiments/mp1a-pilot-world/out-nav
+          python experiments/mp1a-pilot-world/generate_navigable_pilot.py --out experiments/mp1a-pilot-world/out-nav-repeat
+
+      - name: Require deterministic navigable generation
+        run: diff -qr experiments/mp1a-pilot-world/out-nav experiments/mp1a-pilot-world/out-nav-repeat
+
       - name: Capture runtime
         run: |
           mkdir -p experiments/mp1a-pilot-world/artifacts
+          mkdir -p experiments/mp1a-pilot-world/artifacts-nav
           python -m pip freeze > experiments/mp1a-pilot-world/artifacts/pip-freeze.txt
           python --version > experiments/mp1a-pilot-world/artifacts/runtime.txt
 
       - name: Verify canonical world and P0/P1 parity
         run: python experiments/mp1a-pilot-world/verify_pilot.py
+
+      - name: Verify navigable acquisition world and per-page parity
+        run: python experiments/mp1a-pilot-world/verify_navigable_pilot.py
 
       - name: Validate scoring seam on deterministic synthetic traces
         run: python experiments/mp1a-pilot-world/score_synthetic.py
@@ -59,6 +71,8 @@ jobs:
           name: mp1a-generated-pilot-world-evidence
           path: |
             experiments/mp1a-pilot-world/artifacts/
+            experiments/mp1a-pilot-world/artifacts-nav/
             experiments/mp1a-pilot-world/out/
+            experiments/mp1a-pilot-world/out-nav/
           if-no-files-found: warn
           retention-days: 14
