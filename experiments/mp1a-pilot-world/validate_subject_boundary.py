@@ -87,15 +87,24 @@ def observation_packet(obs, treatment_root: Path) -> dict:
 
 
 class JsonlSubjectProcess:
-    def __init__(self, command: list[str]):
+    def __init__(
+        self,
+        command: list[str],
+        allowed_env_keys: list[str] | None = None,
+    ):
         self.command = command
         self.tempdir = tempfile.TemporaryDirectory(prefix="mp1a-subject-")
-        # Boundary smoke gets a deliberately sparse environment. Real provider
-        # adapters must explicitly opt into any credential environment later.
+        # Boundary smoke gets a deliberately sparse environment. Provider
+        # adapters must explicitly opt into each inherited variable.
         env = {
             "PATH": os.environ.get("PATH", ""),
             "PYTHONUNBUFFERED": "1",
         }
+        for key in allowed_env_keys or []:
+            if key in {"PATH", "PYTHONUNBUFFERED"}:
+                continue
+            if key in os.environ:
+                env[key] = os.environ[key]
         self.proc = subprocess.Popen(
             command,
             stdin=subprocess.PIPE,
