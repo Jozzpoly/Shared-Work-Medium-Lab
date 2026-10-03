@@ -229,6 +229,24 @@ The intended reuse boundary is narrow:
 
 A donor spike is required before adoption.
 
+### Direction correction after full founding-mechanics reread
+
+A direct reread of the founding Shinden branch sharpened the target again.
+
+The founding success was not merely “semantic HTML helps an agent.” It was:
+
+> a broad real task + repeated/addressable environmental structure + usable browser affordances let the agent invent a new batch strategy that had not been prescribed.
+
+Therefore:
+
+- the pixel-equivalent semantic P0/P1 experiment is retained as **MP-1A**, a narrow mechanistic test of semantic legibility;
+- the wider founding claim moves to **MP-1B Affordance Generativity**, where outcome-level prompts must not leak batching/systematic-strategy hints;
+- controlled micro-world experiments and live SWM dogfood should alternate in a discovery → isolation → reintegration loop;
+- confirmatory metrics remain frozen, but unexpected useful behavior is preserved in a separate exploratory novelty ledger;
+- further research-document expansion now has a stop rule: execute/falsify the existing apparatus unless a concrete unresolved confound blocks it.
+
+This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
+
 ### MP-1 apparatus status
 
 The leading controlled experiment has been narrowed further.
