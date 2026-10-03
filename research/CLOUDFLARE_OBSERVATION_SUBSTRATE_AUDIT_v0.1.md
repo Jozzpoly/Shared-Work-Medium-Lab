@@ -127,3 +127,41 @@ Cloudflare is more interesting after deeper inspection, but not because it is a 
 The strongest danger is equally clear: Cloudflare makes it easy to build a sophisticated central system before proving that sophistication increases agent capability.
 
 Use Cloudflare as a laboratory of environmental primitives, not as an architecture template.
+## Correction: do not invent one global event chronology
+
+OSLC Tracked Resource Set and classic distributed-systems work both expose an important flaw in the v0 monotonic global cursor idea.
+
+TRS explicitly notes that event ordering can be meaningful for changes to one tracked resource while having no semantic meaning across unrelated resources. Lamport's classic result makes the broader point: distributed events naturally form a partial order; a total order can be imposed for implementation reasons, but that imposed order is not automatically the same thing as causal truth.
+
+For SWM this means a single Durable Object sequence such as 41, 42, 43 can be a useful delivery/cursor mechanism without becoming the semantic chronology of the project.
+
+A more honest model may need to distinguish:
+
+- delivery order in one transport;
+- source-local version/order;
+- per-resource causal order;
+- observation time;
+- explicit dependency/causal relation;
+- concurrency/unknown ordering.
+
+This becomes critical when GitHub, conversations, files, external web sources and human judgements enter the same medium.
+
+Design implication:
+
+> preserve partial order where reality only gives partial order; total ordering is an implementation convenience that must not silently become epistemic truth.
+
+## Base + change log is stronger prior art than the v0 cursor
+
+OSLC TRS models a tracked set as a Base plus an ordered Change Log and a cutoff linking them. It also allows log truncation/rebasing while retaining enough overlap for clients to catch up.
+
+This suggests a more serious continuity experiment than an endless event table:
+
+1. a client obtains a bounded base observation;
+2. it records the cutoff/cursor associated with that base;
+3. later it consumes only newer change traces;
+4. when the log is compacted, a new base is published with overlap sufficient for lagging clients;
+5. duplicate traces remain recognizable by stable event identity.
+
+TRS also warns that a base/change log can be eventually corrected and still may not represent an exact global point-in-time state. That warning is highly relevant to our observation-epoch concept.
+
+The lesson is not to adopt RDF/TRS wholesale. The lesson is to separate base snapshot, incremental change stream, event identity, cutoff, and completeness guarantees explicitly.
