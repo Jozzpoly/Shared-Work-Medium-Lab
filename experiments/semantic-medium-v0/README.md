@@ -258,6 +258,57 @@ This also resembles the biological concept of an **Umwelt**: the same external w
 
 That framing is useful because SWM should not try to force all agents into an identical representation. It should preserve one underlying reality while allowing different agent bodies to inhabit different, partially overlapping actionable projections.
 
+## Hyperlinks can double as dependency declarations
+
+A new probe treats ordinary hyperlinks inside the human-authored **Current frontier** block as provisional declared dependencies.
+
+The medium now:
+
+1. reads the current frontier text;
+2. extracts exact linked live work objects from that block;
+3. compares their live `updated_at` values with the revision time of the authored interpretation;
+4. marks the interpretation as a stale candidate when an explicitly linked dependency moved later.
+
+This is intentionally much weaker than a formal dependency graph, but it tests an attractive principle:
+
+> **natural hypertext may carry enough dependency information to support incremental semantic maintenance without a separate Owner-managed schema.**
+
+The first implementation immediately failed in an instructive way: it scoped dependencies too broadly and accidentally pulled historical links from nested subsections into the current frontier.
+
+That is the semantic equivalent of an over-declared build dependency graph: correct enough to notice change, but noisy enough to cause unnecessary invalidation.
+
+After tightening the boundary to the immediate frontier block, the page recovered exactly one current live dependency: draft PR #3.
+
+Because PR #3 has changed after the current `RESEARCH_STATE.md` revision, the page now reports:
+
+`stale candidate — 1 explicitly linked live object(s) changed after interpretation revision`
+
+This is a stronger signal than the earlier coarse “something in the repo changed.”
+
+### Unexpected analogy: project interpretation as an incremental build
+
+Build systems and incremental view-maintenance research provide a useful mental model:
+
+```text
+source resources  ─────┐
+live work objects ─────┼──> interpretation node
+owner decisions   ─────┘          │
+                                  ▼
+                           derived project view
+```
+
+When an input changes, the system need not regenerate every interpretation. It can invalidate the reverse dependents and re-evaluate only what is needed.
+
+The hard problem is the same one build systems face:
+
+- **under-declare dependencies** → stale but apparently valid outputs;
+- **over-declare dependencies** → everything constantly invalidates;
+- **precise dependencies** → cheap, trustworthy incremental maintenance.
+
+For SWM, natural source links may provide part of that graph automatically. Agent-generated interpretations could eventually record additional dependencies they actually consulted.
+
+This may be a more promising route to “self-updating project state” than continuously asking an LLM to rewrite a monolithic summary.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
