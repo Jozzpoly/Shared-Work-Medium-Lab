@@ -503,6 +503,63 @@ The environment should make moving downward cheap and reversible.
 
 The important property is not that every agent must use these exact levels. It is that **high-cost context acquisition becomes an action the agent can choose**, rather than an unconditional prerequisite for doing any work.
 
+## Polling falsified itself under live use
+
+The specimen's simplest self-updating strategy was deliberately naive: several public GitHub REST reads on load and every ten minutes.
+
+During the research session the browser-origin GitHub core budget reached:
+
+```text
+limit: 60
+used: 60
+remaining: 0
+```
+
+At that point a new attention-routing probe received HTTP 403 and correctly rendered its source state as unknown.
+
+This is not merely a hosting inconvenience. It falsifies an architectural tendency:
+
+> **every open project surface must not independently poll every source in steady state.**
+
+For the current main specimen, roughly five REST reads per refresh × six refreshes/hour already implies about **30 requests/hour per active tab** before exploratory probes or source drill-downs. Two continuously active tabs are enough to collide with the unauthenticated 60/hour budget.
+
+GitHub's official REST documentation confirms that unauthenticated public requests are limited to 60 requests/hour per originating IP.
+
+### Consequence
+
+The observation layer needs its own economics and interoception.
+
+A useful medium should know:
+
+- whether a sensor is healthy;
+- how stale its last successful observation is;
+- what its remaining source budget is;
+- when it may safely sample again;
+- whether a cheap change detector can replace expensive full rereads.
+
+This pushes the research toward **adaptive perception**:
+
+```text
+cheap wake-up / change signal
+        ↓
+did anything relevant change?
+        ↓ yes
+selectively acquire richer evidence
+        ↓
+update affected projections only
+```
+
+Potential mechanisms now have real justification rather than aesthetic appeal:
+
+- event/change feeds as wake-up channels;
+- browser-local or shared observer cursors;
+- visibility-aware polling;
+- shared cache/leader among browser surfaces;
+- authenticated aggregation;
+- eventually a webhook/event receiver + cached projection service if browser-only composition proves insufficient.
+
+The failed `frontier-attention-router` load caused by exhausted source budget is retained as evidence. Its semantic composition hypothesis remains unvalidated until the public budget resets or the probe uses a more appropriate observation substrate.
+
 ## v0 hypothesis
 
 A small page backed directly by live GitHub state may already provide more useful agent affordance than another project summary.
