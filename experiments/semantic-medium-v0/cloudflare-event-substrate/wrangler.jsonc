@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "swm-event-substrate-v0",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-03",
+  "observability": {
+    "enabled": true
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PROJECT_EVENTS",
+        "class_name": "ProjectEventLog"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "ProjectEventLog"
+      ]
+    }
+  ]
+}
