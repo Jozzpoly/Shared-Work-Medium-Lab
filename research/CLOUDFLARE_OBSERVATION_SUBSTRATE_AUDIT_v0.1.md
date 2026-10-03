@@ -219,3 +219,129 @@ But SWM should distinguish at least:
 - identity of an Owner/human actor where materially needed.
 
 Collapsing these into one Durable Object or session key would create subtle long-term coupling.
+## Browser Rendering: potentially a projection compiler, not merely a scraper
+
+Cloudflare Browser Rendering is materially more relevant than a generic headless-browser service.
+
+The current REST API can derive several representations from the same rendered page:
+
+- raw/rendered HTML content;
+- links;
+- selected element scrape output;
+- Markdown;
+- JSON extraction with a prompt/schema;
+- accessibility tree;
+- screenshot;
+- a combined Snapshot response containing accessibility tree + HTML + Markdown + screenshot;
+- multi-URL Crawl jobs that can return HTML/JSON/Markdown records.
+
+This creates an unusually useful research primitive for SWM:
+
+> one dynamic web source can be sampled once through a real browser and projected into multiple observer channels.
+
+That directly supports the Body × Projection program.
+
+A serious experiment could compare:
+
+- screenshot/human visual channel;
+- accessibility-tree weak-agent channel;
+- Markdown/text channel;
+- full DOM/HTML channel;
+- structured extraction channel;
+
+against the **same rendered source state**.
+
+Important epistemic distinction:
+
+- HTML / accessibility tree / links / screenshot are browser-derived observation channels;
+- the JSON endpoint can use a prompt or schema to extract structure, so it should be treated as a **derived interpretation/extraction**, not automatically as source truth.
+
+The current Browser Rendering Snapshot API is therefore interesting as a controlled observation multiplexer.
+
+Current cost boundary: Browser Rendering has a small Free allowance (currently 10 browser minutes/day and up to 3 concurrent browsers); Paid includes a larger monthly allowance and charges by browser duration/concurrency after that. This makes it suitable for bounded experiments, not an excuse to continuously crawl the world.
+
+Reference: https://developers.cloudflare.com/api/resources/browser_rendering/
+
+## D1 Sessions and bookmarks: a surprisingly strong continuity donor
+
+D1 read replication is asynchronous, so an arbitrary read replica may lag.
+
+The Sessions API adds **sequential consistency**. A session carries a bookmark, and a later session can start from that bookmark to guarantee it observes a database version at least as up-to-date as the previous session.
+
+Useful properties include:
+
+- monotonic reads;
+- read-your-own-writes;
+- writes-follow-reads;
+- carrying a compact bookmark from one observer session into a later one.
+
+This is strikingly close to an important SWM continuity property:
+
+> resume from a world that is at least as fresh as the world I previously observed.
+
+The bookmark is not a source-world cursor and does not solve cross-source causality. It only applies to data that has already entered the D1-derived view.
+
+That makes D1 potentially interesting for **derived observation projections / indexes**, not as the authority for GitHub/conversations/etc.
+
+Research implication:
+
+A future continuity experiment should compare at least three cursor semantics:
+
+1. source-native cursor/version;
+2. derived-view bookmark guaranteeing monotonic observation;
+3. event-log cursor describing unseen traces.
+
+They solve different problems and should not be collapsed into one integer.
+
+Reference: https://developers.cloudflare.com/d1/best-practices/read-replication/
+
+## Smart Placement: sensor execution can move toward the source
+
+Workers can currently use Smart Placement or explicit region/host/hostname placement hints to execute closer to upstream infrastructure rather than automatically closest to the end user.
+
+For an observation plane, this suggests another environmental degree of freedom:
+
+> move sensing/aggregation toward expensive or latency-sensitive sources while keeping static/human projections edge-local.
+
+This is probably an optimization, not a foundational law. It should only enter experiments if upstream round trips become material.
+
+Reference: https://developers.cloudflare.com/workers/configuration/placement/
+
+## R2 event notifications: stored artifacts can become eventful without polling
+
+R2 can emit object-change notifications into Cloudflare Queues. The event includes object key, event time, size and ETag where applicable.
+
+If SWM later stores immutable observation artifacts, reports, media or derived snapshots in R2, those artifacts can participate in the change substrate without another polling loop.
+
+This is a donor mechanism, not a reason to put project truth into R2.
+
+Reference: https://developers.cloudflare.com/r2/buckets/event-notifications/
+
+## AI Gateway: potentially useful experimental instrumentation, not project cognition
+
+AI Gateway can provide provider-agnostic request logging, token/cost/latency metadata, caching/rate limiting, and custom-provider routing.
+
+Two properties matter for serious experiments:
+
+- model-call cost/latency/error instrumentation can be centralized;
+- payload logging can be disabled while retaining metadata, which is useful when prompts/responses are sensitive.
+
+However Browser ChatGPT product interactions cannot simply be routed through our own AI Gateway, so this is mainly relevant to controlled API-based agent experiments.
+
+Do not let AI Gateway become a new central LLM router unless the experiment actually needs one.
+
+References:
+- https://developers.cloudflare.com/ai-gateway/observability/logging/
+- https://developers.cloudflare.com/ai-gateway/configuration/custom-providers/
+
+## Revised Cloudflare donor classification
+
+Cloudflare now appears to contain at least four distinct donor families:
+
+1. **Observation acquisition** — Browser Rendering, fetch, source APIs;
+2. **Observation transport/freshness** — Workers Caching, webhooks, Queues, R2 notifications;
+3. **Consistency/continuity** — Durable Objects, D1 sessions/bookmarks, event cursors;
+4. **Projection/capability surfaces** — Static Assets, HTML, stateless MCP, agent/browser bodies;
+5. **Experiment instrumentation** — Traces, Logs, Analytics Engine, AI Gateway.
+
+The useful research move is to select individual properties from these families, not to select a 'Cloudflare architecture'.
