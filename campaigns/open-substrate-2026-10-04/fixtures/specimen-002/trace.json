@@ -1,0 +1,35 @@
+{
+  "trace_id": "reflex-local-trace-001",
+  "record_kind": "reflex/borrowed-lens",
+  "owner_scope": {
+    "scope_kind": "place",
+    "scope_id": "reflex"
+  },
+  "relation": {
+    "kind": "borrowed-as-debugging-lens",
+    "to": {
+      "object_id": "browser-field-knot-001"
+    }
+  },
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Lokalny ślad Reflexu",
+      "summary": "Ten kontrolowany ślad należy do Reflexu i wskazuje cudzą rzecz bez przenoszenia jej do Reflexu ani przepisywania jej znaczenia."
+    },
+    "agent": {
+      "language": "en",
+      "title": "Reflex local trace",
+      "summary": "Relation-only fixture owned by Reflex that points to an existing foreign identity without owning or mutating the target."
+    }
+  },
+  "local_note": {
+    "language": "pl",
+    "text": "Dla Reflexu ten obcy węzeł jest interesujący jako soczewka do rozdzielania zachowanego śladu od późniejszej interpretacji. To znaczenie należy do Reflexu, nie do wskazywanej rzeczy."
+  },
+  "unfamiliar_record_payload": {
+    "strength_is_not_a_score": "tentative",
+    "shape": "one-way-footpath"
+  },
+  "execution": "none"
+}
