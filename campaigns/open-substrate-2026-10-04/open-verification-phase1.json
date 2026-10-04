@@ -1,0 +1,32 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "phase-1-generic-passive-adapter",
+  "manifest_objects": [
+    {
+      "id": "browser-field-knot-001",
+      "kind": "browser/field-knot",
+      "owner_page": "object-browser-field-knot-001-b539c04b72.html",
+      "technical_page": "object-browser-field-knot-001-b539c04b72-technical.html",
+      "raw_object": "raw/browser-field-knot-001-b539c04b72/object.json",
+      "slug": "browser-field-knot-001-b539c04b72",
+      "body": {
+        "status": "copied",
+        "relative": "raw/browser-field-knot-001-b539c04b72/body/body/note.md"
+      },
+      "provenance": [
+        {
+          "label": "Original English observation",
+          "status": "copied",
+          "href": "raw/browser-field-knot-001-b539c04b72/source-0/source/original-observation.en.md",
+          "reason": null,
+          "declared_hash": "4399ceb14d97d6c1c38da33c643a860b4781277d64763636cf35f846ebeefd07",
+          "verified": true,
+          "language": "en"
+        }
+      ],
+      "record_count": 2
+    }
+  ],
+  "result": "PASS",
+  "failures": []
+}
