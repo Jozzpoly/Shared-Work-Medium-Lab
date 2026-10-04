@@ -115,8 +115,10 @@ def record_summary(record: dict, relative_path: str):
     elif isinstance(local_note, str):
         texts.append(local_note)
 
-    if record.get("text"):
-        texts.append(str(record["text"]))
+    record_language = record.get("language")
+    original_text = record.get("text")
+    if original_text and record_language in (None, "pl"):
+        texts.append(str(original_text))
 
     # Preserve order while avoiding duplicate human-facing sentences.
     text = " — ".join(dict.fromkeys(x for x in texts if x)) or None
@@ -130,7 +132,7 @@ def record_summary(record: dict, relative_path: str):
         or record.get("kind")
     )
 
-    return label, text, semantic_hint
+    return label, text, semantic_hint, original_text, record_language
 
 
 def load_package(package_root: Path):
@@ -465,21 +467,43 @@ def build_package(package, out_root: Path, related_records):
 
     record_cards = []
     for item in raw_records:
-        label, text, semantic_hint = record_summary(
+        label, text, semantic_hint, original_text, record_language = record_summary(
             item["data"], item["relative"]
         )
-        semantic_html = (
-            f'<p class="muted">Deklarowana semantyka: <code>{esc(semantic_hint)}</code></p>'
+        text_html = f"<p>{esc(text)}</p>" if text else ""
+
+        original_notice = ""
+        original_detail = ""
+        if original_text and record_language not in (None, "pl"):
+            language_label = esc(record_language)
+            original_notice = (
+                f'<p class="muted">Oryginalna treść uczestnika jest w języku '
+                f'<code>{language_label}</code>.</p>'
+            )
+            original_detail = (
+                f'<p><strong>Oryginalna treść ({language_label})</strong></p>'
+                f'<p>{esc(original_text)}</p>'
+            )
+
+        semantic_detail = (
+            f'<p class="muted">Deklarowana semantyka: '
+            f'<code>{esc(semantic_hint)}</code></p>'
             if semantic_hint
             else ""
         )
-        text_html = f"<p>{esc(text)}</p>" if text else ""
+        detail_label = "Szczegóły i oryginał" if original_detail else "Szczegóły techniczne"
+
         record_cards.append(
             f"""<article class="note">
 <strong>{esc(label)}</strong>
 {text_html}
-{semantic_html}
+{original_notice}
+<details>
+<summary>{detail_label}</summary>
+{original_detail}
+{semantic_detail}
 <p><a href="{esc(item['site_href'])}">Surowy zapis JSON</a></p>
+</details>
 </article>"""
         )
 
@@ -522,6 +546,27 @@ def build_package(package, out_root: Path, related_records):
     owner_filename = f"object-{slug}.html"
     technical_filename = f"object-{slug}-technical.html"
 
+    content_sections = []
+    if body_result:
+        content_sections.append(f"<h2>Treść</h2>{body_html}")
+    if provenance_html:
+        content_sections.append(
+            f"<h2>Źródła</h2><ul>{''.join(provenance_html)}</ul>"
+        )
+    if record_cards:
+        content_sections.append(
+            "<h2>Powiązane lokalne i uczestnikowe zapisy</h2>"
+            + "".join(record_cards)
+        )
+
+    if content_sections:
+        content_html = "".join(content_sections)
+    else:
+        content_html = """<section class="card">
+<p>Ta rzecz deklaruje obecnie tylko tożsamość.</p>
+<p class="muted">Nie ma własnej treści, źródeł ani dodatkowych zapisów. To nie jest błąd — dokładniejsze dane pozostają dostępne w widoku technicznym.</p>
+</section>"""
+
     owner_body = f"""
 <nav><a href="index.html">← Open Substrate</a></nav>
 <header>
@@ -532,14 +577,8 @@ def build_package(package, out_root: Path, related_records):
 <section class="card">
 <strong>Tożsamość</strong>
 <p><code>{esc(object_id)}</code></p>
-<p class="muted">Deklarowany rodzaj: <code>{esc(kind if kind is not None else "brak")}</code></p>
 </section>
-<h2>Treść</h2>
-{body_html}
-<h2>Źródła</h2>
-<ul>{''.join(provenance_html) if provenance_html else '<li>Brak zadeklarowanych źródeł.</li>'}</ul>
-<h2>Powiązane lokalne i uczestnikowe zapisy</h2>
-{''.join(record_cards) if record_cards else '<p class="muted">Brak dodatkowych zapisów.</p>'}
+{content_html}
 <h2>Głębiej</h2>
 <p><a href="{technical_filename}">Dane techniczne / surowe</a></p>
 <footer>Nieznany typ nie jest tutaj traktowany jako globalne znaczenie ani jako błąd sam w sobie.</footer>
@@ -551,7 +590,8 @@ def build_package(package, out_root: Path, related_records):
 
     object_raw = package["object_path"].read_text(encoding="utf-8")
     technical_records = "".join(
-        f'<li><a href="{esc(item["site_href"])}">{esc(item["relative"])}</a></li>'
+        f'<li><a href="{esc(item["site_href"])}">'
+        f'{esc(item["source_package_slug"])} / {esc(item["relative"])}</a></li>'
         for item in raw_records
     )
     technical_body = f"""
@@ -651,7 +691,6 @@ def main():
             f"""<article class="card">
 <h2>{esc(title)}</h2>
 <p>{esc(summary)}</p>
-<p class="muted">Rodzaj deklarowany: <code>{esc(item['kind'] if item['kind'] is not None else "brak")}</code></p>
 <p><a href="{esc(item['owner_page'])}">Wejdź</a></p>
 </article>"""
         )
