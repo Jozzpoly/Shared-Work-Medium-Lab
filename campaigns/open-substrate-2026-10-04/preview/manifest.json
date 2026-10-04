@@ -1,0 +1,100 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "derived": true,
+  "discovery": "explicit package roots",
+  "objects": [
+    {
+      "id": "browser-field-knot-001",
+      "kind": "browser/field-knot",
+      "owner_page": "object-browser-field-knot-001-b539c04b72.html",
+      "technical_page": "object-browser-field-knot-001-b539c04b72-technical.html",
+      "raw_object": "raw/browser-field-knot-001-b539c04b72/object.json",
+      "slug": "browser-field-knot-001-b539c04b72",
+      "body": {
+        "status": "copied",
+        "relative": "raw/browser-field-knot-001-b539c04b72/body/body/note.md"
+      },
+      "provenance": [
+        {
+          "label": "Original English observation",
+          "status": "copied",
+          "href": "raw/browser-field-knot-001-b539c04b72/source-0/source/original-observation.en.md",
+          "reason": null,
+          "declared_hash": "4399ceb14d97d6c1c38da33c643a860b4781277d64763636cf35f846ebeefd07",
+          "verified": true,
+          "language": "en"
+        }
+      ],
+      "record_count": 4
+    },
+    {
+      "id": "minimal-shared-identity-004",
+      "kind": null,
+      "owner_page": "object-minimal-shared-identity-004-17d9c9a14f.html",
+      "technical_page": "object-minimal-shared-identity-004-17d9c9a14f-technical.html",
+      "raw_object": "raw/minimal-shared-identity-004-17d9c9a14f/object.json",
+      "slug": "minimal-shared-identity-004-17d9c9a14f",
+      "body": {},
+      "provenance": [],
+      "record_count": 0
+    }
+  ],
+  "records": [
+    {
+      "raw_href": "raw/browser-field-knot-001-b539c04b72/records/local/swm/relation.json",
+      "relative": "local/swm/relation.json",
+      "source_package_role": "object",
+      "source_package_slug": "browser-field-knot-001-b539c04b72",
+      "refs_href": "raw/browser-field-knot-001-b539c04b72/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "local/swm/relation.json",
+          "object_id": "browser-field-knot-001"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/browser-field-knot-001-b539c04b72/records/participants/browser/perspective.json",
+      "relative": "participants/browser/perspective.json",
+      "source_package_role": "object",
+      "source_package_slug": "browser-field-knot-001-b539c04b72",
+      "refs_href": "raw/browser-field-knot-001-b539c04b72/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "participants/browser/perspective.json",
+          "object_id": "browser-field-knot-001"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-ba71a0c7ead86037/trace.json",
+      "relative": "trace.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-ba71a0c7ead86037",
+      "refs_href": "raw/records-ba71a0c7ead86037/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "trace.json",
+          "object_id": "browser-field-knot-001"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-79a1025e78ca5ca9/trace.json",
+      "relative": "trace.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-79a1025e78ca5ca9",
+      "refs_href": "raw/records-79a1025e78ca5ca9/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "trace.json",
+          "object_id": "browser-field-knot-001"
+        }
+      ]
+    }
+  ]
+}

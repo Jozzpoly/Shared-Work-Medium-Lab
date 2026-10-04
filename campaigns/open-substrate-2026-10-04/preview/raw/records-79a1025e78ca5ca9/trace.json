@@ -1,0 +1,39 @@
+{
+  "trace_id": "combat-foreign-payload-note-001",
+  "record_kind": "combat/forensic-note",
+  "owner_scope": {
+    "scope_kind": "place",
+    "scope_id": "combat"
+  },
+  "relation": {
+    "kind": "contrasts-with",
+    "to": {
+      "object_id": "browser-field-knot-001"
+    }
+  },
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Notatka Combatu z obcym payloadem",
+      "summary": "Ta notatka celowo zawiera prawdziwe odwołanie Medium oraz obce dane, które przypadkiem używają tej samej nazwy pola."
+    },
+    "agent": {
+      "language": "en",
+      "title": "Combat note with foreign payload",
+      "summary": "Adversarial record containing one intended Medium reference and one unrelated external object_id field."
+    }
+  },
+  "local_note": {
+    "language": "pl",
+    "text": "Medium powinno rozpoznać zamierzone odwołanie do wspólnej rzeczy, ale nie powinno wymyślać semantyki dla surowego payloadu zewnętrznego narzędzia."
+  },
+  "foreign_payload": {
+    "producer": "external-simulator",
+    "snapshot": {
+      "object_id": "external-debug-object-77",
+      "position": [12.5, -3.0],
+      "note": "This object_id belongs to the external payload schema, not Medium."
+    }
+  },
+  "execution": "none"
+}

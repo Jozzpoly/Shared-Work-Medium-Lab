@@ -1,0 +1,38 @@
+{
+  "id": "browser-field-knot-001",
+  "kind": "browser/field-knot",
+  "identity_version": 1,
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Węzeł terenowy Browsera",
+      "summary": "Pasywna, celowo obca forma sprawdzająca, czy Medium potrafi zachować i pokazać rzecz, której typu wcześniej nie znało."
+    },
+    "agent": {
+      "language": "en",
+      "title": "Browser field knot",
+      "summary": "Passive adversarial fixture for unknown-form preservation, provenance, local appropriation and generic inspection."
+    }
+  },
+  "body": {
+    "href": "body/note.md",
+    "media_type": "text/markdown",
+    "execution": "none"
+  },
+  "provenance": [
+    {
+      "label": "Original English observation",
+      "href": "source/original-observation.en.md",
+      "language": "en",
+      "sha256": "4399ceb14d97d6c1c38da33c643a860b4781277d64763636cf35f846ebeefd07"
+    }
+  ],
+  "unfamiliar_payload": {
+    "braid": ["source", "local-trace", "participant-view"],
+    "shape": {
+      "name": "asymmetric-knot",
+      "turns": 3
+    },
+    "number_with_no_platform_meaning": 17
+  }
+}

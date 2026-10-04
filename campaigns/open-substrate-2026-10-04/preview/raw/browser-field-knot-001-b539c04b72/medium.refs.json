@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "record": "local/swm/relation.json",
+      "object_id": "browser-field-knot-001"
+    },
+    {
+      "record": "participants/browser/perspective.json",
+      "object_id": "browser-field-knot-001"
+    }
+  ]
+}

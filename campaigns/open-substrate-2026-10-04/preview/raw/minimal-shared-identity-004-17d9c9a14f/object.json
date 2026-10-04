@@ -1,0 +1,16 @@
+{
+  "id": "minimal-shared-identity-004",
+  "unfamiliar_payload": {
+    "opaque_number": 404,
+    "nested": {
+      "shape": "unclassified",
+      "notes": [
+        "No kind",
+        "No views",
+        "No body",
+        "No provenance",
+        "No attached records"
+      ]
+    }
+  }
+}
