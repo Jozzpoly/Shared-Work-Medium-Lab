@@ -1,7 +1,7 @@
 {
   "id": "quiet-presence-2026-10-04",
   "title": "Quiet Presence",
-  "question": "Can independent work streams be present, recoverable and enterable without becoming an attention tax or requiring the Owner to route every interaction?",
+  "question": "Can independent work streams remain present and recoverable while the Owner keeps sovereignty over attention — free to ignore, enter deeply, leave, and return without catch-up debt?",
   "laws_under_test": [
     "existence != surfacing != interruption",
     "addressability != co-presence",
@@ -9,5 +9,11 @@
     "value may be local rather than globally ranked",
     "artifacts may migrate without first-context rejection becoming a verdict",
     "participants may create local affordances instead of only consuming platform features"
+  ],
+  "attention_posture": [
+    "attention has a cost, but not every chosen cost is burden",
+    "the medium must not spend the Owner's attention on their behalf",
+    "deep voluntary participation is success, not a failure to minimize attention",
+    "leaving or ignoring something must not create mandatory catch-up debt"
   ]
 }
