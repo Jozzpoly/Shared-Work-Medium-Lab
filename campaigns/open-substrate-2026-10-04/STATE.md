@@ -412,9 +412,44 @@ Owner judgement can veto this PASS.
 
 ### Immediate frontier
 
-The next real evidence should be the Owner opening the exact snapshot normally and reacting freely.
+The routed Owner walk has now happened and produced meaningful behavioral evidence, but no explicit verbal experiential verdict.
 
-Do not begin Codex critique, staleness machinery, capability sandboxing, search/discovery work or another specimen before Owner judgement unless an independent regression appears.
+Do **not** continue synthetic specimen generation or generic-view polishing by inertia.
+
+The next research pressure should be split:
+
+1. **real-work admission** — one object created for another project's real goal enters Medium with truthful source/provenance and without a new core type;
+2. **ecological doorway** — only after real useful material exists, test a quiet path by which another workstream could discover it without Owner routing.
+
+Do not build semantic search, recommendation, feed/unread pressure or consumer-targeted prompts before the simpler doorway pressure actually fails.
+
+A strong current candidate source is live Browser work from Reflex / Combat / Feniks, but selection must prefer a durable real source. Do not manufacture a cross-project interpretation merely to populate Medium.
+
+## Owner behavioral walk — new evidence
+
+Durable record:
+
+- `OWNER_WALK_01_BEHAVIOR.md`
+
+Owner supplied a ~57 s silent recording of normal exploration of exact snapshot `2807bd2843167ecde3dabcc190ca82c6b961b206`.
+
+Observed behavior materially strengthens the interaction claim without changing the ecological claim:
+
+- Owner entered the rich object almost immediately;
+- expanded the passive body;
+- traversed SWM / Browser / Reflex / Combat records;
+- voluntarily entered raw JSON;
+- entered technical depth more than once;
+- repeatedly returned to the human-facing surface and root;
+- did not enter the identity-only control during the recorded walk.
+
+Interpretation boundary:
+
+> **progressive disclosure is sufficiently traversable that more Browser-led viewer polishing is not currently the highest-value move.**
+
+This is not an explicit verbal Owner product PASS and not independent ecological adoption.
+
+The walk also reinforces that exact/raw evidence must remain a first-class voluntary depth for this Owner rather than being removed in pursuit of a simpler-looking UI.
 
 ## Deferred frontiers
 
@@ -456,6 +491,6 @@ When Owner says `kontynuuj`:
 
 **Prepared return pressure:** fulfilled through Browser Walk 02.
 
-**Immediate next move:** Owner walk of exact snapshot `2807bd2843167ecde3dabcc190ca82c6b961b206`.
+**Immediate next move:** no further synthetic/view implementation. Identify one real, independently valuable work object with durable provenance and pressure-test **real-work admission**. Only then consider a quiet ecological doorway.
 
-Stop implementation until Owner judgement. If Owner reports a product/experiential FAIL, that becomes authoritative for the relevant surface even if CI and Browser checks remain green.
+Owner verbal judgement remains authoritative for product/experience claims if later supplied; the recorded walk is behavioral evidence, not a substitute for that judgement.
