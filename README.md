@@ -40,11 +40,19 @@ That suggested a broader hypothesis:
 
 ## Current direction
 
-The current research target is a **self-updating dual-use web medium**: an ordinary useful project surface for a human that is simultaneously structured enough for an agent to navigate almost like a rich API.
+The project now has two deliberately different active research lanes.
 
-The key question is whether a small set of stable, semantic, actionable web affordances can produce **emergent workflows that were not explicitly programmed**, reproducing deliberately the kind of capability amplification first observed in the Shinden browser experiment.
+**Controlled mechanism research:** MP-1 studies whether environmental structure can causally change agent behaviour/cost/capability under controlled conditions.
 
-The first bounded specimen is being developed in draft PR #3. It is evidence-gathering, not a frozen architecture.
+**Ecological field research:** Quiet Presence studies whether independently continuing work streams can remain present, recoverable and locally meaningful without turning the Owner into a router or turning attention into an inbox.
+
+The strongest long-term success criterion is stricter than “agents can use the medium”:
+
+> another agent, pursuing its **own project goal**, independently discovers that something in the medium helps and uses it instrumentally — not because it was asked to test, demonstrate, or validate the medium.
+
+This criterion must not be manufactured. The medium may remain unused for long periods.
+
+The exact active frontier, open draft PRs and current evidence are tracked in **docs/RESEARCH_STATE.md**.
 
 ## Public boundary
 
