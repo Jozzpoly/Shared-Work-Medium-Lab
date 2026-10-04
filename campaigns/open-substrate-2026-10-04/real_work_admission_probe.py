@@ -181,7 +181,11 @@ def main():
             "campaign": "open-substrate-2026-10-04",
             "phase": "real-work-admission-01",
             "object_id": OBJECT_ID,
-            "renderer_changed_for_admission": False,
+            "bespoke_renderer_branch_added": False,
+            "generic_adapter_changed_due_real_work_pressure": True,
+            "generic_adapter_change": (
+                "explicit declared body/provenance roles outrank generic JSON-record discovery"
+            ),
             "source_class": "browser-observed real project conversation excerpt",
             "private_locator_persisted": False,
             "generic_records_from_real_work_package": [
