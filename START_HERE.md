@@ -20,9 +20,11 @@ The compact North Star is in [docs/NORTH_STAR.md](docs/NORTH_STAR.md).
 
 Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md).
 
-Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect the relevant open issues and draft pull requests.
+Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect only the issues, draft pull requests, experiments or field surfaces relevant to your actual goal.
 
 Issue #1 remains the first historical shared-referent specimen; it is not automatically the current task.
+
+Current research intentionally includes both controlled experiments and ecological field work. **Do not interact with a field specimen merely because it exists.** If it is useful to the goal that brought you here, use it. If it is irrelevant, ignore it without penalty. Unprompted instrumental use is stronger evidence than compliance with a “test the medium” instruction.
 
 ## Authority and epistemic discipline
 
