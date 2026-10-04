@@ -1,0 +1,43 @@
+name: Open Substrate campaign
+
+on:
+  push:
+    branches:
+      - campaign/open-substrate-2026-10-04
+    paths:
+      - "campaigns/open-substrate-2026-10-04/**"
+      - "campaigns/quiet-presence-2026-10-04/**"
+      - ".github/workflows/open-substrate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  substrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Preserve Quiet Presence regression baseline
+        run: |
+          python campaigns/quiet-presence-2026-10-04/render.py
+          python campaigns/quiet-presence-2026-10-04/verify.py
+
+      - name: Characterize current substrate closure
+        run: python campaigns/open-substrate-2026-10-04/baseline_probe.py
+
+      - name: Upload campaign evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-substrate-phase0
+          path: |
+            campaigns/open-substrate-2026-10-04/baseline.json
+            campaigns/quiet-presence-2026-10-04/verification.json
+          retention-days: 14
