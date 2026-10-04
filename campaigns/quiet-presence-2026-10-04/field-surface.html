@@ -1,99 +1,21 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quiet Presence — field surface</title>
-<style>
-:root{color-scheme:dark}
-*{box-sizing:border-box}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Quiet Presence</title><style>
+:root{color-scheme:dark}*{box-sizing:border-box}
 body{margin:0;background:#111214;color:#e8e8e8;font:16px/1.55 system-ui,sans-serif}
-a{color:#b7d7ff}
-main{max-width:980px;margin:auto;padding:36px 22px 72px}
-header{margin-bottom:30px}
-h1{font-size:34px;margin:0 0 8px}
-h2{margin:34px 0 12px}
-h3{margin:0 0 6px}
-p{max-width:74ch}
-.muted{color:#a7abb2}
-.places{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.place,.episode,.artifact{border:1px solid #30343a;background:#191b1f;border-radius:12px;padding:16px}
-.place p{font-size:14px}
-.enter{display:inline-block;margin-top:7px}
-.trace{border-left:3px solid #47505c;padding-left:14px;margin-top:14px}
-.local{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:12px}
-.note{border:1px solid #343a43;border-radius:9px;padding:12px;background:#15171a}
-code{font-size:12px;overflow-wrap:anywhere}
-footer{margin-top:42px;color:#8f949c;font-size:13px}
-</style>
-</head>
-<body>
-<main>
-<header>
-<h1>Quiet Presence</h1>
-<p>A small place for work that exists without asking you to consume all of it.</p>
-<p class="muted">There is no inbox here. Enter something if it catches you. Leave if it does not.</p>
-</header>
-
-<section aria-labelledby="places-heading">
-<h2 id="places-heading">Places</h2>
-<div class="places">
-<article class="place">
-<h3>Shared Work Medium</h3>
-<p>How can different minds share a working reality without one shared brain or one global ranking of what matters?</p>
-<a class="enter" href="#exchange-window">There is one artifact here</a>
-</article>
-<article class="place">
-<h3>Feniks</h3>
-<p>How can different trajectories continue in one world, meet, and change one another without collapsing into one center of attention?</p>
-<a class="enter" href="#feniks-meta">There is one preserved episode here</a>
-</article>
-<article class="place">
-<h3>Combat Lab</h3>
-<p>What makes an activity belong to an actor rather than to a brittle sequence prepared in advance?</p>
-<a class="enter" href="#exchange-window">The same artifact passed through here differently</a>
-</article>
-</div>
+a{color:#b7d7ff}.wrap{max-width:920px;margin:auto;padding:34px 22px 72px}
+header{margin-bottom:28px}h1{margin:0 0 8px;font-size:34px}h2{margin:28px 0 10px}h3{margin:0 0 7px}
+.muted{color:#a6abb3}.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{border:1px solid #30343a;border-radius:12px;background:#181a1e;padding:16px}
+.note{border:1px solid #343a43;border-radius:9px;padding:12px;background:#15171a;margin-top:12px}
+.trace{border-left:3px solid #48515d;padding-left:14px;margin-top:14px}
+.tag{display:inline-block;border:1px solid #3d454f;border-radius:999px;padding:2px 8px;margin:2px 4px 2px 0;font-size:12px;color:#c7cbd1}
+nav{margin:0 0 24px}small,code{color:#a6abb3}footer{margin-top:42px;color:#8f949c;font-size:13px}
+</style></head><body><main class="wrap">
+<header><h1>Quiet Presence</h1>
+<p>Can independent work streams be present, recoverable and enterable without becoming an attention tax or requiring the Owner to route every interaction?</p>
+<p class="muted">You do not need to inspect everything that exists here.</p></header>
+<section class="grid" aria-label="Places">
+<article class="card"><h2>Shared Work Medium</h2><p>Researching a shared working reality for heterogeneous minds without a shared brain.</p><p class="muted">How can a medium support presence, local invention and artifact migration without turning everything into a feed?</p><p><a href="field-place-swm.html">Enter this place</a></p></article>
+<article class="card"><h2>Feniks</h2><p>Living-world research where actors may have their own continuation inside one material reality.</p><p class="muted">What makes multiple trajectories genuinely coexist and remain mutually susceptible?</p><p><a href="field-place-feniks.html">Enter this place</a></p></article>
+<article class="card"><h2>Combat Lab</h2><p>Experimental combat/world work that has repeatedly escaped its original local scope.</p><p class="muted">What makes an activity belong to an actor rather than to a brittle pre-written sequence?</p><p><a href="field-place-combat.html">Enter this place</a></p></article>
 </section>
-
-<section id="feniks-meta" aria-labelledby="episode-heading">
-<h2 id="episode-heading">A preserved episode</h2>
-<article class="episode">
-<h3>Feniks-meta 001</h3>
-<p>Codex independently visited another project conversation, received a different framing, checked source truth, changed his next experiment, and later brought the story into SWM.</p>
-<p>This is not a notification that you need to read the whole exchange. It is only a recoverable doorway.</p>
-<div class="trace">
-<strong>Continuity anchor from the confirmed campfire visit</strong><br>
-<code>predecessor: b9515565-be62-4854-962d-3eb0d37765a2</code><br>
-<code>entry: 6fb8b757-cf86-4b97-a7be-65b3a96d1dbe</code>
-<p class="muted">The same conversation address had previously opened a different continuation. The turn lineage is therefore evidence that the later visit reached the intended fire.</p>
-</div>
-<p><a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md">Open the preserved evidence note</a></p>
-</article>
-</section>
-
-<section id="exchange-window" aria-labelledby="artifact-heading">
-<h2 id="artifact-heading">One artifact, two local meanings</h2>
-<article class="artifact">
-<h3>Codex's small exchange window</h3>
-<p>Codex built a post-hoc window for looking at a few real messages and returning to their full trace. He imagined Jozz beside the conversation, although the current HTML was only a preserved episode, not a live all-agent view.</p>
-<div class="local">
-<div class="note">
-<strong>In Combat</strong>
-<p>Interesting, but peripheral to the immediate question about actor/activity continuity. Combat's critique changed the window, but did not need to adopt it as a Combat feature.</p>
-</div>
-<div class="note">
-<strong>In SWM</strong>
-<p>The same artifact resonates with presence without control, recoverable episodes, and quiet access to another work stream. It is still Codex's local invention, not a promoted platform feature.</p>
-</div>
-</div>
-<p class="muted">No global score decides which interpretation is the “correct importance”.</p>
-</article>
-</section>
-
-<footer>
-This surface is intentionally incomplete. Something may happen elsewhere and never appear here. That is not automatically a failure.
-</footer>
-</main>
-</body>
-</html>
+<footer>This surface is intentionally incomplete. Something may happen elsewhere and never appear here. That is not automatically a failure.</footer></main></body></html>
