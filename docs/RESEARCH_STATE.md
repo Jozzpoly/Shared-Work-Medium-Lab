@@ -392,6 +392,39 @@ The next evidence must come from **live use**:
 
 Do not add more schema by default. The next move is ecological exposure and observation.
 
+### Quiet Presence refinement — attention sovereignty + participant-owned perspective
+
+A fresh Feniks conversation corrected the campaign objective again.
+
+The goal is **not** to minimize Owner attention.
+
+The stronger target is:
+
+> **attention sovereignty** — the Owner may ignore, enter deeply, stay, leave, and return without the system spending attention on their behalf or creating mandatory catch-up debt.
+
+This matters because a long voluntary conversation can be valuable participation rather than avoidable burden.
+
+The Quiet Presence specimen was also structurally deepened:
+
+- the shared `codex-exchange-window` artifact exists once;
+- Codex's own interpretation now lives in `participants/codex/perspectives/`, not inside artifact identity;
+- Combat and SWM continue to own separate local `doors/*.json` references with different local meanings;
+- no central placements remain;
+- root remains informationally quiet and links only to places.
+
+GitHub Actions run `37196383970` passed the stronger gate:
+
+> **PASS — shared artifact identity, participant perspective, place-owned local meaning, quiet root, and deep trace remain distinct.**
+
+This is still structural evidence, not proof of product value.
+
+The next meaningful evidence should come from live use of **voluntary depth**:
+
+- can something remain safely ignored;
+- can someone choose to stay because it is worthwhile;
+- can they leave and return without catch-up debt;
+- can a new participant perspective or local door be added without rewriting shared truth.
+
 ### Ecological routing + inhabitant-created affordance
 
 Owner feedback on Live Ecological Specimen 001 exposed two stronger properties.
