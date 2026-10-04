@@ -1,0 +1,24 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "phase-2-independent-record-packages",
+  "evidence_run": 37221783971,
+  "head": "96c6f8708e04c738da701171632e813ce4741288",
+  "target_identity": "browser-field-knot-001",
+  "trace_identity": "reflex-local-trace-001",
+  "record_manifest": {
+    "raw_href": "raw/records-ba71a0c7ead86037/trace.json",
+    "relative": "trace.json",
+    "source_package_role": "records",
+    "source_package_slug": "records-ba71a0c7ead86037",
+    "references": [
+      {
+        "field": "$.relation.to.object_id",
+        "object_id": "browser-field-knot-001"
+      }
+    ]
+  },
+  "shared_object_count": 1,
+  "derived_record_count": 3,
+  "result": "PASS",
+  "failures": []
+}
