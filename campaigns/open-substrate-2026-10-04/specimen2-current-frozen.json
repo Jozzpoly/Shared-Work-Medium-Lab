@@ -1,0 +1,22 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "specimen": "specimen-002",
+  "mode": "current",
+  "target_identity": "browser-field-knot-001",
+  "trace_identity": "reflex-local-trace-001",
+  "observation": {
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "ValueError: package has no object.json: fixtures/specimen-002",
+    "rejected": true,
+    "missing_object_json_failure": true,
+    "specimen1_tree_before": "7fbac691b906e853eb803f9fd1b0cbb970e77dfbce442f29d6524a3571534e0a",
+    "specimen1_tree_after": "7fbac691b906e853eb803f9fd1b0cbb970e77dfbce442f29d6524a3571534e0a",
+    "specimen1_unchanged": true,
+    "partial_output_exists": true,
+    "partial_output_files": []
+  },
+  "evidence_run": 37221478502,
+  "result": "PASS",
+  "failures": []
+}
