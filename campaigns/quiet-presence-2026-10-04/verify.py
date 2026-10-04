@@ -78,12 +78,46 @@ def load_objects():
             for path in sorted((ROOT / "artifacts").glob("*.json"))
         )
     }
-    return campaign, places, doors_by_place, episodes, artifacts
+
+    participants = {}
+    perspectives_by_participant = {}
+    participants_root = ROOT / "participants"
+    if participants_root.exists():
+        for participant_file in sorted(participants_root.glob("*/participant.json")):
+            participant = read_json(participant_file)
+            participant_id = participant["id"]
+            participants[participant_id] = participant
+            perspectives = []
+            perspective_dir = participant_file.parent / "perspectives"
+            if perspective_dir.exists():
+                for perspective_file in sorted(perspective_dir.glob("*.json")):
+                    perspective = read_json(perspective_file)
+                    perspective["_source_path"] = str(perspective_file.relative_to(ROOT))
+                    perspectives.append(perspective)
+            perspectives_by_participant[participant_id] = perspectives
+
+    return (
+        campaign,
+        places,
+        doors_by_place,
+        episodes,
+        artifacts,
+        participants,
+        perspectives_by_participant,
+    )
 
 
 def main():
     failures = []
-    campaign, places, doors_by_place, episodes, artifacts = load_objects()
+    (
+        campaign,
+        places,
+        doors_by_place,
+        episodes,
+        artifacts,
+        participants,
+        perspectives_by_participant,
+    ) = load_objects()
 
     # The campaign must not smuggle global ranking/attention fields into any local object.
     walk_forbidden(campaign, failures, "$.campaign")
@@ -97,6 +131,22 @@ def main():
             failures.append(
                 f"artifact {artifact_id} contains central placements; "
                 "local meanings must live in place-owned door files"
+            )
+        if "author_claim" in artifact:
+            failures.append(
+                f"artifact {artifact_id} contains participant interpretation; "
+                "participant claims must live in participant-owned perspectives"
+            )
+
+    for participant_id, participant in participants.items():
+        walk_forbidden(participant, failures, f"$.participants.{participant_id}")
+        for index, perspective in enumerate(
+            perspectives_by_participant.get(participant_id, [])
+        ):
+            walk_forbidden(
+                perspective,
+                failures,
+                f"$.participants.{participant_id}.perspectives[{index}]",
             )
     for place_id, doors in doors_by_place.items():
         for index, door in enumerate(doors):
@@ -118,6 +168,21 @@ def main():
 
             if not door.get("local_note"):
                 failures.append(f"{source}: missing local_note")
+
+    # Participant-owned perspectives resolve without becoming artifact identity.
+    for participant_id, perspectives in perspectives_by_participant.items():
+        for perspective in perspectives:
+            kind = perspective.get("target_kind")
+            target_id = perspective.get("target_id")
+            source = perspective["_source_path"]
+            if kind == "artifact" and target_id not in artifacts:
+                failures.append(f"{source}: unknown artifact {target_id}")
+            elif kind == "episode" and target_id not in episodes:
+                failures.append(f"{source}: unknown episode {target_id}")
+            elif kind not in {"artifact", "episode"}:
+                failures.append(f"{source}: unsupported target_kind {kind}")
+            if not perspective.get("text"):
+                failures.append(f"{source}: missing perspective text")
 
     # Concrete campaign claim: one shared artifact has two independent local meanings.
     exchange_id = "codex-exchange-window"
@@ -180,10 +245,11 @@ def main():
         ])
 
     for artifact in artifacts.values():
-        forbidden_root_markers.extend([
-            artifact["title"],
-            artifact.get("author_claim"),
-        ])
+        forbidden_root_markers.append(artifact["title"])
+
+    for perspectives in perspectives_by_participant.values():
+        for perspective in perspectives:
+            forbidden_root_markers.append(perspective.get("text"))
 
     for marker in [x for x in forbidden_root_markers if x]:
         if marker in root_text:
@@ -217,10 +283,17 @@ def main():
         "places": sorted(places),
         "episodes": sorted(episodes),
         "artifacts": sorted(artifacts),
+        "participants": sorted(participants),
+        "participant_perspective_count": sum(
+            len(items) for items in perspectives_by_participant.values()
+        ),
         "pages": [p.name for p in html_files],
         "exchange_window_local_meanings": refs,
         "central_artifact_placements_present": any(
             "placements" in artifact for artifact in artifacts.values()
+        ),
+        "artifact_participant_claims_present": any(
+            "author_claim" in artifact for artifact in artifacts.values()
         ),
         "root_internal_links": root_internal,
         "result": "PASS" if not failures else "FAIL",
