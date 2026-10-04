@@ -1,0 +1,21 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "specimen": "specimen-003",
+  "mode": "current-recursive-reference-inference",
+  "evidence_run": 37221964353,
+  "head": "4f2752f487903d6c03db00b2332a672ba098a71b",
+  "observation": {
+    "returncode": 1,
+    "error": "trace.json: unresolved object identity 'external-debug-object-77'",
+    "rejected": true,
+    "foreign_payload_misclassified_as_reference": true,
+    "specimen1_unchanged": true,
+    "specimen2_unchanged": true,
+    "specimen1_tree_before": "7fbac691b906e853eb803f9fd1b0cbb970e77dfbce442f29d6524a3571534e0a",
+    "specimen1_tree_after": "7fbac691b906e853eb803f9fd1b0cbb970e77dfbce442f29d6524a3571534e0a",
+    "specimen2_tree_before": "900eb3e9be118b7932e15d1c56d906805bf25c71af59ad607562aa90dbc91ba4",
+    "specimen2_tree_after": "900eb3e9be118b7932e15d1c56d906805bf25c71af59ad607562aa90dbc91ba4"
+  },
+  "result": "PASS",
+  "failures": []
+}
