@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html
 import json
+import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -64,6 +65,7 @@ def page(title, body):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>{esc(title)}</title>
 <style>{CSS}</style>
 </head>
@@ -182,6 +184,30 @@ def main():
                 f"Artifact {artifact['id']} references unknown origin episode "
                 f"{artifact['origin_episode']}"
             )
+        body_href = artifact.get("body_href")
+        if body_href:
+            relative = Path(body_href)
+            body_file = (ROOT / relative).resolve()
+            body_root = (ROOT / "bodies").resolve()
+            if (
+                relative.is_absolute()
+                or ".." in relative.parts
+                or not body_file.is_relative_to(body_root)
+                or body_file.parent == body_root
+            ):
+                raise SystemExit(f"Artifact {artifact['id']} body must be inside bodies/<artifact>/")
+            if not body_file.is_file():
+                raise SystemExit(f"Artifact {artifact['id']} body is missing: {body_href}")
+            shutil.copytree(body_file.parent, OUT / relative.parent, dirs_exist_ok=True)
+            # Public field snapshots and generated-site pages use different names.
+            # Adapt the wrapper's return door; preserve original fragments/data byte-for-byte.
+            body_text = body_file.read_text(encoding="utf-8")
+            adapted = body_text.replace(
+                'data-medium-return href="../../field-',
+                'data-medium-return href="../../',
+            )
+            if adapted != body_text:
+                (OUT / relative).write_bytes(adapted.encode("utf-8"))
 
     for place_id, doors in doors_by_place.items():
         for door in doors:
@@ -375,6 +401,10 @@ def main():
 <p>{esc(availability.get("status", "unknown"))}</p>
 <small>{esc(availability.get("note", ""))}</small>
 </div>"""
+        if a.get("body_href"):
+            availability_html += (
+                f'<p><a href="{esc(a["body_href"])}">Open the preserved window</a></p>'
+            )
 
         body = f"""
 {home_link()}

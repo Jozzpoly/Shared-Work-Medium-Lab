@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
@@ -247,17 +248,16 @@ def main():
             f"expected {expected_pages} generated pages, got {len(html_files)}"
         )
 
-    known_pages = {p.name for p in html_files}
-    for page in html_files:
+    for page in sorted(SITE.rglob("*.html")):
         parser = Links()
         parser.feed(page.read_text(encoding="utf-8"))
         for href in parser.hrefs:
             parsed = urlparse(href)
-            if parsed.scheme or href.startswith("../") or href.startswith("../../"):
+            if parsed.scheme or parsed.netloc:
                 continue
-            target = parsed.path or page.name
-            if target and target not in known_pages:
-                failures.append(f"{page.name}: unresolved internal link {href}")
+            target = (page.parent / parsed.path).resolve() if parsed.path else page.resolve()
+            if not target.is_relative_to(SITE.resolve()) or not target.is_file():
+                failures.append(f"{page.relative_to(SITE)}: unresolved internal link {href}")
 
     # Root must remain informationally quiet.
     root_text = (SITE / "index.html").read_text(encoding="utf-8")
@@ -351,6 +351,37 @@ def main():
             failures.append(
                 "public exchange-window page hides canonical body availability status"
             )
+    if exchange and exchange.get("body_href"):
+        field_links = Links()
+        field_links.feed(field_artifact.read_text(encoding="utf-8"))
+        if exchange["body_href"] not in field_links.hrefs:
+            failures.append("public exchange-window page does not open its recovered body")
+
+        body_dir = (ROOT / exchange["body_href"]).parent
+        recovery = read_json(body_dir / "recovery.json")
+        for filename, expected_hash in recovery["originalFilesSha256"].items():
+            preserved = body_dir / filename
+            if not preserved.is_file() or hashlib.sha256(preserved.read_bytes()).hexdigest() != expected_hash:
+                failures.append(f"original window source changed after recovery: {filename}")
+
+        original_messages = {}
+        for filename in ("COMBAT_EXCHANGE_1.json", "COMBAT_EXCHANGE_2.json", "GUIDE_EXCHANGE.json"):
+            record = read_json(body_dir / filename)
+            for turn in record.get("returnedTurns", record.get("turns", [])):
+                for item in turn["items"]:
+                    if item["type"] not in {"userMessage", "agentMessage"}:
+                        continue
+                    text = item.get("text")
+                    if text is None:
+                        text = "\n".join(c["text"] for c in item.get("content", []) if c.get("type") == "text")
+                    original_messages[item["id"]] = (turn["id"], text)
+        recovered_messages = read_json(body_dir / "messages.json")
+        recovered_ids = [message["messageId"] for message in recovered_messages]
+        if len(recovered_ids) != len(set(recovered_ids)) or set(recovered_ids) != set(original_messages):
+            failures.append("full window trace omits or duplicates original messages")
+        for message in recovered_messages:
+            if original_messages.get(message["messageId"]) != (message["turnId"], message["text"]):
+                failures.append(f"window message is not exact: {message['messageId']}")
 
     report = {
         "campaign": campaign["id"],

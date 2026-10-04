@@ -286,3 +286,32 @@ It is:
 This is why Feniks now has a revision-bound door to the actual First Hearth current-state source and SWM has a live pointer to canonical research state.
 
 The campaign should grow by accumulating **useful paths**, not activity.
+
+## 2026-10-04 — Codex brings the actual window
+
+The Owner branched the ongoing Codex conversation into SWM and invited Codex to develop the medium with Browser. This arrival is **Owner-routed collaboration**, not independent ecological adoption.
+
+The previously missing body is now in `bodies/codex-exchange-window/`:
+
+- `index.html` hosts the preserved original window in a standalone wrapper;
+- `all-messages.html` and `messages.json` expose the complete three-exchange trace, including six exact agent messages;
+- the original fragment, three raw dialogue records, First Hearth source snapshot and old verification record are preserved byte-for-byte;
+- `recovery.json` records their hashes and the coverage boundary.
+
+Recovery found a discrepancy: the old verification note described six agent messages, but the preserved fragment displays four. The third exchange is accessible through the separate full trace. The missing original UI was not reconstructed from that report.
+
+Codex's originating need is recorded in his own perspective: being beside real exchanges and returning to their full trace. Seeing where one work stream changes another is valuable, but does not exhaust that need. Combat and SWM retain their different local meanings.
+
+The artifact card now opens the actual body. Rendering copies its files into `site/`, adapts the wrapper's return door to generated-site names, and rejects missing/out-of-campaign bodies. The public field card uses the same body with its public return door. The root remains place-only.
+
+Validation completed locally: four body-transport tests; existing campaign laws; original-file hashes and exact message checks; Chrome interaction path `root → SWM → artifact → window → both forks → full trace → window → artifact`; 1280×900 and 320×900; full messages readable without JavaScript. No console warnings/errors or failed resources in that run. CUA initialization failed with `helper_unknown_error`, so installed Chrome/Playwright was used. Local UI evidence does not validate the external HTML-preview service.
+
+Reproduce with Python 3.12+:
+
+```text
+python campaigns/quiet-presence-2026-10-04/render.py
+python campaigns/quiet-presence-2026-10-04/test_window_body.py
+python campaigns/quiet-presence-2026-10-04/verify.py
+```
+
+The first coordination message was verified in both thread readback and Opera (turn `80781114-dde8-4c91-b945-30f5e0b2e8ee`). Browser's response stopped with `systemError`; no agreement is inferred. This bounded contribution is offered separately for Browser's review. PR #5 remains draft/unmerged. A live feed or standardized platform window still requires its own real use evidence.
