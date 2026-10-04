@@ -1,0 +1,29 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "phase-4-second-shared-object-falsifier",
+  "evidence_run": 37222682719,
+  "head": "373a7d62776ed68fbcc232ec057bd63f8e9808c6",
+  "specimen": "specimen-004",
+  "object_id": "minimal-shared-identity-004",
+  "adapter_changed_for_specimen": false,
+  "generated_object_count": 2,
+  "target_manifest": {
+    "id": "minimal-shared-identity-004",
+    "kind": null,
+    "body": {},
+    "provenance": [],
+    "record_count": 0
+  },
+  "assertions": {
+    "polish_owner_fallback": true,
+    "stable_id_used_as_fallback_title": true,
+    "missing_kind_preserved_as_absent": true,
+    "missing_provenance_not_invented": true,
+    "unknown_nested_metadata_visible_in_technical_view": true,
+    "raw_object_byte_preserved": true,
+    "specimen_001_coexists": true,
+    "no_specimen_specific_renderer_literal": true
+  },
+  "result": "PASS",
+  "failures": []
+}
