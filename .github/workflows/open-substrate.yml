@@ -57,6 +57,15 @@ jobs:
       - name: Test second radically different shared object
         run: python campaigns/open-substrate-2026-10-04/specimen4_probe.py
 
+      - name: Render isolated interaction preview snapshot
+        run: |
+          python campaigns/open-substrate-2026-10-04/open_render.py \
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-001 \
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-002 \
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-003 \
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-004 \
+            --out campaigns/open-substrate-2026-10-04/preview-site
+
       - name: Upload campaign evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,5 +82,6 @@ jobs:
             campaigns/open-substrate-2026-10-04/specimen4-current.json
             campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
+            campaigns/open-substrate-2026-10-04/preview-site/
             campaigns/quiet-presence-2026-10-04/verification.json
           retention-days: 14
