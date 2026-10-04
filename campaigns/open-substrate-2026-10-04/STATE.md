@@ -451,6 +451,83 @@ This is not an explicit verbal Owner product PASS and not independent ecological
 
 The walk also reinforces that exact/raw evidence must remain a first-class voluntary depth for this Owner rather than being removed in pursuit of a simpler-looking UI.
 
+## Real-work admission 01 — PASS after one real substrate correction
+
+Durable evidence:
+
+- `REAL_WORK_ADMISSION_01_RESULT.md`
+- `real-work-admission-01-hidden-fail.json`
+- `real_work_admission_probe.py`
+- `real-work/reflex-debug-truth-2026-10-04/`
+- `CODEX_READY_SEAM_2026-10-04.md`
+
+Real source class:
+
+> Browser-observed fragment of live Reflex_Brain research, created for Reflex's own forensic/debug-observability work rather than for Medium.
+
+Shared identity:
+
+`reflex-debug-truth-audit-2026-10-04`
+
+The object has no declared `kind`.
+
+The public package preserves:
+
+- a lexical reconstruction of a contiguous rendered conversation fragment;
+- explicit source project/conversation title;
+- capture method and excerpt boundary;
+- body hash;
+- fidelity warning.
+
+It does not persist the private conversation locator and does not claim official ChatGPT export or backend byte identity.
+
+### Real pressure found a hidden FAIL
+
+Initial run `37228858200` nominally passed, but artifact inspection found:
+
+`source/capture.json`
+
+was simultaneously treated as explicit provenance **and** admitted to global generic `manifest.records` because the adapter discovered arbitrary `*.json` files as records.
+
+That hidden failure is frozen in:
+
+`real-work-admission-01-hidden-fail.json`
+
+The generic correction is now:
+
+> explicit body/provenance roles outrank generic JSON-record discovery.
+
+This did not add a Reflex-specific renderer branch or new relation ontology.
+
+A stronger probe now fails if explicit real-work provenance leaks into generic record inventory.
+
+### Final verified result
+
+Run:
+
+`37229120270`
+
+Head:
+
+`1943f9543c267e19361d353613aee12ba8ffbeae`
+
+Artifact:
+
+`11313332307`
+
+PASS demonstrates:
+
+- real object admitted without `kind`;
+- no bespoke renderer branch;
+- one general adapter correction was required because of real-work pressure;
+- body/provenance integrity preserved;
+- private locator absent from public package/render;
+- no generic records leaked from the real-work package;
+- no manufactured Feniks/Combat meaning;
+- prior regression/falsification chain remains green.
+
+This is **not** ecological adoption.
+
 ## Deferred frontiers
 
 After the second shared-object falsifier, reassess rather than mechanically progressing.
@@ -491,6 +568,20 @@ When Owner says `kontynuuj`:
 
 **Prepared return pressure:** fulfilled through Browser Walk 02.
 
-**Immediate next move:** no further synthetic/view implementation. Identify one real, independently valuable work object with durable provenance and pressure-test **real-work admission**. Only then consider a quiet ecological doorway.
+**Immediate next move:** campaign is **Codex-ready**.
+
+Do not add another synthetic specimen or polish the viewer by inertia.
+
+Before implementing a quiet ecological doorway, invite Codex to independently attack the real-work admission seam recorded in `CODEX_READY_SEAM_2026-10-04.md`.
+
+Codex review is not an approval gate. It should try to falsify the object/record choice, provenance boundary, explicit-role precedence correction, and the proposed move toward non-push discoverability.
+
+After that review, deliberately decide whether the next pressure is:
+
+- a smaller correction exposed by Codex;
+- a second genuinely different real-work admission;
+- or the first quiet ecological doorway.
+
+Do not build search/recommendation/feed before a smaller doorway pressure fails.
 
 Owner verbal judgement remains authoritative for product/experience claims if later supplied; the recorded walk is behavioral evidence, not a substitute for that judgement.
