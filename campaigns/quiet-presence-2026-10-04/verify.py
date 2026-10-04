@@ -58,8 +58,9 @@ def main():
             failures.append(f"{episode['id']} continuity anchor collapsed predecessor and entry")
 
     html_files = sorted(SITE.glob("*.html"))
-    if len(html_files) != 3:
-        failures.append(f"expected 3 generated pages, got {len(html_files)}")
+    expected_pages = 1 + len(world["places"]) + len(world["episodes"]) + len(world["artifacts"])
+    if len(html_files) != expected_pages:
+        failures.append(f"expected {expected_pages} generated pages, got {len(html_files)}")
 
     known_pages = {p.name for p in html_files}
     for page in html_files:
@@ -73,7 +74,22 @@ def main():
             if target and target not in known_pages:
                 failures.append(f"{page.name}: unresolved internal link {href}")
 
-    # Quiet surface: no attention-accounting UI vocabulary in rendered page copy.
+    # Quiet root: deep trace exists, but must not be injected into the root surface.
+    root_text = (SITE / "index.html").read_text(encoding="utf-8")
+    deep_markers = []
+    for episode in world["episodes"]:
+        deep_markers.extend([
+            episode["title"],
+            episode.get("continuity_anchor", {}).get("predecessor_turn"),
+            episode.get("continuity_anchor", {}).get("confirmed_entry_turn"),
+        ])
+    for artifact in world["artifacts"]:
+        deep_markers.append(artifact["title"])
+        deep_markers.append(artifact["author_claim"])
+    for marker in [m for m in deep_markers if m]:
+        if marker in root_text:
+            failures.append(f"deep trace leaked into root surface: {marker}")
+
     rendered = "\n".join(p.read_text(encoding="utf-8").lower() for p in html_files)
     forbidden_ui = ["mark as read", "you must read", "requires your attention"]
     for phrase in forbidden_ui:
