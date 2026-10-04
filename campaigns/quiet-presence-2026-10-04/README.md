@@ -54,3 +54,33 @@ Do not promote Codex's window into a canonical SWM feature just because it inspi
 The window remains Codex's local artifact.
 
 This campaign studies the **environmental properties around it**.
+
+
+## First live apparatus result
+
+GitHub Actions run `37194260856` failed the first verifier because the rendered copy contained the phrase:
+
+> "Preserved events, not notifications."
+
+The specimen itself was deterministic. The failure came from a naive lexical rule that treated the word `notifications` as equivalent to attention-demanding UI.
+
+That gate was corrected rather than editing the product copy to satisfy it.
+
+The verifier now checks structural attention-pressure signals such as global ranking / unread / notification-count / requires-attention fields, while allowing ordinary language to discuss those concepts.
+
+Run `37194311702` then passed:
+
+- deterministic render;
+- 3 generated pages;
+- one episode across three places;
+- Codex's exchange window preserved as one artifact with different Combat and SWM local interpretations;
+- no global importance/relevance score;
+- continuity anchor preserved separately from conversation address;
+- all internal links resolve;
+- no verifier failures.
+
+Scoped result:
+
+> **PASS — the first Quiet Presence specimen can represent local value, recoverable episodes and continuity anchors without introducing an inbox/global-ranking model.**
+
+This does not yet prove that the surface feels quiet, useful, or worth returning to. That requires live human/agent use rather than more static checks.
