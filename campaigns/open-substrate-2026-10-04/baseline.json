@@ -1,0 +1,54 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "baseline-characterization",
+  "source_specimen": "campaigns/quiet-presence-2026-10-04",
+  "observations": {
+    "known_quiet_presence": {
+      "render": {
+        "returncode": 0,
+        "stdout": "Generated 6 pages.\n",
+        "stderr": ""
+      },
+      "verify": {
+        "returncode": 0,
+        "stdout": "{\n  \"campaign\": \"quiet-presence-2026-10-04\",\n  \"places\": [\n    \"combat\",\n    \"feniks\",\n    \"swm\"\n  ],\n  \"episodes\": [\n    \"feniks-meta-001\"\n  ],\n  \"artifacts\": [\n    \"codex-exchange-window\"\n  ],\n  \"sources\": [\n    \"first-hearth-current-state-pr123\",\n    \"swm-live-research-state\"\n  ],\n  \"participants\": [\n    \"codex\"\n  ],\n  \"participant_perspective_count\": 1,\n  \"pages\": [\n    \"artifact-codex-exchange-window.html\",\n    \"episode-feniks-meta-001.html\",\n    \"index.html\",\n    \"place-combat.html\",\n    \"place-feniks.html\",\n    \"place-swm.html\"\n  ],\n  \"exchange_window_local_meanings\": {\n    \"combat\": \"Useful critique target, but not central to Combat's immediate activity-continuity question.\",\n    \"swm\": \"Potentially high local relevance as a quiet-presence / recoverable-episode affordance. Not yet a platform feature.\"\n  },\n  \"central_artifact_placements_present\": false,\n  \"artifact_participant_claims_present\": false,\n  \"root_internal_links\": [\n    \"place-combat.html\",\n    \"place-feniks.html\",\n    \"place-swm.html\"\n  ],\n  \"result\": \"PASS\",\n  \"failures\": []\n}\nQUIET PRESENCE SPECIMEN PASS: shared artifact identity, place-owned local meaning, quiet root, and deep trace remain distinct.\n",
+        "stderr": ""
+      },
+      "passes": true
+    },
+    "unknown_standalone_family": {
+      "render_returncode": 0,
+      "title_appears_in_generated_view": false,
+      "observation": "silently_not_discovered"
+    },
+    "unknown_local_relation_target": {
+      "render": {
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "places/swm/doors/baseline-unknown.json has unsupported target_kind organism\n"
+      },
+      "accepted": false,
+      "mentions_unsupported_target_kind": true
+    },
+    "unknown_participant_target": {
+      "render": {
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "participants/codex/perspectives/baseline-unknown.json has unsupported target_kind organism\n"
+      },
+      "accepted": false,
+      "mentions_unsupported_target_kind": true
+    },
+    "unknown_field_on_known_object": {
+      "render_returncode": 0,
+      "source_field_survives": true,
+      "field_visible_in_generated_view": false
+    },
+    "current_owner_surface_language": {
+      "render_returncode": 0,
+      "html_lang_en": true,
+      "contains_english_entry_label": true,
+      "contains_polish_entry_label": false
+    }
+  }
+}
