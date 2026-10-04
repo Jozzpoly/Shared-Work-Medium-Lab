@@ -147,6 +147,10 @@ def main():
                 f"artifact {artifact_id} contains participant interpretation; "
                 "participant claims must live in participant-owned perspectives"
             )
+        if not artifact.get("body_href") and not artifact.get("body_availability"):
+            failures.append(
+                f"artifact {artifact_id} exposes neither a body nor an explicit availability status"
+            )
 
     for source_id, source in sources.items():
         walk_forbidden(source, failures, f"$.sources.{source_id}")
@@ -300,6 +304,42 @@ def main():
     for phrase in ["mark as read", "you must read", "requires your attention"]:
         if phrase in rendered:
             failures.append(f"attention-demand language leaked into specimen: {phrase}")
+
+    # Public field snapshot must preserve core canonical truths.
+    field_root = ROOT / "field-surface.html"
+    field_feniks = ROOT / "field-place-feniks.html"
+    field_artifact = ROOT / "field-artifact-codex-exchange-window.html"
+
+    if not field_root.exists():
+        failures.append("public field root is missing")
+    else:
+        field_root_text = field_root.read_text(encoding="utf-8")
+        if campaign["question"] not in field_root_text:
+            failures.append("public field root does not match current campaign question")
+        for marker in [x for x in forbidden_root_markers if x]:
+            if marker in field_root_text:
+                failures.append(
+                    f"deep trace leaked into public field root: {marker}"
+                )
+
+    if "first-hearth-current-state-pr123" in sources:
+        source_href = sources["first-hearth-current-state-pr123"]["href"]
+        if not field_feniks.exists():
+            failures.append("public Feniks field page is missing")
+        elif source_href not in field_feniks.read_text(encoding="utf-8"):
+            failures.append(
+                "public Feniks field page does not expose canonical First Hearth source door"
+            )
+
+    exchange = artifacts.get("codex-exchange-window")
+    if exchange and exchange.get("body_availability"):
+        status = exchange["body_availability"].get("status")
+        if not field_artifact.exists():
+            failures.append("public exchange-window field page is missing")
+        elif status and status not in field_artifact.read_text(encoding="utf-8"):
+            failures.append(
+                "public exchange-window page hides canonical body availability status"
+            )
 
     report = {
         "campaign": campaign["id"],
