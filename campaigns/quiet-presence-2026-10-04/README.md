@@ -84,3 +84,58 @@ Scoped result:
 > **PASS — the first Quiet Presence specimen can represent local value, recoverable episodes and continuity anchors without introducing an inbox/global-ranking model.**
 
 This does not yet prove that the surface feels quiet, useful, or worth returning to. That requires live human/agent use rather than more static checks.
+
+
+## Structural correction — local ownership instead of one central world manifest
+
+The first specimen stored places, episodes, artifacts and all local placements in one `world.json`.
+
+That contradicted an important live finding:
+
+> a participant/place should be able to adopt or reinterpret an existing artifact locally without rewriting the artifact or a central global registry.
+
+The campaign now uses:
+
+```text
+campaign.json
+places/
+  swm/place.json
+  swm/doors/codex-exchange-window.json
+  combat/place.json
+  combat/doors/codex-exchange-window.json
+  feniks/place.json
+  feniks/doors/feniks-meta-001.json
+episodes/
+  feniks-meta-001.json
+artifacts/
+  codex-exchange-window.json
+```
+
+The artifact exists once.
+
+Combat and SWM independently point to it through place-owned door files, each with its own local note.
+
+Run `37195413725` passed this stronger gate:
+
+- no central artifact placements remain;
+- Combat and SWM both reference the same artifact identity;
+- their local meanings stay distinct;
+- the root links only to places;
+- deep trace remains behind explicit entry;
+- all generated links resolve.
+
+The obsolete central `world.json` was removed after this PASS.
+
+## Public-surface version lesson
+
+During live Opera inspection, opening the branch-based HTML-preview URL briefly produced content from a different page while the address bar still showed the root URL.
+
+The repository file itself was correct.
+
+Opening the same root through an **immutable commit-SHA URL** produced the expected page.
+
+Scoped finding:
+
+> moving branch addresses are convenient for discovery, but exact field evidence should use immutable revision-bound URLs when identity matters.
+
+Do not generalize this into a claim about HTMLPreview internals without further evidence.
