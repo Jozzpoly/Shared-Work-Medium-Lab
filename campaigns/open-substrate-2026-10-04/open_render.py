@@ -133,27 +133,14 @@ def record_summary(record: dict, relative_path: str):
     return label, text, semantic_hint
 
 
-def find_object_references(value, path="$"):
-    refs = []
-    if isinstance(value, dict):
-        object_id = value.get("object_id")
-        if isinstance(object_id, str) and object_id.strip():
-            refs.append((f"{path}.object_id", object_id))
-        for key, child in value.items():
-            refs.extend(find_object_references(child, f"{path}.{key}"))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
-            refs.extend(find_object_references(child, f"{path}[{index}]"))
-    return refs
-
-
 def load_package(package_root: Path):
     package_root = package_root.resolve()
     object_path = package_root / "object.json"
+    refs_path = package_root / "medium.refs.json"
 
     attached = []
     for item_path in sorted(package_root.rglob("*.json")):
-        if item_path == object_path:
+        if item_path in {object_path, refs_path}:
             continue
         relative = item_path.relative_to(package_root).as_posix()
         attached.append(
@@ -163,6 +150,17 @@ def load_package(package_root: Path):
                 "data": read_json(item_path),
             }
         )
+
+    refs = None
+    if refs_path.is_file():
+        refs = read_json(refs_path)
+        if refs.get("version") != 1:
+            raise ValueError(
+                f"unsupported medium.refs.json version in {package_root}: "
+                f"{refs.get('version')!r}"
+            )
+        if not isinstance(refs.get("links"), list):
+            raise ValueError(f"medium.refs.json links must be a list: {package_root}")
 
     if object_path.is_file():
         obj = read_json(object_path)
@@ -177,6 +175,8 @@ def load_package(package_root: Path):
             "id": object_id,
             "kind": obj.get("kind"),
             "attached": attached,
+            "refs_path": refs_path if refs_path.is_file() else None,
+            "refs": refs,
         }
 
     if not attached:
@@ -192,6 +192,8 @@ def load_package(package_root: Path):
         "id": None,
         "kind": None,
         "attached": attached,
+        "refs_path": refs_path if refs_path.is_file() else None,
+        "refs": refs,
     }
 
 
@@ -207,6 +209,72 @@ def record_package_slug(package):
     return f"records-{digest.hexdigest()[:16]}"
 
 
+def normalize_record_path(value: str):
+    relative = Path(value)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise ValueError(f"reference record path escapes package boundary: {value}")
+    return relative.as_posix()
+
+
+def declared_links(package, object_ids):
+    refs = package.get("refs")
+    if refs is None:
+        if package["role"] == "records":
+            raise ValueError(
+                f"record-only package has no medium.refs.json: {package['root']}"
+            )
+        return {}
+
+    existing = {item["relative"] for item in package["attached"]}
+    declared = {}
+    seen = set()
+
+    for index, link in enumerate(refs["links"]):
+        if not isinstance(link, dict):
+            raise ValueError(
+                f"medium.refs.json link #{index} is not an object: {package['root']}"
+            )
+
+        record = link.get("record")
+        object_id = link.get("object_id")
+        if not isinstance(record, str) or not record.strip():
+            raise ValueError(
+                f"medium.refs.json link #{index} has no record path: {package['root']}"
+            )
+        if not isinstance(object_id, str) or not object_id.strip():
+            raise ValueError(
+                f"medium.refs.json link #{index} has no object_id: {package['root']}"
+            )
+
+        record = normalize_record_path(record)
+        if record not in existing:
+            raise ValueError(
+                f"medium.refs.json points to missing record {record!r}: {package['root']}"
+            )
+        if object_id not in object_ids:
+            raise ValueError(
+                f"medium.refs.json points to unresolved object identity "
+                f"{object_id!r}: {package['root']}"
+            )
+
+        key = (record, object_id)
+        if key in seen:
+            raise ValueError(
+                f"duplicate medium.refs.json declaration {record!r} -> "
+                f"{object_id!r}: {package['root']}"
+            )
+        seen.add(key)
+        declared.setdefault(record, []).append(object_id)
+
+    if package["role"] == "records" and not seen:
+        raise ValueError(
+            f"record-only package has no explicit Medium identity links: "
+            f"{package['root']}"
+        )
+
+    return declared
+
+
 def prepare_records(packages, out_root: Path, object_ids):
     records_by_target = {object_id: [] for object_id in object_ids}
     manifest_records = []
@@ -215,35 +283,35 @@ def prepare_records(packages, out_root: Path, object_ids):
         if package["role"] == "object":
             package_slug = safe_slug(package["id"])
             raw_base = out_root / "raw" / package_slug / "records"
+            refs_destination = out_root / "raw" / package_slug / "medium.refs.json"
         else:
             package_slug = record_package_slug(package)
             raw_base = out_root / "raw" / package_slug
+            refs_destination = raw_base / "medium.refs.json"
 
-        package_reference_count = 0
+        links_by_record = declared_links(package, object_ids)
+
+        refs_href = None
+        if package.get("refs_path") is not None:
+            copy_exact(package["refs_path"], refs_destination)
+            refs_href = refs_destination.relative_to(out_root).as_posix()
 
         for item in package["attached"]:
-            references = []
-            for field, target in find_object_references(item["data"]):
-                references.append({"field": field, "object_id": target})
-
-            unique_targets = []
-            for ref in references:
-                target = ref["object_id"]
-                if target not in unique_targets:
-                    unique_targets.append(target)
-
-            for target in unique_targets:
-                if target not in object_ids:
-                    raise ValueError(
-                        f"{item['relative']}: unresolved object identity {target!r}"
-                    )
-
-            package_reference_count += len(unique_targets)
+            unique_targets = links_by_record.get(item["relative"], [])
 
             destination = raw_base / item["relative"]
             copy_exact(item["path"], destination)
 
             site_href = destination.relative_to(out_root).as_posix()
+            references = [
+                {
+                    "source": "medium.refs.json",
+                    "record": item["relative"],
+                    "object_id": target,
+                }
+                for target in unique_targets
+            ]
+
             record_info = {
                 "relative": item["relative"],
                 "site_href": site_href,
@@ -251,6 +319,7 @@ def prepare_records(packages, out_root: Path, object_ids):
                 "references": references,
                 "source_package_role": package["role"],
                 "source_package_slug": package_slug,
+                "refs_href": refs_href,
             }
 
             for target in unique_targets:
@@ -262,13 +331,9 @@ def prepare_records(packages, out_root: Path, object_ids):
                     "relative": item["relative"],
                     "source_package_role": package["role"],
                     "source_package_slug": package_slug,
+                    "refs_href": refs_href,
                     "references": references,
                 }
-            )
-
-        if package["role"] == "records" and package_reference_count == 0:
-            raise ValueError(
-                f"record-only package has no object identity references: {package['root']}"
             )
 
     return records_by_target, manifest_records
