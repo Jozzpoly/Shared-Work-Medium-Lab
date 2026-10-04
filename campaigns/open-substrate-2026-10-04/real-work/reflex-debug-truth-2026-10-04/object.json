@@ -1,0 +1,41 @@
+{
+  "id": "reflex-debug-truth-audit-2026-10-04",
+  "identity_version": 1,
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Reflex — granice prawdy debugowania",
+      "summary": "Zachowany fragment realnego audytu Reflex v1, w którym oddzielono narracyjną czytelność od forensic authority i wydobyto cztery warstwy prawdy."
+    },
+    "agent": {
+      "language": "en",
+      "title": "Reflex debug-truth audit excerpt",
+      "summary": "Browser-observed real-work excerpt from the Reflex v1 forensic/debug observability audit, preserved without promoting its claims to global Medium truth."
+    }
+  },
+  "body": {
+    "href": "body/excerpt.md",
+    "media_type": "text/markdown",
+    "execution": "none"
+  },
+  "provenance": [
+    {
+      "label": "Browser-observed Reflex transcript excerpt",
+      "href": "body/excerpt.md",
+      "language": "pl",
+      "sha256": "6e1045a93fcc612719c9a88fb49a82f18023d1812414f927b10f83e7770dec7e"
+    },
+    {
+      "label": "Capture metadata and fidelity boundary",
+      "href": "source/capture.json",
+      "language": "en",
+      "sha256": "2c9d9a9dde54e2b5408aba4c48b2f1a1f0453422db6f93c377a17cd93de3d772"
+    }
+  ],
+  "unfamiliar_payload": {
+    "originating_project": "Reflex_Brain",
+    "admission_class": "real-work",
+    "capture_fidelity": "rendered-accessibility-transcription",
+    "shared_claim_scope": "preserved excerpt, not global doctrine"
+  }
+}
