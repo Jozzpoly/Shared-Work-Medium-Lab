@@ -80,90 +80,198 @@ def copy_exact(src: Path, dst: Path):
 
 def record_summary(record: dict, relative_path: str):
     participant = record.get("participant_id")
-    from_scope = record.get("from") if isinstance(record.get("from"), dict) else {}
-    scope_id = from_scope.get("scope_id")
 
-    if participant:
+    owner_scope = (
+        record.get("owner_scope")
+        if isinstance(record.get("owner_scope"), dict)
+        else {}
+    )
+    from_scope = record.get("from") if isinstance(record.get("from"), dict) else {}
+    scope_id = owner_scope.get("scope_id") or from_scope.get("scope_id")
+
+    views = record.get("views") if isinstance(record.get("views"), dict) else {}
+    owner_view = views.get("owner") if isinstance(views.get("owner"), dict) else {}
+
+    if owner_view.get("title"):
+        label = owner_view["title"]
+    elif participant:
         label = f"Perspektywa uczestnika: {participant}"
     elif scope_id:
         label = f"Lokalny zapis: {scope_id}"
     else:
         label = f"Powiązany zapis: {relative_path}"
 
+    texts = []
+    if owner_view.get("summary"):
+        texts.append(str(owner_view["summary"]))
+
     local_view = record.get("local_view")
     if isinstance(local_view, dict) and local_view.get("note"):
-        text = local_view["note"]
-    else:
-        text = record.get("text")
+        texts.append(str(local_view["note"]))
 
+    local_note = record.get("local_note")
+    if isinstance(local_note, dict) and local_note.get("text"):
+        texts.append(str(local_note["text"]))
+    elif isinstance(local_note, str):
+        texts.append(local_note)
+
+    if record.get("text"):
+        texts.append(str(record["text"]))
+
+    # Preserve order while avoiding duplicate human-facing sentences.
+    text = " — ".join(dict.fromkeys(x for x in texts if x)) or None
+
+    relation = record.get("relation") if isinstance(record.get("relation"), dict) else {}
     semantic_hint = (
         record.get("relation_kind")
+        or relation.get("kind")
         or record.get("perspective_kind")
+        or record.get("record_kind")
         or record.get("kind")
     )
 
     return label, text, semantic_hint
 
 
+def find_object_references(value, path="$"):
+    refs = []
+    if isinstance(value, dict):
+        object_id = value.get("object_id")
+        if isinstance(object_id, str) and object_id.strip():
+            refs.append((f"{path}.object_id", object_id))
+        for key, child in value.items():
+            refs.extend(find_object_references(child, f"{path}.{key}"))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            refs.extend(find_object_references(child, f"{path}[{index}]"))
+    return refs
+
+
 def load_package(package_root: Path):
     package_root = package_root.resolve()
     object_path = package_root / "object.json"
-    if not object_path.is_file():
-        raise ValueError(f"package has no object.json: {package_root}")
-
-    obj = read_json(object_path)
-    object_id = obj.get("id")
-    if not isinstance(object_id, str) or not object_id.strip():
-        raise ValueError(f"package object has no stable string id: {package_root}")
 
     attached = []
-    for path in sorted(package_root.rglob("*.json")):
-        if path == object_path:
+    for item_path in sorted(package_root.rglob("*.json")):
+        if item_path == object_path:
             continue
-        relative = path.relative_to(package_root).as_posix()
+        relative = item_path.relative_to(package_root).as_posix()
         attached.append(
             {
-                "path": path,
+                "path": item_path,
                 "relative": relative,
-                "data": read_json(path),
+                "data": read_json(item_path),
             }
         )
 
+    if object_path.is_file():
+        obj = read_json(object_path)
+        object_id = obj.get("id")
+        if not isinstance(object_id, str) or not object_id.strip():
+            raise ValueError(f"package object has no stable string id: {package_root}")
+        return {
+            "role": "object",
+            "root": package_root,
+            "object_path": object_path,
+            "object": obj,
+            "id": object_id,
+            "kind": obj.get("kind"),
+            "attached": attached,
+        }
+
+    if not attached:
+        raise ValueError(
+            f"package has neither object.json nor JSON records: {package_root}"
+        )
+
     return {
+        "role": "records",
         "root": package_root,
-        "object_path": object_path,
-        "object": obj,
-        "id": object_id,
-        "kind": obj.get("kind"),
+        "object_path": None,
+        "object": None,
+        "id": None,
+        "kind": None,
         "attached": attached,
     }
 
 
-def validate_identity_references(package):
-    failures = []
-    object_id = package["id"]
-
+def record_package_slug(package):
+    digest = hashlib.sha256()
     for item in package["attached"]:
-        record = item["data"]
-        target_ids = []
+        relative = item["relative"].encode("utf-8")
+        digest.update(len(relative).to_bytes(8, "big"))
+        digest.update(relative)
+        data = item["path"].read_bytes()
+        digest.update(len(data).to_bytes(8, "big"))
+        digest.update(data)
+    return f"records-{digest.hexdigest()[:16]}"
 
-        to = record.get("to")
-        if isinstance(to, dict) and "object_id" in to:
-            target_ids.append(("to.object_id", to["object_id"]))
 
-        about = record.get("about")
-        if isinstance(about, dict) and "object_id" in about:
-            target_ids.append(("about.object_id", about["object_id"]))
+def prepare_records(packages, out_root: Path, object_ids):
+    records_by_target = {object_id: [] for object_id in object_ids}
+    manifest_records = []
 
-        for field, target in target_ids:
-            if target != object_id:
-                failures.append(
-                    f"{item['relative']}: {field} points to {target!r}, "
-                    f"outside this explicit package identity {object_id!r}"
-                )
+    for package in packages:
+        if package["role"] == "object":
+            package_slug = safe_slug(package["id"])
+            raw_base = out_root / "raw" / package_slug / "records"
+        else:
+            package_slug = record_package_slug(package)
+            raw_base = out_root / "raw" / package_slug
 
-    if failures:
-        raise ValueError("; ".join(failures))
+        package_reference_count = 0
+
+        for item in package["attached"]:
+            references = []
+            for field, target in find_object_references(item["data"]):
+                references.append({"field": field, "object_id": target})
+
+            unique_targets = []
+            for ref in references:
+                target = ref["object_id"]
+                if target not in unique_targets:
+                    unique_targets.append(target)
+
+            for target in unique_targets:
+                if target not in object_ids:
+                    raise ValueError(
+                        f"{item['relative']}: unresolved object identity {target!r}"
+                    )
+
+            package_reference_count += len(unique_targets)
+
+            destination = raw_base / item["relative"]
+            copy_exact(item["path"], destination)
+
+            site_href = destination.relative_to(out_root).as_posix()
+            record_info = {
+                "relative": item["relative"],
+                "site_href": site_href,
+                "data": item["data"],
+                "references": references,
+                "source_package_role": package["role"],
+                "source_package_slug": package_slug,
+            }
+
+            for target in unique_targets:
+                records_by_target[target].append(record_info)
+
+            manifest_records.append(
+                {
+                    "raw_href": site_href,
+                    "relative": item["relative"],
+                    "source_package_role": package["role"],
+                    "source_package_slug": package_slug,
+                    "references": references,
+                }
+            )
+
+        if package["role"] == "records" and package_reference_count == 0:
+            raise ValueError(
+                f"record-only package has no object identity references: {package['root']}"
+            )
+
+    return records_by_target, manifest_records
 
 
 def expose_passive_file(package, href: str, media_type: str | None, out_root: Path, slug: str, bucket: str):
@@ -194,9 +302,7 @@ def expose_passive_file(package, href: str, media_type: str | None, out_root: Pa
     }
 
 
-def build_package(package, out_root: Path):
-    validate_identity_references(package)
-
+def build_package(package, out_root: Path, related_records):
     obj = package["object"]
     object_id = package["id"]
     kind = package["kind"]
@@ -205,19 +311,9 @@ def build_package(package, out_root: Path):
     raw_base = out_root / "raw" / slug
     copy_exact(package["object_path"], raw_base / "object.json")
 
-    raw_records = []
-    for item in package["attached"]:
-        destination = raw_base / "records" / item["relative"]
-        copy_exact(item["path"], destination)
-        raw_records.append(
-            {
-                "relative": item["relative"],
-                "site_href": (
-                    Path("raw") / slug / "records" / item["relative"]
-                ).as_posix(),
-                "data": item["data"],
-            }
-        )
+    # Records keep the bytes/path of the package that owns them. The object view
+    # only derives a local association through stable object_id references.
+    raw_records = list(related_records)
 
     body_result = None
     body = obj.get("body")
@@ -452,15 +548,34 @@ def main():
 
     packages = [load_package(Path(value)) for value in args.package]
 
-    ids = [package["id"] for package in packages]
+    object_packages = [package for package in packages if package["role"] == "object"]
+    ids = [package["id"] for package in object_packages]
+    if not ids:
+        raise SystemExit("at least one explicit package must contribute a shared object identity")
     if len(ids) != len(set(ids)):
         raise SystemExit("duplicate object identity across explicit package roots")
 
-    manifest_objects = [build_package(package, out_root) for package in packages]
+    object_ids = set(ids)
+    records_by_target, manifest_records = prepare_records(
+        packages, out_root, object_ids
+    )
+
+    manifest_objects = [
+        build_package(
+            package,
+            out_root,
+            records_by_target.get(package["id"], []),
+        )
+        for package in object_packages
+    ]
 
     cards = []
     for item in manifest_objects:
-        package = next(package for package in packages if package["id"] == item["id"])
+        package = next(
+            package
+            for package in object_packages
+            if package["id"] == item["id"]
+        )
         views = package["object"].get("views")
         views = views if isinstance(views, dict) else {}
         owner = views.get("owner")
@@ -495,6 +610,7 @@ def main():
         "derived": True,
         "discovery": "explicit package roots",
         "objects": manifest_objects,
+        "records": manifest_records,
     }
     (out_root / "manifest.json").write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
