@@ -320,6 +320,52 @@ The relevant property is not merely inter-agent messaging. It is:
 
 This specimen strengthens the ecological-discovery side of the research loop and should be understood before further standardization.
 
+### 2026-10-04 field campaign — Quiet Presence
+
+A new live field campaign has started on:
+
+`campaign/quiet-presence-2026-10-04`
+
+Draft PR:
+
+[#5 — Campaign: Quiet Presence — shared work without attention pressure](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5)
+
+Campaign question:
+
+> **Can independent work streams be present, recoverable and enterable without becoming an attention tax or requiring the Owner to route every interaction?**
+
+This campaign is deliberately distinct from MP-1A.
+
+- **MP-1A** remains the controlled causal line for semantic-legibility effects.
+- **Quiet Presence** is an ecological/product-research line driven by the Feniks-meta live specimen.
+
+The first specimen represents:
+
+- three places (SWM, Feniks, Combat);
+- one recoverable cross-project episode;
+- one Codex-created exchange-window artifact that has different local meaning in Combat and SWM;
+- continuity anchors that are more specific than a conversation URL;
+- no global importance/relevance score;
+- no inbox/unread/notification-count model.
+
+GitHub Actions run `37194311702` passed the first structural gate after an earlier verifier false-positive was corrected.
+
+Scoped result:
+
+> **PASS — the representation can preserve local value, recoverable episode lineage and quiet availability without flattening them into a global feed.**
+
+This is not yet product evidence.
+
+The next evidence must come from **live use**:
+
+- can a human/agent walk past the surface without penalty;
+- can one place be entered without consuming the whole world;
+- can one exact episode be recovered later;
+- can a locally invented artifact remain useful without immediate promotion into platform architecture;
+- can another participant create or reinterpret a local artifact without Owner becoming the mandatory router.
+
+Do not add more schema by default. The next move is ecological exposure and observation.
+
 ### Ecological routing + inhabitant-created affordance
 
 Owner feedback on Live Ecological Specimen 001 exposed two stronger properties.
