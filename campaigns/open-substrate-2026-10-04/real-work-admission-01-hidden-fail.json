@@ -1,0 +1,19 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "real-work-admission-01-hidden-classification-fail",
+  "source_run": 37228858200,
+  "source_head": "278cdc1fdf7f3bb2a2c3ff89d1b89d023486286b",
+  "nominal_probe_result": "PASS",
+  "discovered_after_probe": true,
+  "object_id": "reflex-debug-truth-audit-2026-10-04",
+  "unexpected_manifest_record": {
+    "relative": "source/capture.json",
+    "source_package_role": "object",
+    "refs_href": null,
+    "references": []
+  },
+  "owner_attached_record_count": 0,
+  "finding": "A JSON file explicitly declared as provenance was also admitted into the global generic record inventory by file-shape discovery.",
+  "classification": "FAIL",
+  "required_correction": "Explicit body/provenance roles must outrank generic JSON-record discovery."
+}
