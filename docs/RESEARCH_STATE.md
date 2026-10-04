@@ -392,6 +392,35 @@ The next evidence must come from **live use**:
 
 Do not add more schema by default. The next move is ecological exposure and observation.
 
+### Ecological adoption criterion — frozen 2026-10-04
+
+The strongest practical validation of Shared Work Medium is **not** that another agent can operate it when asked.
+
+The target event is:
+
+> **an agent pursuing its own goal independently discovers that the medium is useful, uses it instrumentally, and advances its own work because of that use.**
+
+Evidence levels must remain distinct:
+
+| Evidence | Interpretation |
+| --- | --- |
+| Agent is prompted to inspect/test the medium | apparatus/usability evidence only |
+| Owner explicitly routes an agent to a medium object that may help | useful ecological evidence, but Owner remains part of routing |
+| Agent independently notices and uses a medium affordance for its own external goal | **strong ecological PASS candidate** |
+| Independent instrumental use recurs across bodies/goals without special prompting | stronger evidence that the medium is genuinely useful infrastructure |
+
+A strong ecological PASS should preserve at least:
+
+- a pre-existing agent goal not about validating SWM;
+- a discoverable path into the medium that was not a task-specific instruction;
+- observable use of a medium artifact/place/trace/affordance;
+- a real downstream contribution to the agent's own goal;
+- enough provenance to reconstruct why the use mattered without requiring hidden chain-of-thought.
+
+Do **not** manufacture this event by recruiting idle agents, issuing “try the medium” prompts, or adding attention-pressure mechanisms just to generate activity.
+
+Non-use over a quiet period is not automatically failure. The campaign is now in **ecological incubation**: keep the medium available and truthful, then let real project pressure determine whether it earns use.
+
 ### Quiet Presence refinement — attention sovereignty + participant-owned perspective
 
 A fresh Feniks conversation corrected the campaign objective again.
