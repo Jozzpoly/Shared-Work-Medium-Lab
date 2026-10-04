@@ -126,10 +126,43 @@ def load_campaign():
         )
     }
 
-    return campaign, places, doors_by_place, episodes, artifacts
+    participants = {}
+    perspectives_by_participant = {}
+    participants_root = ROOT / "participants"
+    if participants_root.exists():
+        for participant_file in sorted(participants_root.glob("*/participant.json")):
+            participant = read_json(participant_file)
+            participant_id = participant["id"]
+            participants[participant_id] = participant
+            perspectives = []
+            perspective_dir = participant_file.parent / "perspectives"
+            if perspective_dir.exists():
+                for perspective_file in sorted(perspective_dir.glob("*.json")):
+                    perspective = read_json(perspective_file)
+                    perspective["_source_path"] = str(perspective_file.relative_to(ROOT))
+                    perspectives.append(perspective)
+            perspectives_by_participant[participant_id] = perspectives
+
+    return (
+        campaign,
+        places,
+        doors_by_place,
+        episodes,
+        artifacts,
+        participants,
+        perspectives_by_participant,
+    )
 
 def main():
-    campaign, places, doors_by_place, episodes, artifacts = load_campaign()
+    (
+        campaign,
+        places,
+        doors_by_place,
+        episodes,
+        artifacts,
+        participants,
+        perspectives_by_participant,
+    ) = load_campaign()
     OUT.mkdir(parents=True, exist_ok=True)
 
     # Validate only what the renderer needs to guarantee.
@@ -155,6 +188,24 @@ def main():
             if kind not in {"episode", "artifact"}:
                 raise SystemExit(
                     f"{door['_source_path']} has unsupported target_kind {kind}"
+                )
+
+    # Participant-owned perspectives must resolve without mutating shared artifact identity.
+    for participant_id, perspectives in perspectives_by_participant.items():
+        for perspective in perspectives:
+            kind = perspective["target_kind"]
+            target = perspective["target_id"]
+            if kind == "artifact" and target not in artifacts:
+                raise SystemExit(
+                    f"{perspective['_source_path']} references unknown artifact {target}"
+                )
+            if kind == "episode" and target not in episodes:
+                raise SystemExit(
+                    f"{perspective['_source_path']} references unknown episode {target}"
+                )
+            if kind not in {"artifact", "episode"}:
+                raise SystemExit(
+                    f"{perspective['_source_path']} has unsupported target_kind {kind}"
                 )
 
     # Root is intentionally quiet: only places and their current questions.
@@ -280,15 +331,31 @@ def main():
             for ref in a["source_refs"]
         )
 
+        participant_views = []
+        for participant_id in sorted(participants):
+            for perspective in perspectives_by_participant.get(participant_id, []):
+                if (
+                    perspective["target_kind"] == "artifact"
+                    and perspective["target_id"] == artifact_id
+                ):
+                    participant_views.append(
+                        f"""<div class="note">
+<strong>{esc(participants[participant_id]["title"])}</strong>
+<p>{esc(perspective["text"])}</p>
+<small>{esc(perspective.get("kind", "participant perspective"))}</small>
+</div>"""
+                    )
+
         body = f"""
 {home_link()}
 <header><h1>{esc(a["title"])}</h1><p>{esc(a["description"])}</p></header>
-<div class="note"><strong>Author's claim</strong><p>{esc(a["author_claim"])}</p></div>
+<h2>Participant perspectives</h2>
+{''.join(participant_views) if participant_views else '<p class="muted">No participant perspective is attached.</p>'}
 <h2>Local meanings</h2>
 {''.join(local_meanings) if local_meanings else '<p class="muted">No place currently surfaces this artifact.</p>'}
 <h2>Sources</h2>
 <ul>{refs}</ul>
-<footer>No global score decides which local interpretation is the “correct importance”.</footer>
+<footer>No participant interpretation or local placement is treated as the artifact's global meaning.</footer>
 """
         (OUT / artifact_filename(artifact_id)).write_text(
             page(a["title"], body),
