@@ -35,20 +35,24 @@ jobs:
       - name: Preserve specimen 001 legacy-closure characterization
         run: python campaigns/open-substrate-2026-10-04/specimen1_probe.py --mode current
 
-      - name: Reproduce semantic false-positive reference inference
-        run: python campaigns/open-substrate-2026-10-04/specimen3_probe.py
-
-      - name: Render object + independent record package
+      - name: Render explicit-reference packages
         run: |
           python campaigns/open-substrate-2026-10-04/open_render.py \
             --package campaigns/open-substrate-2026-10-04/fixtures/specimen-001 \
-            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-002
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-002 \
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-003
 
       - name: Verify specimen 001 generic object fallback
         run: python campaigns/open-substrate-2026-10-04/open_verify.py
 
       - name: Verify independent record package
         run: python campaigns/open-substrate-2026-10-04/open_verify_records.py
+
+      - name: Verify explicit reference boundary
+        run: python campaigns/open-substrate-2026-10-04/open_verify_refs.py
+
+      - name: Pressure invalid explicit references
+        run: python campaigns/open-substrate-2026-10-04/reference_boundary_probe.py
 
       - name: Upload campaign evidence
         if: always()
@@ -59,8 +63,10 @@ jobs:
             campaigns/open-substrate-2026-10-04/baseline.json
             campaigns/open-substrate-2026-10-04/specimen1-current.json
             campaigns/open-substrate-2026-10-04/specimen2-current-frozen.json
-            campaigns/open-substrate-2026-10-04/specimen3-current.json
+            campaigns/open-substrate-2026-10-04/specimen3-current-frozen.json
             campaigns/open-substrate-2026-10-04/open-verification.json
+            campaigns/open-substrate-2026-10-04/reference-verification.json
+            campaigns/open-substrate-2026-10-04/reference-boundary-negative.json
             campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
             campaigns/quiet-presence-2026-10-04/verification.json
