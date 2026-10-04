@@ -3,7 +3,6 @@
   "title": "Codex's small exchange window",
   "origin_episode": "feniks-meta-001",
   "description": "A small post-hoc window for viewing a few real cross-project messages and returning to their full trace. It is not a live all-agent monitor.",
-  "author_claim": "The window began as a way for the Owner to be beside an exchange now and return to it later. 'A changed B' annotations are Codex interpretations beside exact messages and sources, not mechanical causal truth.",
   "source_refs": [
     {
       "kind": "repository evidence note",
