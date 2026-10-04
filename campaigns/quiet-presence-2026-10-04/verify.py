@@ -79,6 +79,14 @@ def load_objects():
         )
     }
 
+    sources = {
+        item["id"]: item
+        for item in (
+            read_json(path)
+            for path in sorted((ROOT / "sources").glob("*.json"))
+        )
+    } if (ROOT / "sources").exists() else {}
+
     participants = {}
     perspectives_by_participant = {}
     participants_root = ROOT / "participants"
@@ -102,6 +110,7 @@ def load_objects():
         doors_by_place,
         episodes,
         artifacts,
+        sources,
         participants,
         perspectives_by_participant,
     )
@@ -115,6 +124,7 @@ def main():
         doors_by_place,
         episodes,
         artifacts,
+        sources,
         participants,
         perspectives_by_participant,
     ) = load_objects()
@@ -136,6 +146,17 @@ def main():
             failures.append(
                 f"artifact {artifact_id} contains participant interpretation; "
                 "participant claims must live in participant-owned perspectives"
+            )
+
+    for source_id, source in sources.items():
+        walk_forbidden(source, failures, f"$.sources.{source_id}")
+        if not source.get("href"):
+            failures.append(f"source {source_id} has no href")
+        revision = source.get("revision")
+        if revision and revision not in source.get("href", ""):
+            failures.append(
+                f"source {source_id} declares revision {revision} "
+                "but href is not revision-bound"
             )
 
     for participant_id, participant in participants.items():
@@ -163,7 +184,9 @@ def main():
                 failures.append(f"{source}: unknown artifact {target_id}")
             elif kind == "episode" and target_id not in episodes:
                 failures.append(f"{source}: unknown episode {target_id}")
-            elif kind not in {"artifact", "episode"}:
+            elif kind == "source" and target_id not in sources:
+                failures.append(f"{source}: unknown source {target_id}")
+            elif kind not in {"artifact", "episode", "source"}:
                 failures.append(f"{source}: unsupported target_kind {kind}")
 
             if not door.get("local_note"):
@@ -283,6 +306,7 @@ def main():
         "places": sorted(places),
         "episodes": sorted(episodes),
         "artifacts": sorted(artifacts),
+        "sources": sorted(sources),
         "participants": sorted(participants),
         "participant_perspective_count": sum(
             len(items) for items in perspectives_by_participant.values()
