@@ -57,6 +57,9 @@ jobs:
       - name: Test second radically different shared object
         run: python campaigns/open-substrate-2026-10-04/specimen4_probe.py
 
+      - name: Verify interaction-derived progressive disclosure
+        run: python campaigns/open-substrate-2026-10-04/interaction_view_probe.py
+
       - name: Render isolated interaction preview snapshot
         run: |
           python campaigns/open-substrate-2026-10-04/open_render.py \
@@ -80,6 +83,7 @@ jobs:
             campaigns/open-substrate-2026-10-04/reference-verification.json
             campaigns/open-substrate-2026-10-04/reference-boundary-negative.json
             campaigns/open-substrate-2026-10-04/specimen4-current.json
+            campaigns/open-substrate-2026-10-04/interaction-view-verification.json
             campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
             campaigns/open-substrate-2026-10-04/preview-site/
