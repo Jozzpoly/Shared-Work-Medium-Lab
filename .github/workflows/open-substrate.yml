@@ -35,6 +35,9 @@ jobs:
       - name: Preserve specimen 001 legacy-closure characterization
         run: python campaigns/open-substrate-2026-10-04/specimen1_probe.py --mode current
 
+      - name: Reproduce semantic false-positive reference inference
+        run: python campaigns/open-substrate-2026-10-04/specimen3_probe.py
+
       - name: Render object + independent record package
         run: |
           python campaigns/open-substrate-2026-10-04/open_render.py \
@@ -56,6 +59,7 @@ jobs:
             campaigns/open-substrate-2026-10-04/baseline.json
             campaigns/open-substrate-2026-10-04/specimen1-current.json
             campaigns/open-substrate-2026-10-04/specimen2-current-frozen.json
+            campaigns/open-substrate-2026-10-04/specimen3-current.json
             campaigns/open-substrate-2026-10-04/open-verification.json
             campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
