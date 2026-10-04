@@ -140,11 +140,37 @@ def load_package(package_root: Path):
     object_path = package_root / "object.json"
     refs_path = package_root / "medium.refs.json"
 
+    obj = None
+    object_id = None
+    explicitly_declared_files = set()
+
+    if object_path.is_file():
+        obj = read_json(object_path)
+        object_id = obj.get("id")
+        if not isinstance(object_id, str) or not object_id.strip():
+            raise ValueError(f"package object has no stable string id: {package_root}")
+
+        body = obj.get("body") if isinstance(obj.get("body"), dict) else {}
+        body_href = body.get("href")
+        if isinstance(body_href, str) and body_href.strip():
+            explicitly_declared_files.add(Path(body_href).as_posix())
+
+        provenance = obj.get("provenance")
+        if isinstance(provenance, list):
+            for source in provenance:
+                if not isinstance(source, dict):
+                    continue
+                href = source.get("href")
+                if isinstance(href, str) and href.strip():
+                    explicitly_declared_files.add(Path(href).as_posix())
+
     attached = []
     for item_path in sorted(package_root.rglob("*.json")):
         if item_path in {object_path, refs_path}:
             continue
         relative = item_path.relative_to(package_root).as_posix()
+        if relative in explicitly_declared_files:
+            continue
         attached.append(
             {
                 "path": item_path,
@@ -164,11 +190,7 @@ def load_package(package_root: Path):
         if not isinstance(refs.get("links"), list):
             raise ValueError(f"medium.refs.json links must be a list: {package_root}")
 
-    if object_path.is_file():
-        obj = read_json(object_path)
-        object_id = obj.get("id")
-        if not isinstance(object_id, str) or not object_id.strip():
-            raise ValueError(f"package object has no stable string id: {package_root}")
+    if obj is not None:
         return {
             "role": "object",
             "root": package_root,
