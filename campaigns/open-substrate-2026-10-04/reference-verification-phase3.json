@@ -1,0 +1,25 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "phase-3-explicit-reference-boundary",
+  "evidence_run": 37222293851,
+  "head": "7a67e150d9b633aa215ef50a87b0b3d1fef95d93",
+  "target_identity": "browser-field-knot-001",
+  "trace_identity": "combat-foreign-payload-note-001",
+  "foreign_payload_id_preserved": true,
+  "record_manifest": {
+    "raw_href": "raw/records-79a1025e78ca5ca9/trace.json",
+    "relative": "trace.json",
+    "source_package_role": "records",
+    "source_package_slug": "records-79a1025e78ca5ca9",
+    "refs_href": "raw/records-79a1025e78ca5ca9/medium.refs.json",
+    "references": [
+      {
+        "source": "medium.refs.json",
+        "record": "trace.json",
+        "object_id": "browser-field-knot-001"
+      }
+    ]
+  },
+  "result": "PASS",
+  "failures": []
+}
