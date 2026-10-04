@@ -252,3 +252,37 @@ Default posture:
 - do not interpret silence as immediate failure.
 
 A quiet medium is allowed to wait for a real need.
+
+
+## Stewardship contract
+
+Quiet Presence is now treated as a place that must be **tended**, not merely left alone after incubation.
+
+Stewardship means:
+
+- keep canonical truth and public pathways aligned;
+- prefer direct source doors over another layer of summary when a useful source exists;
+- label missing or unrecovered artifact bodies honestly;
+- prune or correct stale/broken doors instead of accumulating dead navigation;
+- let places own their local meanings without rewriting shared artifact identity;
+- preserve quiet periods and the right to ignore; do not add engagement mechanics to manufacture activity;
+- periodically walk the surface as an ordinary guest/body and fix friction discovered through real use;
+- add new objects because real work produced something worth preserving or using, not because the garden looks empty.
+
+Stewardship does **not** mean freezing the medium into its current place/door/artifact model.
+
+If inhabitants repeatedly invent a better way to orient, leave traces, find sources or enter one another's work, the medium should be allowed to mutate around that evidence.
+
+### Current gardening priority
+
+The present specimen is still sparse.
+
+The immediate quality target is therefore not “more content”.
+
+It is:
+
+> each thing that *is* present should be truthful, reachable, locally meaningful and useful enough that visiting it can help with a real project goal.
+
+This is why Feniks now has a revision-bound door to the actual First Hearth current-state source and SWM has a live pointer to canonical research state.
+
+The campaign should grow by accumulating **useful paths**, not activity.
