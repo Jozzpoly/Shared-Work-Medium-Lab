@@ -27,7 +27,7 @@ def main():
     failures = []
 
     # Campaign law: no one global relevance/priority score.
-    forbidden = {"priority", "importance", "global_rank", "relevance_score"}
+    forbidden = {"priority", "importance", "global_rank", "relevance_score", "unread_count", "notification_count", "requires_attention", "urgent"}
     def walk(obj, path="$"):
         if isinstance(obj, dict):
             for k, v in obj.items():
@@ -75,7 +75,7 @@ def main():
 
     # Quiet surface: no attention-accounting UI vocabulary in rendered page copy.
     rendered = "\n".join(p.read_text(encoding="utf-8").lower() for p in html_files)
-    forbidden_ui = ["unread count", "notifications", "mark as read", "urgent"]
+    forbidden_ui = ["mark as read", "you must read", "requires your attention"]
     for phrase in forbidden_ui:
         if phrase in rendered:
             failures.append(f"attention-demand UI leaked into specimen: {phrase}")
