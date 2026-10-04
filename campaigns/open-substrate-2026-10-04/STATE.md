@@ -3,8 +3,9 @@
 **Updated:** 2026-10-04  
 **Branch:** `campaign/open-substrate-2026-10-04`  
 **Base specimen:** Quiet Presence `fbfe3d6bdc224ee5517f6def85a85626681364b3`  
-**Current durable checkpoint includes:** Phase 4 evidence + stop condition  
-**Latest fully verified implementation run:** `37222682719` on `373a7d62776ed68fbcc232ec057bd63f8e9808c6`
+**Current durable checkpoint includes:** Phase 4 + Interaction Walk 02 Owner-ready boundary  
+**Latest fully verified implementation run:** `37225383453` on `588f00c567d635362177f7136ef33953cdf33b28`  
+**Exact Owner preview snapshot:** `2807bd2843167ecde3dabcc190ca82c6b961b206`
 
 ## Campaign status
 
@@ -363,6 +364,58 @@ The campaign has therefore reached a natural decision boundary rather than an un
 
 Before further implementation, first review the combined evidence and deliberately choose the next pressure.
 
+## Interaction evidence — Browser self-walk: PASS to Owner-ready boundary
+
+Durable evidence:
+
+- `RETURN_PREP_OWNER_WALK.md`
+- `INTERACTION_WALK_01.md`
+- `INTERACTION_WALK_02.md`
+- `interaction_view_probe.py`
+- exact preview snapshot at `2807bd2843167ecde3dabcc190ca82c6b961b206`
+
+Walk 01 exposed real Owner-facing friction without finding a substrate-truth failure:
+
+- technical `kind` surfaced too early;
+- local/participant records were apparatus-heavy;
+- English participant text interrupted Polish Owner flow;
+- minimal object looked like an empty schema;
+- independent technical records had ambiguous duplicate labels.
+
+Only the derived renderer/view layer was changed.
+
+The full regression + interaction-view pipeline then passed on run `37225383453`.
+
+Walk 02 on the exact refreshed snapshot found no new material Browser-level interaction friction:
+
+- root is Polish-first and quiet;
+- rich object separates thing/source/local meanings while hiding semantic/raw detail behind voluntary depth;
+- English participant original remains exact and is not silently translated;
+- technical view remains English and distinguishes independent raw records without semantic inference;
+- minimal object now states sparse identity honestly instead of rendering empty schema sections.
+
+### Evidence limit
+
+Opera in this session has no element-click action, so Browser did not physically toggle the `<details>` controls.
+
+The accessibility tree shows them as collapsed disclosure controls, exact generated HTML contains the hidden content, and `interaction_view_probe.py` verifies the boundary mechanically.
+
+Do not claim a stronger click interaction test.
+
+### Current product-level status
+
+**Browser interaction PASS / Owner experiential status unresolved.**
+
+No further Browser-led UX refactor is justified before Owner judgement.
+
+Owner judgement can veto this PASS.
+
+### Immediate frontier
+
+The next real evidence should be the Owner opening the exact snapshot normally and reacting freely.
+
+Do not begin Codex critique, staleness machinery, capability sandboxing, search/discovery work or another specimen before Owner judgement unless an independent regression appears.
+
 ## Deferred frontiers
 
 After the second shared-object falsifier, reassess rather than mechanically progressing.
@@ -401,12 +454,8 @@ When Owner says `kontynuuj`:
 7. update this state before stopping at a meaningful boundary;
 8. if a new result falsifies the plan, change the plan rather than defending continuity.
 
-**Prepared return pressure:** interaction evidence via a real Owner / Browser walk.
+**Prepared return pressure:** fulfilled through Browser Walk 02.
 
-See `RETURN_PREP_OWNER_WALK.md`.
+**Immediate next move:** Owner walk of exact snapshot `2807bd2843167ecde3dabcc190ca82c6b961b206`.
 
-On the next campaign continuation, first make the derived Open Substrate surface reachable through the smallest isolated/reversible preview, then Browser self-walk it before spending Owner attention. Do not add new ontology/search/feed/capability features unless observed interaction friction creates the pressure.
-
-After Browser self-walk, return the surface to Owner for actual Polish-language experiential judgement. That judgement may veto machine PASS.
-
-Only after this interaction boundary should the campaign deliberately choose among Codex critique, staleness/revision pressure, passive-body diversity, capability/sandbox work, or a real ecological event.
+Stop implementation until Owner judgement. If Owner reports a product/experiential FAIL, that becomes authoritative for the relevant surface even if CI and Browser checks remain green.
