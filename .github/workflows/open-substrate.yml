@@ -35,6 +35,9 @@ jobs:
       - name: Validate specimen 001 and reproduce current closure
         run: python campaigns/open-substrate-2026-10-04/specimen1_probe.py --mode current
 
+      - name: Reproduce specimen 002 relation-only closure
+        run: python campaigns/open-substrate-2026-10-04/specimen2_probe.py --mode current
+
       - name: Render specimen 001 through generic passive adapter
         run: |
           python campaigns/open-substrate-2026-10-04/open_render.py \
@@ -51,6 +54,7 @@ jobs:
           path: |
             campaigns/open-substrate-2026-10-04/baseline.json
             campaigns/open-substrate-2026-10-04/specimen1-current.json
+            campaigns/open-substrate-2026-10-04/specimen2-current.json
             campaigns/open-substrate-2026-10-04/open-verification.json
             campaigns/open-substrate-2026-10-04/site/
             campaigns/quiet-presence-2026-10-04/verification.json
