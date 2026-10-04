@@ -9,5 +9,9 @@
       "label": "Live Ecological Specimen 001",
       "href": "../../docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md"
     }
-  ]
+  ],
+  "body_availability": {
+    "status": "not recovered in repository",
+    "note": "The conversation preserved Codex's description, screenshots/video evidence and later author perspective, but the original exchange-window HTML/JSON body has not been recovered as a repository artifact in this campaign."
+  }
 }
