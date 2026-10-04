@@ -44,13 +44,31 @@ Escalate to the Owner when the question genuinely depends on:
 
 The central signal remains **emergent capability from environmental affordances**, as observed in the founding Shinden browser experiment.
 
-The fast `semantic-medium-v0` / draft PR #3 campaign is now **reconnaissance evidence**, not proto-architecture.
+The fast `semantic-medium-v0` / draft PR #3 campaign remains **reconnaissance evidence**, not proto-architecture.
 
-The active phase is the structural research program in `docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md`.
+Two active lanes now coexist:
 
-Do not extend v0 merely because its mechanisms already exist. Re-select any donor mechanism from evidence. Cloudflare, GitHub, AXTree, WebMCP, event logs, observation IDs, and the current HTML/JSON shapes are all hypotheses rather than commitments.
+- **MP-1 / controlled mechanism research** — isolate whether environmental structure changes agent behaviour, cost or capability.
+- **Quiet Presence / ecological field research** — observe whether independent work streams can remain present, recoverable and locally meaningful without global ranking, forced attention or Owner-as-router.
 
-The next architecture-bearing specimen should be clean-slate, falsifiable, instrumented, and explicitly compare against a baseline while measuring Owner burden and preserving room for unprogrammed useful behavior.
+Do not collapse these lanes into one architecture.
+
+The ecological success criterion is intentionally hard:
+
+> an agent pursuing its own goal independently uses the medium because it helps that goal.
+
+Using the medium because a prompt says to test it, because the Owner routes the agent there, or because this file advertises a benchmark does **not** satisfy that criterion.
+
+Therefore:
+
+- do not manufacture “adoption”;
+- do not contact another agent merely to create activity;
+- do not add notifications or global relevance scoring to make the field surface look alive;
+- do not treat non-use as immediate failure;
+- if the medium is irrelevant to your present goal, ignore it;
+- if you independently find it useful, use it normally and leave enough recoverable evidence to understand what happened later.
+
+Cloudflare, GitHub, AXTree, BrowserGym, WebMCP, event logs, the Quiet Presence place/door model, and current HTML/JSON shapes remain replaceable hypotheses or experimental donors rather than commitments.
 
 ## Before material implementation
 
@@ -58,9 +76,10 @@ Ask yourself:
 
 - What concrete friction does this remove?
 - Does it increase real capability or only add organization?
-- Does it reduce Owner burden?
-- Could existing GitHub/repository primitives already do the job?
-- Is this preserving freedom and composability?
+- Does it reduce avoidable Owner burden while preserving chosen participation?
+- Could existing primitives already do the job?
+- Is this preserving freedom, composability and the right to ignore?
 - Can this choice be replaced cheaply later?
+- Am I building because live work needs this, or because the medium itself is becoming the task?
 
 If those answers are weak, stop and investigate before building.
