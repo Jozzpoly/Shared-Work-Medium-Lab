@@ -83,6 +83,18 @@ def main():
         objects = {item["id"]: item for item in manifest.get("objects", [])}
         admitted = objects.get(OBJECT_ID)
 
+        accidental_records = [
+            item for item in manifest.get("records", [])
+            if item.get("source_package_slug", "").startswith(
+                "reflex-debug-truth-audit-2026-10-04-"
+            )
+        ]
+        if accidental_records:
+            failures.append(
+                "explicit body/provenance files leaked into generic record inventory: "
+                + repr([item.get("relative") for item in accidental_records])
+            )
+
         if admitted is None:
             failures.append("real-work object missing from generated manifest")
         else:
@@ -172,6 +184,9 @@ def main():
             "renderer_changed_for_admission": False,
             "source_class": "browser-observed real project conversation excerpt",
             "private_locator_persisted": False,
+            "generic_records_from_real_work_package": [
+                item.get("relative") for item in accidental_records
+            ],
             "render_returncode": result.returncode,
             "objects": list(objects),
             "result": "PASS" if not failures else "FAIL",
