@@ -330,7 +330,7 @@ def build_package(package, out_root: Path):
 <details><summary>Podgląd pasywnej treści</summary><pre>{esc(body_text)}</pre></details>"""
         else:
             body_html = (
-                "<p class="muted">Treść istnieje, ale nie została wystawiona "
+                '<p class="muted">Treść istnieje, ale nie została wystawiona '
                 f"w Phase 1: {esc(body_result['reason'])}</p>"
             )
 
