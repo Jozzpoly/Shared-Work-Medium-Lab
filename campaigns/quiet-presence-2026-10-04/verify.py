@@ -7,7 +7,17 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
 SITE = ROOT / "site"
-WORLD = ROOT / "world.json"
+
+FORBIDDEN_GLOBAL_FIELDS = {
+    "priority",
+    "importance",
+    "global_rank",
+    "relevance_score",
+    "unread_count",
+    "notification_count",
+    "requires_attention",
+    "urgent",
+}
 
 
 class Links(HTMLParser):
@@ -22,45 +32,128 @@ class Links(HTMLParser):
                     self.hrefs.append(value)
 
 
+def read_json(path: Path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def walk_forbidden(obj, failures, path="$"):
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            if key in FORBIDDEN_GLOBAL_FIELDS:
+                failures.append(f"forbidden global attention/ranking field at {path}.{key}")
+            walk_forbidden(value, failures, f"{path}.{key}")
+    elif isinstance(obj, list):
+        for index, item in enumerate(obj):
+            walk_forbidden(item, failures, f"{path}[{index}]")
+
+
+def load_objects():
+    campaign = read_json(ROOT / "campaign.json")
+
+    places = {}
+    doors_by_place = {}
+    for place_file in sorted((ROOT / "places").glob("*/place.json")):
+        place = read_json(place_file)
+        places[place["id"]] = place
+        doors = []
+        door_dir = place_file.parent / "doors"
+        if door_dir.exists():
+            for door_file in sorted(door_dir.glob("*.json")):
+                door = read_json(door_file)
+                door["_source_path"] = str(door_file.relative_to(ROOT))
+                doors.append(door)
+        doors_by_place[place["id"]] = doors
+
+    episodes = {
+        item["id"]: item
+        for item in (
+            read_json(path)
+            for path in sorted((ROOT / "episodes").glob("*.json"))
+        )
+    }
+    artifacts = {
+        item["id"]: item
+        for item in (
+            read_json(path)
+            for path in sorted((ROOT / "artifacts").glob("*.json"))
+        )
+    }
+    return campaign, places, doors_by_place, episodes, artifacts
+
+
 def main():
-    world = json.loads(WORLD.read_text(encoding="utf-8"))
     failures = []
+    campaign, places, doors_by_place, episodes, artifacts = load_objects()
 
-    # Campaign law: no one global relevance/priority score.
-    forbidden = {"priority", "importance", "global_rank", "relevance_score", "unread_count", "notification_count", "requires_attention", "urgent"}
-    def walk(obj, path="$"):
-        if isinstance(obj, dict):
-            for k, v in obj.items():
-                if k in forbidden:
-                    failures.append(f"forbidden global ranking field at {path}.{k}")
-                walk(v, f"{path}.{k}")
-        elif isinstance(obj, list):
-            for i, item in enumerate(obj):
-                walk(item, f"{path}[{i}]")
-    walk(world)
+    # The campaign must not smuggle global ranking/attention fields into any local object.
+    walk_forbidden(campaign, failures, "$.campaign")
+    for place_id, place in places.items():
+        walk_forbidden(place, failures, f"$.places.{place_id}")
+    for episode_id, episode in episodes.items():
+        walk_forbidden(episode, failures, f"$.episodes.{episode_id}")
+    for artifact_id, artifact in artifacts.items():
+        walk_forbidden(artifact, failures, f"$.artifacts.{artifact_id}")
+        if "placements" in artifact:
+            failures.append(
+                f"artifact {artifact_id} contains central placements; "
+                "local meanings must live in place-owned door files"
+            )
+    for place_id, doors in doors_by_place.items():
+        for index, door in enumerate(doors):
+            walk_forbidden(door, failures, f"$.places.{place_id}.doors[{index}]")
 
-    # The Codex window must survive as one artifact with different local interpretations.
-    artifact = next((a for a in world["artifacts"] if a["id"] == "codex-exchange-window"), None)
-    if not artifact:
-        failures.append("missing codex-exchange-window artifact")
-    else:
-        places = {p["place"] for p in artifact["placements"]}
-        if not {"combat", "swm"}.issubset(places):
-            failures.append("exchange window is not represented in both Combat and SWM niches")
-        notes = {p["place"]: p["local_note"] for p in artifact["placements"]}
-        if notes.get("combat") == notes.get("swm"):
-            failures.append("local interpretations were flattened into one shared note")
+    # Every local door resolves without editing the target artifact/episode itself.
+    for place_id, doors in doors_by_place.items():
+        for door in doors:
+            kind = door.get("target_kind")
+            target_id = door.get("target_id")
+            source = door["_source_path"]
 
-    # Continuity anchors are allowed to be more specific than one conversation address.
-    for episode in world["episodes"]:
+            if kind == "artifact" and target_id not in artifacts:
+                failures.append(f"{source}: unknown artifact {target_id}")
+            elif kind == "episode" and target_id not in episodes:
+                failures.append(f"{source}: unknown episode {target_id}")
+            elif kind not in {"artifact", "episode"}:
+                failures.append(f"{source}: unsupported target_kind {kind}")
+
+            if not door.get("local_note"):
+                failures.append(f"{source}: missing local_note")
+
+    # Concrete campaign claim: one shared artifact has two independent local meanings.
+    exchange_id = "codex-exchange-window"
+    refs = {}
+    for place_id, doors in doors_by_place.items():
+        for door in doors:
+            if door.get("target_kind") == "artifact" and door.get("target_id") == exchange_id:
+                refs[place_id] = door["local_note"]
+
+    if not {"combat", "swm"}.issubset(refs):
+        failures.append(
+            "codex-exchange-window is not independently referenced by both Combat and SWM"
+        )
+    elif refs["combat"] == refs["swm"]:
+        failures.append(
+            "Combat and SWM local interpretations were flattened into one note"
+        )
+
+    # Continuity anchors remain more specific than one generic address.
+    for episode_id, episode in episodes.items():
         anchor = episode.get("continuity_anchor")
-        if anchor and anchor["predecessor_turn"] == anchor["confirmed_entry_turn"]:
-            failures.append(f"{episode['id']} continuity anchor collapsed predecessor and entry")
+        if anchor:
+            if not anchor.get("predecessor_turn") or not anchor.get("confirmed_entry_turn"):
+                failures.append(f"{episode_id}: incomplete continuity anchor")
+            elif anchor["predecessor_turn"] == anchor["confirmed_entry_turn"]:
+                failures.append(
+                    f"{episode_id}: predecessor and entry collapsed into one identity"
+                )
 
+    # Rendered topology.
     html_files = sorted(SITE.glob("*.html"))
-    expected_pages = 1 + len(world["places"]) + len(world["episodes"]) + len(world["artifacts"])
+    expected_pages = 1 + len(places) + len(episodes) + len(artifacts)
     if len(html_files) != expected_pages:
-        failures.append(f"expected {expected_pages} generated pages, got {len(html_files)}")
+        failures.append(
+            f"expected {expected_pages} generated pages, got {len(html_files)}"
+        )
 
     known_pages = {p.name for p in html_files}
     for page in html_files:
@@ -74,37 +167,62 @@ def main():
             if target and target not in known_pages:
                 failures.append(f"{page.name}: unresolved internal link {href}")
 
-    # Quiet root: deep trace exists, but must not be injected into the root surface.
+    # Root must remain informationally quiet.
     root_text = (SITE / "index.html").read_text(encoding="utf-8")
-    deep_markers = []
-    for episode in world["episodes"]:
-        deep_markers.extend([
-            episode["title"],
-            episode.get("continuity_anchor", {}).get("predecessor_turn"),
-            episode.get("continuity_anchor", {}).get("confirmed_entry_turn"),
+    forbidden_root_markers = []
+
+    for episode in episodes.values():
+        forbidden_root_markers.append(episode["title"])
+        anchor = episode.get("continuity_anchor", {})
+        forbidden_root_markers.extend([
+            anchor.get("predecessor_turn"),
+            anchor.get("confirmed_entry_turn"),
         ])
-    for artifact in world["artifacts"]:
-        deep_markers.append(artifact["title"])
-        deep_markers.append(artifact["author_claim"])
-    for marker in [m for m in deep_markers if m]:
+
+    for artifact in artifacts.values():
+        forbidden_root_markers.extend([
+            artifact["title"],
+            artifact.get("author_claim"),
+        ])
+
+    for marker in [x for x in forbidden_root_markers if x]:
         if marker in root_text:
             failures.append(f"deep trace leaked into root surface: {marker}")
 
-    rendered = "\n".join(p.read_text(encoding="utf-8").lower() for p in html_files)
-    forbidden_ui = ["mark as read", "you must read", "requires your attention"]
-    for phrase in forbidden_ui:
+    # Root links only to places, never directly to artifacts/episodes.
+    root_parser = Links()
+    root_parser.feed(root_text)
+    root_internal = [
+        urlparse(href).path
+        for href in root_parser.hrefs
+        if not urlparse(href).scheme
+    ]
+    expected_place_links = {f"place-{place_id}.html" for place_id in places}
+    if set(root_internal) != expected_place_links:
+        failures.append(
+            f"root links are not place-only: {sorted(set(root_internal))}"
+        )
+
+    # No language that explicitly demands attention.
+    rendered = "\n".join(
+        p.read_text(encoding="utf-8").lower()
+        for p in html_files
+    )
+    for phrase in ["mark as read", "you must read", "requires your attention"]:
         if phrase in rendered:
-            failures.append(f"attention-demand UI leaked into specimen: {phrase}")
+            failures.append(f"attention-demand language leaked into specimen: {phrase}")
 
     report = {
-        "campaign": world["campaign"]["id"],
+        "campaign": campaign["id"],
+        "places": sorted(places),
+        "episodes": sorted(episodes),
+        "artifacts": sorted(artifacts),
         "pages": [p.name for p in html_files],
-        "artifact_local_placements": {
-            p["place"]: p["local_note"] for p in artifact["placements"]
-        } if artifact else {},
-        "episode_count": len(world["episodes"]),
-        "place_count": len(world["places"]),
-        "laws_under_test": world["laws_under_test"],
+        "exchange_window_local_meanings": refs,
+        "central_artifact_placements_present": any(
+            "placements" in artifact for artifact in artifacts.values()
+        ),
+        "root_internal_links": root_internal,
         "result": "PASS" if not failures else "FAIL",
         "failures": failures,
     }
@@ -118,7 +236,10 @@ def main():
     if failures:
         raise SystemExit("QUIET PRESENCE SPECIMEN FAIL: " + "; ".join(failures))
 
-    print("QUIET PRESENCE SPECIMEN PASS")
+    print(
+        "QUIET PRESENCE SPECIMEN PASS: shared artifact identity, "
+        "place-owned local meaning, quiet root, and deep trace remain distinct."
+    )
 
 
 if __name__ == "__main__":
