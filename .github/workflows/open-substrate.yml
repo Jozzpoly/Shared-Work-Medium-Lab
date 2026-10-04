@@ -54,6 +54,9 @@ jobs:
       - name: Pressure invalid explicit references
         run: python campaigns/open-substrate-2026-10-04/reference_boundary_probe.py
 
+      - name: Test second radically different shared object
+        run: python campaigns/open-substrate-2026-10-04/specimen4_probe.py
+
       - name: Upload campaign evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -67,6 +70,7 @@ jobs:
             campaigns/open-substrate-2026-10-04/open-verification.json
             campaigns/open-substrate-2026-10-04/reference-verification.json
             campaigns/open-substrate-2026-10-04/reference-boundary-negative.json
+            campaigns/open-substrate-2026-10-04/specimen4-current.json
             campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
             campaigns/quiet-presence-2026-10-04/verification.json
