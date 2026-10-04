@@ -60,6 +60,9 @@ jobs:
       - name: Verify interaction-derived progressive disclosure
         run: python campaigns/open-substrate-2026-10-04/interaction_view_probe.py
 
+      - name: Admit one real-work Reflex object through the existing substrate
+        run: python campaigns/open-substrate-2026-10-04/real_work_admission_probe.py
+
       - name: Render isolated interaction preview snapshot
         run: |
           python campaigns/open-substrate-2026-10-04/open_render.py \
@@ -67,6 +70,7 @@ jobs:
             --package campaigns/open-substrate-2026-10-04/fixtures/specimen-002 \
             --package campaigns/open-substrate-2026-10-04/fixtures/specimen-003 \
             --package campaigns/open-substrate-2026-10-04/fixtures/specimen-004 \
+            --package campaigns/open-substrate-2026-10-04/real-work/reflex-debug-truth-2026-10-04 \
             --out campaigns/open-substrate-2026-10-04/preview-site
 
       - name: Upload campaign evidence
@@ -84,6 +88,7 @@ jobs:
             campaigns/open-substrate-2026-10-04/reference-boundary-negative.json
             campaigns/open-substrate-2026-10-04/specimen4-current.json
             campaigns/open-substrate-2026-10-04/interaction-view-verification.json
+            campaigns/open-substrate-2026-10-04/real-work-admission-01.json
             campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
             campaigns/open-substrate-2026-10-04/preview-site/
