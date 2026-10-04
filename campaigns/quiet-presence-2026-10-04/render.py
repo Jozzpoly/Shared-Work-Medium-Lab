@@ -237,7 +237,7 @@ def main():
 <header>
 <h1>{esc(campaign["title"])}</h1>
 <p>{esc(campaign["question"])}</p>
-<p class="muted">You do not need to inspect everything that exists here.</p>
+<p class="muted">You may ignore this place, enter briefly, or stay as long as you want. None of those choices creates a debt.</p>
 </header>
 <section class="grid" aria-label="Places">
 {''.join(cards)}
