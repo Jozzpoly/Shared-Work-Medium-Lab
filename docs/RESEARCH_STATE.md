@@ -354,6 +354,32 @@ Scoped result:
 
 > **PASS — the representation can preserve local value, recoverable episode lineage and quiet availability without flattening them into a global feed.**
 
+A same-day deeper audit found two material corrections before ecological use:
+
+1. the first public root still injected the full episode/artifact trace into one page, so it was visually calm but **not informationally quiet**;
+2. the first data model centralized all local placements inside one `world.json`, contradicting the newer requirement that a place/participant can adopt or reinterpret a shared artifact locally without rewriting the artifact or a global registry.
+
+Both were corrected on the campaign branch.
+
+Current branch structure:
+
+- root surface links only to places;
+- deep episode/artifact trace appears only after explicit entry;
+- the shared artifact exists once;
+- Combat and SWM own separate local `doors/*.json` references with independent notes;
+- no central artifact `placements` list remains;
+- the obsolete central `world.json` was removed.
+
+GitHub Actions run `37195413725` passed the stronger structural gate:
+
+> **PASS — shared artifact identity, place-owned local meaning, quiet root and deep trace remain distinct.**
+
+A further field observation found that a moving branch-based HTML-preview URL could display unexpected content while retaining the expected root address. The repository file itself was correct; using an immutable commit-SHA URL produced the expected root surface.
+
+Scoped lesson:
+
+> exact field evidence should prefer revision-bound addresses when surface identity matters; do not infer HTMLPreview implementation details from this single observation.
+
 This is not yet product evidence.
 
 The next evidence must come from **live use**:
