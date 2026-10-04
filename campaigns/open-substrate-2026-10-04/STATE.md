@@ -3,12 +3,12 @@
 **Updated:** 2026-10-04  
 **Branch:** `campaign/open-substrate-2026-10-04`  
 **Base specimen:** Quiet Presence `fbfe3d6bdc224ee5517f6def85a85626681364b3`  
-**Current durable head:** `b97927539723baf8904c1f372ce1efd6bb36296a`  
-**Latest fully verified implementation run:** `37222293851` on `7a67e150d9b633aa215ef50a87b0b3d1fef95d93`
+**Current durable checkpoint includes:** Phase 4 evidence + stop condition  
+**Latest fully verified implementation run:** `37222682719` on `373a7d62776ed68fbcc232ec057bd63f8e9808c6`
 
 ## Campaign status
 
-Phases 0–3 have produced scoped mechanical/architectural evidence.
+Phases 0–4 have produced scoped mechanical/architectural evidence.
 
 The campaign remains an **isolated controlled implementation/falsification line**.
 
@@ -298,44 +298,70 @@ Do not:
 - infer semantics from arbitrary raw payloads;
 - move into active execution before passive representation/reference foundations survive broader pressure.
 
-## Current frontier — second shared-object falsifier
+## Phase 4 — second shared-object falsifier: PASS without adapter change
 
-The strongest unresolved generality question is now:
+Specimen:
 
-> **have we demonstrated a generic shared-object fallback, or only one convenient object shape plus flexible records around it?**
+`fixtures/specimen-004/`
 
-Only Specimen #1 has exercised an unknown shared object.
+Stable identity:
 
-The next controlled specimen should therefore be a **materially different second shared object**.
+`minimal-shared-identity-004`
 
-It should intentionally omit conveniences that Specimen #1 provided.
+Specimen #4 deliberately omits:
 
-Pressure candidates:
+- `kind`;
+- Owner/agent view metadata;
+- body;
+- provenance;
+- local/participant records;
+- `medium.refs.json`.
 
-- stable `id` remains, because cross-object identity is the property under test;
-- no `kind`, or a missing/empty descriptive kind;
-- no Owner-specific view metadata;
-- no agent-specific view metadata;
-- no body;
-- no local/participant records;
-- no local source file;
-- unfamiliar nested metadata;
-- optionally one external provenance URL or no provenance at all.
+Evidence:
 
-The test question is not whether the page looks rich.
+- `specimen4_probe.py`;
+- `specimen4-phase4.json`;
+- `PHASE4_RESULT.md`;
+- PASS run `37222682719`.
 
-It is:
+The existing adapter passed **without any change to `open_render.py`**.
 
-> can a minimally described shared identity still exist, be entered through a Polish generic fallback, expose exact raw metadata, and coexist with the richer Specimen #1 without adding a type-specific branch?
+Demonstrated:
 
-Before changing the adapter again:
+- two materially different shared-object shapes coexist;
+- a shared object does not need a known `kind`;
+- missing kind remains `null`, not synthesized;
+- stable id is sufficient for the Polish generic fallback title;
+- no provenance/body is invented when absent;
+- exact raw JSON remains byte-preserved;
+- unfamiliar nested metadata remains inspectable;
+- no specimen-specific renderer branch was required.
 
-1. freeze Specimen #4;
-2. define exact fallback expectations;
-3. run the current adapter unchanged;
-4. only modify substrate if the specimen exposes a real closure.
+### Interpretation
 
-If the current adapter already passes, preserve that as useful generality evidence rather than inventing a change.
+This falsifier did **not** expose another shared-object closure.
+
+That is useful evidence.
+
+There is no current evidence-based reason to continue refactoring the passive shared-object representation merely to make it more abstract.
+
+## Current stop/review boundary
+
+The most important current implementation work is complete enough to stop and reassess.
+
+Do **not** mechanically create another specimen or feature.
+
+Current evidence chain:
+
+1. **Phase 0:** legacy closure characterized;
+2. **Phase 1:** passive unknown shared object can exist through a generic fallback;
+3. **Phase 2:** independently owned local records can reference shared identity without moving/mutating the target;
+4. **Phase 3:** Medium relationships must be explicit; arbitrary raw payload remains semantically opaque;
+5. **Phase 4:** a second radically simpler shared object passes without another substrate patch.
+
+The campaign has therefore reached a natural decision boundary rather than an unfinished implementation seam.
+
+Before further implementation, first review the combined evidence and deliberately choose the next pressure.
 
 ## Deferred frontiers
 
@@ -375,4 +401,4 @@ When Owner says `kontynuuj`:
 7. update this state before stopping at a meaningful boundary;
 8. if a new result falsifies the plan, change the plan rather than defending continuity.
 
-**Immediate next move:** materialize and test the second radically different shared-object specimen before changing `open_render.py`.
+**Immediate next move:** none is preselected. First return the current evidence/state to Owner; only then choose the next pressure deliberately. Do not continue automatically.
