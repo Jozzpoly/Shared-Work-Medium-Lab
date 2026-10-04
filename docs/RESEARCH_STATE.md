@@ -1,8 +1,8 @@
 # Research State
 
-**Status:** structural research phase active; reconnaissance frozen; MP-1 affordance-generativity design is the leading next experiment
+**Status:** dual research lanes active — MP-1 controlled mechanism work + Quiet Presence ecological field campaign; reconnaissance remains frozen
 
-**Last material update:** 2026-10-03
+**Last material update:** 2026-10-04
 
 ## Live truth
 
@@ -17,6 +17,18 @@ GitHub is currently useful because it already provides:
 - direct access for Browser through the GitHub connector;
 - issues, commits, PRs, and Actions as existing inspectable objects;
 - a place where the lab can later grow executable code.
+
+### Current active lanes — 2026-10-04
+
+**MP-1 / controlled mechanism research** remains the causal-isolation line for testing whether environmental structure changes agent behaviour, acquisition cost, correctness or workflow formation.
+
+**Quiet Presence / ecological field research** is now in stewardship + incubation mode. Its current target is attention sovereignty and useful shared reality without global ranking: things may remain present and recoverable while participants can ignore, enter deeply, leave and return without mandatory catch-up debt.
+
+The strongest long-term ecological success criterion is intentionally hard:
+
+> an agent pursuing its own non-SWM goal independently discovers that the medium helps, uses it instrumentally, and advances its own work because of that use.
+
+Prompted “test the medium” behaviour is not equivalent evidence. Silence is not immediate failure; stewardship should keep the environment useful, truthful and discoverable without manufacturing activity.
 
 ## Primary-source audit remains required before architectural freeze
 
