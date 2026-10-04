@@ -1,0 +1,92 @@
+{
+  "campaign": {
+    "id": "quiet-presence-2026-10-04",
+    "title": "Quiet Presence",
+    "question": "Can independent work streams be present, recoverable and enterable without becoming an attention tax or requiring the Owner to route every interaction?",
+    "status": "live campaign / first specimen"
+  },
+  "places": [
+    {
+      "id": "swm",
+      "title": "Shared Work Medium",
+      "description": "Researching a shared working reality for heterogeneous minds without a shared brain.",
+      "current_question": "How can a medium support presence, local invention and artifact migration without turning everything into a feed?"
+    },
+    {
+      "id": "feniks",
+      "title": "Feniks",
+      "description": "Living-world research where actors may have their own continuation inside one material reality.",
+      "current_question": "What makes multiple trajectories genuinely coexist and remain mutually susceptible?"
+    },
+    {
+      "id": "combat",
+      "title": "Combat Lab",
+      "description": "Experimental combat/world work that has repeatedly escaped its original local scope.",
+      "current_question": "What makes an activity belong to an actor rather than to a brittle pre-written sequence?"
+    }
+  ],
+  "episodes": [
+    {
+      "id": "feniks-meta-001",
+      "title": "Codex visits Browser and Combat, then returns with a changed experiment",
+      "summary": "Codex independently contacted another project conversation, received a different framing, checked First Hearth source truth, narrowed the claim, changed the next experiment and preserved the exchange as a small window.",
+      "participants": [
+        "Owner",
+        "Codex",
+        "Browser GPT / Combat"
+      ],
+      "places": [
+        "feniks",
+        "combat",
+        "swm"
+      ],
+      "source_refs": [
+        {
+          "kind": "repository evidence note",
+          "label": "Live Ecological Specimen 001",
+          "href": "../../docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md"
+        }
+      ],
+      "continuity_anchor": {
+        "kind": "chat continuation evidence",
+        "predecessor_turn": "b9515565-be62-4854-962d-3eb0d37765a2",
+        "confirmed_entry_turn": "6fb8b757-cf86-4b97-a7be-65b3a96d1dbe",
+        "note": "The same conversation URL previously produced a different continuation. These turn anchors identify the confirmed campfire lineage more precisely than the URL alone."
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "codex-exchange-window",
+      "title": "Codex's small exchange window",
+      "origin_episode": "feniks-meta-001",
+      "description": "A small post-hoc window for viewing a few real cross-project messages and returning to their full trace. It is not a live all-agent monitor.",
+      "author_claim": "The window began as a way for the Owner to be beside an exchange now and return to it later. 'A changed B' annotations are Codex interpretations beside exact messages and sources, not mechanical causal truth.",
+      "placements": [
+        {
+          "place": "combat",
+          "local_note": "Useful critique target, but not central to Combat's immediate activity-continuity question."
+        },
+        {
+          "place": "swm",
+          "local_note": "Potentially high local relevance as a quiet-presence / recoverable-episode affordance. Not yet a platform feature."
+        }
+      ],
+      "source_refs": [
+        {
+          "kind": "repository evidence note",
+          "label": "Live Ecological Specimen 001",
+          "href": "../../docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md"
+        }
+      ]
+    }
+  ],
+  "laws_under_test": [
+    "existence != surfacing != interruption",
+    "addressability != co-presence",
+    "actuation success != targeting success",
+    "value may be local rather than globally ranked",
+    "artifacts may migrate without first-context rejection becoming a verdict",
+    "participants may create local affordances instead of only consuming platform features"
+  ]
+}
