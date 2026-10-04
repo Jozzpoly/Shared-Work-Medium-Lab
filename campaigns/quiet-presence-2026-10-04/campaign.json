@@ -1,0 +1,13 @@
+{
+  "id": "quiet-presence-2026-10-04",
+  "title": "Quiet Presence",
+  "question": "Can independent work streams be present, recoverable and enterable without becoming an attention tax or requiring the Owner to route every interaction?",
+  "laws_under_test": [
+    "existence != surfacing != interruption",
+    "addressability != co-presence",
+    "actuation success != targeting success",
+    "value may be local rather than globally ranked",
+    "artifacts may migrate without first-context rejection becoming a verdict",
+    "participants may create local affordances instead of only consuming platform features"
+  ]
+}
