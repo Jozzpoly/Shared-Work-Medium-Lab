@@ -1,0 +1,14 @@
+{
+  "conversation_title": "Eksperyment z samoczynnym systemem",
+  "source_project": "Reflex_Brain",
+  "source_surface": "ChatGPT Browser conversation rendered in Opera",
+  "capture_date": "2026-10-04",
+  "capture_method": "Opera Browser Connector accessibility tree",
+  "private_source_locator": "not persisted in the public Medium repository",
+  "boundary": {
+    "start_heading": "DEBUG TRUTH audit również dał już bardzo jasny wynik",
+    "end_sentence": "Nie redukujemy fenomenu. Rozdzielamy warstwy prawdy."
+  },
+  "fidelity": "Lexical text transcribed from the rendered accessibility tree. Markdown hierarchy and table formatting are reconstructed for preservation. This is not an official ChatGPT export and is not claimed byte-exact to a backend message representation.",
+  "body_sha256": "6e1045a93fcc612719c9a88fb49a82f18023d1812414f927b10f83e7770dec7e"
+}
