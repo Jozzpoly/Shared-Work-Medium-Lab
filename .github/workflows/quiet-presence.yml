@@ -1,0 +1,47 @@
+name: Quiet Presence specimen
+
+on:
+  push:
+    branches:
+      - campaign/quiet-presence-2026-10-04
+    paths:
+      - "campaigns/quiet-presence-2026-10-04/**"
+      - ".github/workflows/quiet-presence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  specimen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Render twice
+        run: |
+          python campaigns/quiet-presence-2026-10-04/render.py
+          cp -r campaigns/quiet-presence-2026-10-04/site /tmp/site-first
+          rm -rf campaigns/quiet-presence-2026-10-04/site
+          python campaigns/quiet-presence-2026-10-04/render.py
+
+      - name: Require deterministic render
+        run: diff -qr /tmp/site-first campaigns/quiet-presence-2026-10-04/site
+
+      - name: Verify campaign laws
+        run: python campaigns/quiet-presence-2026-10-04/verify.py
+
+      - name: Upload specimen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quiet-presence-v0
+          path: |
+            campaigns/quiet-presence-2026-10-04/site/
+            campaigns/quiet-presence-2026-10-04/verification.json
+          retention-days: 14
