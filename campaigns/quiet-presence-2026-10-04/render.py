@@ -126,6 +126,14 @@ def load_campaign():
         )
     }
 
+    sources = {
+        data["id"]: data
+        for data in (
+            read_json(path)
+            for path in sorted((ROOT / "sources").glob("*.json"))
+        )
+    } if (ROOT / "sources").exists() else {}
+
     participants = {}
     perspectives_by_participant = {}
     participants_root = ROOT / "participants"
@@ -149,6 +157,7 @@ def load_campaign():
         doors_by_place,
         episodes,
         artifacts,
+        sources,
         participants,
         perspectives_by_participant,
     )
@@ -160,6 +169,7 @@ def main():
         doors_by_place,
         episodes,
         artifacts,
+        sources,
         participants,
         perspectives_by_participant,
     ) = load_campaign()
@@ -185,7 +195,11 @@ def main():
                 raise SystemExit(
                     f"{door['_source_path']} references unknown artifact {target}"
                 )
-            if kind not in {"episode", "artifact"}:
+            if kind == "source" and target not in sources:
+                raise SystemExit(
+                    f"{door['_source_path']} references unknown source {target}"
+                )
+            if kind not in {"episode", "artifact", "source"}:
                 raise SystemExit(
                     f"{door['_source_path']} has unsupported target_kind {kind}"
                 )
@@ -246,16 +260,23 @@ def main():
                 target = episodes[target_id]
                 href = episode_filename(target_id)
                 kind_label = "Preserved episode"
-            else:
+                action_label = "Open episode"
+            elif door["target_kind"] == "artifact":
                 target = artifacts[target_id]
                 href = artifact_filename(target_id)
                 kind_label = "Local artifact"
+                action_label = "Open artifact"
+            else:
+                target = sources[target_id]
+                href = target["href"]
+                kind_label = "Source"
+                action_label = "Open source"
 
             rendered_doors.append(f"""<article class="card">
 <h2>{esc(kind_label)}</h2>
 <p>{esc(target["title"])}</p>
 <p class="muted">{esc(door["local_note"])}</p>
-<p><a href="{href}">Open</a></p>
+<p><a href="{esc(href)}">{esc(action_label)}</a></p>
 </article>""")
 
         place_body = f"""
@@ -346,9 +367,19 @@ def main():
 </div>"""
                     )
 
+        availability = a.get("body_availability")
+        availability_html = ""
+        if availability:
+            availability_html = f"""<div class="note">
+<strong>Artifact body availability</strong>
+<p>{esc(availability.get("status", "unknown"))}</p>
+<small>{esc(availability.get("note", ""))}</small>
+</div>"""
+
         body = f"""
 {home_link()}
 <header><h1>{esc(a["title"])}</h1><p>{esc(a["description"])}</p></header>
+{availability_html}
 <h2>Participant perspectives</h2>
 {''.join(participant_views) if participant_views else '<p class="muted">No participant perspective is attached.</p>'}
 <h2>Local meanings</h2>
