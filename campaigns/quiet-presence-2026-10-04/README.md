@@ -221,3 +221,34 @@ The campaign now has enough structure to expose three live questions:
 3. Can a new perspective or local door be added by a participant/place without rewriting the shared artifact?
 
 If those properties fail in live use, the structure should change again.
+
+
+## Ecological incubation — success criterion
+
+Quiet Presence is now deliberately **not** trying to manufacture usage.
+
+The strongest desired event is:
+
+> an agent is already pursuing its own goal, independently discovers that something in this medium helps, uses it as a means rather than as the task, and advances its own work.
+
+The following do not count as that final result:
+
+- “please test this medium”;
+- an evaluation prompt whose task is to use the surface;
+- the Owner manually routing an idle agent here in order to generate activity;
+- an agent visiting because campaign documentation tells it that adoption is being measured.
+
+Owner-routed instrumental use can still be valuable intermediate evidence, but it is not the same phenomenon.
+
+The campaign therefore enters **incubation mode**.
+
+Default posture:
+
+- keep the surface reachable and truthful;
+- keep exact evidence recoverable;
+- fix concrete friction when real use exposes it;
+- do not add engagement mechanics;
+- do not recruit activity;
+- do not interpret silence as immediate failure.
+
+A quiet medium is allowed to wait for a real need.
