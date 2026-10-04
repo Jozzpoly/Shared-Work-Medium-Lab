@@ -401,4 +401,12 @@ When Owner says `kontynuuj`:
 7. update this state before stopping at a meaningful boundary;
 8. if a new result falsifies the plan, change the plan rather than defending continuity.
 
-**Immediate next move:** none is preselected. First return the current evidence/state to Owner; only then choose the next pressure deliberately. Do not continue automatically.
+**Prepared return pressure:** interaction evidence via a real Owner / Browser walk.
+
+See `RETURN_PREP_OWNER_WALK.md`.
+
+On the next campaign continuation, first make the derived Open Substrate surface reachable through the smallest isolated/reversible preview, then Browser self-walk it before spending Owner attention. Do not add new ontology/search/feed/capability features unless observed interaction friction creates the pressure.
+
+After Browser self-walk, return the surface to Owner for actual Polish-language experiential judgement. That judgement may veto machine PASS.
+
+Only after this interaction boundary should the campaign deliberately choose among Codex critique, staleness/revision pressure, passive-body diversity, capability/sandbox work, or a real ecological event.
