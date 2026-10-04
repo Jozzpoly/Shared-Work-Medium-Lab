@@ -86,10 +86,20 @@ def main():
                         failures.append("specimen #4 Owner fallback is not Polish-first")
                     if f"<h1>{OBJECT_ID}</h1>" not in owner_text:
                         failures.append("stable id is not used as fallback Owner title")
-                    if "Brak zadeklarowanych źródeł." not in owner_text:
-                        failures.append("absence of provenance is not stated honestly")
-                    if "Deklarowany rodzaj: <code>brak</code>" not in owner_text:
-                        failures.append("missing kind is not represented as absent")
+                    if "Ta rzecz deklaruje obecnie tylko tożsamość." not in owner_text:
+                        failures.append("minimal Owner fallback does not explain sparse identity")
+                    if "Nie ma własnej treści, źródeł ani dodatkowych zapisów." not in owner_text:
+                        failures.append("minimal Owner fallback does not state absence honestly")
+                    for technical_surface in [
+                        "Deklarowany rodzaj:",
+                        "<h2>Treść</h2>",
+                        "<h2>Źródła</h2>",
+                        "<h2>Powiązane lokalne i uczestnikowe zapisy</h2>",
+                    ]:
+                        if technical_surface in owner_text:
+                            failures.append(
+                                f"minimal Owner fallback still exposes empty schema section {technical_surface!r}"
+                            )
                     if "browser/field-knot" in owner_text:
                         failures.append("specimen #1 kind leaked into specimen #4 view")
 
