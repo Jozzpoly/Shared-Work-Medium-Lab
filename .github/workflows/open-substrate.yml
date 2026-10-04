@@ -29,22 +29,23 @@ jobs:
           python campaigns/quiet-presence-2026-10-04/render.py
           python campaigns/quiet-presence-2026-10-04/verify.py
 
-      - name: Characterize current substrate closure
+      - name: Characterize legacy Quiet Presence closure
         run: python campaigns/open-substrate-2026-10-04/baseline_probe.py
 
-      - name: Validate specimen 001 and reproduce current closure
+      - name: Preserve specimen 001 legacy-closure characterization
         run: python campaigns/open-substrate-2026-10-04/specimen1_probe.py --mode current
 
-      - name: Reproduce specimen 002 relation-only closure
-        run: python campaigns/open-substrate-2026-10-04/specimen2_probe.py --mode current
-
-      - name: Render specimen 001 through generic passive adapter
+      - name: Render object + independent record package
         run: |
           python campaigns/open-substrate-2026-10-04/open_render.py \
-            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-001
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-001 \
+            --package campaigns/open-substrate-2026-10-04/fixtures/specimen-002
 
-      - name: Verify Phase 1 generic fallback
+      - name: Verify specimen 001 generic object fallback
         run: python campaigns/open-substrate-2026-10-04/open_verify.py
+
+      - name: Verify independent record package
+        run: python campaigns/open-substrate-2026-10-04/open_verify_records.py
 
       - name: Upload campaign evidence
         if: always()
@@ -54,8 +55,9 @@ jobs:
           path: |
             campaigns/open-substrate-2026-10-04/baseline.json
             campaigns/open-substrate-2026-10-04/specimen1-current.json
-            campaigns/open-substrate-2026-10-04/specimen2-current.json
+            campaigns/open-substrate-2026-10-04/specimen2-current-frozen.json
             campaigns/open-substrate-2026-10-04/open-verification.json
+            campaigns/open-substrate-2026-10-04/record-verification.json
             campaigns/open-substrate-2026-10-04/site/
             campaigns/quiet-presence-2026-10-04/verification.json
           retention-days: 14
