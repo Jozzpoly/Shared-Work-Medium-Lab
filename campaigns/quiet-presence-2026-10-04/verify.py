@@ -322,14 +322,25 @@ def main():
                     f"deep trace leaked into public field root: {marker}"
                 )
 
-    if "first-hearth-current-state-pr123" in sources:
-        source_href = sources["first-hearth-current-state-pr123"]["href"]
-        if not field_feniks.exists():
-            failures.append("public Feniks field page is missing")
-        elif source_href not in field_feniks.read_text(encoding="utf-8"):
+    for place_id, doors in doors_by_place.items():
+        field_place = ROOT / f"field-place-{place_id}.html"
+        source_doors = [
+            door for door in doors if door.get("target_kind") == "source"
+        ]
+        if source_doors and not field_place.exists():
             failures.append(
-                "public Feniks field page does not expose canonical First Hearth source door"
+                f"public field page for {place_id} is missing despite source doors"
             )
+            continue
+        if field_place.exists():
+            field_text = field_place.read_text(encoding="utf-8")
+            for door in source_doors:
+                source_id = door["target_id"]
+                source_href = sources[source_id]["href"]
+                if source_href not in field_text:
+                    failures.append(
+                        f"public {place_id} field page does not expose source door {source_id}"
+                    )
 
     exchange = artifacts.get("codex-exchange-window")
     if exchange and exchange.get("body_availability"):
