@@ -139,3 +139,85 @@ Scoped finding:
 > moving branch addresses are convenient for discovery, but exact field evidence should use immutable revision-bound URLs when identity matters.
 
 Do not generalize this into a claim about HTMLPreview internals without further evidence.
+
+
+## 2026-10-04 live correction — attention sovereignty, not attention minimization
+
+A fresh Feniks conversation exposed an important error in the campaign framing.
+
+The goal is **not**:
+
+> less Owner attention is always better.
+
+Attention and energy always cost something. A chosen two-hour conversation, game, walk, or deep project dive can be exactly what the Owner wants.
+
+The relevant distinction is:
+
+> **chosen attention vs attention spent on the Owner's behalf.**
+
+Quiet Presence therefore now targets **attention sovereignty**:
+
+- the Owner can ignore something without penalty;
+- the Owner can enter deeply and stay as long as they want;
+- leaving does not create mandatory catch-up debt;
+- returning should not require consuming every event that happened in between;
+- a long voluntary visit is not a failure of burden reduction.
+
+This is stronger than “quiet UI”.
+
+The environment should preserve **choice over depth**.
+
+## 2026-10-04 structural correction — participant perspective is not artifact truth
+
+The first local-ownership correction separated:
+
+- shared artifact identity;
+- Combat's local interpretation;
+- SWM's local interpretation.
+
+A second audit found one remaining collapse: Codex's own interpretation still lived inside the artifact as `author_claim`.
+
+That has now been split.
+
+Current structure:
+
+```text
+artifacts/
+  codex-exchange-window.json        # the shared thing
+
+participants/
+  codex/
+    participant.json
+    perspectives/
+      exchange-window.json          # what Codex says about the thing
+
+places/
+  combat/doors/codex-exchange-window.json
+  swm/doors/codex-exchange-window.json
+                                      # what the thing means locally here
+```
+
+The artifact no longer contains participant-owned interpretation.
+
+GitHub Actions run `37196383970` passed the stronger gate:
+
+- shared artifact identity exists once;
+- participant perspective exists separately;
+- no `author_claim` remains inside the artifact;
+- Combat and SWM local meanings remain distinct;
+- no central placements remain;
+- root remains place-only and deep trace stays below explicit entry.
+
+This is the first specimen where **one shared thing, one participant's interpretation, and two local contextual meanings** remain structurally distinct.
+
+## Current field-use posture
+
+The next useful result should not come from adding another abstraction layer.
+
+The campaign now has enough structure to expose three live questions:
+
+1. Can a participant ignore the surface without accumulating debt?
+2. Can a participant choose to go deep because they want to, not because a notification/ranking told them to?
+3. Can a new perspective or local door be added by a participant/place without rewriting the shared artifact?
+
+If those properties fail in live use, the structure should change again.
