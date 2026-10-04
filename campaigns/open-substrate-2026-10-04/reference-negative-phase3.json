@@ -1,0 +1,25 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "phase": "phase-3-explicit-reference-negative-pressure",
+  "evidence_run": 37222293851,
+  "head": "7a67e150d9b633aa215ef50a87b0b3d1fef95d93",
+  "observations": {
+    "unresolved_target": {
+      "rejected": true,
+      "expected_marker": "medium.refs.json points to unresolved object identity",
+      "marker_present": true
+    },
+    "escaping_record_path": {
+      "rejected": true,
+      "expected_marker": "reference record path escapes package boundary",
+      "marker_present": true
+    },
+    "missing_record": {
+      "rejected": true,
+      "expected_marker": "medium.refs.json points to missing record",
+      "marker_present": true
+    }
+  },
+  "result": "PASS",
+  "failures": []
+}
