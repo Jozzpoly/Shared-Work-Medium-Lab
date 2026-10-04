@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "record": "trace.json",
+      "object_id": "browser-field-knot-001"
+    }
+  ]
+}
