@@ -1,0 +1,42 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "specimen": "specimen-001",
+  "mode": "current",
+  "fixture_integrity": {
+    "passes": true,
+    "failures": [],
+    "source_sha256": "4399ceb14d97d6c1c38da33c643a860b4781277d64763636cf35f846ebeefd07"
+  },
+  "observations": {
+    "foreign_package": {
+      "render": {
+        "returncode": 0,
+        "stdout": "Generated 6 pages.\n",
+        "stderr": ""
+      },
+      "owner_title_visible": false,
+      "body_visible": false,
+      "observation": "silently_not_discovered"
+    },
+    "place_points_to_unknown_kind": {
+      "render": {
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "places/swm/doors/specimen-001.json has unsupported target_kind browser/field-knot\n"
+      },
+      "accepted": false,
+      "unsupported_kind_failure": true
+    },
+    "participant_points_to_unknown_kind": {
+      "render": {
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "participants/browser/perspectives/specimen-001.json has unsupported target_kind browser/field-knot\n"
+      },
+      "accepted": false,
+      "unsupported_kind_failure": true
+    }
+  },
+  "result": "PASS",
+  "failures": []
+}
