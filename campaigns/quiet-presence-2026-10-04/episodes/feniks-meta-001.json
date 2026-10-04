@@ -12,6 +12,12 @@
       "kind": "repository evidence note",
       "label": "Live Ecological Specimen 001",
       "href": "../../docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md"
+    },
+    {
+      "kind": "live source PR",
+      "label": "First Hearth PR #123 — continuous activities, embodied speech and private perspectives",
+      "href": "https://github.com/Jozzpoly/Llm-Live-NPC/pull/123",
+      "revision": "b6f00b63dad65a8053fb72ef4c894bcb6ef205d6"
     }
   ],
   "continuity_anchor": {
