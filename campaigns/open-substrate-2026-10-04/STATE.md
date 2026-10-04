@@ -2,159 +2,153 @@
 
 **Updated:** 2026-10-04  
 **Branch:** `campaign/open-substrate-2026-10-04`  
-**Current head at campaign start:** `03ce155ee48d578f9001d2add8c0af7bc4c3a635`  
-**Base specimen:** Quiet Presence at `fbfe3d6bdc224ee5517f6def85a85626681364b3`
+**Base specimen:** Quiet Presence `fbfe3d6bdc224ee5517f6def85a85626681364b3`  
+**Evidence through:** `de1bbaf85e6b905ab7af9c1aaebe259f285c1e07`
 
 ## Current phase
 
-**Phase 0 — baseline characterization**
+**Phase 0 — baseline characterization and invariant audit: materially complete.**
 
-No substrate behavior has been changed yet.
+No production substrate behavior has been changed yet.
 
-The campaign has only established its isolated branch and research contract.
+The branch now contains:
 
-## Already demonstrated from current code
+- campaign contract in `README.md`;
+- behavioral probe in `baseline_probe.py`;
+- preserved baseline output in `baseline.json`;
+- ontology-vs-invariant audit in `PHASE0_AUDIT.md`;
+- dedicated Actions workflow `.github/workflows/open-substrate.yml`.
 
-The existing Quiet Presence implementation is intentionally closed in several places:
+## First CI evidence
 
-### Renderer closure
+Actions run `37219836032` at head `89131cfa2689c5ba3a71cb11bb02d26c842a8662` completed **success**.
 
-`render.py` branches on known target kinds:
+It established two things simultaneously:
 
-- `episode`
-- `artifact`
-- `source`
+1. current known Quiet Presence still renders/verifies with PASS;
+2. the Open Substrate probe can reproduce current closure without modifying the live specimen.
 
-Any other door target kind triggers:
+Exact baseline observations:
 
-> unsupported target_kind
+- unknown standalone object family: render succeeds but the object is **silently not discovered**;
+- unknown local relation target: render fails with `unsupported target_kind organism`;
+- unknown participant perspective target: render fails with `unsupported target_kind organism`;
+- unknown field on a known object: survives in source JSON but is absent from the generated view;
+- current Owner surface: `<html lang="en">`, English `Enter this place`, no Polish entry label.
 
-Participant perspectives are similarly limited to known `artifact` / `episode` targets.
+These are characterization results, not yet product failures.
 
-The renderer also builds specialized page sets from fixed directories:
+## Phase 0 audit conclusion
 
-- `places/*/place.json`
-- `episodes/*.json`
-- `artifacts/*.json`
-- `sources/*.json`
-- `participants/*/participant.json`
+The current implementation mixes three different categories:
 
-This is valid for the Quiet Presence campaign, but currently acts as an implicit ontology.
+### Candidate invariants worth protecting
 
-### Verifier closure
+- stable identity / resolvable references;
+- reachable source/provenance;
+- participant/local interpretation must not silently become shared truth;
+- local adoption should not require rewriting shared object identity;
+- declared revision-bound evidence should actually be revision-bound;
+- generated internal links should resolve;
+- body paths/content integrity should remain bounded and verifiable;
+- representation openness must remain separate from executable/privileged capability.
 
-`verify.py` explicitly treats unknown target kinds as failures.
+### Quiet Presence campaign laws
 
-It also computes the expected page count from the known type sets.
+- place-only quiet root;
+- no global attention/relevance ranking;
+- deep trace not leaking into root;
+- specific no-notification posture.
 
-This means an unanticipated form can fail before we learn whether its identity/body/source would otherwise be useful.
+These remain regression laws for Quiet Presence but are not automatically universal Medium laws.
 
-### UI closure
+### Ontology closure to challenge
 
-Current generated/public surfaces assume English labels and one rendering path.
+- fixed discovery directories as the only discoverable object families;
+- closed `target_kind` dispatch;
+- participant perspectives limited to two target families;
+- fixed page-count formula based on known families;
+- specialized renderer being required for existence;
+- one English-first view serving both Owner and agents.
 
-Owner-facing and agent-facing views are not yet separated.
+## Capability boundary
 
-### Capability boundary is under-specified
+Current repository code has no general explicit sandbox/capability model for arbitrary active bodies.
 
-Recovered HTML bodies are copied and exposed, but the campaign has not yet defined a general rule separating:
+The known body mechanism copies body files into generated output and links to them.
 
-- arbitrary representable content;
-- active executable content;
-- privileged actions/capabilities.
+Do not infer a universal safe execution model from this.
 
-Do not infer safety or generality from the existing recovered window alone.
+**Specimen #1 must remain passive.**
 
-## Important non-failures
+Active-body execution is a later dedicated phase with runtime/browser evidence.
 
-The following current behaviors are **not** being called mistakes:
+## Campaign vetoes remain active
 
-- Quiet Presence using specific types for its own controlled specimen;
-- specialized rendering for known types;
-- validation of its campaign-specific claims;
-- Codex's recovered body using a bespoke wrapper.
+Do not:
 
-The research question is whether those local choices have accidentally become a hard platform boundary.
+- modify Quiet Presence merely to create campaign activity;
+- modify Codex PR #6/body in parallel;
+- count artificial specimens as ecological adoption;
+- add semantic search/recommendation before scale pressure;
+- solve specimen #1 by hard-coding its kind;
+- introduce a universal schema before evidence requires one;
+- trade Owner-facing clarity for machine elegance.
 
-## Phase 0 questions
+## Next frontier — Specimen #1
 
-Before changing code, establish exact answers to:
+The next step is **not yet substrate refactoring**.
 
-1. What minimum fields are truly required for an unknown thing to be preserved and entered?
-2. Which existing validation rules protect truth/ownership, and which merely encode today's ontology?
-3. Can a new object exist without being globally placed?
-4. Can a new relation be stored locally without the renderer understanding its semantics?
-5. What is the narrowest generic fallback that remains useful to Owner and agents?
-6. What must remain immutable/source-bound when a view adds Polish explanation or translation?
-7. What does "active body" mean in the actual current hosting model, and where would a capability boundary need to live?
-8. Which current Quiet Presence tests must remain unchanged as regression guards?
+Create a deliberately foreign passive fixture outside live Quiet Presence ecology.
 
-## First adversarial specimen — requirements, not schema
+It must pressure:
 
-The first unknown organism must be designed *before* substrate changes.
-
-It should pressure all of these at once:
-
-- a kind unknown to current core;
+- unknown kind/family;
 - stable identity;
-- at least one field the core does not know;
-- its own body;
-- an exact source/provenance link;
-- one local relation whose semantic label is also unknown to core;
+- unknown nested metadata;
+- own passive body;
+- exact source/provenance;
+- one unknown local relation;
 - one participant-owned interpretation;
-- an Owner-facing Polish explanation;
-- agent-facing technical metadata;
-- source text preserved in its original language;
-- no new executable privileges.
+- Polish Owner-facing explanation;
+- English agent-facing technical metadata;
+- original-language source preserved;
+- no executable capability.
 
-The specimen must be useful enough to inspect, but it must remain intentionally artificial so it cannot be mistaken for ecological adoption evidence.
+Before production behavior changes, define exact assertions for what current substrate does with this fixture and what Phase 1 must change.
 
-## Baseline expected result
+## Phase 1 target
 
-With no substrate changes, the first specimen is expected to **FAIL** current rendering/verification.
+After the smallest justified substrate change:
 
-That failure is desirable evidence if it is specific and reproducible.
+- specimen #1 is discoverable and enterable;
+- no specimen-specific type branch exists;
+- existing Quiet Presence still passes unchanged;
+- unknown metadata is preserved and inspectable;
+- local relation does not rewrite target identity;
+- source/provenance remains direct;
+- Owner can understand the thing in Polish without a technical wall;
+- agent can inspect exact technical/raw metadata;
+- original source is not replaced by translation;
+- no new executable privilege is granted.
 
-Do not patch the specimen to fit existing kinds.
+A later **materially different specimen #2** must pass without another core-type patch before any generality claim.
 
-## Phase 1 acceptance target
+## Coordination
 
-After the smallest substrate change:
+- PR #5: untouched by this campaign, draft/unmerged.
+- PR #6: untouched by this campaign, draft/unmerged.
+- Browser already left Codex the narrow 4-vs-6 seam.
+- Return to Codex after implementation evidence exists that he can independently attack.
 
-- the same specimen can be preserved and entered;
-- no `elif kind == "<specimen-kind>"` special case exists;
-- current known Quiet Presence types still behave as before;
-- exact source/provenance remains reachable;
-- unknown fields survive round-trip/render derivation;
-- local relation does not rewrite the target;
-- Owner sees a Polish default explanation without losing access to original source/technical data;
-- agent can inspect exact machine-facing metadata;
-- no ecological-adoption claim is made.
+## Continue protocol
 
-## Phase 1 falsifiers
+When Owner says `kontynuuj`:
 
-Treat any of these as a meaningful FAIL:
+1. recover this branch's live head and this state;
+2. inspect CI/evidence since the last checkpoint;
+3. continue the current unresolved phase rather than restarting design;
+4. execute reversible work to evidence;
+5. update this state before stopping at a meaningful boundary.
 
-- core must add a new hard-coded type branch;
-- unknown fields are silently dropped;
-- object identity changes between views;
-- owner translation replaces original source;
-- local relation becomes a central/global placement;
-- generic fallback hides provenance or body;
-- accepting the object requires granting script/privileged execution;
-- existing Quiet Presence regression tests break;
-- the "generic" solution only works for specimen #1.
-
-## Next concrete work
-
-1. Create a baseline test fixture for the unknown organism without changing production behavior.
-2. Run current renderer/verifier against it and capture the exact failure path(s).
-3. Audit which checks are ontology checks versus invariant checks.
-4. Only then design the smallest generic-envelope/fallback change.
-
-## Coordination state
-
-- Quiet Presence PR #5 remains draft/unmerged and untouched by this campaign.
-- Codex PR #6 remains draft/unmerged and untouched by this campaign.
-- Browser has already left Codex one narrow 4-vs-6 clarification seam.
-- Do not reopen theory discussion with Codex until this campaign has implementation evidence worth attacking.
+The next `kontynuuj` should start by designing and materializing **Specimen #1**, then building its assertion harness before changing substrate behavior.
