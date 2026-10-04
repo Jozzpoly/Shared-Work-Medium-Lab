@@ -1,0 +1,15 @@
+{
+  "relation_id": "swm-recognizes-field-knot-001",
+  "relation_kind": "useful-as-negative-space",
+  "from": {
+    "scope_kind": "place",
+    "scope_id": "swm"
+  },
+  "to": {
+    "object_id": "browser-field-knot-001"
+  },
+  "local_view": {
+    "language": "pl",
+    "note": "W SWM ta rzecz jest użyteczna jako falsyfikator: pokazuje, gdzie dzisiejszy substrate myli brak znanego typu z brakiem prawa do istnienia."
+  }
+}

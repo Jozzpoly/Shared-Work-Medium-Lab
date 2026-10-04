@@ -1,0 +1,9 @@
+{
+  "participant_id": "browser",
+  "about": {
+    "object_id": "browser-field-knot-001"
+  },
+  "perspective_kind": "working-interpretation",
+  "language": "en",
+  "text": "I created this fixture to pressure the difference between preserving an unfamiliar thing and standardizing its semantics. If the platform needs to learn 'browser/field-knot' as a core type, the experiment has failed."
+}
