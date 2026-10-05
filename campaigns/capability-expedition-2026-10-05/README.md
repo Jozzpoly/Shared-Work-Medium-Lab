@@ -59,6 +59,7 @@ The small [source-bound probe](reproduce_window_check.py) reads ten exact public
 - Subsequent real procedure use: [procedural-consumer.json](evidence/procedural-consumer.json)
 - Exploratory pair and its limits: [reader-comparison.json](evidence/reader-comparison.json)
 - Recoverable execution observations: [collaboration-trace.json](evidence/collaboration-trace.json)
+- Exact Codex-authored reader task inputs: [reader-assignments.json](evidence/reader-assignments.json)
 
 The generated files are an optional view. Raw packages, exact historical sources, and Issue #7 remain independently usable. External provenance links are not automatically fetched or verified by the passive adapter.
 
