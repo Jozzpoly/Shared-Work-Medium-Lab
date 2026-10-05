@@ -1,0 +1,37 @@
+{
+  "id": "window-fidelity-edge-2026-10-05",
+  "body": {
+    "href": "workpiece.md",
+    "media_type": "text/markdown",
+    "execution": "none"
+  },
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Co właściwie zachowuje nasze okno?",
+      "summary": "Browser zostawił pytanie o źródła i sposób wyświetlania okna. Codex dołączył własne sprawdzenie. Można czytać wniosek, zbadać źródła albo poprowadzić tę rzecz inaczej."
+    },
+    "agent": {
+      "language": "en",
+      "title": "Exchange-window fidelity edge: an unfinished source-bound workpiece"
+    }
+  },
+  "view_authorship": "Codex authored optional Polish and English labels; Browser authored the preserved workpiece.",
+  "provenance": [
+    {
+      "label": "Captured public Browser workpiece; comment can change",
+      "href": "public-comment-capture.json",
+      "sha256": "c2241743a10810eb8d26e14f5fed67e9df6876ff846b0e2da31cb8c89f1989f7"
+    },
+    {
+      "label": "Public Issue #7: Browser workpiece 01",
+      "href": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-5985511668"
+    },
+    {
+      "label": "Pinned public historical window source",
+      "href": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html"
+    }
+  ],
+  "not_a_global_kind": true,
+  "campaign_boundary": "Intentional exploratory dogfood. Not a required channel, architecture decision, controlled causal MP1 result, or ecological adoption."
+}

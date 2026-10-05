@@ -1,0 +1,12 @@
+{
+  "trial": "projection-assisted-reference-reader",
+  "status": "no_completed_report",
+  "entry_url": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6.html",
+  "natural_question": "Establish whether the public Codex window is a reliable reference to the preserved collaboration episode and which claims the available material supports.",
+  "execution_boundary": "The delegated turn ended with a usage-limit error. No completed reader conclusion was returned.",
+  "source_acquisitions": null,
+  "model_tokens": null,
+  "comparison_status": "not_evaluated",
+  "baseline_status": "completed and separately recorded",
+  "fallback_boundary": "An existing Browser Medium participant may consume the public artifact, but cannot substitute for this fresh-reader condition."
+}

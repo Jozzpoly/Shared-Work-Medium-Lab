@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-04T23:35:17.652068+00:00",
+  "source_ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+  "source_wrapper": "campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+  "projection_method": "campaigns/quiet-presence-2026-10-04/render.py",
+  "source_wrapper_sha256": "40fa259a0ce7fd77485820d558af45354411b4c2863646db3cb2b83dfc8be64b",
+  "projection_method_sha256": "f336f897dcc2d62eadcf4492c9385df21c5c03b46aef2523486564b9310ecc86",
+  "expected_projected_wrapper_sha256": "cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6",
+  "observed_projected_wrapper_sha256": "cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6",
+  "source_wrapper_equals_expected_projection": false,
+  "expected_projection_matches_observed": true,
+  "declared_original_file_count": 7,
+  "original_sources": [
+    {
+      "path": "slad-wspolnej-proby.html",
+      "declared_sha256": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+      "source_sha256": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+      "source_matches_declaration": true,
+      "observed_sha256": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+      "observed_matches_source": true,
+      "bytes": 33100
+    },
+    {
+      "path": "COMBAT_EXCHANGE_1.json",
+      "declared_sha256": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+      "source_sha256": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+      "source_matches_declaration": true,
+      "observed_sha256": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+      "observed_matches_source": true,
+      "bytes": 10383
+    },
+    {
+      "path": "COMBAT_EXCHANGE_2.json",
+      "declared_sha256": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+      "source_sha256": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+      "source_matches_declaration": true,
+      "observed_sha256": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+      "observed_matches_source": true,
+      "bytes": 15872
+    },
+    {
+      "path": "GUIDE_EXCHANGE.json",
+      "declared_sha256": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+      "source_sha256": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+      "source_matches_declaration": true,
+      "observed_sha256": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+      "observed_matches_source": true,
+      "bytes": 5614
+    },
+    {
+      "path": "FIRST_HEARTH_SOURCE_SNAPSHOT.json",
+      "declared_sha256": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+      "source_sha256": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+      "source_matches_declaration": true,
+      "observed_sha256": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+      "observed_matches_source": true,
+      "bytes": 82857
+    },
+    {
+      "path": "RESULT_AND_VERIFICATION.json",
+      "declared_sha256": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+      "source_sha256": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+      "source_matches_declaration": true,
+      "observed_sha256": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+      "observed_matches_source": true,
+      "bytes": 6057
+    },
+    {
+      "path": "SLAD_PROBY.md",
+      "declared_sha256": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f",
+      "source_sha256": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f",
+      "source_matches_declaration": true,
+      "observed_sha256": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f",
+      "observed_matches_source": true,
+      "bytes": 2569
+    }
+  ],
+  "all_original_source_hashes_match": true,
+  "all_observed_originals_match_source": true,
+  "observation_scope": "local-rendered-preview",
+  "acquisition": {
+    "git_blob_reads": 10,
+    "git_blob_bytes": 208343,
+    "git_processes": 1,
+    "http_reads": 8,
+    "http_bytes": 191885
+  },
+  "boundaries": [
+    "Not independent verification against the original ChatGPT conversations",
+    "No general claim about semantic fidelity from hashes",
+    "No live activity, ecological adoption or general capability claim",
+    "The observation binds one pinned source and one observed projection"
+  ],
+  "scoped_checks_pass": true
+}

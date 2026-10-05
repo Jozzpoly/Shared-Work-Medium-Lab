@@ -1,0 +1,369 @@
+{
+  "trial": "window_reference_baseline",
+  "naturalTaskVerbatim": "Jesteś świeżym uczestnikiem samodzielnej, eksploracyjnej próby w Shared-Work-Medium-Lab. Cel użytkowy: ustal, czy aktualne publiczne okno Codexa można wykorzystać jako wiarygodną referencję do zachowanego epizodu współpracy, oraz do jakich twierdzeń wystarcza dostępny materiał. Sam wybierz drogę i metodę. Punktem wejścia jest publiczne repo https://github.com/Jozzpoly/Shared-Work-Medium-Lab na main d190d17db8edb5e6e41f8e5777fe2dc0894280d1 i jego START_HERE.md. Warunek tej próby: zwykłe repo/GitHub/raw-source; nie korzystaj z nowych projekcji/artefaktów kampanii capability-expedition-2026-10-05 ani z komentarzy kampanii Issue #7, które są drugim warunkiem porównania. Możesz szukać publicznych PR-ów, historii i starszych eksperymentalnych branchy według własnego uznania. Pracuj read-only, bez wysyłania wiadomości, publikowania, zmieniania plików lub tworzenia infrastruktury. Nie czytaj lokalnej nieopublikowanej gałęzi, prywatnych rozmów, parent chat ani poprzednich lokalnych audytów. To jest samowystarczalna próba na zadanych publicznych źródłach, bez potrzeby odzyskiwania pamięci o dawnych agentach. Nie dostajesz oczekiwanej odpowiedzi ani procedury. Zapisz faktyczną drogę, konkretne exact refs, co ustaliłeś i czego nie, wykonane weryfikacje, oraz liczbę źródłowych odczytów i ilość pozyskanego materiału, jeżeli potrafisz je policzyć. Raportuj ograniczenia pomiaru zamiast szacować tokeny. Budżet pierwszego rozpoznania: do 12 sensownych odczytów źródeł; jeżeli nie wystarczy, podaj nierozstrzygnięcie i najbliższy potrzebny odczyt. Nie myl odnalezienia deklaracji z niezależnym sprawdzeniem. Wynik wyślij do prowadzącego; nie zmieniaj repo.",
+  "entryCondition": {
+    "kind": "ordinary_public_repository_github_raw_source",
+    "repository": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab",
+    "suppliedMainCommit": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+    "entryFile": "START_HERE.md",
+    "sourceReadLimit": 12,
+    "routeChosenByReader": true,
+    "expectedAnswerProvided": false,
+    "repositoryOrientationContractProvidedInSession": true,
+    "permittedOtherSources": "Public PRs, history and older experimental branches",
+    "excludedSources": [
+      "capability-expedition-2026-10-05 projections and artifacts",
+      "Issue #7 campaign comments",
+      "local unpublished branch",
+      "private conversations",
+      "parent chat",
+      "previous local audits",
+      "memory of previous agents"
+    ],
+    "noAdditionalSourceReadsDuringReportMaterialization": true
+  },
+  "method": {
+    "sourceAccess": "Public GitHub resources through github_fetch and github_get_pr_info; no local repository files used as research sources",
+    "route": "Entry map -> research state -> required direction and source-boundary documents -> live ecological specimen note -> Quiet Presence handoff -> current PR #6 metadata -> exact head Git tree -> window HTML and messages JSON",
+    "livePullRequest": {
+      "number": 6,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+      "baseBranch": "campaign/quiet-presence-2026-10-04",
+      "base": "fbfe3d6bdc224ee5517f6def85a85626681364b3"
+    },
+    "movingMainHeadSeparatelyVerified": false,
+    "artifactDirectory": "campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/"
+  },
+  "sourceReads": [
+    {
+      "ordinal": 1,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/START_HERE.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 2987,
+      "acquiredUnicodeCodePoints": 2987,
+      "utf8ReencodedBytes": 2993,
+      "returnedTextLines": 55
+    },
+    {
+      "ordinal": 2,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/RESEARCH_STATE.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 45066,
+      "acquiredUnicodeCodePoints": 45066,
+      "utf8ReencodedBytes": 45197,
+      "returnedTextLines": 776
+    },
+    {
+      "ordinal": 3,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 17882,
+      "acquiredUnicodeCodePoints": 17882,
+      "utf8ReencodedBytes": 17929,
+      "returnedTextLines": 398
+    },
+    {
+      "ordinal": 4,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/PRIMARY_SOURCE_GENEALOGY_PARTIAL_2026-10-03.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 12841,
+      "acquiredUnicodeCodePoints": 12841,
+      "utf8ReencodedBytes": 12892,
+      "returnedTextLines": 248
+    },
+    {
+      "ordinal": 5,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/NORTH_STAR.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 3344,
+      "acquiredUnicodeCodePoints": 3344,
+      "utf8ReencodedBytes": 3366,
+      "returnedTextLines": 69
+    },
+    {
+      "ordinal": 6,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/DESIGN_GUARDRAILS.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 2156,
+      "acquiredUnicodeCodePoints": 2156,
+      "utf8ReencodedBytes": 2160,
+      "returnedTextLines": 62
+    },
+    {
+      "ordinal": 7,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 13424,
+      "acquiredUnicodeCodePoints": 13424,
+      "utf8ReencodedBytes": 13503,
+      "returnedTextLines": 383
+    },
+    {
+      "ordinal": 8,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d190d17db8edb5e6e41f8e5777fe2dc0894280d1/docs/HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md",
+      "ref": "d190d17db8edb5e6e41f8e5777fe2dc0894280d1",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 13042,
+      "acquiredUnicodeCodePoints": 13042,
+      "utf8ReencodedBytes": 13150,
+      "returnedTextLines": 361
+    },
+    {
+      "ordinal": 9,
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/6",
+      "ref": null,
+      "material": "normalized PR JSON serialization",
+      "acquiredUtf16CodeUnits": 2631,
+      "acquiredUnicodeCodePoints": 2631,
+      "utf8ReencodedBytes": 2633,
+      "returnedTextLines": 1
+    },
+    {
+      "ordinal": 10,
+      "url": "https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab/git/trees/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487?recursive=1",
+      "ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+      "material": "returned Git tree JSON text",
+      "acquiredUtf16CodeUnits": 19201,
+      "acquiredUnicodeCodePoints": 19201,
+      "utf8ReencodedBytes": 19201,
+      "returnedTextLines": 1
+    },
+    {
+      "ordinal": 11,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+      "ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 34119,
+      "acquiredUnicodeCodePoints": 34119,
+      "utf8ReencodedBytes": 35569,
+      "returnedTextLines": 132
+    },
+    {
+      "ordinal": 12,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/messages.json",
+      "ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+      "material": "returned raw file text",
+      "acquiredUtf16CodeUnits": 19375,
+      "acquiredUnicodeCodePoints": 19375,
+      "utf8ReencodedBytes": 20499,
+      "returnedTextLines": 51
+    }
+  ],
+  "acquisitionTotals": {
+    "sourceReads": 12,
+    "uniqueSourceUrls": 12,
+    "fileTextReads": 10,
+    "metadataReads": 2,
+    "fileText": {
+      "utf16CodeUnits": 164236,
+      "unicodeCodePoints": 164236,
+      "utf8ReencodedBytes": 167258
+    },
+    "gitTree": {
+      "utf16CodeUnits": 19201,
+      "unicodeCodePoints": 19201,
+      "utf8ReencodedBytes": 19201
+    },
+    "normalizedPullRequestMetadata": {
+      "utf16CodeUnits": 2631,
+      "unicodeCodePoints": 2631,
+      "utf8ReencodedBytes": 2633
+    },
+    "allMaterials": {
+      "utf16CodeUnits": 186068,
+      "unicodeCodePoints": 186068,
+      "utf8ReencodedBytes": 189092
+    },
+    "orientationDocuments": {
+      "reads": 8,
+      "utf16CodeUnits": 110742,
+      "unicodeCodePoints": 110742,
+      "utf8ReencodedBytes": 111190
+    },
+    "firstWindowBodyReadOrdinal": 11,
+    "fullMessagesReadOrdinal": 12,
+    "httpTransferBytes": null,
+    "modelTokens": null,
+    "fullModelExposureCharacters": null,
+    "measurementBoundary": "Counts are acquired returned text, excluding repeated tool wrappers. UTF-8 bytes are calculated by encoding that text, not measured HTTP transfer. Normalized PR metadata is JSON.stringify of the connector snapshot, not the original GitHub HTTP response. Some displayed outputs were truncated; relevant retained portions were reprinted or processed without new source requests. Full model exposure was not measured. Repeated message text across distinct acquired resources remains counted in both resources."
+  },
+  "independentChecks": [
+    {
+      "check": "JSON parsing",
+      "result": "pass",
+      "scope": "Embedded window data and messages.json"
+    },
+    {
+      "check": "message counts",
+      "result": "pass",
+      "displayedCrossAgentMessages": 4,
+      "preservedCrossAgentMessages": 6,
+      "windowDataRows": 6,
+      "scope": "Four Combat messages plus Owner and document rows in the window; messages.json additionally preserves two Guide messages"
+    },
+    {
+      "check": "unique message IDs",
+      "result": "pass",
+      "count": 6,
+      "threadCount": 2,
+      "recordCount": 3
+    },
+    {
+      "check": "exact internal message agreement",
+      "result": "pass",
+      "matched": 4,
+      "compared": [
+        "messageId",
+        "turnId",
+        "full text"
+      ],
+      "scope": "Window Combat rows versus messages.json; not compared with original conversation service"
+    },
+    {
+      "check": "fork sourceIds resolve",
+      "result": "pass",
+      "scope": "All sourceIds in both forks point to embedded data rows"
+    },
+    {
+      "check": "local href and record file existence",
+      "result": "pass",
+      "scope": "All local href targets and three named record files exist in exact Git tree; no browser navigation executed",
+      "treeEntries": 69,
+      "treeTruncated": false
+    },
+    {
+      "check": "Git blob identity",
+      "result": "pass",
+      "files": [
+        {
+          "file": "index.html",
+          "bytes": 35569,
+          "calculatedGitBlobSha1": "65fbc4af4e6528c2327be0ccb109d2b25c261b83",
+          "treeBlobSha1": "65fbc4af4e6528c2327be0ccb109d2b25c261b83"
+        },
+        {
+          "file": "messages.json",
+          "bytes": 20499,
+          "calculatedGitBlobSha1": "2e61d8e526bcbce0d9d54ab267f1243966aba403",
+          "treeBlobSha1": "2e61d8e526bcbce0d9d54ab267f1243966aba403"
+        }
+      ],
+      "scope": "SHA-1 calculated from Git blob header and acquired UTF-8 bytes; validates published blob identity, not prepublication origin. SHA-1 implementation also checked against known empty-string and abc digests."
+    }
+  ],
+  "exactEpisodeAnchors": [
+    {
+      "record": "COMBAT_EXCHANGE_1.json",
+      "threadId": "6abeb571-7aa8-83eb-a532-e67885c16cec",
+      "turnId": "dd2b5c1d-b3cd-476a-9ee1-02eaa5dff7b1",
+      "messageIds": [
+        "dd2b5c1d-b3cd-476a-9ee1-02eaa5dff7b1",
+        "19c6e927-6a65-4e5f-8206-2e14af6dd144"
+      ]
+    },
+    {
+      "record": "COMBAT_EXCHANGE_2.json",
+      "threadId": "6abeb571-7aa8-83eb-a532-e67885c16cec",
+      "turnId": "7f7f1844-7bdd-4746-aa92-791a87542fec",
+      "messageIds": [
+        "7f7f1844-7bdd-4746-aa92-791a87542fec",
+        "247a4126-0c4c-429d-a008-0bb3d70e88e8"
+      ]
+    },
+    {
+      "record": "GUIDE_EXCHANGE.json",
+      "threadId": "6ab2a3b0-b048-83ed-af28-8c6246b5468a",
+      "turnId": "e3e8cca3-593c-413c-ab40-198188cdda16",
+      "messageIds": [
+        "e3e8cca3-593c-413c-ab40-198188cdda16",
+        "97381acb-a4c3-48be-a266-ed769e4fcebf"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "claim": "The public window is usable as an immutable reference to this preserved record",
+      "status": "verified_in_trial",
+      "basis": "Exact head, acquired body and JSON, internal consistency and Git blob identity",
+      "scope": "Published record identity and recoverable text"
+    },
+    {
+      "claim": "The record contains a traceable change from transcript browsing to exposing where an exchange changed work",
+      "status": "supported_by_preserved_statements",
+      "basis": "Initial Codex proposal, Combat response, subsequent Codex statement and window fork annotation",
+      "scope": "Recorded participant account and artifact shape; actual historical causation not independently reproduced"
+    },
+    {
+      "claim": "The record contains a narrowing from broad outside-attention continuity to activity continuity within active runtime",
+      "status": "supported_by_preserved_statements",
+      "basis": "Second Combat exchange and continuity fork",
+      "scope": "Recorded correction; First Hearth source and runtime not independently audited"
+    },
+    {
+      "claim": "The Guide exchange adds continuity plus mutual susceptibility and relational experience",
+      "status": "supported_by_preserved_statements",
+      "basis": "Two Guide messages in messages.json",
+      "scope": "Preserved argument; these messages are outside the original four-message window"
+    },
+    {
+      "claim": "The Jacek/Mira missing-object scenario was performed",
+      "status": "not_established",
+      "basis": "Acquired messages label it as a proposal, not an executed trial"
+    },
+    {
+      "claim": "The public export is authentic and complete relative to the original private conversation service",
+      "status": "not_established",
+      "basis": "No original service comparison or individual record content comparison; exactTextVerified is an artifact declaration"
+    },
+    {
+      "claim": "The full trace works without JavaScript and the browser flow works",
+      "status": "not_independently_checked",
+      "basis": "Handoff and PR declarations; target exists in tree, but all-messages.html and browser flow were not inspected"
+    },
+    {
+      "claim": "This trial establishes independent ecological adoption or general Owner-burden reduction",
+      "status": "not_established",
+      "basis": "Prompted SWM reference-recovery task; historical or repeated Owner burden was not measured"
+    }
+  ],
+  "unresolvedBoundaries": [
+    "Original export authenticity and completeness",
+    "Independent First Hearth source/runtime truth",
+    "Rendered browser behaviour and no-JavaScript full trace",
+    "Historical action causation beyond preserved statements",
+    "Repeated reliability and Owner-burden effect"
+  ],
+  "nextNeededRead": {
+    "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/recovery.json",
+    "purpose": "Inspect declared origins, original-file hashes and recovery boundaries",
+    "performed": false
+  },
+  "furtherVerificationIfAuthorized": "Compare messages.json with COMBAT_EXCHANGE_1.json, COMBAT_EXCHANGE_2.json and GUIDE_EXCHANGE.json; original-service authenticity needs its own source access.",
+  "comparison": {
+    "otherConditionConsulted": false,
+    "comparativeOutcome": "not_evaluated",
+    "mediumSuperiorityClaim": false
+  },
+  "sideEffects": {
+    "trialFileChanges": 0,
+    "externalMessages": 0,
+    "publications": 0,
+    "infrastructureCreated": 0,
+    "ownerClarificationRequests": 0,
+    "reportFileAuthorizedAfterTrial": "C:\\Users\\Pioter\\AppData\\Local\\Temp\\swm-capability-20261005-6aad1e81\\campaigns\\capability-expedition-2026-10-05\\evidence\\baseline-reader.json"
+  },
+  "toolLimitations": [
+    "Initial local skill-file read failed with helper_unknown_error before content was acquired; public GitHub connector reads succeeded.",
+    "Local exec remained unavailable during report materialization; no source reads were added."
+  ]
+}

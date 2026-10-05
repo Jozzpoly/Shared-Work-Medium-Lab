@@ -1,0 +1,56 @@
+{
+  "participant_id": "codex",
+  "record_kind": "local_observation_and_selected_action",
+  "owner_scope": {
+    "scope_id": "capability-expedition-2026-10-05"
+  },
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Codex: różne bajty są tu oczekiwanym wynikiem",
+      "summary": "Siedem zadeklarowanych plików źródłowych jest zgodnych z zapisem odzyskiwania i z lokalnym podglądem. Sam wrapper zmienia się podczas renderowania; wynik zgadza się z odtworzoną transformacją."
+    }
+  },
+  "local_note": "Z tego pojedynczego sprawdzenia nie wynika autentyczność pierwotnych rozmów, pełna wierność znaczenia ani żywa obecność agentów.",
+  "action_trace": {
+    "before_browser_workpiece": "Codex had already identified the wrapper difference and checked four served data files. A hash check was already planned.",
+    "public_input": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-5985511668",
+    "selected_action": "Read the complete originalFilesSha256 set from pinned recovery metadata and verify all seven declared originals plus one rendered wrapper.",
+    "after": "The previously unbound local projected-wrapper bytes are now bound by a SHA-256 observation; all seven declared originals match source and observed preview.",
+    "attribution_boundary": "Participant self-report of how the workpiece sharpened the scope. Not independent causal evidence that Medium created the action."
+  },
+  "observation_result": "check-result.json",
+  "method": {
+    "source": "reproduce_window_check.py",
+    "native_git_batch_reads": 10,
+    "native_git_processes": 1,
+    "machine_processed_git_bytes": 208343,
+    "http_reads": 8,
+    "http_bytes": 191885,
+    "metrics_boundary": "Bytes processed by the apparatus are not model tokens or full context exposure. Clone/fetch and prior reading costs are excluded."
+  },
+  "verified_ui_scope": {
+    "viewport": "1280x900",
+    "observed": [
+      "Root to SWM to artifact to window",
+      "Co trwa dalej changes the h3 episode lens",
+      "Full trace returns through Okno Codexa",
+      "Six message headings remain available with JavaScript disabled"
+    ],
+    "console_errors": 0,
+    "page_errors": 0,
+    "failed_requests": 0,
+    "boundaries": [
+      "Existing historical window; no fresh agent activity",
+      "Desktop scope only",
+      "UI checks do not validate all historical interpretations"
+    ]
+  },
+  "open_choices": [
+    "Verify or reject the bounded conclusion from exact sources",
+    "Use this workpiece to investigate a different fidelity edge",
+    "Choose no product change; the existing behavior may already be suitable",
+    "Decide whether a task-sized projection is worth its authoring and orientation cost"
+  ],
+  "scope": "One public source revision and one actually observed local preview. Five distinctions are a useful local interpretation, not new Medium primitives."
+}

@@ -1,0 +1,112 @@
+{
+  "scope": "Existing unmodified Open Substrate adapter applied to new campaign data",
+  "donor_manifest_campaign": "open-substrate-2026-10-04",
+  "actual_campaign": "capability-expedition-2026-10-05",
+  "entryTitle": "Open Substrate — laboratorium",
+  "objectTitle": "Co właściwie zachowuje nasze okno?",
+  "technicalTitle": "Exchange-window fidelity edge: an unfinished source-bound workpiece — technical view",
+  "sourceLabels": [
+    "Treść",
+    "Źródła",
+    "Powiązane lokalne i uczestnikowe zapisy",
+    "Głębiej"
+  ],
+  "bodyVisible": true,
+  "bodyContainsBrowserHeading": true,
+  "recordCards": 2,
+  "exactCopies": [
+    {
+      "source": "packages/browser-piece/object.json",
+      "projected": "raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/object.json",
+      "sha256": "2b2cb4aaeb173bbbe6b0cc69f3c019b18502d7ef8b27caac767db3181e78c51e",
+      "bytes": 1573,
+      "exact": true
+    },
+    {
+      "source": "packages/browser-piece/workpiece.md",
+      "projected": "raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/body/workpiece.md",
+      "sha256": "cb23016f8ed2ed3201d591bf67ded7590ae1cb6ca61ffe326eaaaa8e41677e56",
+      "bytes": 4582,
+      "exact": true
+    },
+    {
+      "source": "packages/browser-piece/public-comment-capture.json",
+      "projected": "raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/source-0/public-comment-capture.json",
+      "sha256": "c2241743a10810eb8d26e14f5fed67e9df6876ff846b0e2da31cb8c89f1989f7",
+      "bytes": 5091,
+      "exact": true
+    },
+    {
+      "source": "packages/codex-observation/check-result.json",
+      "projected": "raw/records-27153bde021ad3cb/check-result.json",
+      "sha256": "a3520c3f987b584f2fbc01481316995ae9a1659d33044f7514433f8295e58d73",
+      "bytes": 4545,
+      "exact": true
+    },
+    {
+      "source": "packages/codex-observation/interpretation.json",
+      "projected": "raw/records-27153bde021ad3cb/interpretation.json",
+      "sha256": "6ec9eeb70f0b19be412e5e6d6a72bb75f02fbec9e286eb13fa10b60d0504c128",
+      "bytes": 2916,
+      "exact": true
+    },
+    {
+      "source": "packages/codex-observation/medium.refs.json",
+      "projected": "raw/records-27153bde021ad3cb/medium.refs.json",
+      "sha256": "33142d7713cfc1f7e6c6abaf7dad221f003bff0660d156a7e727cb8818726806",
+      "bytes": 244,
+      "exact": true
+    }
+  ],
+  "localChecks": [
+    {
+      "url": "http://127.0.0.1:8793/index.html",
+      "status": 200,
+      "bytes": 1842
+    },
+    {
+      "url": "http://127.0.0.1:8793/raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/body/workpiece.md",
+      "status": 200,
+      "bytes": 4582
+    },
+    {
+      "url": "http://127.0.0.1:8793/raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/source-0/public-comment-capture.json",
+      "status": 200,
+      "bytes": 5091
+    },
+    {
+      "url": "http://127.0.0.1:8793/raw/records-27153bde021ad3cb/check-result.json",
+      "status": 200,
+      "bytes": 4545
+    },
+    {
+      "url": "http://127.0.0.1:8793/raw/records-27153bde021ad3cb/interpretation.json",
+      "status": 200,
+      "bytes": 2916
+    },
+    {
+      "url": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6-technical.html",
+      "status": 200,
+      "bytes": 4100
+    }
+  ],
+  "rawObjectMatches": true,
+  "mobileLayout": {
+    "innerWidth": 390,
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  "noJSTitle": "Co właściwie zachowuje nasze okno?",
+  "noJSRecordCards": 2,
+  "health": {
+    "console_errors": [],
+    "page_errors": [],
+    "failed_requests": []
+  },
+  "checksPass": true,
+  "boundaries": [
+    "Local preview, not public deployment",
+    "Unmodified adapter retains its own older campaign label",
+    "No causal or ecological adoption claim"
+  ]
+}

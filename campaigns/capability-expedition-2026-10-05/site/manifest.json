@@ -1,0 +1,73 @@
+{
+  "campaign": "open-substrate-2026-10-04",
+  "derived": true,
+  "discovery": "explicit package roots",
+  "objects": [
+    {
+      "id": "window-fidelity-edge-2026-10-05",
+      "kind": null,
+      "owner_page": "object-window-fidelity-edge-2026-10-05-eeaa1e8fc6.html",
+      "technical_page": "object-window-fidelity-edge-2026-10-05-eeaa1e8fc6-technical.html",
+      "raw_object": "raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/object.json",
+      "slug": "window-fidelity-edge-2026-10-05-eeaa1e8fc6",
+      "body": {
+        "status": "copied",
+        "relative": "raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/body/workpiece.md"
+      },
+      "provenance": [
+        {
+          "label": "Captured public Browser workpiece; comment can change",
+          "status": "copied",
+          "href": "raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/source-0/public-comment-capture.json",
+          "reason": null,
+          "declared_hash": "c2241743a10810eb8d26e14f5fed67e9df6876ff846b0e2da31cb8c89f1989f7",
+          "verified": true,
+          "language": null
+        },
+        {
+          "label": "Public Issue #7: Browser workpiece 01",
+          "status": "external",
+          "href": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-5985511668",
+          "declared_hash": null
+        },
+        {
+          "label": "Pinned public historical window source",
+          "status": "external",
+          "href": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+          "declared_hash": null
+        }
+      ],
+      "record_count": 2
+    }
+  ],
+  "records": [
+    {
+      "raw_href": "raw/records-27153bde021ad3cb/check-result.json",
+      "relative": "check-result.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-27153bde021ad3cb",
+      "refs_href": "raw/records-27153bde021ad3cb/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "check-result.json",
+          "object_id": "window-fidelity-edge-2026-10-05"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-27153bde021ad3cb/interpretation.json",
+      "relative": "interpretation.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-27153bde021ad3cb",
+      "refs_href": "raw/records-27153bde021ad3cb/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "interpretation.json",
+          "object_id": "window-fidelity-edge-2026-10-05"
+        }
+      ]
+    }
+  ]
+}

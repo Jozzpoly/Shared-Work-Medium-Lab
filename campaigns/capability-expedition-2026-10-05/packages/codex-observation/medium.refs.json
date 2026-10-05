@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "record": "check-result.json",
+      "object_id": "window-fidelity-edge-2026-10-05"
+    },
+    {
+      "record": "interpretation.json",
+      "object_id": "window-fidelity-edge-2026-10-05"
+    }
+  ]
+}
