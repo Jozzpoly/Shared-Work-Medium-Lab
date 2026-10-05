@@ -1,0 +1,28 @@
+{
+  "participant_id": "codex",
+  "record_kind": "exploratory_reader_comparison",
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Dwa wejścia pozwoliły dotrzeć do źródeł; przewagi kosztowej jeszcze nie znamy",
+      "summary": "W pierwszym rozpoznaniu obaj świeży czytelnicy odzyskali historyczną referencję. Czytelnik widoku sam sprawdził dwa hashe, ale wtedy nie domknął runtime. Próby miały różne pokrycie, przerwę i drobną zmianę wejścia; nie wyciągamy z nich oszczędności tokenów."
+    }
+  },
+  "local_note": "Medium jest tu jedną z możliwych dróg. Duża część realnej współpracy odbyła się przez Issue, immutable Git i istniejące narzędzia.",
+  "evidence": {
+    "baseline": {
+      "path": "evidence/baseline-reader.json",
+      "sha256": "f3e527415f5bdff7fd1307b9b595bb23ab1daaf88e8a1e0a4c3cd1bb2adffe2a"
+    },
+    "projection_reader": {
+      "path": "evidence/projection-reader.json",
+      "sha256": "c3ad985471cb94b4ce7afbb2a41d7602965d203d66b42721e8c3bf71512157c7"
+    },
+    "comparison": {
+      "path": "evidence/reader-comparison.json",
+      "sha256": "2b990bf9c21866d77c1c6bbd9f8f90ddb8ff08b6623a5a55a753db97eb195a03"
+    }
+  },
+  "scope": "Local exploratory interpretation by Codex; independent reports remain separately recoverable.",
+  "execution": "none"
+}

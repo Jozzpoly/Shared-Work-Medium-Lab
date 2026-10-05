@@ -3,6 +3,16 @@
   "source_path": "campaigns/open-substrate-2026-10-04/open_render.py",
   "sha256": "d271c8cdee029c9b35e06250e9fc4566e14b3b8045ad99d1ce60ea3f00e596c0",
   "bytes": 25580,
-  "selection": "Unmodified passive adapter reused for one source-bound Markdown body and separate Codex-owned records with explicit local association.",
-  "boundary": "A selected donor mechanism for this specimen, not adopted architecture. The adapter still labels its own manifest campaign open-substrate-2026-10-04."
+  "selection": "Existing passive body, raw-copy and local-reference mechanisms selected for this specimen. One presentation-only adaptation follows an observed expanded-text failure.",
+  "boundary": "Donor is not adopted as architecture. Package/identity/schema behavior is unchanged; first-public and current-copy identities are distinct.",
+  "first_relay_commit": "93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+  "first_relay_copy_was_byte_identical": true,
+  "current_copy_sha256": "2de980d70c4e63a33e599cd2faf855f9be23c7bf1b840e67d491f29b75a441ae",
+  "current_copy_bytes": 25617,
+  "current_delta": {
+    "scope": "One CSS rule on participant notes",
+    "rule": ".note { overflow-wrap: anywhere; }",
+    "trigger": "Opening the full Browser follow-up produced 609px document width at a 390px viewport.",
+    "verified_after": "390px document width at the same viewport; selected raw copies still exact."
+  }
 }

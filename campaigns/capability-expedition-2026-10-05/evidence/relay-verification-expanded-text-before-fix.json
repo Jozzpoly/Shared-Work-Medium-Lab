@@ -13,7 +13,7 @@
   ],
   "bodyVisible": true,
   "bodyContainsBrowserHeading": true,
-  "recordCards": 6,
+  "recordCards": 4,
   "exactCopies": [
     {
       "source": "packages/browser-piece/object.json",
@@ -38,30 +38,23 @@
     },
     {
       "source": "packages/codex-observation/check-result.json",
-      "projected": "raw/records-eaeae333c7f438da/check-result.json",
+      "projected": "raw/records-e4f75fb5e85958d5/check-result.json",
       "sha256": "a3520c3f987b584f2fbc01481316995ae9a1659d33044f7514433f8295e58d73",
       "bytes": 4545,
       "exact": true
     },
     {
       "source": "packages/codex-observation/comparison.json",
-      "projected": "raw/records-eaeae333c7f438da/comparison.json",
-      "sha256": "ef5fb84ef2cb43007192ec3db8cc19e72c30ea61b15d93b507b8cce37bf33253",
-      "bytes": 1337,
+      "projected": "raw/records-e4f75fb5e85958d5/comparison.json",
+      "sha256": "68fe5c6a1119f9d5ee8e0ed892cbfeed3196391ded2d07c06a44dc91698dd475",
+      "bytes": 1307,
       "exact": true
     },
     {
       "source": "packages/codex-observation/interpretation.json",
-      "projected": "raw/records-eaeae333c7f438da/interpretation.json",
+      "projected": "raw/records-e4f75fb5e85958d5/interpretation.json",
       "sha256": "6ec9eeb70f0b19be412e5e6d6a72bb75f02fbec9e286eb13fa10b60d0504c128",
       "bytes": 2916,
-      "exact": true
-    },
-    {
-      "source": "packages/codex-observation/procedural-use-summary.json",
-      "projected": "raw/records-eaeae333c7f438da/procedural-use-summary.json",
-      "sha256": "2dbab7097ade3235a8c6f55e2b0ae6f62f1585ec829a2fe550d268535798c5cd",
-      "bytes": 1410,
       "exact": true
     },
     {
@@ -72,17 +65,10 @@
       "exact": true
     },
     {
-      "source": "packages/procedural-consumer/consumer-result.json",
-      "projected": "raw/records-328c0378099a6ab3/consumer-result.json",
-      "sha256": "873b182d0ac07693b7fddfdc2b9d4dc25e9fa4afc646db598d5b27cc73d2b101",
-      "bytes": 14725,
-      "exact": true
-    },
-    {
       "source": "packages/codex-observation/medium.refs.json",
-      "projected": "raw/records-eaeae333c7f438da/medium.refs.json",
-      "sha256": "8ff50fd5d5f8bd08c0bc237fae86cc8fd1dac762f463629d5ba70c9db1a6079e",
-      "bytes": 458,
+      "projected": "raw/records-e4f75fb5e85958d5/medium.refs.json",
+      "sha256": "e4b8de1654007c0b21bbe9ed52299af417bebb5983eb01da21aaba812138d052",
+      "bytes": 345,
       "exact": true
     },
     {
@@ -91,20 +77,13 @@
       "sha256": "3cbde4979d7f8e48b3b92096b6ea703a1b16a6ccb1052341ce481049689fdf80",
       "bytes": 133,
       "exact": true
-    },
-    {
-      "source": "packages/procedural-consumer/medium.refs.json",
-      "projected": "raw/records-328c0378099a6ab3/medium.refs.json",
-      "sha256": "9b5a72ea848fb552dac35cfbc6d2f985afc4572aad0d43eb566a0ab8543a424e",
-      "bytes": 142,
-      "exact": true
     }
   ],
   "localChecks": [
     {
       "url": "http://127.0.0.1:8793/index.html",
       "status": 200,
-      "bytes": 1878
+      "bytes": 1842
     },
     {
       "url": "http://127.0.0.1:8793/raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/body/workpiece.md",
@@ -117,24 +96,19 @@
       "bytes": 5091
     },
     {
-      "url": "http://127.0.0.1:8793/raw/records-eaeae333c7f438da/check-result.json",
+      "url": "http://127.0.0.1:8793/raw/records-e4f75fb5e85958d5/check-result.json",
       "status": 200,
       "bytes": 4545
     },
     {
-      "url": "http://127.0.0.1:8793/raw/records-eaeae333c7f438da/comparison.json",
+      "url": "http://127.0.0.1:8793/raw/records-e4f75fb5e85958d5/comparison.json",
       "status": 200,
-      "bytes": 1337
+      "bytes": 1307
     },
     {
-      "url": "http://127.0.0.1:8793/raw/records-eaeae333c7f438da/interpretation.json",
+      "url": "http://127.0.0.1:8793/raw/records-e4f75fb5e85958d5/interpretation.json",
       "status": 200,
       "bytes": 2916
-    },
-    {
-      "url": "http://127.0.0.1:8793/raw/records-eaeae333c7f438da/procedural-use-summary.json",
-      "status": 200,
-      "bytes": 1410
     },
     {
       "url": "http://127.0.0.1:8793/raw/records-bd76c969633854a6/record.json",
@@ -142,30 +116,25 @@
       "bytes": 5706
     },
     {
-      "url": "http://127.0.0.1:8793/raw/records-328c0378099a6ab3/consumer-result.json",
-      "status": 200,
-      "bytes": 14725
-    },
-    {
       "url": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6-technical.html",
       "status": 200,
-      "bytes": 4602
+      "bytes": 4312
     }
   ],
   "rawObjectMatches": true,
   "mobileLayout": {
     "innerWidth": 390,
-    "scrollWidth": 390,
-    "overflow": false
+    "scrollWidth": 609,
+    "overflow": true
   },
   "noJSTitle": "Co właściwie zachowuje nasze okno?",
-  "noJSRecordCards": 6,
+  "noJSRecordCards": 4,
   "health": {
     "console_errors": [],
     "page_errors": [],
     "failed_requests": []
   },
-  "checksPass": true,
+  "checksPass": false,
   "boundaries": [
     "Local preview, not public deployment",
     "Unmodified adapter retains its own older campaign label",

@@ -8,6 +8,14 @@
     {
       "record": "interpretation.json",
       "object_id": "window-fidelity-edge-2026-10-05"
+    },
+    {
+      "record": "comparison.json",
+      "object_id": "window-fidelity-edge-2026-10-05"
+    },
+    {
+      "record": "procedural-use-summary.json",
+      "object_id": "window-fidelity-edge-2026-10-05"
     }
   ]
 }

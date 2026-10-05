@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "reader": "projection-reader",
+  "completed_at_utc": "2026-10-05 04:30:56 UTC",
+  "status": "bounded_partial_result",
+  "objective": "Assess whether the public Codex exchange window can be used as a reliable reference to a preserved collaboration episode and which claims the available material supports.",
+  "entry_url": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6.html",
+  "answer": {
+    "usable_reference": "Conditionally yes: an exact public commit and path identify the historical wrapper, whose independently acquired SHA-256 agrees with the attached check record. The window carries concrete archival message identifiers and an authored account of two changes in the continuation of work. It is useful as a source-bounded historical reference.",
+    "assessed_revision": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+    "independently_verified": [
+      "The supplied Medium view loads through the Opera connector and exposes links to raw content, a mutable public issue comment, and an immutable public wrapper revision.",
+      "The source wrapper acquired directly from raw.githubusercontent.com has SHA-256 40fa259a0ce7fd77485820d558af45354411b4c2863646db3cb2b83dfc8be64b, agreeing with the attached check-result.json.",
+      "The pinned renderer acquired directly has SHA-256 f336f897dcc2d62eadcf4492c9385df21c5c03b46aef2523486564b9310ecc86, agreeing with check-result.json.",
+      "Renderer lines 201-210 copy the body directory, read the wrapper as UTF-8 text, conditionally replace its data-medium-return field-prefix, and write the adapted text as UTF-8 bytes.",
+      "The pinned source wrapper and local HTTP wrapper are different. A deliberately simple literal prefix replacement on the raw decoded source did not reproduce the local wrapper."
+    ],
+    "source_based_content_observed": [
+      "The public wrapper labels itself a preserved episode dated 4 October 2026 and explicitly says it does not show current agent activity.",
+      "Its embedded public record contains two Combat exchanges with explicit turn and message identifiers, Owner feedback, a First Hearth document pointer, and two authored before/after forks.",
+      "The first authored fork records a change from a transcript viewer to a window of concrete work-changing forks after the Combat response.",
+      "The second authored fork narrows continuity to activity during cognition/conversation within an active session, with life after closing or suspending the world outside the demonstrated claim.",
+      "The wrapper says the full trace also includes a third Feniks exchange; that linked full trace was not independently read in this trial."
+    ],
+    "reported_but_not_independently_repeated": [
+      "The attached check-result.json reports all seven original-source hashes matching their recovery declarations and their local-preview copies.",
+      "The attached record reports fully reconstructed projection hash cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6 matching its observed projection.",
+      "The embedded messages use exactTextVerified=true; I did not verify these texts against the original private conversations.",
+      "The Browser workpiece describes test-suite and recovery-metadata properties. The corresponding test file and recovery.json were not read."
+    ],
+    "unresolved": [
+      "I did not independently reproduce the complete renderer transformation and compare it against current local bytes. My simple raw-text replacement omitted the read_text newline handling in the actual renderer.",
+      "The source9-source11 output was truncated by the command tool. The current local wrapper's independently computed SHA-256 and the first renderer acquisition metadata did not survive the returned output; they are not presented as independent confirmations.",
+      "I did not read or hash all seven recovered original files.",
+      "I did not independently authenticate the original conversations, prove full semantic fidelity, open the linked full third exchange, test window controls, or verify that the rewritten return navigation resolves.",
+      "The assessment is pinned to the revision offered by the entry view. I did not establish whether this is the newest public revision or inspect the local checkout branch/HEAD."
+    ],
+    "does_not_support": [
+      "Live presence or currently continuing activity of the original agents.",
+      "A generalized controlled causal capability gain.",
+      "Independent spontaneous ecological adoption.",
+      "A quantified Owner-burden improvement.",
+      "Authenticity of all original conversation texts merely from hash equality.",
+      "Universal byte preservation of wrappers through rendering.",
+      "Any architectural commitment."
+    ],
+    "interpretation": "Different wrapper bytes alone are not evidence of corruption. The renderer visibly transforms the wrapper, and its text read can normalize line endings. The complete byte correspondence remains a bounded unresolved check in this run."
+  },
+  "verification": {
+    "source_wrapper_sha256": "40fa259a0ce7fd77485820d558af45354411b4c2863646db3cb2b83dfc8be64b",
+    "source_wrapper_sha256_matches_attached_record": true,
+    "renderer_sha256": "f336f897dcc2d62eadcf4492c9385df21c5c03b46aef2523486564b9310ecc86",
+    "renderer_sha256_matches_attached_record": true,
+    "source_wrapper_equals_local_wrapper": false,
+    "raw_decode_then_literal_prefix_replacement_matches_local": false,
+    "raw_decode_then_literal_prefix_replacement_sha256": "092e42711f862aef12aa6cbd76e20271aa15aa489518c3f0d3e0bd376ee4a591",
+    "prefix_occurrences_in_source": 1,
+    "local_wrapper_bytes_independently_measured": 35433,
+    "local_wrapper_sha256_retained_in_returned_output": null,
+    "fully_reconstructed_projection_matches_local": null,
+    "original_seven_files_independently_verified_count": 0,
+    "static_renderer_excerpt": {
+      "start_line": 201,
+      "end_line": 210,
+      "read_text_line": 204,
+      "replacement_lines": [
+        205,
+        206,
+        207,
+        208
+      ],
+      "write_bytes_line": 210
+    }
+  },
+  "reads": [
+    {
+      "id": 1,
+      "url": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6.html",
+      "surface": "Opera accessibility tree",
+      "role": "entry view",
+      "characters": 4709,
+      "utf8_representation_bytes": 4811
+    },
+    {
+      "id": 2,
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/START_HERE.md",
+      "blob_sha": "8e3f11c0dc2eae13c2b05cc4faf5b138c56f537e",
+      "characters": 2987,
+      "utf8_representation_bytes": 2993,
+      "fully_returned_by_connector": true,
+      "model_display_had_truncation": false,
+      "surface": "GitHub connector UTF-8 content",
+      "role": "repository orientation required by AGENTS.md"
+    },
+    {
+      "id": 3,
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md",
+      "blob_sha": "a8ba8047c591a74bb729a2bc24559a2799b3bda1",
+      "characters": 45066,
+      "utf8_representation_bytes": 45197,
+      "fully_returned_by_connector": true,
+      "model_display_had_truncation": true,
+      "surface": "GitHub connector UTF-8 content",
+      "role": "repository orientation required by AGENTS.md"
+    },
+    {
+      "id": 4,
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md",
+      "blob_sha": "3881801b59a5b31de59053e4e9ecbfe8d8994433",
+      "characters": 17882,
+      "utf8_representation_bytes": 17929,
+      "fully_returned_by_connector": true,
+      "model_display_had_truncation": true,
+      "surface": "GitHub connector UTF-8 content",
+      "role": "repository orientation required by AGENTS.md"
+    },
+    {
+      "id": 5,
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/PRIMARY_SOURCE_GENEALOGY_PARTIAL_2026-10-03.md",
+      "blob_sha": "b0888fdd6519da0609b2359bde2b0b755c676eb0",
+      "characters": 12841,
+      "utf8_representation_bytes": 12892,
+      "fully_returned_by_connector": true,
+      "model_display_had_truncation": false,
+      "surface": "GitHub connector UTF-8 content",
+      "role": "repository orientation required by AGENTS.md"
+    },
+    {
+      "id": 6,
+      "url": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6-technical.html",
+      "surface": "Python urllib HTTP",
+      "bytes": 4100,
+      "role": "exact links and metadata"
+    },
+    {
+      "id": 7,
+      "url": "http://127.0.0.1:8793/raw/window-fidelity-edge-2026-10-05-eeaa1e8fc6/body/workpiece.md",
+      "surface": "Python urllib HTTP",
+      "bytes": 4583,
+      "role": "Browser-authored question and exact source pointers"
+    },
+    {
+      "id": 8,
+      "url": "http://127.0.0.1:8793/raw/records-27153bde021ad3cb/check-result.json",
+      "surface": "Python urllib HTTP",
+      "bytes": 4545,
+      "role": "prior participant verification record, treated as reported evidence"
+    },
+    {
+      "id": 9,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+      "surface": "Python urllib HTTP",
+      "bytes": 35569,
+      "role": "independent source wrapper acquisition; raw output partly truncated"
+    },
+    {
+      "id": 10,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/render.py",
+      "surface": "Python urllib HTTP",
+      "bytes_retained": null,
+      "role": "renderer acquisition; output metadata and code lost to truncation"
+    },
+    {
+      "id": 11,
+      "url": "http://127.0.0.1:8792/bodies/codex-exchange-window/index.html",
+      "surface": "Python urllib HTTP",
+      "bytes": 35433,
+      "role": "local rendered wrapper acquisition and simple byte comparison; output partly truncated"
+    },
+    {
+      "id": 12,
+      "url": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/render.py",
+      "surface": "Python urllib HTTP",
+      "bytes": 14869,
+      "characters": 14867,
+      "role": "repeat acquisition with compact metadata and relevant code excerpt to recover from tool-output truncation"
+    }
+  ],
+  "route": [
+    "Initial attempts to read tool instructions in the default sandbox failed with helper_unknown_error.",
+    "CUA initialization at the supplied view failed with the same sandbox-helper failure.",
+    "Discovered the existing Opera connector, opened only the supplied local URL, and read its accessibility tree.",
+    "Recovered the four mandatory repository orientation documents through the GitHub connector on main. Repository documents remained source claims, not proof of their reported experiments.",
+    "A read-only escalated shell was approved and successfully read tool instructions. The superpowers skill explicitly exempts dispatched subagents; the Windows computer-use skill did not apply to the browser-only fallback.",
+    "Used existing Python with -X utf8 and urllib to read technical metadata, the preserved workpiece, and attached check record, without storing source files.",
+    "A read-only acquisition of the pinned wrapper, renderer and local wrapper was prevented by automatic review because usage availability was exhausted. No source requests in that blocked command executed.",
+    "After an explicit parent message reporting fresh availability after the user's resumption, retried the same read once; it succeeded.",
+    "Computed raw source SHA-256, raw renderer/local SHA-256 and a simple wrapper transform in memory. Tool-output truncation discarded some computed results.",
+    "Used the twelfth source read to reacquire only the renderer and return compact hash metadata plus lines 175-212.",
+    "Stopped at 12 project-source acquisitions, retained the unresolved complete-transform check, and wrote only this report."
+  ],
+  "measurement": {
+    "source_acquisitions": 12,
+    "unique_project_resources": 11,
+    "repeated_project_resource_acquisitions": 1,
+    "repository_orientation_acquisitions": 4,
+    "task_evidence_acquisitions": 8,
+    "instruction_file_reads_separate_from_project_source_budget": 2,
+    "doc_utf8_representation_characters": 78776,
+    "doc_utf8_representation_bytes": 79011,
+    "entry_ax_payload_characters": 4709,
+    "entry_ax_utf8_representation_bytes": 4811,
+    "confirmed_http_source_byte_subtotal": 99099,
+    "excluded_from_http_subtotal": "The first renderer acquisition at read10 was successful, but its exact byte-count metadata was removed by tool-output truncation. The repeated immutable renderer read measured 14869 bytes; I do not substitute that inferred size into the first read's measurement.",
+    "token_estimate": null,
+    "model_visible_complete_source_byte_total": null,
+    "limitations": [
+      "HTTP bytes, connector UTF-8 content representation bytes, and AX payload bytes are different acquisition surfaces and are reported separately.",
+      "Command output for reads9-11 was truncated. Source acquisition completed in Python, but not all acquired text or computed metadata reached model-visible output.",
+      "Large repository-doc outputs were also truncated in some displays; cached excerpts were revisited without additional source requests. These observations do not establish that every line was semantically reviewed.",
+      "No low-level HTTP wire bytes, headers, GitHub connector internals, browser automatic requests, or tokenizer measurements were captured.",
+      "Skill instructions, tool discovery, failed startup/approval calls, cached redisplays, report writing and report readback are not counted as project-source acquisitions."
+    ],
+    "owner_content_transfer_requests": 0,
+    "owner_routing_requests_issued_by_reader": 0,
+    "entry_was_explicitly_routed": true,
+    "parent_resume_messages": 1,
+    "owner_attention_cost_comparison": "Unmeasured; no causal reduction claim."
+  },
+  "tool_limitations": [
+    {
+      "kind": "sandbox_helper_failure",
+      "tools": [
+        "exec_command default sandbox",
+        "CUA"
+      ],
+      "effect": "Fallback to Opera connector and approved read-only shell."
+    },
+    {
+      "kind": "automatic_approval_review_failure",
+      "reason": "Usage limit; action not executed because review could not complete. This was not a determination that the read was unsafe.",
+      "effect": "Retried only after explicit resumption reporting fresh availability; succeeded."
+    },
+    {
+      "kind": "output_truncation",
+      "effect": "Required one repeated renderer acquisition and left the full current projection match unresolved."
+    }
+  ],
+  "boundaries": {
+    "mode": "read-only except this authorized result file",
+    "read_parent_chat": false,
+    "read_previous_agent_memories": false,
+    "read_private_original_conversations": false,
+    "read_unpublished_historical_branch": false,
+    "read_baseline_reader_json": false,
+    "sent_messages_or_published": false,
+    "architecture_extended": false,
+    "unsolicited_existing_tab_metadata": "The Opera navigation tool returned existing-tab titles and URLs automatically; none of those private tabs was opened or read."
+  },
+  "next_needed_reads": [
+    {
+      "purpose": "Complete current byte correspondence",
+      "refs": [
+        "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+        "http://127.0.0.1:8792/bodies/codex-exchange-window/index.html"
+      ],
+      "method": "Compact output with raw source/local hashes; reproduce UTF-8 text reading including universal newline normalization, then the exact data-medium-return replacement and UTF-8 byte write from renderer lines204-210."
+    },
+    {
+      "purpose": "Check preservation boundary for the original episode",
+      "ref": "https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/recovery.json",
+      "method": "Read the declared recovery boundary before selecting any original fragment or message data for independent hashing."
+    }
+  ],
+  "artifact": {
+    "path": "C:/Users/Pioter/AppData/Local/Temp/swm-capability-20261005-6aad1e81/campaigns/capability-expedition-2026-10-05/evidence/projection-reader.json",
+    "source_files_saved": false
+  }
+}

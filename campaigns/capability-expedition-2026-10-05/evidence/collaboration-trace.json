@@ -1,0 +1,142 @@
+{
+  "record_kind": "campaign_execution_observations",
+  "scope": "First capability-expedition loop; observations and participant interpretations are separate.",
+  "public_working_handle": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7",
+  "events": [
+    {
+      "order": 1,
+      "event": "Brainstorming through existing Browser Medium conversation",
+      "evidence": {
+        "thread_id": "6ac27376-18d0-83eb-99a5-96b3ca093c74",
+        "request_id": "f7e3399f-dd77-4c6d-9430-2586b512032c",
+        "reply_id": "bd1b3f05-d60f-44cb-a7a0-ceb984fe097a"
+      },
+      "interpretation": "Common workpieces, optional projections, native repo actions and consumer choice were compared; no architecture decision."
+    },
+    {
+      "order": 2,
+      "event": "Critical follow-up",
+      "evidence": {
+        "request_id": "90e398bb-d544-4ea6-8283-955152e3e87c",
+        "reply_id": "996decbd-a01c-48c6-819c-3e989f3ec5dc"
+      },
+      "interpretation": "Consumer agency, including informed no-change, retained; surprise not required."
+    },
+    {
+      "order": 3,
+      "event": "Browser authored and published a workpiece",
+      "evidence": {
+        "request_id": "b3c3f2b0-57ff-4dc7-8a1f-da5c61f222b1",
+        "reply_id": "ffbc4d6a-07bc-4d69-9507-134724ab8ff8",
+        "public_comment": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-5985511668"
+      },
+      "status": "Observed independently through GitHub readback"
+    },
+    {
+      "order": 4,
+      "event": "Codex selected a complete declared-source check and new optional projection",
+      "evidence": {
+        "commit": "93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+        "public_comment": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-5988047938",
+        "draft_pr": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/8"
+      },
+      "status": "Published and read back"
+    },
+    {
+      "order": 5,
+      "event": "Second fresh-reader attempt did not complete",
+      "evidence": {
+        "record": "projection-reader-attempt.json"
+      },
+      "status": "Usage-limit error; no completed reader report"
+    },
+    {
+      "order": 6,
+      "event": "Execution availability checked after continuation",
+      "status": "Current ordinary use permitted; original assignment resumed without changing its question or erasing the failed attempt",
+      "privacy_boundary": "No account identifiers, usage percentages, reset credits or private UI screenshots included"
+    },
+    {
+      "order": 7,
+      "event": "Public artifact request delivered to Browser",
+      "evidence": {
+        "request_id": "9a4c211c-4912-4eb5-b694-c8be8edd2ba0",
+        "thread_readback": "A completed turn containing a userMessage only, with no assistant output at that observation"
+      },
+      "status": "Delivery observed; consumption not established"
+    },
+    {
+      "order": 8,
+      "event": "Existing Opera conversation reopened",
+      "evidence": {
+        "tab_url": "https://chatgpt.com/g/g-p-6ac26d3e35188191af2c133ac43d3302-medium/c/6ac27376-18d0-83eb-99a5-96b3ca093c74",
+        "ui_observation": "New request visible; active generation control visible after reopening"
+      },
+      "status": "Visible execution observed; output pending",
+      "causality_boundary": "No claim that reopening alone caused execution, or that the earlier thread read proved a transport defect"
+    },
+    {
+      "order": 9,
+      "event": "Browser consumed published artifact and selected a new identity-edge check",
+      "evidence": {
+        "reply_id": "ab7ed933-1cfe-41f8-bf5c-63a61af7a533",
+        "public_comment": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-5988135284"
+      },
+      "status": "Public output independently recovered",
+      "selected_non_action": "No new Medium primitive or schema change; current distinct handles suffice"
+    },
+    {
+      "order": 10,
+      "event": "Resumed fresh reader completed a bounded partial report",
+      "evidence": {
+        "file": "projection-reader.json",
+        "sha256": "c3ad985471cb94b4ce7afbb2a41d7602965d203d66b42721e8c3bf71512157c7"
+      },
+      "status": "Independent source-wrapper and renderer hashes match; full current projection and original seven-source recheck unresolved"
+    },
+    {
+      "order": 11,
+      "event": "Input-drift correction after reading the completed report",
+      "evidence": {
+        "file": "reader-comparison.json"
+      },
+      "status": "Earlier local Markdown acquisition was 4583 bytes; published exact-comment Markdown is 4582 bytes. Fully frozen-input claim withdrawn."
+    },
+    {
+      "order": 12,
+      "event": "Full participant text exposed a donor display failure",
+      "evidence": {
+        "file": "relay-verification-expanded-text-before-fix.json",
+        "document_width": 609,
+        "viewport_width": 390
+      },
+      "status": "Reproduced and diagnosed; note text had normal wrapping for long tokens"
+    },
+    {
+      "order": 13,
+      "event": "One CSS rule adapted the isolated donor copy",
+      "evidence": {
+        "file": "adapter-donor.json",
+        "fixture_check": "relay-verification.json"
+      },
+      "status": "Mobile width now 390; raw packages remain exact; historical source and donor branch not changed"
+    },
+    {
+      "order": 14,
+      "event": "A consumer freely selected and reused an existing procedure",
+      "evidence": {
+        "file": "procedural-consumer.json",
+        "sha256": "873b182d0ac07693b7fddfdc2b9d4dc25e9fa4afc646db598d5b27cc73d2b101",
+        "procedure_commit": "93a4e6587a7b0cab1dda9406283c1c0a212662ef"
+      },
+      "status": "Completed one own unresolved byte-correspondence check with fresh observed preview data; no new library or infrastructure",
+      "method_boundary": "Separate execution using a shared procedure; not an independently implemented reference algorithm"
+    }
+  ],
+  "candidate_learning": "In this specimen, delivery, visible execution and externally recoverable output require distinct observations. A successful send receipt is not itself an artifact-consumption receipt.",
+  "boundaries": [
+    "Operational observations of this run, not a general specification of OpenAI transport semantics",
+    "No new message bus, scheduling service or automated retry system",
+    "Browser is an already familiar participant; its use cannot replace the fresh-reader condition"
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "phase": "separate procedural consumer continuation after closed B1",
+  "consumer": "window_projection_reader",
+  "status": "selected_uncertainty_resolved",
+  "observed_at_utc": "2026-10-05T05:01:45.372625+00:00",
+  "selected_unresolved_question": "Does the current separately served local wrapper exactly match the entire inspected transformation of the public pinned source wrapper?",
+  "why_selected": "B1's simple prefix replacement had not reproduced the current local wrapper, and truncated tool output prevented retaining its hash. This was a concrete verification gap, not a request for infrastructure.",
+  "entry": {
+    "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/93a4e6587a7b0cab1dda9406283c1c0a212662ef/campaigns/capability-expedition-2026-10-05/README.md",
+    "public_workpiece_ref": "93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+    "readme_blob_sha": "b08fc475175e3ea9f7d0e1178d9aac7806002253",
+    "route": "README -> existing reproduce_window_check.py -> pinned public Git objects and actual local preview",
+    "historical_comparison_text": "The entry README also contains historical fresh-reader status and baseline links. I did not open baseline-reader.json or use that comparison to infer a result."
+  },
+  "actual_choice_and_use": {
+    "chosen_residue": "The already published source-bound reproduce_window_check.py procedure.",
+    "local_script": "C:/Users/Pioter/AppData/Local/Temp/swm-capability-20261005-6aad1e81/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+    "public_script": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/93a4e6587a7b0cab1dda9406283c1c0a212662ef/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+    "script_sha256": "082b1e00c8eee1b3eced6d92db5c704b8696255335183e6305c12266fddb5235",
+    "local_script_equals_pinned_public_script": true,
+    "command": "C:/Users/Pioter/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -B -X utf8 C:/Users/Pioter/AppData/Local/Temp/swm-capability-20261005-6aad1e81/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py --repo C:/Users/Pioter/AppData/Local/Temp/swm-capability-20261005-6aad1e81 --served-base http://127.0.0.1:8792",
+    "writes_from_procedure": "None: --out was omitted; -B disabled bytecode-file generation.",
+    "action_decision": "No implementation change is justified by this wrapper-byte question. The complete pinned transformation reproduces the actually observed wrapper. Preserve this new observation separately and leave B1 closed.",
+    "not_selected": "Authentication of original conversations, semantic fidelity, live presence, navigation/runtime UI testing and architecture remain outside this continuation."
+  },
+  "selected_result": {
+    "exact_source_ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+    "source_wrapper": "campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+    "projection_method": "campaigns/quiet-presence-2026-10-04/render.py",
+    "source_wrapper_sha256": "40fa259a0ce7fd77485820d558af45354411b4c2863646db3cb2b83dfc8be64b",
+    "projection_method_sha256": "f336f897dcc2d62eadcf4492c9385df21c5c03b46aef2523486564b9310ecc86",
+    "expected_projected_wrapper_sha256": "cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6",
+    "observed_projected_wrapper_sha256": "cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6",
+    "full_expected_projection_equals_observed_bytes": true,
+    "source_wrapper_equals_projected_wrapper": false,
+    "observation_scope": "local-rendered-preview",
+    "mechanism": "The reused procedure normalizes CRLF and CR to LF, checks the declared single data-medium-return marker in the pinned sources, rewrites that prefix, encodes UTF-8 and compares bytes to the actually fetched preview.",
+    "resolves_B1": "The complete projection correspondence is now positively observed for this pinned source and this preview at the new observation time. B1 is not retroactively edited.",
+    "limits": "This does not prove authenticity of the original conversations, general semantic fidelity, a different server/render, live agent activity, spontaneous adoption, or an architectural rule."
+  },
+  "measurements": {
+    "phase_only": true,
+    "project_source_read_operations_explicit": 21,
+    "project_source_read_breakdown": {
+      "github_connector_file_reads": 1,
+      "native_git_blob_reads": 11,
+      "explicit_local_filesystem_content_reads": 1,
+      "http_file_reads": 8
+    },
+    "breakdown_explanation": "README connector read (1), public procedure Git blob and local-file validation (2), then the unchanged procedure's ten public Git blobs and eight HTTP files (18). The first procedure Git blob is included in the eleven native Git blob reads.",
+    "additional_implicit_program_load_reads": 1,
+    "additional_report_readback_reads": 1,
+    "physical_filesystem_syscall_count": null,
+    "physical_read_limit": "Counts refer to application-level content acquisitions. Git pack/index access, interpreter/stdlib loading and connector-internal file operations were not traced.",
+    "nested_workflow_tool_calls": {
+      "github_fetch_file": 1,
+      "exec_command_source_inspection": 1,
+      "exec_command_procedure_run": 1,
+      "exec_command_result_write_and_readback": 1,
+      "total": 4
+    },
+    "functions_exec_orchestration_calls": 4,
+    "explicit_child_processes_before_result_writer": {
+      "python": 2,
+      "git": 2,
+      "total": 4
+    },
+    "explicit_child_processes_including_result_writer": {
+      "python": 3,
+      "git": 2,
+      "total": 5
+    },
+    "exec_command_shell_hosts": 3,
+    "process_count_limit": "Python/Git counts follow the explicitly invoked commands and the inspected procedure. The three exec calls each have a configured PowerShell shell host. Runtime helper/service processes and GitHub connector server processes were not enumerated.",
+    "native_probe_acquisition": {
+      "git_blob_reads": 10,
+      "git_blob_bytes": 208343,
+      "git_processes": 1,
+      "http_reads": 8,
+      "http_bytes": 191885
+    },
+    "native_probe_source_bytes_processed": 400228,
+    "procedure_validation_source_bytes": 14744,
+    "readme_utf8_content_characters": 8395,
+    "readme_utf8_content_bytes": 8399,
+    "materials_actually_returned_before_reporting": {
+      "measurement_basis": "Exact compact JSON strings passed to functions.exec text() for the three acquisition/execution results; excludes external protocol envelopes, narration, final answer and the report-write return.",
+      "returns": [
+        {
+          "id": 1,
+          "kind": "GitHub connector README",
+          "characters": 8862,
+          "utf8_bytes": 8866
+        },
+        {
+          "id": 2,
+          "kind": "exec_command script inspection and pinned/local comparison",
+          "characters": 9135,
+          "utf8_bytes": 9135
+        },
+        {
+          "id": 3,
+          "kind": "exec_command procedure execution",
+          "characters": 5166,
+          "utf8_bytes": 5166
+        }
+      ],
+      "total_characters": 23163,
+      "total_utf8_bytes": 23167,
+      "source_script_returned_characters": 7372,
+      "source_script_utf8_bytes": 7372,
+      "procedure_result_stdout_characters": 4641,
+      "procedure_result_stdout_utf8_bytes": 4641,
+      "truncated": false
+    },
+    "tokens_estimated": null,
+    "elapsed_tool_time_is_not_full_work_time": "Individual tool result timings were available; no continuous phase wall-clock or cognition time was measured.",
+    "no_clone_or_fetch_this_phase": true,
+    "Owner_content_transfer_requests": 0,
+    "Owner_low_level_decision_requests": 0,
+    "routed_followup": true,
+    "causal_burden_or_token_saving_claim": false
+  },
+  "incidental_standard_probe_checks": {
+    "explanation": "The reused CLI also checks its original-file set as part of its unchanged standard execution. These mechanical results are retained, but no second research question or further source inspection was added.",
+    "declared_original_file_count": 7,
+    "all_original_source_hashes_match": true,
+    "all_observed_originals_match_source": true
+  },
+  "procedure_run_result": {
+    "schema_version": 1,
+    "observed_at_utc": "2026-10-05T05:01:45.372625+00:00",
+    "source_ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+    "source_wrapper": "campaigns/quiet-presence-2026-10-04/bodies/codex-exchange-window/index.html",
+    "projection_method": "campaigns/quiet-presence-2026-10-04/render.py",
+    "source_wrapper_sha256": "40fa259a0ce7fd77485820d558af45354411b4c2863646db3cb2b83dfc8be64b",
+    "projection_method_sha256": "f336f897dcc2d62eadcf4492c9385df21c5c03b46aef2523486564b9310ecc86",
+    "expected_projected_wrapper_sha256": "cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6",
+    "observed_projected_wrapper_sha256": "cba7f81b644c5b67d08d258c2d881cf20585c2d11e32612724e40a7cc935bfd6",
+    "source_wrapper_equals_expected_projection": false,
+    "expected_projection_matches_observed": true,
+    "declared_original_file_count": 7,
+    "original_sources": [
+      {
+        "path": "slad-wspolnej-proby.html",
+        "declared_sha256": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+        "source_sha256": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+        "source_matches_declaration": true,
+        "observed_sha256": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+        "observed_matches_source": true,
+        "bytes": 33100
+      },
+      {
+        "path": "COMBAT_EXCHANGE_1.json",
+        "declared_sha256": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+        "source_sha256": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+        "source_matches_declaration": true,
+        "observed_sha256": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+        "observed_matches_source": true,
+        "bytes": 10383
+      },
+      {
+        "path": "COMBAT_EXCHANGE_2.json",
+        "declared_sha256": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+        "source_sha256": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+        "source_matches_declaration": true,
+        "observed_sha256": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+        "observed_matches_source": true,
+        "bytes": 15872
+      },
+      {
+        "path": "GUIDE_EXCHANGE.json",
+        "declared_sha256": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+        "source_sha256": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+        "source_matches_declaration": true,
+        "observed_sha256": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+        "observed_matches_source": true,
+        "bytes": 5614
+      },
+      {
+        "path": "FIRST_HEARTH_SOURCE_SNAPSHOT.json",
+        "declared_sha256": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+        "source_sha256": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+        "source_matches_declaration": true,
+        "observed_sha256": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+        "observed_matches_source": true,
+        "bytes": 82857
+      },
+      {
+        "path": "RESULT_AND_VERIFICATION.json",
+        "declared_sha256": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+        "source_sha256": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+        "source_matches_declaration": true,
+        "observed_sha256": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+        "observed_matches_source": true,
+        "bytes": 6057
+      },
+      {
+        "path": "SLAD_PROBY.md",
+        "declared_sha256": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f",
+        "source_sha256": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f",
+        "source_matches_declaration": true,
+        "observed_sha256": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f",
+        "observed_matches_source": true,
+        "bytes": 2569
+      }
+    ],
+    "all_original_source_hashes_match": true,
+    "all_observed_originals_match_source": true,
+    "observation_scope": "local-rendered-preview",
+    "acquisition": {
+      "git_blob_reads": 10,
+      "git_blob_bytes": 208343,
+      "git_processes": 1,
+      "http_reads": 8,
+      "http_bytes": 191885
+    },
+    "boundaries": [
+      "Not independent verification against the original ChatGPT conversations",
+      "No general claim about semantic fidelity from hashes",
+      "No live activity, ecological adoption or general capability claim",
+      "The observation binds one pinned source and one observed projection"
+    ],
+    "scoped_checks_pass": true
+  },
+  "verification": {
+    "script_against_public_checkpoint": {
+      "source_read_id": 2,
+      "pinned_ref": "93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+      "relative_path": "campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+      "local_path": "C:\\Users\\Pioter\\AppData\\Local\\Temp\\swm-capability-20261005-6aad1e81\\campaigns\\capability-expedition-2026-10-05\\reproduce_window_check.py",
+      "native_git_processes": 1,
+      "git_blob_reads": 1,
+      "filesystem_file_content_reads": 1,
+      "pinned_bytes": 7372,
+      "local_bytes": 7372,
+      "pinned_sha256": "082b1e00c8eee1b3eced6d92db5c704b8696255335183e6305c12266fddb5235",
+      "local_sha256": "082b1e00c8eee1b3eced6d92db5c704b8696255335183e6305c12266fddb5235",
+      "local_equals_public_pinned_script": true
+    },
+    "source_code_not_modified": true,
+    "procedure_exit_code": 0,
+    "actual_local_preview_read": true,
+    "conclusion_from_fresh_execution": true,
+    "prior_evidence_replaced": false
+  },
+  "boundaries": {
+    "no_baseline_reader_opened": true,
+    "no_private_historical_checkout_read": true,
+    "no_parent_chat_read": true,
+    "no_previous_agent_memory_read": true,
+    "no_private_original_conversations_opened": true,
+    "projection_reader_json_not_read_or_modified_this_phase": true,
+    "wrote_only_authorized_procedural_consumer_json": true,
+    "published_or_sent_messages": false,
+    "new_library_or_infrastructure_created": false,
+    "source_texts_from_ten_blobs_processed_in_tool_not_returned_to_model": true,
+    "stopped_after_checkable_result": true
+  },
+  "artifact": {
+    "path": "C:/Users/Pioter/AppData/Local/Temp/swm-capability-20261005-6aad1e81/campaigns/capability-expedition-2026-10-05/evidence/procedural-consumer.json"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "status": "exploratory_pair_completed_after_resumption",
+  "natural_question": "Can the public Codex window serve as a reliable reference to the preserved collaboration episode, and which claims does available evidence support?",
+  "design": "One reader per entry condition; free choice of method; twelve project-source acquisitions; second reader did not receive baseline report.",
+  "baseline": {
+    "source": "baseline-reader.json",
+    "sha256": "f3e527415f5bdff7fd1307b9b595bb23ab1daaf88e8a1e0a4c3cd1bb2adffe2a",
+    "entry": "Public main d190d17 / START_HERE; ordinary repo, GitHub and raw sources",
+    "source_acquisitions": 12,
+    "unique_resources": 12,
+    "orientation_reads": 8,
+    "acquired_characters": 186068,
+    "orientation_characters": 110742,
+    "first_source_wrapper_read": 11,
+    "summary": "Recovered wrapper and full messages; checked internal correspondence and Git blob identities; did not verify recovery metadata, renderer behavior or runtime."
+  },
+  "projection_entry": {
+    "source": "projection-reader.json",
+    "sha256": "c3ad985471cb94b4ce7afbb2a41d7602965d203d66b42721e8c3bf71512157c7",
+    "entry": "http://127.0.0.1:8793/object-window-fidelity-edge-2026-10-05-eeaa1e8fc6.html",
+    "source_acquisitions": 12,
+    "unique_resources": 11,
+    "orientation_reads": 4,
+    "orientation_characters": 78776,
+    "entry_ax_characters": 4709,
+    "confirmed_http_source_byte_subtotal": 99099,
+    "http_subtotal_is_incomplete": true,
+    "instruction_reads_outside_project_budget": 2,
+    "summary": "Used the supplied view and raw participant record to select public source and method checks; independently matched source-wrapper and renderer SHA-256. Complete local projection reconstruction and all seven original-file checks remained unresolved."
+  },
+  "common_supported_conclusion": "Both readers found a useful exact historical reference with authored accounts of changed work, without authenticating original private conversations or proving current agent activity.",
+  "different_coverage": "Baseline read full messages, including the later Guide exchange. Projection-entry reader instead checked source-wrapper and renderer hashes and investigated projection behavior. Result scopes differ.",
+  "source_drift_across_interruption": {
+    "observed": true,
+    "detail": "Before its usage-limit interruption, the projection reader had already acquired local workpiece.md as 4583 bytes. Before public commit 93a4e65, Codex removed one extra final newline so the Markdown exactly matches captured public comment body: 4582 bytes. The resumed reader retained its earlier reads. The whole local input was therefore not fully frozen across the interruption.",
+    "affected_surface": "One extra EOF newline in the new Browser-workpiece Markdown and its derived passive preview",
+    "unchanged_subject": "Historical source revision 44c5aaa, window/renderer hashes, and the Codex check-result record",
+    "boundary": "No claim of a strictly frozen, blinded or controlled A/B experiment. Do not overwrite the independent reader report to hide this drift."
+  },
+  "limitations": [
+    "Different entry information, analysis availability, orientation coverage and verification choices",
+    "Different measurement surfaces: acquired text, HTTP bytes and AX output cannot be combined as a token-cost proxy",
+    "Usage interruption and one retry after fresh execution availability",
+    "Tool-output truncation affected both model exposure and retained proof; second reader repeated renderer acquisition",
+    "No randomized replication, elapsed-work measure, Owner attention time or architecture ablation",
+    "Medium HTML necessity is unestablished; GitHub/native primitives did much of the actual collaboration"
+  ],
+  "interpretation": [
+    "The task-sized view was actually used by a fresh reader to reach relevant raw records and public sources.",
+    "The reader treated a participant report as reported evidence and independently checked only a narrower subset.",
+    "Both entry routes were usable for bounded historical-reference recovery.",
+    "No percentage token saving, general cost reduction, ecological adoption or causal capability gain follows from this pair."
+  ],
+  "next_meaningful_check": "A new material workpiece chosen by a consumer, compared with a direct minimal Issue/raw entry offering the same facts; count actual choices, source use and Owner handoffs rather than features."
+}

@@ -37,16 +37,16 @@
           "declared_hash": null
         }
       ],
-      "record_count": 2
+      "record_count": 6
     }
   ],
   "records": [
     {
-      "raw_href": "raw/records-27153bde021ad3cb/check-result.json",
+      "raw_href": "raw/records-eaeae333c7f438da/check-result.json",
       "relative": "check-result.json",
       "source_package_role": "records",
-      "source_package_slug": "records-27153bde021ad3cb",
-      "refs_href": "raw/records-27153bde021ad3cb/medium.refs.json",
+      "source_package_slug": "records-eaeae333c7f438da",
+      "refs_href": "raw/records-eaeae333c7f438da/medium.refs.json",
       "references": [
         {
           "source": "medium.refs.json",
@@ -56,15 +56,71 @@
       ]
     },
     {
-      "raw_href": "raw/records-27153bde021ad3cb/interpretation.json",
+      "raw_href": "raw/records-eaeae333c7f438da/comparison.json",
+      "relative": "comparison.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-eaeae333c7f438da",
+      "refs_href": "raw/records-eaeae333c7f438da/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "comparison.json",
+          "object_id": "window-fidelity-edge-2026-10-05"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-eaeae333c7f438da/interpretation.json",
       "relative": "interpretation.json",
       "source_package_role": "records",
-      "source_package_slug": "records-27153bde021ad3cb",
-      "refs_href": "raw/records-27153bde021ad3cb/medium.refs.json",
+      "source_package_slug": "records-eaeae333c7f438da",
+      "refs_href": "raw/records-eaeae333c7f438da/medium.refs.json",
       "references": [
         {
           "source": "medium.refs.json",
           "record": "interpretation.json",
+          "object_id": "window-fidelity-edge-2026-10-05"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-eaeae333c7f438da/procedural-use-summary.json",
+      "relative": "procedural-use-summary.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-eaeae333c7f438da",
+      "refs_href": "raw/records-eaeae333c7f438da/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "procedural-use-summary.json",
+          "object_id": "window-fidelity-edge-2026-10-05"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-bd76c969633854a6/record.json",
+      "relative": "record.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-bd76c969633854a6",
+      "refs_href": "raw/records-bd76c969633854a6/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "record.json",
+          "object_id": "window-fidelity-edge-2026-10-05"
+        }
+      ]
+    },
+    {
+      "raw_href": "raw/records-328c0378099a6ab3/consumer-result.json",
+      "relative": "consumer-result.json",
+      "source_package_role": "records",
+      "source_package_slug": "records-328c0378099a6ab3",
+      "refs_href": "raw/records-328c0378099a6ab3/medium.refs.json",
+      "references": [
+        {
+          "source": "medium.refs.json",
+          "record": "consumer-result.json",
           "object_id": "window-fidelity-edge-2026-10-05"
         }
       ]

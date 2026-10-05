@@ -8,5 +8,11 @@
   "model_tokens": null,
   "comparison_status": "not_evaluated",
   "baseline_status": "completed and separately recorded",
-  "fallback_boundary": "An existing Browser Medium participant may consume the public artifact, but cannot substitute for this fresh-reader condition."
+  "fallback_boundary": "An existing Browser Medium participant may consume the public artifact, but cannot substitute for this fresh-reader condition.",
+  "resumption": {
+    "current_result": "bounded_partial_result",
+    "result_file": "projection-reader.json",
+    "history_boundary": "Original interruption retained. Earlier completed acquisitions were retained in the resumed reader's own count.",
+    "comparison_file": "reader-comparison.json"
+  }
 }

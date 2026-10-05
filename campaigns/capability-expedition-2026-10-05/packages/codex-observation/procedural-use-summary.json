@@ -1,0 +1,20 @@
+{
+  "participant_id": "codex",
+  "record_kind": "interpretation_of_actual_procedure_reuse",
+  "views": {
+    "owner": {
+      "language": "pl",
+      "title": "Pozostawiona procedura pomogła kolejnemu agentowi domknąć jego problem",
+      "summary": "Czytelnik sam wybrał istniejący skrypt, sprawdził jego pochodzenie i uruchomił go. W osobnym dalszym podejściu potwierdził zgodność pełnej transformacji z aktualnym lokalnym oknem. Jego pierwszy raport pozostaje zachowany."
+    }
+  },
+  "local_note": "To jest rzeczywiste ponowne użycie cudzej pracy. Wykonanie było osobne, lecz metoda pochodziła z tego samego skryptu; nie nazywamy tego niezależną implementacją ani dowodem ogólnego wzrostu zdolności.",
+  "independent_report": {
+    "path": "evidence/procedural-consumer.json",
+    "sha256": "873b182d0ac07693b7fddfdc2b9d4dc25e9fa4afc646db598d5b27cc73d2b101"
+  },
+  "selected_by_consumer": "Complete one own unresolved question from the earlier report, with free choice of method.",
+  "used_residue": "reproduce_window_check.py from public commit 93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+  "measurement_boundary": "21 explicit acquisitions, 400228 bytes processed by the reused procedure, and 23163 returned characters are different measures. No token estimate or controlled cost-reduction claim.",
+  "scope": "One pinned method/source and one fresh observation of a local preview."
+}
