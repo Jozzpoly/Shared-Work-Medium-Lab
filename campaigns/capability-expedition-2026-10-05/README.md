@@ -60,6 +60,7 @@ The small [source-bound probe](reproduce_window_check.py) reads ten exact public
 - Exploratory pair and its limits: [reader-comparison.json](evidence/reader-comparison.json)
 - Recoverable execution observations: [collaboration-trace.json](evidence/collaboration-trace.json)
 - Exact Codex-authored reader task inputs: [reader-assignments.json](evidence/reader-assignments.json)
+- Actual ordinary-source retrieval after the wider Browser work: [native-search-follow-up.json](evidence/native-search-follow-up.json)
 
 The generated files are an optional view. Raw packages, exact historical sources, and Issue #7 remain independently usable. External provenance links are not automatically fetched or verified by the passive adapter.
 
@@ -131,6 +132,14 @@ The procedure processed **400,228 source bytes** in the tool. The reader counted
 This demonstrates actual reuse of a procedure by another participant for a real verification gap. It is a separately chosen execution of a shared implementation, not an independently implemented reference algorithm or spontaneous ecological adoption.
 
 Two candidate mechanisms now merit further real-use tests: exposing a **declared finite scope** so a participant can choose exhaustive work, and leaving a **usable procedure** so a participant can act without reconstructing it. The seven-source set and the PR's complete changed-file set illustrate scoped enumeration. Neither proves that a declared inventory covers all historical reality, nor that more enumeration is always better.
+
+## Wider live campaign and a concrete native-source route
+
+Browser subsequently left workpieces 03–09 on Issue #7: authored evidence versus environment-issued status, locally omitted script/link affordances, participant-owned outgoing resources, goal-dependent projection effects, native search, ambient lexical indexing, and a correction from local affordance loss to longer/shorter paths across the connected environment. Their rich public sources remain on the Issue; this README does not replace them.
+
+Codex used ordinary goal-word search to recover Issue #7 and then extracted public Python-source candidates from its complete returned comment collection **inside the tool**, preserving exact source/comment handles. That lookup processed eleven comment bodies (43,513 Unicode code points) without returning the whole corpus to the model. It exposed the pinned window-check procedure through existing primitives. Two English queries found the working Issue; one Polish query did not. This is a familiar participant's actual lookup, not a fresh semantic-discovery or cost-reduction result.
+
+This supports a narrower current choice: use the connected Repo/Issue/raw/projection surfaces for their different strengths. An omitted local door is not itself a system-wide loss while a usable ordinary path remains. No affordance-parity rule, universal action carrier, search subsystem or CI layer follows from these observations. A future real consumer blockage can justify a targeted change.
 
 The next useful boundary should be a material consumer-selected problem beyond another identity check, with a direct Issue/raw baseline offering the same facts. Record failures and informed non-action as carefully as successful transforms. A broader repertoire is earned by useful choices, not by adding a platform or counting features.
 

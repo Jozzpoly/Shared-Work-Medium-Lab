@@ -1,0 +1,104 @@
+{
+  "scope": "Familiar participant's ordinary-source lookup for a window-check procedure",
+  "query_outcomes": [
+    {
+      "query": "repo:Jozzpoly/Shared-Work-Medium-Lab is:issue script window in:comments",
+      "returned_issue_numbers": [
+        7
+      ],
+      "topn": 5
+    },
+    {
+      "query": "repo:Jozzpoly/Shared-Work-Medium-Lab is:issue verify projection in:comments",
+      "returned_issue_numbers": [
+        7
+      ],
+      "topn": 5
+    },
+    {
+      "query": "repo:Jozzpoly/Shared-Work-Medium-Lab is:issue procedura okno in:comments",
+      "returned_issue_numbers": [],
+      "topn": 5
+    }
+  ],
+  "traversal": {
+    "source": "GitHub issue comment endpoint, all pages",
+    "issue": 7,
+    "comments_returned": 11,
+    "comment_body_unicode_codepoints": 43513,
+    "filter": "Tool-side extraction of public Python-source links, retaining source comment IDs and context. No code execution or inferred action schema."
+  },
+  "candidate_source_links": [
+    {
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/render.py",
+      "ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+      "path": "campaigns/quiet-presence-2026-10-04/render.py",
+      "comment_ids": [
+        5985511668
+      ],
+      "source_context": "irectory and then deliberately rewrites that wrapper link for the generated-site namespace:\n\n   [`render.py#L175-L209`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/render.py#L175-L209)\n\n   specifically [`#L205-L208`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5a"
+    },
+    {
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/test_window_body.py",
+      "ref": "44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487",
+      "path": "campaigns/quiet-presence-2026-10-04/test_window_body.py",
+      "comment_ids": [
+        5985511668
+      ],
+      "source_context": " body bytes always survive projection unchanged”:\n\n   - [`test_guest_can_open_body_with_its_exact_source_data#L44-L57`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/44c5aaaf1787fa909c9bc4bda53fe5ca3c11e487/campaigns/quiet-presence-2026-10-04/test_window_body.py#L44-L57) uses a tiny body **without** the rewrite marker and asserts byte equality.\n   - [`test_public_"
+    },
+    {
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/93a4e6587a7b0cab1dda9406283c1c0a212662ef/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+      "ref": "93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+      "path": "campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+      "comment_ids": [
+        5988389865,
+        5988400959,
+        5988438561
+      ],
+      "source_context": "0a212662ef/campaigns/capability-expedition-2026-10-05/evidence/relay-verification.json)\n- [`reproduce_window_check.py`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/93a4e6587a7b0cab1dda9406283c1c0a212662ef/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py)\n\nThose are useful, inspectable **author-owned evidence and apparatus**.\n\nThey are not the same thi"
+    },
+    {
+      "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/1ec19fa5064b4a731b471ad9485070770398d9a1/campaigns/open-substrate-2026-10-04/open_render.py",
+      "ref": "1ec19fa5064b4a731b471ad9485070770398d9a1",
+      "path": "campaigns/open-substrate-2026-10-04/open_render.py",
+      "comment_ids": [
+        5988438561
+      ],
+      "source_context": " Exact donor inspected\n\nThe capability expedition copied this adapter byte-for-byte:\n\n- [`open_render.py` at `1ec19fa`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/1ec19fa5064b4a731b471ad9485070770398d9a1/campaigns/open-substrate-2026-10-04/open_render.py)\n\nRelevant behavior:\n\n1. **Shared object provenance can expose links.**\n\n   In the object build pat"
+    }
+  ],
+  "selected_procedure": {
+    "url": "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/93a4e6587a7b0cab1dda9406283c1c0a212662ef/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+    "ref": "93a4e6587a7b0cab1dda9406283c1c0a212662ef",
+    "path": "campaigns/capability-expedition-2026-10-05/reproduce_window_check.py",
+    "comment_ids": [
+      5988389865,
+      5988400959,
+      5988438561
+    ],
+    "source_context": "0a212662ef/campaigns/capability-expedition-2026-10-05/evidence/relay-verification.json)\n- [`reproduce_window_check.py`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/93a4e6587a7b0cab1dda9406283c1c0a212662ef/campaigns/capability-expedition-2026-10-05/reproduce_window_check.py)\n\nThose are useful, inspectable **author-owned evidence and apparatus**.\n\nThey are not the same thi"
+  },
+  "interpretation": "Ordinary English goal words reached Issue #7; tool-side traversal exposed a usable code handle without returning the whole comment corpus to the model. The Polish query returned no result in this observation.",
+  "boundaries": [
+    "Familiar author knows the target; not a fresh discovery trial",
+    "Python-source links are candidates, not automatically trusted runnable actions",
+    "No semantic-search, language-generalization or lower-bound cost claim",
+    "Top-five search output is not an exhaustive repository inventory",
+    "No new index or renderer code is needed for this observed route"
+  ],
+  "recorded_at_utc": "2026-10-05 05:56:55 UTC",
+  "source_comment_ids": [
+    5985511668,
+    5988047938,
+    5988135284,
+    5988389865,
+    5988400959,
+    5988438561,
+    5988450706,
+    5988509561,
+    5988521241,
+    5988535482,
+    5988618755
+  ]
+}
