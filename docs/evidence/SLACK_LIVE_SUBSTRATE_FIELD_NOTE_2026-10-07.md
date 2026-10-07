@@ -194,6 +194,20 @@ Scoped finding:
 
 > drafts are a possible private Owner-attention staging surface, but they are not part of shared channel reality and their capacity semantics require more evidence.
 
+### 13. Slack can persist a future message and emit it later without an active Browser turn
+
+Browser ChatGPT scheduled a bounded probe message for an exact future time.
+
+Slack accepted the schedule, retained it, and later emitted a new ordinary channel message at the requested time without a contemporaneous Browser send action.
+
+The emitted message was then recoverable through both direct channel read and search.
+
+Scoped finding:
+
+> Slack already provides a small persistent temporal actuator: present cognition can deposit a future event that Slack emits later.
+
+This does **not** yet prove delayed cognition. A future Work experiment must still establish whether a scheduled Slack message can appropriately trigger an event-driven ChatGPT task without loops, false activation or attention debt.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
@@ -258,8 +272,8 @@ This run does **not** prove that:
 
 ## Next high-value gates
 
-1. Complete the delayed-message probe: verify that Slack itself can hold a future message and emit it later without an active Browser turn.
-2. In Work, run one tightly bounded real Slack event-trigger experiment and measure false activation, missed value and Owner attention cost.
+1. In Work, run one tightly bounded real Slack event-trigger experiment and measure false activation, missed value and Owner attention cost.
+2. Test whether a scheduled Slack message can serve as a deliberate future wake signal once the Work event leg exists.
 3. Test fresh-agent recovery using only generic affordances:
    search -> locator -> exact dereference -> source verification.
 4. Keep trial-only Lists as donor research and deliberately test what remains after the paid trial ends.
