@@ -46,38 +46,32 @@ Therefore:
 >
 > **autonomous cross-model coordination: unproven**
 
-## New donor — free Opera Neon browser actuation (documented; NOT CONNECTED)
+## Retracted path — Opera Neon as a Browser ChatGPT actuator
 
-A fresh capability search on 2026-10-08 corrected an older paid-plan assumption.
+A previous version of this experiment recorded **Opera Neon Free + custom MCP** as a promising route to permissioned click/form actuation for Browser ChatGPT.
 
-Opera's **2026-08-14** announcement and current pricing page explicitly place **Opera Neon MCP Connector + local Browser CLI in the Free plan**; a subscription is for Neon's *built-in* AI agents/Research/Do/Make capabilities.
+That was too strong.
 
-Sources:
-- https://blogs.opera.com/news/2026/08/your-ai-agents-can-use-opera-neon-free-of-charge/
-- https://www.operaneon.com/subscription
-- https://blogs.opera.com/news/2026/03/opera-neon-adds-mcp-connector-to-the-browser/
+What was actually established:
+- Opera documentation describes Neon-side MCP/CLI capabilities and browser actions;
+- ChatGPT Plus exposes a Plugins UI with an Add surface;
+- Browser ChatGPT's existing Opera One connector is read/navigation oriented and lacks click/type actuation in the tested body.
 
-Unlike the current Opera One connector used by this Browser body, the Neon MCP surface documents permission-gated **mouse clicks, keyboard actions, form filling and tab controls** in the real logged-in Neon session. Browser CLI provides additional local tools/less overhead but is not reachable directly by a cloud-hosted ChatGPT client.
+What was **not** established:
+- that Browser ChatGPT Plus can connect to Neon's MCP in the required way;
+- that the current Owner account can complete the custom-MCP path end to end;
+- that Neon's free tier exposes a usable remote actuator to this Browser body;
+- that an authenticated Neon session can be controlled from this ChatGPT conversation.
 
-OpenAI's current custom-MCP guide describes connecting arbitrary remote MCP servers, including read/write tools, as ChatGPT Plugins; the old special Developer Mode step was removed around 2026-10-01:
-- https://developers.openai.com/api/docs/guides/custom-mcp-server
-- https://community.openai.com/t/developer-mode-missing-from-security-login-on-chatgpt-pro/1402157/10
+The Owner subsequently spent substantial time attempting the Neon route and reported it did **not** yield the claimed Browser-GPT actuator.
 
-A live read of the Owner's ChatGPT Plus Plugins UI confirmed an **Add** control. It did *not* open the Add menu or register a custom MCP server, and the Neon browser is not installed/connected in this campaign.
+**Current verdict: RETRACTED / NOT A WORKING PATH.**
 
-**Promising candidate path (not yet an execution claim):**
+Do not recommend Neon as the missing Browser actuator unless new, independently verified product changes establish the complete chain in the actual account/runtime. Documentation about a browser's MCP capability is not enough; the required client-side connection, auth, tool exposure and live action path must all be demonstrated.
 
-`ChatGPT Plus -> custom MCP plugin -> free Opera Neon MCP -> permissioned interaction in Neon's authenticated browser session`
+This correction is deliberately preserved in the experiment rather than silently deleting the failed route, because the failure itself is relevant SWM evidence:
 
-This would address the currently demonstrated Opera One read/navigation-only actuator gap without paying for TinyFish or Opera Neon's native AI subscription.
-
-**Important boundaries:**
-
-- Opera One and Opera Neon are separate browser/session bodies. Existing Opera One tabs/login state do not automatically migrate.
-- A downloaded/installed Neon client and Owner-side Opera sign-in/consent are necessary to provision the actual OAuth MCP server and its tool permissions.
-- The availability of a custom-MCP Add control is not proof that this particular account can complete creation/authentication; that requires a real user-consented test.
-- Write tools should be enabled only for a limited public test surface first, not globally on private sessions. Nothing in this note authorizes changing private accounts or consent settings.
-- This is a tool/body donor, not SWM architecture, and does not itself prove two model minds shared the same environment.
+> capability advertised by one substrate + plausible integration surface in another product != reachable end-to-end capability for the current agent body.
 
 ## Why this matters
 
