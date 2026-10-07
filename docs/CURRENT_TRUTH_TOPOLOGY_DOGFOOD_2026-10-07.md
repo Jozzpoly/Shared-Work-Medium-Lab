@@ -131,6 +131,16 @@ A read-only, exact-SHA comparison on 2026-10-07 found:
 
 This snapshot refers to immutable inspected heads. The same live files may subsequently grow or change; do not silently recompute historical comparisons from floating branch references.
 
+## Session-boundary dogfood observation — scoped, not a fresh-agent PASS
+
+This branch itself survived a conversational interruption. On the next continuation, the Owner supplied neither PR #9 nor its head SHA. The agent inspected live public GitHub PRs, recognized existing [draft PR #9](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/9), read its exact existing work, and **continued on that branch** rather than starting a duplicate branch or requesting a manual Owner handoff. The accepted `main@d190d17...` remained untouched.
+
+Observed branch history during this bounded continuation includes source-bound clarification of the independent ReflexBrain root repair, direct links to relevant public draft frontiers, and a pinned first-hop source-affordance audit.
+
+**Claim ceiling:** one source-assisted continuation recovered an exact existing work surface and avoided requiring the Owner to supply its Git details. The continuing agent had substantial contextual carryover; this was **not** a context-free fresh-agent trial, controlled burden-saving measurement, nor ecological adoption. We cannot assign causality exclusively to this repository affordance.
+
+A later Opera connector call also returned `Browser not connected`. The agent continued through the already-available GitHub source tool rather than escalating routine technical routing to Owner. The late browser-rendered/AX path was consequently **not re-qualified**; Markdown link/source checks were verified only at the source plane.
+
 ## Evaluation question
 
 For a fresh agent with a real task:
