@@ -44,6 +44,8 @@ A subject already deeply contaminated by the planted relation cannot qualify the
 
 Use a real source-bound event from another project.
 
+A purpose-built scent is justified only when the underlying source lacks a sufficiently useful native event/change surface for the receiving body, or when the material event is not represented there (for example Owner observation, cross-tool/runtime event, or private/non-GitHub source).
+
 A scent may contain:
 - a short factual observation or bounded finding;
 - its originating project/lens;
@@ -73,16 +75,19 @@ For Browser ChatGPT this explicitly includes existing Opera context such as open
 
 No additional purpose-built shared scent surface is exposed or mentioned.
 
-### C0a — implicit working-set scent (diagnostic, when measurable)
+### C0a — implicit working-set and source-native scent (diagnostic, when measurable)
 
 Observe whether the subject spontaneously uses naturally occurring environmental traces already produced by ordinary work, such as:
 - open browser tabs;
 - recent browser history;
 - current project/sidebar topology;
-- recently visited project Pages, CI runs or source surfaces.
+- recently visited project Pages, CI runs or source surfaces;
+- source-native recent-activity feeds such as GitHub recent issues/PRs.
 
 This is not a separate product treatment if those sensors are already part of C0. It is a diagnostic attribution:
-> did candidate generation come from Owner-created ambient traces before any Shared Medium scent was needed?
+> did candidate generation already emerge from Owner-created ambient traces or authoritative source-native activity before any Shared Medium scent was needed?
+
+Source-native activity should be preferred over copied re-emission when it is sufficiently discoverable and current.
 
 ### C1 — sparse explicit peripheral scent
 
@@ -201,8 +206,9 @@ This is evidence **against** always-on global routing.
 
 The candidate-generation hypothesis weakens materially if:
 
-- C1 does not improve candidate-set entry over the real ordinary environment, including Opera working-set traces when available;
-- open tabs/history/current project surfaces already provide the same useful candidate at comparable or lower cost;
+- C1 does not improve candidate-set entry over the real ordinary environment, including Opera working-set traces and source-native activity feeds when available;
+- open tabs/history/current project surfaces or GitHub-native recency already provide the same useful candidate at comparable or lower cost;
+- copied Slack scents become stale faster than their source-native event feeds;
 - the relevant donor was already easily discoverable through ordinary project-native sources;
 - subjects follow scents because their formatting advertises experimental importance;
 - C1 mainly increases archaeology or analogy hunting;
@@ -211,6 +217,20 @@ The candidate-generation hypothesis weakens materially if:
 - the system requires global relevance scoring or target-project assignment to work;
 - C2 performs as well as or better than C1 solely because "more context" was added;
 - Owner routing remains necessary at the material decision boundary.
+
+## Source-native activity counterpressure
+
+During fixture design, GitHub's global recent-issues sensor immediately exposed newer ReflexBrain continuity work than a manually emitted Slack scent.
+
+The Slack scent referenced ReflexBrain PR #27, a valid local FAIL at emission time. The source project then rapidly progressed through #30 and #31, including a qualified HostBindingId lifecycle and an exact ExperimentMoment fork-provenance PASS.
+
+The copied Slack scent was removed from the live channel after this was discovered; its experimental history remains in durable SWM evidence.
+
+Scoped lesson:
+
+> do not build a second event stream by copying events from a source that already exposes a better current event stream.
+
+Purpose-built Slack/shared scents should focus on otherwise-unreachable material events, not mirror GitHub churn.
 
 ## Existing-environment counterpressure
 
