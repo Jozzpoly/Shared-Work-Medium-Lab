@@ -231,6 +231,24 @@ Record:
 7. **claim discipline**
    - did the subject preserve donor scope and local authority rather than importing an analogy as architecture?
 
+## Relation to other Medium experiments
+
+Keep three questions separate:
+
+1. **candidate entry** — does another world/project enter the receiving agent's candidate set at all?
+2. **local landing / routing** — once a candidate exists, can the agent reach the correct local authority/evidence plane?
+3. **transfer / use** — after landing, can the agent safely reuse, adapt, reject, defer or operationally execute what it found?
+
+Current draft research maps roughly as:
+
+- **PR #10 / this fixture:** primarily candidate entry for **HOT** worlds through peripheral/ambient/source-native traces;
+- **PR #9 current-truth-topology dogfood:** local landing and authority-plane selection inside a known project;
+- **PR #8 Capability Expedition:** evidence that a known workpiece/procedure can be inspected and used operationally by another participant without promoting it into architecture.
+
+None of those by itself establishes **COLD precedent candidate generation** for dormant historical donors. That remains a separate open question.
+
+Do not merge these evidence classes into one generic "retrieval works" claim.
+
 ## Strong PASS candidate
 
 A strong result looks like:
