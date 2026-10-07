@@ -288,6 +288,57 @@ This is useful independent donor evidence for a distinction already emerging in 
 
 Availability varies by supported agent and rollout. Do not infer that the installed ChatGPT Slack app in this workspace currently supports Slack Code without a live qualification.
 
+### 15. Trial Canvas is directly rich but discovery-shallow
+
+A standalone Canvas donor probe was created during the active paid-feature trial.
+
+Observed behavior:
+
+- the specialized Canvas read returns full Markdown plus section IDs;
+- generic Slack file read also returns the full Canvas as Markdown;
+- a targeted section replacement changed one paragraph without rewriting unrelated content;
+- a fresh read preserved the same observed section IDs in this specimen, despite the connector's conservative instruction to refresh IDs before each mutation;
+- generic file search found the Canvas reliably by title;
+- search by a unique token stored only in the Canvas body did not find it.
+
+Scoped finding:
+
+> Canvas is a strong direct long-form object once its File ID is known, but its content is a weak discovery surface in the current connector. Again, shallow locator -> rich dereference is stronger than assuming one search surface exposes the full object.
+
+Canvas is a paid/trial donor here, not a Free baseline dependency.
+
+### 16. Natural-language query input did not demonstrate semantic retrieval in this connector
+
+Two search probes used only natural-language descriptions of:
+- the actor/world/private-evidence cross-lab signal;
+- the identity/authority versus representation/projection signal.
+
+Without lexical keywords, the connector returned a broad chronological set from the channel rather than clearly ranking the intended signal first.
+
+Scoped finding:
+
+> do not assume that a `natural_language_query` field or the presence of Slack AI proves useful semantic retrieval in this Browser path. Explicit referents, facets and exact source links remain the more reliable discovery mechanisms.
+
+Slack's separate Real-time Search API documents semantic retrieval under supported conditions, but that platform capability is not evidence that this connector invocation exercised it.
+
+### 17. ChatGPT app presence is not Slack Agent presence
+
+The live Slack UI was opened directly at the `Agents & tools` surface.
+
+It reported:
+
+> Your org doesn't have any agents yet.
+
+This is true even though the normal ChatGPT app is installed and appears in the workspace sidebar.
+
+Current product research also distinguishes the standard ChatGPT Slack app/connector from the separate ChatGPT Agents app for ChatGPT workspace agents.
+
+Scoped finding:
+
+> app presence, connector capability and Slack-native Agent presence are distinct capability classes. Do not infer Agent Sessions or Slack Code capability merely because the ChatGPT app/connector is installed.
+
+For this Owner's current personal Plus setup, the separate ChatGPT workspace-agent route is not a baseline: current OpenAI documentation requires organizational ChatGPT plans and paid/admin Slack setup.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
