@@ -526,6 +526,39 @@ This is not project-per-channel topology. It is a research boundary:
 
 The split was introduced only after actual saturation pressure appeared.
 
+### 28. Opera is a heterogeneous shared-browser substrate candidate
+
+A live Claude Free settings page was inspected through Opera during this campaign.
+
+It shows a connected custom connector named **Opera** using:
+
+`https://connector.mcp.opera.com/mcp`
+
+and exposes tool classes matching the Browser Connector environment used by Browser ChatGPT:
+- Browser history;
+- Browser tabs;
+- Screenshot;
+- Tab/page content;
+- Close tab;
+- Go to page.
+
+The connector page exposes a `Disconnect` control, so this is current configured state rather than only historical setup evidence.
+
+Opera's own current product documentation independently describes Browser Connector as allowing external AI tools such as ChatGPT and Claude to connect through MCP into the user's **live browsing session**, with access to open tabs/current content and optional history/navigation controls.
+
+This creates a materially stronger SWM candidate than "two agents share a copied transcript":
+
+> heterogeneous minds may be able to inhabit one ordinary browser environment while retaining separate private conversational/model context.
+
+Current boundary:
+- Browser ChatGPT has exercised the Opera tools live;
+- Claude-side Opera tool invocation has **not** yet been observed in this campaign;
+- Claude's connector permission layer currently requires approval, so autonomous use without Owner interaction is unqualified;
+- same-live-tab identity must be empirically proven from both clients before claiming a shared-world PASS.
+
+An UNRUN fixture now exists at:
+`docs/experiments/HETEROGENEOUS_SHARED_BROWSER_PROBE_2026-10-07.md`.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
