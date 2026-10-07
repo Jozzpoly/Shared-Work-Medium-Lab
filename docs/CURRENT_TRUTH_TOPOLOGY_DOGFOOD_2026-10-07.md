@@ -141,6 +141,30 @@ Observed branch history during this bounded continuation includes source-bound c
 
 A later Opera connector call also returned `Browser not connected`. The agent continued through the already-available GitHub source tool rather than escalating routine technical routing to Owner. The late browser-rendered/AX path was consequently **not re-qualified**; Markdown link/source checks were verified only at the source plane.
 
+## ReflexBrain live-medium evolution follow-up
+
+A later exact-source follow-up on `ReflexBrain-Lab@3d51c836...` makes the donor more interesting and less tidy.
+
+The same project-local Pages root changed roles over time:
+- experiment/effectivity surface;
+- current-truth dispatcher;
+- stale-status correction + explicit research-only warning;
+- C01 observation gateway + evidence map.
+
+At the inspected C01 checkpoint:
+- root `index.html`: ~7.4k characters / 92 lines;
+- `CONTINUE_HERE.md`: ~11.2k characters / 325 lines;
+- the single mutable chronological current-state document: ~37.3k characters / 1064 lines.
+
+The root remains explicit that it is **not** the latest run ledger and routes volatile execution truth back to repository authority. This is useful donor evidence for a lightweight project-local medium that can serve humans and agents without pretending to own the underlying truth.
+
+It also exposes a counterpressure:
+> a good lightweight front door can sit on top of a growing current-state monolith.
+
+Therefore the donor does **not** justify a global pattern such as `one canonical CURRENT per project`. A cross-project Medium should not simply federate ever-growing local ledgers. The more defensible open question is whether sparse cross-world routing can land an agent at the local project's own smallest truthful orientation surface, whatever form that surface currently takes.
+
+This is still donor observation only. No fresh external agent has yet shown that ReflexBrain's page reduces recovery time, avoids a wrong decision, or transfers cleanly to another project's needs.
+
 ## Evaluation question
 
 For a fresh agent with a real task:
