@@ -118,6 +118,19 @@ the **historical R0 `main` was not force-merged or replaced**; instead its READM
 
 **Limits:** the source check confirms correct public links and scoped descriptions, not independent agent discovery, read-cost savings, or transfer of any local project authority. Both the published Pages link and branch links remain moving surfaces; follow them to current SHA/run/CI when a volatile claim matters.
 
+## Static first-hop source audit — source affordance only
+
+A read-only, exact-SHA comparison on 2026-10-07 found:
+
+| First-hop path | Entrypoint length | Default next source | Next-source length | Direct PR #8 link there? |
+|---|---:|---|---:|---|
+| `main@d190d17...` `START_HERE` | 2,987 characters | `docs/RESEARCH_STATE.md` | 45,066 characters / 776 lines | **No** |
+| draft specimen `@01610fa...` `START_HERE` | 3,279 characters | this topology document | 7,407 characters / 153 lines | **Yes** |
+
+**SCOPED PASS:** a direct, shorter route to newer public draft evidence exists in the experimental source surface. **NOT TESTED:** whether any fresh agent selects that route, makes a better decision, saves tokens, or reduces Owner burden. The two surfaces differ in the curated PR list as well as authority framing, so an eventual behavioral improvement cannot be attributed to topology alone.
+
+This snapshot refers to immutable inspected heads. The same live files may subsequently grow or change; do not silently recompute historical comparisons from floating branch references.
+
 ## Evaluation question
 
 For a fresh agent with a real task:
