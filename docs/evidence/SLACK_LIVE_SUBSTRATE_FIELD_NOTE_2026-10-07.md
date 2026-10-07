@@ -208,6 +208,86 @@ Scoped finding:
 
 This does **not** yet prove delayed cognition. A future Work experiment must still establish whether a scheduled Slack message can appropriately trigger an event-driven ChatGPT task without loops, false activation or attention debt.
 
+### 14. Scheduled local events and visibility escalation are separate actuators
+
+A second temporal probe scheduled a future reply inside an existing thread and requested `reply_broadcast=true`.
+
+At the scheduled time Slack created the reply inside the thread and search recovered it as a thread message. It did **not** appear on the channel timeline.
+
+A later explicit `reply_broadcast` action against that already-created reply immediately projected the same message object onto the channel timeline without changing its message identity.
+
+Scoped finding:
+
+> Slack can separately persist **when** an event should appear and later decide **how visible** the same event should become. In the tested connector path, scheduled thread creation and channel escalation did not collapse into one actuator.
+
+This falsifies the stronger assumption that scheduling a broadcast reply is equivalent to scheduling a reply and later broadcasting it.
+
+## External Slack-platform donor reconnaissance
+
+The following items come from current Slack/OpenAI platform documentation and were **not live-qualified in this field run**. They are donor/capability hypotheses only.
+
+### Incoming webhooks
+
+Slack apps can receive a channel-scoped incoming webhook URL and publish JSON/Block Kit messages, including replies to existing threads when a thread timestamp is known.
+
+Potential relevance:
+
+`lab / CI / Cloudflare runtime -> HTTP event -> Slack -> Browser/Work`
+
+This could provide a cheap universal ingress from systems that do not need the Browser connector itself. Webhook URLs are secrets and must never be stored in public research artifacts.
+
+### Message metadata
+
+Slack supports machine-readable message metadata built around an event type plus payload, explicitly intended for app-to-app/app-to-Slack coordination.
+
+This is conceptually attractive as a parallel channel:
+
+`human-visible event + machine-readable event payload`.
+
+The current ChatGPT Slack connector used here does not expose metadata writes or an `include_all_metadata` read path. Treat this as substrate capability currently outside the Browser body's verified sensor/actuator surface.
+
+### Work Objects
+
+Slack Work Objects model external entities with a stable external reference while the authoritative object remains in its source system. Slack can render the object into conversations/flexpanes and associate related conversations with the same referenced entity.
+
+This independently resembles a core SWM pressure:
+
+> keep source truth external while giving Slack a rich, addressable local projection and conversation context.
+
+Current Slack help material associates important Work Object preview capabilities with paid plans, so treat this as trial/paid donor evidence unless separately verified on Free.
+
+### Slack MCP and Real-time Search
+
+Slack now exposes an official MCP server / agent-oriented tool surface for searching and acting on Slack data, plus real-time search primitives intended for AI applications.
+
+This is significant prior art for treating Slack not merely as a human chat UI but as an agent-readable/actionable environment.
+
+No claim is made that the ChatGPT curated Slack connector in this experiment is internally identical to Slack's public MCP implementation.
+
+### Slackbot MCP Client
+
+Current Slack documentation also describes Slackbot as an MCP client capable of discovering and invoking tools from remote MCP servers.
+
+Potential long-term implication:
+
+`local lab / SWM capability service -> MCP -> Slackbot`
+
+could invert the current relationship: instead of Browser reaching into Slack, an agent living in Slack could reach into project-specific tools.
+
+This path is not configured or live-tested here.
+
+### Slack Code / Agent Sessions
+
+Recent Slack platform/product work provides temporary agent task spaces, agent-session lifecycle, artifacts/previews and multi-agent participation.
+
+This is useful independent donor evidence for a distinction already emerging in SWM:
+
+- a thread can be enough for a small bounded exchange;
+- a larger task may deserve a temporary dedicated work surface;
+- that surface should not automatically become permanent project topology.
+
+Availability varies by supported agent and rollout. Do not infer that the installed ChatGPT Slack app in this workspace currently supports Slack Code without a live qualification.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
@@ -273,12 +353,14 @@ This run does **not** prove that:
 ## Next high-value gates
 
 1. In Work, run one tightly bounded real Slack event-trigger experiment and measure false activation, missed value and Owner attention cost.
-2. Test whether a scheduled Slack message can serve as a deliberate future wake signal once the Work event leg exists.
-3. Test fresh-agent recovery using only generic affordances:
+2. Qualify the strongest external-ingress candidate: a minimal incoming-webhook app feeding one sparse lab/runtime event into the live exchange surface.
+3. Test whether a scheduled Slack message can serve as a deliberate future wake signal once the Work event leg exists.
+4. Test fresh-agent recovery using only generic affordances:
    search -> locator -> exact dereference -> source verification.
-4. Keep trial-only Lists as donor research and deliberately test what remains after the paid trial ends.
-5. Do not expand channel topology unless real traffic creates pressure. In particular, avoid mirroring the project tree into one channel per lab by default.
-6. Alternate live ecological dogfood with controlled probes. Do not let Slack feature exploration become the new project goal.
+5. Treat message metadata, Work Objects, Slack MCP, Slackbot MCP and Slack Code as donor capabilities until their exact plan/body boundaries are live-qualified.
+6. Keep trial-only Lists as donor research and deliberately test what remains after the paid trial ends.
+7. Do not expand channel topology unless real traffic creates pressure. In particular, avoid mirroring the project tree into one channel per lab by default.
+8. Alternate live ecological dogfood with controlled probes. Do not let Slack feature exploration become the new project goal.
 
 ## Privacy / evidence boundary
 
