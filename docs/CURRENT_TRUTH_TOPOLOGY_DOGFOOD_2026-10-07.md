@@ -179,6 +179,23 @@ Working implication for Medium:
 
 That connects the current-truth-topology experiment back to Quiet Presence: reachability can improve without turning project-local progress into a global inbox.
 
+### Observer-freshness specimen
+
+A live Opera check exposed two different observations of the same ReflexBrain Pages URL:
+- an already-open tab still showed the earlier dispatcher/P01a surface;
+- a fresh navigation to the same URL showed the current C01 gateway;
+- active Git source matched the newer C01 page.
+
+The discrepancy was therefore an **observer/tab freshness state**, not evidence that the repository authority or deployed source had regressed.
+
+Scoped consequence:
+> a truthful project-local medium can still leave an agent on a stale projection if the observer has no freshness cue or refresh behavior.
+
+This reconnects the dogfood experiment with earlier semantic-medium work on observer cursors, source validators and visibility-aware refresh. A cross-project/shared layer may have useful work in **freshness/proprioception** without owning local meaning or mirroring substantive project state.
+
+The fresh C01 page also renders as a semantically structured accessibility surface (navigation, headings/regions, foreground experiment link, explicit `Źródła prawdy`, current-state link, scoped warning and separated archive links). That is useful dual-use donor evidence, but the inspection was prompted and therefore is not ecological-adoption proof.
+
+
 
 ## Evaluation question
 
