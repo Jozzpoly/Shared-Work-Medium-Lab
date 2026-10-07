@@ -192,6 +192,43 @@ Yet these older sources materially changed the interpretation of the hot Reflex/
 
 That is exactly the failure mode recency/peripheral sensing cannot solve by itself.
 
+## Natural anti-trigger: Reflex R2c already generated the right falsifier locally
+
+The historical Reflex target itself is a useful **cold-retrieval negative control**.
+
+Before the R2c result existed, commit
+`c995f5d7631af61443dffcb5daeb00892b88c8ff`
+froze `docs/medium-runs/MEDIUM-C-R2C_ARMED.md`.
+
+Its predeclared protocol explicitly required:
+- create A/B/C;
+- remove B;
+- create D;
+- snapshot;
+- record live A/C/D handles plus stale B handles;
+- restore;
+- require stale B handles **not** to resolve as B / alias a live object;
+- continue exact label-addressed dynamics.
+
+The armed FAIL condition explicitly included:
+
+> valid runtime but stale handle aliases a live object unexpectedly.
+
+The later run then found exactly that aliasing failure.
+
+Therefore historical FrameMatter/SPC precedent was **not required** for Reflex to formulate the right local falsifier.
+
+This matters for retrieval policy:
+
+> if a cheap, bounded local experiment can directly attack the identity/lifetime assumption before commitment, historical archaeology may have low or negative expected value.
+
+Cold precedent retrieval should not become a ritual merely because a structural analogy exists.
+
+A stronger positive cold case must show a decision boundary where:
+- local reasoning did not already generate the decisive falsifier;
+- the commitment cost is material;
+- a dormant precedent changes the decision or reduces Owner glue / rework.
+
 ## What this does NOT prove
 
 This note does not establish:
