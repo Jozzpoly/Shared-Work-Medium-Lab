@@ -122,6 +122,34 @@ When app/bot/webhook emitters are involved, explicitly include bot-origin events
 
 Do not assume semantic search. The current connector explicitly reports semantic search unavailable for this user.
 
+## Passive ecological measurement plane
+
+When the subject uses the same Opera environment, the evaluator may use browser-history **deltas** as a low-interference behavioral trace.
+
+Before the run:
+- snapshot the recent history set;
+- predeclare the experiment-relevant source-door URLs/domains that are allowed to be inspected for scoring.
+
+After the run:
+- compute only the delta relevant to those declared sources;
+- record whether the subject traversed from the ambient/peripheral surface into an authoritative donor source;
+- correlate that with any durable local effect such as a repo change, experiment result, or source-bound decision.
+
+This can provide evidence for:
+
+`scent exposure -> source traversal -> local effect`
+
+without:
+- asking the subject to self-report Medium use;
+- requiring chain-of-thought;
+- instrumenting every donor project with analytics.
+
+Privacy boundary:
+- do **not** treat the Owner's general browser history as a research corpus;
+- ignore unrelated URLs even if the connector returns them;
+- report only aggregate/relevant experiment paths needed for the claim;
+- history proves navigation, not comprehension or causality.
+
 ## Primary measures
 
 Record:
