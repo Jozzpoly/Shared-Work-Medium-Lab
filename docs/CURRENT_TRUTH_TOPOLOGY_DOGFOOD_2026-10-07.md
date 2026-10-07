@@ -106,6 +106,18 @@ It does **not**:
 - add a capability registry, database, graph, event bus, or universal project schema;
 - select the next Medium architecture.
 
+## 2026-10-07 source-bound counterpressure
+
+A later independent ReflexBrain correction narrows the Medium claim further. At
+[`ReflexBrain-Lab@75b95725292fb73d9c8e322bce05bd285aeec237`](https://github.com/Jozzpoly/ReflexBrain-Lab/commit/75b95725292fb73d9c8e322bce05bd285aeec237),
+the **historical R0 `main` was not force-merged or replaced**; instead its README became a short dispatcher toward active [draft PR #6](https://github.com/Jozzpoly/ReflexBrain-Lab/pull/6), `CONTINUE_HERE`, the single mutable run-state document, and its Pages root. The local laboratory corrected misleading information scent **without** Shared Work Medium owning any local state. Its [Pages root](https://jozzpoly.github.io/ReflexBrain-Lab/) explicitly says archived probes are evidence, not current-run authority.
+
+**Consequence:** project-local entrypoints may already remove much of the supposed global Medium need. A cross-project layer earns its role only when a relevant *other* world would otherwise remain cognitively unreachable at material decision time. This remains a hypothesis, not a proven split of responsibilities.
+
+**Evaluation confound:** this PR's treatment changes *both* (a) authority-topology framing and (b) a curated list of PR #8, #6/#5, #4 and #3. A faster fresh reader may simply have been handed the relevant PR numbers. The first fresh-reader comparison can qualify the **bundle** only; it cannot attribute any gain specifically to accepted/draft/private topology. A follow-up topology-only ablation must remove case-specific PR names if the bundle first proves useful.
+
+**Limits:** the source check confirms correct public links and scoped descriptions, not independent agent discovery, read-cost savings, or transfer of any local project authority. Both the published Pages link and branch links remain moving surfaces; follow them to current SHA/run/CI when a volatile claim matters.
+
 ## Evaluation question
 
 For a fresh agent with a real task:
