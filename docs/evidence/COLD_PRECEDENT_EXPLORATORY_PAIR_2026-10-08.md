@@ -196,6 +196,32 @@ This is consistent with the wider Decision Pressure direction:
 - reduced false novelty in a fresh subject;
 - generality beyond these two cases.
 
+## Cloudflare is NOT a clean cold-precedent fixture
+
+The often-cited Cloudflare false-novelty episode remains useful historical evidence, but source recovery shows that it is **not clean enough for the confirmatory cold-precedent actor packet**.
+
+Recovered chronology:
+
+1. Before the later correction, the Medium conversation had already recovered an older Cloudflare prototype as a useful sensory substrate: snapshot separated from event log, ordered events / cursor, and a small "sensory ganglion" rather than canonical project state.
+2. The Owner then explicitly raised Cloudflare as potentially important and offered to create any needed account for Medium.
+3. The agent subsequently treated free-account/platform setup as though it might need to be established anew.
+4. Later Owner pressure exposed the missing connection to the ecosystem's **existing operational Cloudflare experience** in SPC and other projects, after which the agent recovered concrete donor worlds and reframed Cloudflare from a new capability/platform problem into an existing workshop/donor substrate.
+
+Therefore the failure is better classified as:
+
+> **conceptual candidate already present, but operational capability / existing-ecosystem experience was not activated strongly enough before setup assumptions were made.**
+
+That is still a real Medium problem, but it is not a clean test of:
+> will an unknown dormant donor enter the candidate set?
+
+It may instead become a future **capability-state / body-reachability** specimen:
+- concept known;
+- service known;
+- current account/body/tool capability not grounded;
+- new setup cost assumed before checking existing operational ecology.
+
+Do not use Cloudflare as the positive cold-precedent confirmatory case unless an earlier exact pre-decision prefix can be independently reconstructed without this Owner-induced Cloudflare cue.
+
 ## Next experiment
 
 Use paired fresh-subject cases:
