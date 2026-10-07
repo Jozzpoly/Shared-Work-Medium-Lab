@@ -314,6 +314,29 @@ A bounded live check compared several source-native GitHub observation modes. Th
 
 **Important negative control:** mere activity does not imply transferable value. A dormant but semantically relevant donor may be more useful than a high-churn project; recency can only generate inspection candidates, not rank scientific importance.
 
+## Existing-memory and project-topology counterpressure
+
+A live read of an ordinary Combat Lab conversation exposed another competing candidate-generation substrate: the project agent was already reasoning about future transfer to **Feniks** and **Studio** while pursuing Combat Lab's own research questions.
+
+This does **not** qualify a spontaneous cross-project Medium PASS:
+- the conversation has its own long history;
+- account/project memory may already carry cross-project context;
+- the Owner's earlier prompts may have established those worlds as meaningful;
+- visible ChatGPT project/sidebar topology can make other project names ambiently available;
+- this evaluator is contaminated by the wider research campaign.
+
+But it materially changes the baseline.
+
+> A Browser subject is not an isolated blank agent. Its ordinary environment may already include remembered project relations and product-level project topology.
+
+Therefore:
+- C0 must preserve normal memory/project context rather than disabling it to make Slack/shared scents look useful;
+- merely mentioning another project is not candidate-generation evidence;
+- stronger evidence requires source traversal or a materially changed local decision/experiment that would plausibly not have occurred from the ordinary baseline;
+- Slack should be reserved for reachability that memory, current project context, Opera working-set traces and source-native activity do not already provide cheaply.
+
+This is especially important for active, conceptually coupled projects such as Combat/Feniks/Studio, where ordinary memory may already make donor candidates highly available. The best future ecological subjects may instead be quieter or more weakly coupled project pairs where a useful relation is not already culturally salient.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
