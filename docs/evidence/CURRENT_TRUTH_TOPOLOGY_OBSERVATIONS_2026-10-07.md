@@ -122,3 +122,38 @@ This reconnects the dogfood experiment with earlier semantic-medium work on obse
 
 The fresh C01 page also renders as a semantically structured accessibility surface (navigation, headings/regions, foreground experiment link, explicit `Źródła prawdy`, current-state link, scoped warning and separated archive links). That is useful dual-use donor evidence, but the inspection was prompted and therefore is not ecological-adoption proof.
 
+
+
+## Fresh external subject launch boundary — availability != action reachability
+
+A live Opera inspection on 2026-10-07 recovered the previously selected external-organism candidate:
+- authenticated Claude Free;
+- Sonnet 5.5 Medium visible;
+- ordinary Chat surface visible;
+- `Use incognito` control visible;
+- prompt field visible.
+
+This means the **subject environment exists** and the intended contamination boundary is still plausible.
+
+However the currently exposed Opera Browser Connector action surface in this collaboration contains only:
+- tab listing/history;
+- accessibility-tree reads / jq search;
+- screenshots;
+- tab close;
+- URL navigation.
+
+It exposes **no click/type/set-value actuator**. Therefore the agent could observe the incognito button and prompt box but could not start the trial without asking the Owner to become the missing actuator.
+
+Decision:
+- do **not** ask Owner to type the experimental prompt;
+- do **not** claim an external-subject run;
+- preserve the isolated actor/evaluator packets as apparatus-ready;
+- continue source/dogfood work through available bodies.
+
+This is a concrete instance of the earlier capability-expedition distinction:
+
+> discovery/visibility of a capability or procedure is not sufficient for actionability; action reachability and effect verification are separate gates.
+
+It also sharpens the external-organism lane in accepted `RESEARCH_STATE.md`: the remaining boundary is no longer just "a real LLM exists" but whether the collaboration body has a legitimate actuator into an isolated session without converting the Owner into orchestration glue.
+
+No claim follows that Opera needs more permissions or that a different browser actuator should be built. That decision requires separate pressure/evidence.
