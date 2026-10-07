@@ -232,6 +232,21 @@ Scoped lesson:
 
 Purpose-built Slack/shared scents should focus on otherwise-unreachable material events, not mirror GitHub churn.
 
+## Sensor-mode coverage countercheck — 2026-10-08
+
+A bounded live check compared several source-native GitHub observation modes. This is **sensor coverage evidence**, not an ecological subject run or a proposal to poll everything.
+
+- A 100-item `list_recent_issues` window covered only 5 of the Owner account's 26 accessible repositories (Shared Work Medium, ReflexBrain, LLM Live NPC, Tysiac and Companion). A top-N recency window is not a fair project coverage guarantee.
+- Combat Lab had no issues/PRs reported through the tested issue/PR paths, yet its main branch had real commits on 2026-10-07 and raw repository metadata reported `pushed_at=2026-10-07T00:44:03Z`. Issues-only sensing can mistake an active project for inactivity.
+- Shared Work Medium's default-branch commit search returned latest `main` work dated 2026-10-04, while its draft research PR #10 was pushed on 2026-10-07 (`pushed_at=2026-10-07T21:37:16Z`). A main-only source view can miss the live frontier.
+- Raw GitHub repository GET exposed `pushed_at`; the connector's normalized `list_repositories` did not expose that field. `updated_at` was also older than `pushed_at` in the sampled repositories. Tool result projections must be checked before deriving an activity metric.
+- Eight representative repositories were sampled through raw repository metadata. This does not establish full 26-repository coverage, nor the significance of any pushed change.
+- GitHub's public Events API is an additional potential broad sensor but the official API warns of 30-second to 6-hour event latency and limited retention; it is not a real-time authority stream. Source: https://docs.github.com/en/rest/activity/events
+
+**Experiment-design consequence:** a fair ordinary-environment baseline should preserve multiple native signals where needed (repository activity, PR/frontier state, commits, project front door, open tabs), with bounded on-demand verification. Do not replace an incomplete Slack feed with an equally incomplete global GitHub top-N feed.
+
+**Important negative control:** mere activity does not imply transferable value. A dormant but semantically relevant donor may be more useful than a high-churn project; recency can only generate inspection candidates, not rank scientific importance.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
