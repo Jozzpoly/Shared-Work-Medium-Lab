@@ -40,6 +40,38 @@ Do not tell the subject:
 
 A subject already deeply contaminated by the planted relation cannot qualify the primary result.
 
+## Hot vs cold candidate classes
+
+A 2026-10-08 Opera calibration showed that recent/open-browser traces strongly cover the current working set but can entirely miss dormant projects that remain highly relevant donors.
+
+See:
+- `docs/evidence/HOT_COLD_CANDIDATE_BOUNDARY_2026-10-08.md`.
+
+Predeclare each candidate-generation task as one of:
+
+### HOT
+
+A materially relevant donor/event has a real recent source-native or ambient trace.
+
+Examples of valid candidate sensors:
+- current/open project surfaces;
+- repository/PR activity;
+- open tabs/history;
+- sparse shared/Slack event when the source lacks a sufficient native signal.
+
+This is the primary class for C0/C1 peripheral-sensing comparisons.
+
+### COLD
+
+The materially relevant donor is intentionally absent from the recent working set and is useful because of **precedent/structural relevance**, not current activity.
+
+A cold task should not be used to judge Slack/Opera/source-native recency as though they were complete historical memory.
+
+Cold tasks belong to a different retrieval question:
+> when is historical/transfer-case search worth invoking, and can it recover a dormant precedent without Owner routing?
+
+Keep hot peripheral sensing and cold precedent retrieval experimentally separate until evidence justifies a shared mechanism.
+
 ## Stimulus construction
 
 Use a real source-bound event from another project.
