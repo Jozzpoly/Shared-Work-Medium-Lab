@@ -67,15 +67,28 @@ The receiving mind decides relevance.
 
 ### C0 — ordinary environment
 
-The subject receives its normal project-local task and normal available tools.
+The subject receives its normal project-local task and **all ordinary tools it would normally possess**.
 
-No shared scent surface is exposed or mentioned.
+For Browser ChatGPT this explicitly includes existing Opera context such as open tabs and recent browser history when those sensors are normally available. Do not cripple the baseline to make Slack win.
 
-### C1 — sparse peripheral scent
+No additional purpose-built shared scent surface is exposed or mentioned.
 
-Same task and ordinary tools.
+### C0a — implicit working-set scent (diagnostic, when measurable)
 
-A small recent delta contains:
+Observe whether the subject spontaneously uses naturally occurring environmental traces already produced by ordinary work, such as:
+- open browser tabs;
+- recent browser history;
+- current project/sidebar topology;
+- recently visited project Pages, CI runs or source surfaces.
+
+This is not a separate product treatment if those sensors are already part of C0. It is a diagnostic attribution:
+> did candidate generation come from Owner-created ambient traces before any Shared Medium scent was needed?
+
+### C1 — sparse explicit peripheral scent
+
+Same task and ordinary tools, including the normal working-set sensors above.
+
+A small recent Slack/shared-medium delta additionally contains:
 - one or a few real source-linked scents;
 - at least one materially relevant donor event;
 - unrelated recent scents only when they are ecologically legitimate, not artificial camouflage.
@@ -160,7 +173,8 @@ This is evidence **against** always-on global routing.
 
 The candidate-generation hypothesis weakens materially if:
 
-- C1 does not improve candidate-set entry over C0;
+- C1 does not improve candidate-set entry over the real ordinary environment, including Opera working-set traces when available;
+- open tabs/history/current project surfaces already provide the same useful candidate at comparable or lower cost;
 - the relevant donor was already easily discoverable through ordinary project-native sources;
 - subjects follow scents because their formatting advertises experimental importance;
 - C1 mainly increases archaeology or analogy hunting;
@@ -169,6 +183,20 @@ The candidate-generation hypothesis weakens materially if:
 - the system requires global relevance scoring or target-project assignment to work;
 - C2 performs as well as or better than C1 solely because "more context" was added;
 - Owner routing remains necessary at the material decision boundary.
+
+## Existing-environment counterpressure
+
+A live Opera inspection during fixture design exposed a strong competing substrate:
+
+- open tabs reveal the Owner's immediate working set;
+- up to seven days of browser history reveal recent project/world visits;
+- visited URLs can expose specific experiment surfaces, CI runs and project Pages without the Owner writing any handoff.
+
+This is a form of human-produced environmental trace: ordinary work leaves a recency-weighted scent that an agent may be able to use for candidate generation.
+
+It is **not authority** and may contain unrelated/private/noisy activity.
+
+Therefore a Shared Medium layer earns its role only when it adds useful cross-world reachability beyond this naturally occurring working-set scent.
 
 ## Saturation / decay interpretation
 
