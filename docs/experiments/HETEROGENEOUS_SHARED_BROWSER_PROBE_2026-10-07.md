@@ -76,6 +76,21 @@ A PASS must exclude weaker explanations:
 - approval prompts make the Owner the real router;
 - a task succeeds through model-native web/search rather than the shared Opera environment.
 
+## Probe 0 — one-body environmental trace persistence (LIVE, bounded)
+
+A ChatGPT/Opera test on 2026-10-08 established the smallest prerequisite independently of any second model:
+
+1. The agent checked its permitted seven-day Opera history: a unique public test-URL token was absent.
+2. It opened an ordinary GitHub PR page with that unique, harmless query token using the Opera navigation tool; the new tab was observed with an exact tab ID and full URL.
+3. It closed **only that created tab** using Opera's close-tab tool.
+4. A fresh Opera-history read returned the same exact URL/token with a recent visit timestamp.
+
+**Scoped PASS:** a deliberately created environmental visit can outlive the tab that produced it. The trace is recoverable through a different Opera sensor (history) without any custom SWM backend, direct transcript transfer or explicit registry.
+
+**Not proven:** Claude sees that history; a fresh mind would discover the trace spontaneously; the visit is meaningful; the trace survives browser/profile changes, history expiry or user deletion; any stable cross-client identity.
+
+**Privacy boundary:** the test used only a harmless public GitHub URL. Do not embed private state, agent instructions, credentials or user secrets into URL query strings for ambient handoffs. History is weak, temporary context, not project authority or durable memory.
+
 ## Probe A — same-world identity
 
 Goal: establish whether ChatGPT and Claude actually observe the same Opera instance/session state.
