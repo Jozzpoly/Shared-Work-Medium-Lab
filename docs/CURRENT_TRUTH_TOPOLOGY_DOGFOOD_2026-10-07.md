@@ -165,6 +165,21 @@ Therefore the donor does **not** justify a global pattern such as `one canonical
 
 This is still donor observation only. No fresh external agent has yet shown that ReflexBrain's page reduces recovery time, avoids a wrong decision, or transfers cleanly to another project's needs.
 
+### Local-churn consequence for Quiet Presence
+
+In the bounded live window `2026-10-06 12:00Z -> 2026-10-07 03:00Z`, the active ReflexBrain branch recorded:
+- **136 commits**;
+- **21 commits** touching its mutable current-state document;
+- **8 commits** touching the Pages root.
+
+This is not a defect in the local lab. It is evidence that useful local research can change far faster than another project or the Owner should be expected to consume.
+
+Working implication for Medium:
+> **local churn should remain local; cross-project activation should occur at material relevance boundaries, not by mirroring every status event.**
+
+That connects the current-truth-topology experiment back to Quiet Presence: reachability can improve without turning project-local progress into a global inbox.
+
+
 ## Evaluation question
 
 For a fresh agent with a real task:
