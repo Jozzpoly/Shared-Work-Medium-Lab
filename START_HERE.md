@@ -18,9 +18,11 @@ The compact North Star is in [docs/NORTH_STAR.md](docs/NORTH_STAR.md).
 
 ## Current live state
 
-Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md).
+**Dogfood branch note:** this branch is testing explicit current-truth topology. Read [docs/CURRENT_TRUTH_TOPOLOGY_DOGFOOD_2026-10-07.md](docs/CURRENT_TRUTH_TOPOLOGY_DOGFOOD_2026-10-07.md) first.
 
-Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect only the issues, draft pull requests, experiments or field surfaces relevant to your actual goal.
+Then use [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md) as the **accepted public research baseline**, not as proof that no newer draft/live frontier exists.
+
+Do not hardcode a work object from an older handoff. Recover only the authority topology relevant to your actual goal, then inspect the minimum necessary issues, draft pull requests, experiments or field surfaces.
 
 Issue #1 remains the first historical shared-referent specimen; it is not automatically the current task.
 
