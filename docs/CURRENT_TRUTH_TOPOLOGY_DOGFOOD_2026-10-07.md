@@ -100,6 +100,54 @@ Detailed observations, source-affordance measurements, session-boundary dogfood,
 
 Keeping them separate is itself part of the experiment: **the orientation surface should not become the research history it routes into.**
 
+## ReflexBrain follow-up under C01 pressure
+
+A later exact-source check at
+[`ReflexBrain-Lab@3d51c83653d41a97ff8607b358f9ce190b348810`](https://github.com/Jozzpoly/ReflexBrain-Lab/commit/3d51c83653d41a97ff8607b358f9ce190b348810)
+adds both positive and negative evidence.
+
+### Positive: project-native medium survived another real research transition
+
+ReflexBrain closed **C01** as a narrow mechanistic PASS and its public Pages root evolved into a current-phenomenon gateway. The page remains explicit that:
+- it is an observation/evidence surface, not the latest execution ledger;
+- `Authored control != organism`;
+- volatile execution truth belongs in the repository authority;
+- archived probes are evidence surfaces rather than current-run authority.
+
+The live C01 page is semantically useful to a browser agent: its accessibility structure exposes replay controls, four synchronized worlds, separate `ACTOR PRIVATE` and `MICROSCOPE ONLY` planes, scope warnings, and direct links to the frozen result and PR.
+
+This is stronger donor evidence for a **project-native dual-use medium**: one human-readable surface can also expose enough semantic structure to help an agent orient and inspect evidence.
+
+It is still prompted inspection, not ecological adoption or proof of capability gain.
+
+### Negative: the recovery router already accumulated stale volatile meaning
+
+At the same head, `docs/CONTINUE_HERE.md` correctly declares itself a recovery anchor and later warns readers not to treat its dated text as a duplicate live ledger. But it still embeds older volatile status material:
+- a completion list ending before later C01;
+- a `Current next move` from an earlier B01d/P01a boundary;
+- a later appendix reaching H01 but not C01.
+
+The single mutable campaign-state document already contains the C01 result.
+
+This is a useful falsifier for a simplistic prescription such as:
+> give every project one `CONTINUE_HERE` / `CURRENT` file and federate those.
+
+Even a good local router becomes stale if it copies too much volatile meaning.
+
+### Working consequence
+
+The stronger project-local pattern currently looks closer to:
+
+> **stable route, live meaning**
+
+with:
+- stable/thin front doors that mostly route;
+- volatile execution truth kept in the smallest representation that can stay truthful;
+- immutable result/evidence artifacts kept separate;
+- presentation surfaces free to evolve as long as their authority routing remains explicit.
+
+This remains donor evidence, not a required Medium schema.
+
 ## Evaluation question
 
 For a fresh agent with a real task:
