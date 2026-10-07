@@ -444,6 +444,48 @@ This repeats a now-common boundary:
 
 This is relevant to Medium's operational proprioception goal: discovery must include the exact executable action path and effect-verification seam, not merely names of tools/skills.
 
+### 24. Opera exposes an existing human-generated peripheral substrate
+
+The Opera connector provides:
+- open-tab topology;
+- accessibility reads of those tabs;
+- browser history up to seven days old.
+
+A bounded 7-day history inspection during this run contained recent traces across multiple active project/chat/source surfaces. Crucially, some URLs exposed specific experimental Pages and CI/source objects, not merely project names.
+
+This suggests a strong counter-hypothesis to purpose-built cross-project event infrastructure:
+
+> the Owner's ordinary browsing behavior already leaves recency-weighted environmental traces that an agent can use as candidate-generation scent.
+
+This resembles stigmergic coordination more closely than a central capability registry: no explicit handoff or relevance score is required.
+
+Boundaries:
+- browser history is not project truth;
+- open tabs can be stale;
+- unrelated/private browsing must not be promoted into project context merely because it is observable;
+- the current observation is from one Owner/body and does not establish transfer to other agents;
+- a purpose-built Shared Medium layer earns its role only if it adds useful reachability beyond this natural working-set substrate.
+
+### 25. Bot-origin scents require an explicit sensory contract
+
+The Slack search action defaults to `include_bots=false`.
+
+A controlled check against an existing Slack bot DM produced:
+- `include_bots=false` -> no result;
+- `include_bots=true` -> exact bot message recovered.
+
+This matters for the proposed external-ingress path:
+
+`runtime / CI / webhook / custom app -> Slack scent`
+
+because those events are likely app/bot-origin.
+
+Scoped finding:
+
+> an emitter can succeed while the receiving agent's default search sensor silently excludes the emitted class.
+
+For bot/app scents, candidate-generation probes must explicitly verify the actual perception path. Channel-delta reads and Work event triggers require their own empirical qualification; do not infer them from search behavior.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
