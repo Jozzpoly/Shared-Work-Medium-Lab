@@ -44,10 +44,10 @@ Inspect open draft PRs selectively.
 
 Current public landmarks:
 
-- **PR #8 — Capability expedition**: first source-bound workpiece/procedural relay;
-- **PR #6 / #5 — Quiet Presence**: exchange-window recovery, attention sovereignty and ecological use;
-- **PR #4 — MP-1A**: controlled mechanism apparatus;
-- **PR #3 — semantic-medium-v0**: reconnaissance / earlier self-updating surface evidence.
+- **[PR #8 — Capability expedition](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/8)**: first source-bound workpiece/procedural relay;
+- **[PR #6](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/6) / [PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5) — Quiet Presence**: exchange-window recovery, attention sovereignty and ecological use;
+- **[PR #4 — MP-1A](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/4)**: controlled mechanism apparatus;
+- **[PR #3 — semantic-medium-v0](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/3)**: reconnaissance / earlier self-updating surface evidence.
 
 A draft PR is evidence and frontier material. It is not automatically accepted project truth.
 
