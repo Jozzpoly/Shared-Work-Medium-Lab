@@ -46,6 +46,39 @@ Therefore:
 >
 > **autonomous cross-model coordination: unproven**
 
+## New donor — free Opera Neon browser actuation (documented; NOT CONNECTED)
+
+A fresh capability search on 2026-10-08 corrected an older paid-plan assumption.
+
+Opera's **2026-08-14** announcement and current pricing page explicitly place **Opera Neon MCP Connector + local Browser CLI in the Free plan**; a subscription is for Neon's *built-in* AI agents/Research/Do/Make capabilities.
+
+Sources:
+- https://blogs.opera.com/news/2026/08/your-ai-agents-can-use-opera-neon-free-of-charge/
+- https://www.operaneon.com/subscription
+- https://blogs.opera.com/news/2026/03/opera-neon-adds-mcp-connector-to-the-browser/
+
+Unlike the current Opera One connector used by this Browser body, the Neon MCP surface documents permission-gated **mouse clicks, keyboard actions, form filling and tab controls** in the real logged-in Neon session. Browser CLI provides additional local tools/less overhead but is not reachable directly by a cloud-hosted ChatGPT client.
+
+OpenAI's current custom-MCP guide describes connecting arbitrary remote MCP servers, including read/write tools, as ChatGPT Plugins; the old special Developer Mode step was removed around 2026-10-01:
+- https://developers.openai.com/api/docs/guides/custom-mcp-server
+- https://community.openai.com/t/developer-mode-missing-from-security-login-on-chatgpt-pro/1402157/10
+
+A live read of the Owner's ChatGPT Plus Plugins UI confirmed an **Add** control. It did *not* open the Add menu or register a custom MCP server, and the Neon browser is not installed/connected in this campaign.
+
+**Promising candidate path (not yet an execution claim):**
+
+`ChatGPT Plus -> custom MCP plugin -> free Opera Neon MCP -> permissioned interaction in Neon's authenticated browser session`
+
+This would address the currently demonstrated Opera One read/navigation-only actuator gap without paying for TinyFish or Opera Neon's native AI subscription.
+
+**Important boundaries:**
+
+- Opera One and Opera Neon are separate browser/session bodies. Existing Opera One tabs/login state do not automatically migrate.
+- A downloaded/installed Neon client and Owner-side Opera sign-in/consent are necessary to provision the actual OAuth MCP server and its tool permissions.
+- The availability of a custom-MCP Add control is not proof that this particular account can complete creation/authentication; that requires a real user-consented test.
+- Write tools should be enabled only for a limited public test surface first, not globally on private sessions. Nothing in this note authorizes changing private accounts or consent settings.
+- This is a tool/body donor, not SWM architecture, and does not itself prove two model minds shared the same environment.
+
 ## Why this matters
 
 If both minds can independently observe the same browser state, several SWM properties can emerge without building a shared database:
