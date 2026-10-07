@@ -148,6 +148,32 @@ with:
 
 This remains donor evidence, not a required Medium schema.
 
+## ReflexBrain now has two distinct local media
+
+A later source-qualified follow-up on
+[`ReflexBrain-Lab@287901ff3053465e4ffc23b5a297b2c791771135`](https://github.com/Jozzpoly/ReflexBrain-Lab/commit/287901ff3053465e4ffc23b5a297b2c791771135)
+shows that the earlier "local medium" interpretation was still underspecified.
+
+ReflexBrain currently has **two different local medium functions**:
+
+1. **orientation / authority medium**
+   - thin project/front-door routing;
+   - one mutable execution-state authority;
+   - immutable run/result evidence;
+   - historical probes and branches kept as evidence rather than current truth.
+
+2. **project-native interactive scientific medium**
+   - explicitly defined in `REFLEXBRAIN_INTERACTIVE_MEDIUM_CAMPAIGNS_2026-10-07.md`;
+   - Habitat/Field, Evidence Atlas, Chronicle/Continuity, Workbench/Forks and future Organism Observatory;
+   - intended to let Owner enter the actual specimen, perturb it, observe continuation, preserve/fork interesting states and turn surprise into science;
+   - explicitly forbidden from becoming actor knowledge, scientific truth, or a substitute for organism qualification.
+
+The live Owner Field Lab is currently marked **UNQUALIFIED** and already carries known long-run/process defects rather than being polished into a false PASS.
+
+**Medium consequence:** Shared Work Medium should not treat a project-native scientific instrument as state to centralize. A more plausible role is to help another participant discover that such an instrument exists, enter through its declared local authority/evidence topology, and preserve its scope/freshness/nonclaims during transfer.
+
+This is still a hypothesis. If ordinary project-native front doors and search already provide reliable cross-project discovery and transfer, Shared Work Medium may have little additional role.
+
 ## Evaluation question
 
 For a fresh agent with a real task:
