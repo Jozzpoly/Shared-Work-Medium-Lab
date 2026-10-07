@@ -65,6 +65,23 @@ The emitter may assert only local materiality:
 
 The receiving mind decides relevance.
 
+## Sensor calibration update — 2026-10-08
+
+A direct calibration pass found that the current Browser GitHub code-search path returned zero results even for exact tokens that were independently verified by direct file reads on the same repositories (for example `Owner` in Companion, `M2a` in Gloopipelago, `Rep4` in Nextgen JV and `PROVISIONAL` in FrameMatter).
+
+See:
+- `docs/evidence/LOCAL_MEDIA_AND_GITHUB_SEARCH_CALIBRATION_2026-10-08.md`.
+
+Therefore:
+
+> **Cold GitHub code search is currently unqualified as an ecosystem-coverage sensor in this Browser body.**
+
+Do not interpret a no-result search as donor absence.
+Do not use that search path alone as the C0 candidate-generation baseline.
+Known-world direct reads, repository/frontier metadata, Opera working-set traces and other source-native activity sensors remain distinct channels.
+
+This is a body/sensor limitation, not evidence that cross-project discovery requires Shared Work Medium.
+
 ## Conditions
 
 ### C0 — ordinary environment
