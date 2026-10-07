@@ -486,6 +486,46 @@ Scoped finding:
 
 For bot/app scents, candidate-generation probes must explicitly verify the actual perception path. Channel-delta reads and Work event triggers require their own empirical qualification; do not infer them from search behavior.
 
+### 26. Source-native recency can dominate copied Slack scent
+
+GitHub's global recent-issues action was tested as another candidate-generation sensor.
+
+In a 100-item snapshot, recent accessible activity was concentrated in five repositories:
+- ReflexBrain Lab: 31;
+- LLM Live NPC: 22;
+- Tysiac: 22;
+- Companion Brain Lab: 15;
+- Shared Work Medium: 10.
+
+This is useful and dangerous:
+- it is source-native and requires no duplicate emission;
+- it naturally highlights active frontiers;
+- high-churn projects can dominate the window and starve quieter but relevant donors.
+
+More importantly, it immediately revealed that a freshly emitted Slack scent from ReflexBrain PR #27 had already been superseded by later source-native work (#30 and #31).
+
+The Slack scent was deleted from `#medium-live` rather than maintained as a second stale status surface.
+
+Scoped finding:
+
+> when a source already exposes a sufficiently current event/change feed, Shared Medium should sense that feed rather than copy its events into another feed.
+
+Slack/shared scent is better reserved for material events that are otherwise hard to perceive across bodies: Owner observation, cross-tool/runtime event, private source, or systems without a useful native event surface.
+
+### 27. Ecology and apparatus now have separate Slack surfaces
+
+Live pressure showed that synthetic connector probes were polluting the same timeline intended to act as a quiet ecological/peripheral surface.
+
+A separate public `#medium-probes` channel was therefore created for destructive/timing/index/projection/transport experiments.
+
+`#medium-live` remains the ecological/cross-project surface.
+
+This is not project-per-channel topology. It is a research boundary:
+
+`ecology != apparatus`
+
+The split was introduced only after actual saturation pressure appeared.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
