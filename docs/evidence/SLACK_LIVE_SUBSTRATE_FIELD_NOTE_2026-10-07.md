@@ -339,6 +339,111 @@ Scoped finding:
 
 For this Owner's current personal Plus setup, the separate ChatGPT workspace-agent route is not a baseline: current OpenAI documentation requires organizational ChatGPT plans and paid/admin Slack setup.
 
+### 18. Candidate generation is a different problem from routing
+
+A reread of the current-truth-topology research sharpened the role a shared live layer would actually have to earn.
+
+PR #9's T0/T1/T2-style work can test whether an agent chooses the right authority plane or route **after relevant candidates exist**. Its own interpretation ceiling explicitly does not establish cross-project capability routing.
+
+Earlier Medium work also separated:
+
+- **candidate generation** — does the relevant other project/world enter the candidate set at all?
+- **routing** — once candidates exist, which one should be inspected?
+
+Live project-local front doors reduce orientation cost inside a known world, but they cannot by themselves make an unknown relevant other world cognitively available.
+
+This produced a new Slack field signal:
+
+`swm://exchange/peripheral-candidate-generation-004`
+
+Scoped hypothesis:
+
+> a sparse, source-linked, time-decaying event/scent stream may provide peripheral cross-project candidate generation without mirroring local project state or maintaining a central capability registry.
+
+The receiver still decides relevance under its own local goal.
+
+Ecological success remains strict:
+
+> an agent pursuing a non-SWM goal independently notices a relevant scent, follows the source, and materially advances its own work without Owner routing.
+
+No such fresh-subject PASS exists yet.
+
+### 19. Free Slack retention may be useful decay, not merely loss
+
+Current Slack Free documentation limits visible/searchable message and file history to the most recent 90 days; workspace data older than one year may be permanently deleted depending on retention settings.
+
+For durable project truth this is unacceptable, so Slack must not be the archive.
+
+For **peripheral scent**, however, natural decay may be desirable:
+
+- recent material changes remain ambiently reachable;
+- old local churn disappears from the shared peripheral surface;
+- durable evidence stays in project repositories/local media;
+- a stale shared feed is less likely to harden into a second project history.
+
+This is a design hypothesis, not a reason to rely on deletion for correctness. Any event worth durable preservation must still return to its authoritative project/source.
+
+### 20. Workflow Builder suggests a deterministic reflex layer before cognition
+
+The active Slack trial exposes Workflow Builder. Current Slack documentation supports event triggers including emoji reactions, message events/keywords, schedule, webhooks, channel/user events and List-related changes, with ordinary Slack actions such as sending a message as workflow steps.
+
+This suggests a compositional circuit:
+
+`quiet object / reaction -> deterministic Slack workflow -> new activation message -> event-driven Work -> LLM cognition`
+
+The important property is **selective wake**:
+
+- ordinary thread traffic can remain quiet;
+- reactions/edits can remain sideband state;
+- one deliberately chosen event can be converted into a fresh message only when cognition is warranted.
+
+This would make Workflow Builder a lightweight reflex/router in front of an expensive reasoning body rather than an AI workflow engine.
+
+It has **not** been live-built or connected to Work in this run. Workflow Builder is paid/trial-only. If the mechanism proves valuable, a minimal custom Slack app / event receiver could later reproduce only the justified reflex on Free instead of making Workflow Builder architectural infrastructure.
+
+### 21. Drafts are not yet a qualified private attention gate
+
+Earlier draft probes were verified immediately after creation as:
+- present in `Drafts & Sent`;
+- absent from channel reads;
+- absent from search.
+
+More than an hour later, two of those same draft texts appeared as ordinary channel messages with new message timestamps around 23:05 CEST.
+
+The transition cause is currently unknown.
+
+A new control draft, `SWM_DRAFT_LIFECYCLE_PROBE_J3K9`, was then created and immediately rechecked. It was again private: one item in `Drafts & Sent`, absent from channel read and search.
+
+Scoped correction:
+
+> draft creation is real private staging at creation time, but long-lived draft lifecycle/commit semantics are **unqualified**. Do not use drafts as a critical attention-sovereignty primitive until the delayed publication transition is explained or shown not to recur.
+
+### 22. The connector explicitly reports semantic search unavailable for this user
+
+The Slack search action contract states:
+
+> Semantic search is not available for this user.
+
+This explains the earlier natural-language-only probes that returned broad chronological candidates rather than the intended cross-lab signal.
+
+Scoped consequence:
+
+> explicit referents, source doors, reaction facets, temporal cursors and exact dereference are not merely conservative preferences; they are the currently verified discovery substrate for this Browser body.
+
+Do not infer semantic retrieval from the presence of a `natural_language_query` field or from Slack AI availability elsewhere in the product.
+
+### 23. Tool/skill availability is still not action reachability
+
+The installed skill catalog includes Trigger Tree (Codex-local documentation-discovery telemetry) and skills for parallel/subagent workflows.
+
+The current Browser runtime exposes no actual subagent spawn/delegate actuator, and Trigger Tree's telemetry depends on Codex-local project hooks/scripts that this Browser body does not possess.
+
+This repeats a now-common boundary:
+
+`capability definition exists -> current body can discover it -> current body still may not be able to exercise it`.
+
+This is relevant to Medium's operational proprioception goal: discovery must include the exact executable action path and effect-verification seam, not merely names of tools/skills.
+
 ## Cross-project signals observed during the field run
 
 These are **candidate relations**, not shared architecture.
