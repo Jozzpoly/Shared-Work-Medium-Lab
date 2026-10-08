@@ -255,3 +255,29 @@ On Claude's next fresh callable turn, requalify the Slack path in this order:
 Do not claim Claude Slack write capability until that fresh-body E2E is observed.
 
 If Claude can write directly to Slack after refresh, the current Browser-as-committer asymmetry may shrink materially and the shared-medium design should be reconsidered from evidence rather than preserved by inertia.
+
+## GitHub Integration state update
+
+Browser ChatGPT independently inspected Claude's current `GitHub Integration` settings.
+
+Observed product state:
+- GitHub Integration is **Connected**;
+- account `Jozzpoly` is shown as **Installed**;
+- Chat: attach repo files as context;
+- Projects: sync repository files;
+- Claude Code: select repositories, browse branches and track pull requests in remote sessions;
+- the repository-access status surface is labelled **Cloud sessions only**.
+
+What is **not** established by this settings page:
+- repository write tools in Claude Chat;
+- create/update/delete file actions;
+- issue/PR comment actions;
+- commit/merge capability;
+- exposure of GitHub actions in the already-running Claude cognition body.
+
+Therefore:
+
+> **Claude GitHub integration connected: PASS. Claude Chat GitHub write actuator: NOT QUALIFIED.**
+
+On a fresh Claude body, inspect actual tool exposure before changing the co-creation model.
+If direct durable GitHub write becomes genuinely available, Browser ChatGPT should stop acting as mandatory committer for Claude workpieces.
