@@ -103,6 +103,55 @@ Importing Combat's current design discussion into Reflex would add another unres
 
 If Combat later produces evidence that directly falsifies B1/B0 assumptions or reveals a material phenomenon Reflex cannot represent, the relation can be re-evaluated.
 
+## Stale-root counterexample — LLM Live NPC
+
+The simple "find a CURRENT/PROJECT_STATE file" heuristic immediately failed under live pressure.
+
+Observed:
+- root `docs/PROJECT_STATE.md` says **Updated: 2026-09-05** and still describes P0 infrastructure;
+- the repository has extensive later recovery/refoundation branches;
+- latest active PR observed: **#148**, updated 2026-09-30;
+- PR #148 points explicitly to branch `recovery/spc-post-stress-complementary-personhood-r6`;
+- the PR body names `docs/SPC_POST_STRESS_RECOVERY_PROGRAM.md` as **Canonical execution authority**;
+- that branch-local document identifies the post-stress recovery program and supersedes an earlier execution program;
+- PR #148 itself carries the more current active frontier: single-current-plan autonomous reappraisal.
+
+Therefore:
+
+> a named root front door is a candidate authority, not self-validating current truth.
+
+The source-native recovery chain here is:
+
+`root state looks old`
+-> `repository activity contradicts it`
+-> `inspect latest active PRs`
+-> `PR identifies live branch + canonical execution authority`
+-> `read exact branch-local authority`.
+
+This still avoids corpus-wide search.
+
+### Front-door freshness test
+
+Before trusting a front door when currentness matters, compare at least one cheap volatile source:
+
+- repo `pushed_at` / active branch movement;
+- latest active PR update;
+- explicit branch/PR named by README;
+- current HEAD/CI where project rules require it.
+
+If a supposedly-current document is materially older than obvious live project activity, classify:
+
+> **FRONT_DOOR_FRESHNESS_GAP**
+
+Do not:
+- declare the project stale;
+- fall back immediately to global semantic search;
+- copy a guessed replacement state into Medium.
+
+Instead, traverse the project's own freshest active work surface and look for an explicit local authority pointer.
+
+This is the first material falsifier of the naive current-file heuristic and strengthens the case for **source-native traversal + freshness contradiction handling**, not one universal naming convention.
+
 ## Implication for candidate generation
 
 A useful peripheral mechanism needs at least two stages:
