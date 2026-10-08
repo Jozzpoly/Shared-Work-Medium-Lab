@@ -726,3 +726,18 @@ Candidate product-horizon implication:
 This is a hypothesis only.
 
 Do not build `For me`, notifications or scheduling from this observation without further pressure.
+## Sensitive-history preservation audit
+
+Because shared Opera history exposed unrelated OAuth/session-adjacent URL parameters during live inspection, the two durable PR #12 evidence files were scanned for accidental persistence of:
+- OAuth authorization-code query values;
+- OAuth `state` values;
+- AgentMail/account-login callback URLs;
+- private Owner email identity from browser/Slack metadata.
+
+Result:
+
+> **PASS — none of those live sensitive/history values are present in the durable PR #12 evidence files.**
+
+The evidence preserves only the bounded privacy finding and safe source/object references needed for reconstruction.
+
+This is the intended pattern: preserve the phenomenon, not the unrelated ambient browsing payload.
