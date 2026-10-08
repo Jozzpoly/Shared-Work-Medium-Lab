@@ -2,7 +2,7 @@
 
 ## Status
 
-**ACTIVE BOUNDED SUCCESSOR · SOURCE-BOUND WORK, NOT BROWSER-HISTORY MESSAGING**
+**USEFUL-WORK PASS BOUNDED · SOURCE-BOUND HETEROGENEOUS CO-CREATION · A/B/C OPEN · NOT AUTONOMOUS / NOT ECOLOGICAL ADOPTION**
 
 This successor exists because the closed heterogeneous shared-browser checkpoint reached its stop condition and then real new pressure appeared.
 
@@ -10,6 +10,15 @@ Closed predecessor:
 - PR #11 — heterogeneous shared-browser round-trip.
 
 Do not reopen PR #11 merely because later evidence was discovered.
+
+### Current gate map
+
+- **A — Claude fresh-body Slack runtime:** OPEN.
+- **B — Claude GitHub runtime capability:** OPEN.
+- **C — independently readable exact `swm-state.mjs` source:** OPEN.
+- **D — useful heterogeneous co-creation changes real SWM work:** **PASS BOUNDED**.
+
+Do not confuse Gate D with autonomous activation or Quiet Presence ecological adoption.
 
 ## Why a successor exists
 
