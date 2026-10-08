@@ -12,7 +12,7 @@ const write=s=>{log.push(s);out.textContent=log.join('\n');};
 const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
-const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/e7d0d3391ffaca889e926c22abff358aaf665369/experiments/library-field-shelf-2026-10-09/index.html';
+const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/b9c14aa6d59d6ccf8a1f92915bd94fd0d4a3cace/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(url,{cache:'no-store'});
 check(res.ok,'pinned library HTML network response');
 const markup=await res.text();
@@ -48,12 +48,21 @@ for(let i=0;i<panels.length;i++){
  if(receipt.hidden)throw Error('source '+(i+1)+' failed to obtain pinned receipt: '+meta.textContent);
  check(/^https:\/\/github.com\/Jozzpoly\/.+\/blob\/[a-f0-9]{40}\/.+$/.test(receipt.href),'source '+(i+1)+' SHA receipt is first-party, immutable and correctly shaped');
  check(output.querySelector('pre').textContent.length>25,'source '+(i+1)+' retained real document text');
+ const select=p.querySelector('.peek-sections');
+ check(!p.querySelector('.peek-select-label').hidden && select.options.length>1,'source '+(i+1)+' offers source-derived section navigation');
+ if(i===2){
+   const step=Array.from(select.options).find(x=>x.textContent.includes('Current next move'));
+   check(!!step,'Reflex source contains its non-introductory next-move section');
+   select.value=step.value; select.dispatchEvent(new win.Event('change',{bubbles:true}));
+   check(output.querySelector('pre').textContent.startsWith('## Current next move'),'deep source selection shows original text, not a generated summary');
+   check(receipt.href.endsWith('#L'+(Number(step.value)+1)),'deep section changes pinned Github link to exact original line');
+ }
 }
 change('RECOVERY QUARANTINE');
 check(cards.every(x=>x.hidden)&&!none.hidden,'search cannot silently change after loading source previews');
 change('jure');
 check(cards.filter(x=>!x.hidden).length===1&&!cards[3].hidden,'curated project search remains stable after source loads');
-status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + verified source/action doors';
+status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + 4 source outlines + verified action doors';
 }catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
 })();
 </script></body></html>
