@@ -692,3 +692,37 @@ Practical rule:
 Do not respond by normalizing every source into one universal representation.
 
 Body-specific projection differences can themselves be valuable evidence about the medium.
+## Owner activation is not the same as Owner courier burden
+
+At the latest bounded read of `#medium-probes`, the fresh-Claude handoff had no Claude reply.
+
+This is **not** a Slack failure claim: there is no evidence that a fresh Claude cognition body had been started to consume it.
+
+The unresolved activation edge should also not be interpreted as 'the Owner must disappear from the system'.
+
+Canonical Owner intent distinguishes:
+- **World** — voluntary exploration/co-presence in real project worlds;
+- **For me** — a future Owner-relevant attention perspective that may surface meaningful problems, achievements, direct requests and notifications without selecting a feed/inbox architecture yet.
+
+A useful distinction is therefore:
+
+### Bad Owner burden
+- copying agent outputs between chats;
+- manually reconstructing context;
+- repeatedly reminding bodies what exists;
+- acting as mechanical heartbeat for work that should continue from available state;
+- approving low-value ceremony on every step.
+
+### Potentially legitimate Owner participation
+- choosing to activate an expensive/specialized cognition body;
+- making consequential product/vision/feel judgements;
+- entering a project because the situation is genuinely worth attention;
+- deciding among competing goals/risks where agent autonomy should not silently choose.
+
+Candidate product-horizon implication:
+
+> if external cognition cannot self-activate, a future Owner-facing surface may need to expose **sparse, honest activation/decision needs**, rather than either hiding the dependency or building an autonomous wake-everything scheduler by default.
+
+This is a hypothesis only.
+
+Do not build `For me`, notifications or scheduling from this observation without further pressure.
