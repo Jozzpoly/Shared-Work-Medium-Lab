@@ -553,3 +553,35 @@ No unrelated project task has yet been materially advanced because one heterogen
 Therefore the strongest surviving result remains:
 
 > **shared-world / heterogeneous-body reachability is boundedly demonstrated; ecological instrumental reuse is not.**
+
+## Historical donor check — Open Substrate
+
+The shared-browser result was checked against the historical Open Substrate campaign at exact commit:
+
+`2807bd2843167ecde3dabcc190ca82c6b961b206`
+
+Open Substrate had already defended a relevant thin-waist boundary:
+
+> **arbitrary participant/tool/source content stays semantically opaque unless it explicitly opts into Medium-level identity relationships.**
+
+Its Phase-3 result specifically rejected recursive inference of Medium semantics from arbitrary raw fields such as foreign `object_id` values. Intentional relationships required an explicit, scoped reference declaration instead.
+
+### Consequence for shared-browser traces
+
+The experiment-local tokens:
+- `claude_probe=...`;
+- `#swm-reply-...`;
+
+must **not** become evidence that URL query parameters/fragments are a general Medium message or relation protocol.
+
+They were only local conventions inside this bounded test.
+
+If a future environmental trace deserves preservation:
+- preserve the raw trace exactly or by an appropriate minimal referent;
+- keep provider/browser payload semantically opaque by default;
+- attach any Medium-level interpretation through a deliberately scoped local record/reference;
+- never infer participant identity, authority or relation semantics merely from arbitrary URL fields.
+
+Current receiving-project decision:
+
+> **NO SCHEMA CHANGE. Open Substrate acts as a constraint on interpretation, not as a request to formalize browser tokens.**
