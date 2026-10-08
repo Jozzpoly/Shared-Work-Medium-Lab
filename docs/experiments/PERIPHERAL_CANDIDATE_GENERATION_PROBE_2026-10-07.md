@@ -652,6 +652,52 @@ This is the negative control for the ReflexBrain scent:
 
 > admitting one genuine external project scent must not turn every live branch into feed content.
 
+## Opera history as Owner-working-set candidate sensor — first positive live case
+
+After the GitHub owner-wide activity-sensor attempts failed, Opera's native browsing history produced a qualitatively different result.
+
+### Candidate-generation event
+
+A 7-day Opera history read contained a recent page:
+
+`jozzpoly.github.io/ReflexBrain-Lab/probes/medium-d-r3e-spatial-proxy.html`
+
+visited roughly 45 minutes before inspection.
+
+At that moment the Browser's previously recovered ReflexBrain frontier ended at R3C/R3B. The history entry was therefore treated only as a **candidate freshness trace**, not as truth.
+
+### Source-native verification
+
+GitHub verification found:
+- PR #40 — R3C live browser verdict;
+- PR #41 — R3D spatial interaction-surface architecture;
+- PR #42 — `MEDIUM-D/R3E: derived spatial interaction proxy`, merged;
+- PR #42 engineering mechanics PASS while live spatial interaction remained explicitly unvalidated.
+
+The R3C scent already present in `#medium-live` was then updated to cite PR #40's actual browser verdict rather than its older prototype checkpoint. The unresolved canvas-only material gesture / divergence / Compare boundary was added explicitly.
+
+### Bounded qualification
+
+> **Opera history is qualified as an Owner-generated working-set candidate sensor, not a current-truth source.**
+
+It can answer:
+- what project surfaces the Owner/browser actually touched recently;
+- whether a newer concrete surface exists than the agent's recovered frontier;
+- where source-native verification may be worth spending attention.
+
+It cannot establish:
+- that an unseen project is inactive;
+- that a visited page is canonical/current;
+- that the Owner endorsed the visited result;
+- ecosystem-wide recency;
+- project truth without source-native verification.
+
+This is materially different from copying project events into Slack:
+
+> Browser history is an already-existing trace of real work. Medium may use it to generate candidates, then dereference to the owning source.
+
+Do not turn history into a ranked activity feed or a surveillance loop.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
