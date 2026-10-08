@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** Quiet Presence ecological field campaign active in stewardship/incubation + bounded heterogeneous shared-browser round-trip frontier; MP-1 apparatus preserved as a dormant controlled-method checkpoint; reconnaissance remains frozen
+**Status:** Quiet Presence ecological field campaign active in stewardship/incubation; heterogeneous shared-browser round-trip preserved as a completed bounded checkpoint; MP-1 apparatus dormant; reconnaissance frozen
 
 **Last material update:** 2026-10-08
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
@@ -15,9 +15,6 @@ Current open draft research frontiers:
 - **PR #5 — Quiet Presence ecological campaign**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
 
-- **PR #11 — heterogeneous shared-browser round-trip**  
-  Preserves one bounded Claude ↔ Browser ChatGPT round-trip through shared Opera state. Owner-routed and non-blind; not ecological adoption or a transport architecture.
-
 
 Recent lifecycle corrections:
 
@@ -27,6 +24,7 @@ Recent lifecycle corrections:
 - PR #8 is closed unmerged as a completed Capability Expedition checkpoint; Issue #7 remains the live campaign handle.
 - PR #9 is closed unmerged as a completed current-truth topology/stewardship checkpoint. It exposed and minimally repaired the canonical front-door freshness gap, and showed that successful lifecycle writes still require semantic read-back. Fresh-agent T0/T1/T2 behavioral qualification remains open only when a genuinely fresh subject becomes callable.
 - PR #10 is closed unmerged as a completed peripheral-candidate/reachability checkpoint. It qualified Opera history as a candidate-only working-set sensor, separated capability discovery from end-to-end reachability, produced one real ReflexBrain scent plus deliberate NONE outcomes, and stopped before manufacturing ecological adoption. Reopen only under new material pressure.
+- PR #11 is closed unmerged as a completed heterogeneous shared-browser checkpoint. Claude and Browser ChatGPT completed one Owner-routed, non-blind trace/ack round-trip without Owner copy/paste; Claude then red-teamed the claim. The shared profile also exposed privacy/isolation limits, so browser history is not promoted to a general agent bus. Restart only under stronger isolation or useful source-bound cross-agent work.
 
 Current routing consequence:
 
