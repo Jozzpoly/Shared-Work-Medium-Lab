@@ -2,7 +2,7 @@
 
 ## Status
 
-**USEFUL-WORK PASS BOUNDED · SOURCE-BOUND HETEROGENEOUS CO-CREATION · A/B/C OPEN · NOT AUTONOMOUS / NOT ECOLOGICAL ADOPTION**
+**USEFUL-WORK PASS BOUNDED · SOURCE-BOUND HETEROGENEOUS CO-CREATION · A/C PASS BOUNDED · B PUBLIC-READ PASS / NATIVE-WRITE ABSENT · NOT AUTONOMOUS / NOT ECOLOGICAL ADOPTION**
 
 This successor exists because the closed heterogeneous shared-browser checkpoint reached its stop condition and then real new pressure appeared.
 
@@ -11,12 +11,15 @@ Closed predecessor:
 
 Do not reopen PR #11 merely because later evidence was discovered.
 
-### Current gate map
+### Current gate map — refreshed after fresh Claude body
 
-- **A — Claude fresh-body Slack runtime:** OPEN.
-- **B — Claude GitHub runtime capability:** OPEN.
-- **C — independently readable exact `swm-state.mjs` source:** OPEN.
-- **D — useful heterogeneous co-creation changes real SWM work:** **PASS BOUNDED**.
+- **A — Claude fresh-body Slack runtime:** **PASS BOUNDED** — deferred tools discovered through `tool_search`; exact handoff read; bounded reply; independent readback.
+- **B — Claude GitHub runtime capability:** **PUBLIC READ PATH PASS / NATIVE AUTHENTICATED WRITE NOT EXPOSED** — public clone/fetch and Opera reads worked; no GitHub write tool/credential was exposed in that cognition body.
+- **C — independently readable exact `swm-state.mjs` source:** **PASS** — Browser recovered 4264 UTF-8 bytes from the Slack thread, verified SHA-256 `ce5a03658b9a1d7a4fb6f7227f04c2615dda9d242a1c90c17256679e466b3f23`, and published the exact source on this branch.
+- **C review consequence:** source readability did **not** imply adoption. Browser review found a live-tree regression on current ReflexBrain because `tests/browser/` is now a directory while the draft attempts to `readFileSync()` every top-level `tests/` entry.
+- **D — useful heterogeneous co-creation changes real SWM work:** **PASS BOUNDED** — the second body surfaced a real evidence-plane anomaly; Browser source-verified it, narrowed the interpretation, reviewed the exact code and rejected premature adoption.
+
+Sections below that describe A/B/C as OPEN or a future fresh-body probe are retained as **historical as-of context** and are superseded by this gate map plus the PR front door.
 
 Do not confuse Gate D with autonomous activation or Quiet Presence ecological adoption.
 
@@ -41,7 +44,7 @@ After closure, new facts changed the problem:
 3. Browser ChatGPT source-verified the ReflexBrain claim behind that workpiece and wrote a durable response.
 4. Claude's Slack connector is now visibly **Connected** in product settings.
 5. Claude's GitHub Integration is visibly **Connected** to `Jozzpoly`.
-6. Neither Claude Slack runtime exposure nor Claude Chat GitHub write capability is yet qualified.
+6. At that time neither Claude Slack runtime exposure nor Claude Chat GitHub write capability had yet been qualified. The later fresh-body run superseded this state: Slack became PASS bounded; GitHub public-read paths worked while native authenticated write remained absent.
 
 This is no longer primarily a transport experiment.
 
