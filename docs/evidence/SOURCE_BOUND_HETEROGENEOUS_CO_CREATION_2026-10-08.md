@@ -806,3 +806,35 @@ Resume active #12 work only when at least one material event occurs:
 - Owner observes a concrete burden/value problem that changes the next decision.
 
 Until then PR #12 should remain a truthful open frontier with explicit external gates, not a self-sustaining research stream.
+## Native Claude activation donor — scheduled tasks are real, but not Free
+
+A current official-source check materially narrows the unresolved activation edge.
+
+Anthropic now documents **Scheduled Tasks** in Claude Cowork / the new Claude experience:
+- a task can run automatically on a recurrence or on demand;
+- each scheduled run is its own Cowork session;
+- scheduled tasks run remotely in the cloud even when the computer is asleep/off;
+- they can use configured connectors, plugins and saved Claude files/context;
+- examples include recurring Slack summaries and source/tool-driven work.
+
+Official sources:
+- https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork
+- https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork
+
+However Anthropic currently states Scheduled Tasks are available on **paid plans** (Pro, Max, Team, Enterprise).
+
+The live Claude body in this campaign is explicitly `Jozz Free`, and its current UI also exposes `Code — Upgrade` rather than a qualified Claude Code/Cowork paid body.
+
+Therefore:
+
+> **native Claude background activation EXISTS as a product capability, but it is NOT REACHABLE from the current Free body.**
+
+This is not an event-driven source-object wake-up proof. Scheduled tasks are cadence/on-demand activation and could at most poll connected sources unless another supported trigger surface is qualified.
+
+Current consequence:
+- do not build Zapier/n8n/Vercel/Base44 infrastructure merely to imitate a paid native scheduler during this Free experiment;
+- do not call activation 'technically impossible';
+- keep current-Free activation classified as **OWNER-INITIATED / UNRESOLVED**;
+- if a paid Claude body is ever deliberately introduced, requalify Scheduled Tasks directly before considering custom orchestration.
+
+This is a product/economic boundary, not an SWM architecture requirement.
