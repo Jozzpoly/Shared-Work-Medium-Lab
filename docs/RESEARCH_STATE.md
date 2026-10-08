@@ -3,7 +3,7 @@
 **Status:** dual research lanes active — MP-1 controlled mechanism work + Quiet Presence ecological field campaign; reconnaissance remains frozen
 
 **Last material update:** 2026-10-08
-**Fresh-conversation handoff:** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
+**Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
 
 ## Frontier topology refresh — 2026-10-08
