@@ -15,9 +15,6 @@ Current open draft research frontiers:
 - **PR #5 — Quiet Presence ecological campaign**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
 
-- **PR #12 — source-bound heterogeneous co-creation**  
-  Successor to closed #11. Actual fresh Claude body qualified bounded Slack read/write/readback; GitHub public-source read works but authenticated GitHub write is **not exposed** in this body. Exact Claude `swm-state.mjs` source was recovered, SHA-256 matched, preserved and independently reviewed; its current implementation was **not adopted**. This is useful co-creation, **not** autonomous activation or Quiet Presence ecological adoption. Read the [live PR #12](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/12) for the source-bound details and any later revision.
-
 
 Recent lifecycle corrections:
 
