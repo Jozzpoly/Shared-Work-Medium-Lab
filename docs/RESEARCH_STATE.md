@@ -70,6 +70,9 @@ Prompted “test the medium” behaviour is not equivalent evidence. Silence is 
 
 ## Primary-source audit remains required before architectural freeze
 
+**Missing-middle recovery progress — 2026-10-08:** prior-conversation recovery materially narrowed the formerly inaccessible 1–3 October interval. Recovered Owner anchors now directly support shared-reality / heterogeneous-sensor framing, capability amplification over mere organization, self-maintained state projection, privacy/publicness boundaries, anti-lock-in/open-endedness, and the demotion of a high-burden local Codex path. The complete adjacent transcript sequence is still incomplete, so the genealogy remains explicitly partial.
+
+
 The originating Browser conversation remains a primary research source and still needs a complete audit before any architecture is treated as settled.
 
 **Founding Shinden sensor correction (2026-10-08):** The [bounded live /episodes recheck](./evidence/SHINDEN_FOUNDING_SENSOR_RECHECK_2026-10-08.md) verifies a mixed-semantic, body-specific answer channel (table semantics plus Font Awesome private-use check/cross glyphs) and differentiates site-reported upload markers from verified underlying availability. This is **not** a replay/audit of the original 2026-10-01 94-title run, and does not close the genealogy requirement.
