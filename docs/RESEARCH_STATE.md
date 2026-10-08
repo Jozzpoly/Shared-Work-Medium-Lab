@@ -18,15 +18,13 @@ Current open draft research frontiers:
 - **PR #5 — Quiet Presence ecological campaign**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
 
-- **PR #9 — current-truth topology dogfood**  
-  Studies accepted baseline vs active frontier vs historical evidence, including this project's own stale-front-door problem.
-
 
 Recent lifecycle corrections:
 
 - PR #3 (`semantic-medium-v0`) is closed unmerged as completed historical reconnaissance; its branch/commits remain donor evidence.
 - PR #6 was merged only into draft Quiet Presence parent PR #5; this did **not** merge Quiet Presence into `main`.
 - PR #8 is closed unmerged as a completed Capability Expedition checkpoint; Issue #7 remains the live campaign handle.
+- PR #9 is closed unmerged as a completed current-truth topology/stewardship checkpoint. It exposed and minimally repaired the canonical front-door freshness gap, and showed that successful lifecycle writes still require semantic read-back. Fresh-agent T0/T1/T2 behavioral qualification remains open only when a genuinely fresh subject becomes callable.
 - PR #10 is closed unmerged as a completed peripheral-candidate/reachability checkpoint. It qualified Opera history as a candidate-only working-set sensor, separated capability discovery from end-to-end reachability, produced one real ReflexBrain scent plus deliberate NONE outcomes, and stopped before manufacturing ecological adoption. Reopen only under new material pressure.
 
 Current routing consequence:
