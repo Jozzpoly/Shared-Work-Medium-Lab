@@ -639,3 +639,23 @@ This supports a federated rather than bus-centric interpretation:
 > route each interaction through the cheapest carrier that satisfies the required authority, privacy, durability and body-reachability properties; preserve important results back at the owning source.
 
 Do not turn this table into a permanent capability registry. Every row is current-body evidence and may change.
+## Observation can mutate the shared environment
+
+A parallel canonical microprobe on `main` established an observer-effect boundary relevant to heterogeneous co-creation:
+
+> **read-only at the target resource is not necessarily read-only at the observing environment.**
+
+Opera `go_to_page` did not mutate the visited website or repository, but the visit remained in shared browser history after the temporary tab closed.
+
+Consequences:
+- browser sensing may create future discovery cues;
+- an agent can accidentally seed the candidate set it later observes;
+- shared-history evidence cannot attribute a visit to Owner/Claude/Browser without separate provenance;
+- ecological/blind tests must distinguish pre-existing environmental cues from investigator-created residue;
+- `read` / `write` capability classification should be scoped to the affected plane, not treated as globally side-effect-free.
+
+Do not respond by building a universal observer ledger.
+
+For current SWM work the practical rule is narrower:
+
+> prefer source-native verification, minimize broad shared-environment probing, and avoid scoring researcher-created scent as spontaneous discovery.
