@@ -507,3 +507,36 @@ This is **not** a request to design a final participant/session/account schema n
 It is a pressure-derived modelling constraint for future federation work.
 
 A future implementation should introduce only the minimum distinctions demanded by real continuity/authority problems rather than materializing all five planes as mandatory fields.
+## What is actually new relative to existing SWM ecology
+
+Do not mislabel the current Claude work as the invention of federation from scratch.
+
+Canonical SWM already defends:
+- **value is local; artifacts can migrate**;
+- participants may create affordances rather than only consume them;
+- shared artifact identity can remain distinct from participant perspective and place-local meaning;
+- source truth must remain reachable;
+- reuse/promote/discard decisions should remain evidence-driven rather than globally ranked.
+
+The current heterogeneous co-creation adds or materially strengthens different pressures:
+
+1. **Heterogeneous cognition bodies can participate in the same lifecycle.**
+   The participant is no longer only Browser/Codex-style variation inside one familiar tool family.
+
+2. **Capability asymmetry is potentially useful rather than a defect to normalize away.**
+   One body may locally reproduce tests; another may hold authenticated project-write connectors.
+
+3. **Independent source readability becomes an inter-body adoption boundary.**
+   A participant-owned proposal may exist and be discussed before another body can safely ingest its implementation.
+
+4. **Identity planes need stronger separation.**
+   Cognition body, participant role, transport/account, shared environment and durable source object are demonstrably non-equivalent.
+
+5. **Activation is a distinct federation edge.**
+   A durable workpiece can exist and be discoverable while no cognition body is currently running to consume it.
+
+Therefore the current contribution is not a new global lifecycle.
+
+> **It is evidence that SWM's existing local-value/source-bound ecology may generalize across materially different agent bodies — provided identity, capability and activation boundaries remain explicit.**
+
+That generalization remains provisional until repeated useful cross-body work occurs.
