@@ -18,7 +18,9 @@ The compact North Star is in [docs/NORTH_STAR.md](docs/NORTH_STAR.md).
 
 ## Current live state
 
-Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md).
+Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md), beginning with its **current routing and research lanes**. Follow the relevant live work object before reading dated checkpoint history; historical next-step wording is not today's work order.
+
+For ordinary collaboration, recover one relevant source, choose an action available in your current body, and verify its effect. If a route fails, expose the failure and use another available route; do not make the Owner carry transcripts or technical setup between participants.
 
 Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect only the issues, draft pull requests, experiments or field surfaces relevant to your actual goal.
 
