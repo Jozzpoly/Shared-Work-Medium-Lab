@@ -1222,3 +1222,67 @@ Per-project activation must compose with the project's natural source-native wor
 This further rejects the idea that Work webhooks replace candidate generation globally.
 
 They are one body-native activation adapter for workflows that already emit compatible events.
+## Native activation candidate requalification — OpenAI Work / Codex
+
+A fresh source check on 2026-10-08 requalified the strongest activation candidate against current official OpenAI documentation.
+
+### ChatGPT Work event-triggered tasks
+
+Official OpenAI documentation currently states that eligible Plus, Pro, Business, Enterprise, Edu and Healthcare users can create webhook-based **event-triggered Work tasks** from supported connected-app events.
+
+Documented supported events include:
+- new Slack channel messages;
+- GitHub pull-request activity in an authorized github.com repository;
+- new Gmail messages.
+
+Slack triggers require `@ChatGPT` in each monitored channel. Slack triggers may be narrowed by channel, sender or thread; DMs, reactions, message edits and deletions are not trigger events.
+
+Primary sources:
+- https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+- https://help.openai.com/en/articles/12525822-using-slack-in-chatgpt
+
+Qualification:
+- product availability on eligible Plus: **DOCS PASS**;
+- GitHub PR event class: **DOCS PASS**;
+- Slack new-channel-message event class: **DOCS PASS**;
+- current ordinary Browser-chat tool namespace contains no callable Work event-trigger creation actuator: **CURRENT BODY ABSENT**;
+- end-to-end SWM trigger: **UNRUN**.
+
+Do not emulate this with polling and call it the same mechanism.
+
+### Codex automations
+
+Official OpenAI material confirms that Codex uses **separate automations** from ChatGPT Scheduled/Work tasks. OpenAI release material also describes Codex as supporting long-horizon/background work plus reusable automations; a current OpenAI whitepaper describes thread automations as recurring wake-up calls attached to a Codex thread.
+
+Sources:
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+- https://help.openai.com/en/articles/6825453-chatgpt-release-notes
+- https://cdn.openai.com/pdf/8a9f00cf-d379-4e20-b06f-dd7ba5196a11/OAI_WhitePaper_Codex-maxxing26.pdf
+
+Important narrowing:
+
+> **Codex automation exists != Codex automation is proven to emit a commit/PR in our target repo.**
+
+A Codex automation may wake/run project work, but the downstream durable effect still depends on the environment, task, repository permissions and what the automation actually does.
+
+### Current composition candidate
+
+Keep the candidate decomposed:
+
+`Codex automation wake`
+` -> repo work actually produces commit/PR`
+` -> GitHub emits supported PR activity`
+` -> ChatGPT Work event trigger fires`
+` -> Work body dereferences source-native state`
+` -> useful verified action/effect`
+
+Current status by edge:
+- Codex automation wake: **PRODUCT CAPABILITY DOCS PASS**;
+- automation -> commit/PR: **UNQUALIFIED**;
+- GitHub PR activity -> Work trigger: **PRODUCT CAPABILITY DOCS PASS / LOCAL E2E UNRUN**;
+- Work trigger -> useful SWM continuation: **UNRUN**.
+
+This candidate is materially stronger than custom agent-message orchestration because project work itself can become the trigger substrate.
+
+But do not promote the whole chain until each edge is observed end-to-end.
