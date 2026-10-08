@@ -240,6 +240,7 @@ The repository is intentionally public.
 
 Current policy is deliberately light:
 - public by default for lab code, research, protocols, synthetic specimens, and non-sensitive development history;
+- **private project reality and raw collaboration memory are not public-by-default merely because the lab repository is public;**
 - do not force a public/private split where it adds cost for no benefit;
 - preserve the ability to attach private sources or a private data layer later when real data justifies it;
 - never treat public GitHub storage as a requirement for all future project-world data.
