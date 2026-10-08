@@ -2,9 +2,39 @@
 
 **Status:** dual research lanes active — MP-1 controlled mechanism work + Quiet Presence ecological field campaign; reconnaissance remains frozen
 
-**Last material update:** 2026-10-04
+**Last material update:** 2026-10-08
 **Fresh-conversation handoff:** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
+
+## Frontier topology refresh — 2026-10-08
+
+This section is a **routing update only**. It does not promote draft-branch research claims into canonical architecture.
+
+Current open draft research frontiers:
+
+- **PR #4 — MP-1A controlled semantic-ablation apparatus**  
+  Controlled mechanism lane remains open; real-subject/causal qualification is not complete.
+
+- **PR #5 — Quiet Presence ecological campaign**  
+  Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
+
+- **PR #9 — current-truth topology dogfood**  
+  Studies accepted baseline vs active frontier vs historical evidence, including this project's own stale-front-door problem.
+
+- **PR #10 — peripheral candidate generation + capability reachability**  
+  Studies how another project/capability enters the candidate set, how source-native current truth is recovered, and whether the current Browser body can actually execute a claimed capability end-to-end.
+
+Recent lifecycle corrections:
+
+- PR #3 (`semantic-medium-v0`) is closed unmerged as completed historical reconnaissance; its branch/commits remain donor evidence.
+- PR #6 was merged only into draft Quiet Presence parent PR #5; this did **not** merge Quiet Presence into `main`.
+- PR #8 is closed unmerged as a completed Capability Expedition checkpoint; Issue #7 remains the live campaign handle.
+
+Current routing consequence:
+
+> `main` remains the accepted canonical baseline, while active draft PRs carry live frontier evidence. Fresh agents should use this file to discover the frontier, then inspect only the relevant draft/source rather than treating draft claims as accepted truth.
+
+Do not infer that the newest draft is automatically the most important project direction.
 
 ## Live truth
 
