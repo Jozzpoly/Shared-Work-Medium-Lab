@@ -1,7 +1,7 @@
 <!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium • browser E2E</title>
 <style>body{margin:0;background:#111823;color:#daeade;font:16px/1.5 system-ui}main{padding:24px;max-width:1100px;margin:auto}pre{padding:16px;border:1px solid #465a6b;white-space:pre-wrap;background:#11141a}iframe{width:100%;height:650px;border:1px solid #53758a;border-radius:8px}strong{color:#b0eed1}</style></head><body><main>
 <h1>Library — browser-level end-to-end qualification</h1>
-<p>Celowo izolowana strona testowa. Przy otwarciu odczytuje publiczny plik z ruchomej gałęzi i zapisuje hash SHA-256 rzeczywiście otrzymanych bajtów; nie jest częścią zwykłego wejścia do biblioteki.</p>
+<p>Celowo izolowana strona testowa. Przy otwarciu testuje konkretny Git SHA i porównuje go z opcjonalnym ruchomym Raw; hash i różnice zapisuje w śladzie; nie jest częścią zwykłego wejścia do biblioteki.</p>
 <p id="status" role="status"><strong>START</strong> — loading exact library source</p>
 <pre id="log" aria-label="wyniki kroków testu"></pre>
 <iframe id="frame" title="Rzeczywisty HTML biblioteki w ramce testowej"></iframe></main>
@@ -13,16 +13,27 @@ const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
 const branch='experiment/library-field-shelf-2026-10-09';
-// Test instrumentation must not burn the same 60/hour unauthenticated API
-// budget that the actual reader needs. Hash actual served branch content.
-const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/'+branch+'/experiments/library-field-shelf-2026-10-09/index.html';
-const res=await fetch(url,{cache:'no-store'});
-check(res.ok,'public candidate branch HTML network response (moving ref)');
+// Deliberate exact fixture: branch URLs have been observed returning OLD body,
+// even with cache:no-store. Never silently qualify an unknown served revision.
+const sourceSha='c5fe75971f9136d29c54f5ea5237ca7288d757af';
+const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
+const relative='/experiments/library-field-shelf-2026-10-09/index.html';
+const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
+check(res.ok,'immutable exact-commit library HTML fetched');
 const markup=await res.text();
 const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(markup));
 const contentHash=Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,'0')).join('');
-write('RUN-AT SERVED SOURCE HTML SHA-256: '+contentHash);
-write('Scope: content fingerprint of served moving ref, NOT a git HEAD/revision receipt.');
+write('RUN-AT IMMUTABLE GIT SHA: '+sourceSha);
+write('CONTENT SHA-256: '+contentHash);
+let movingMismatch=false;
+try{
+ const moving=await fetch(origin+branch+relative,{cache:'no-store'});
+ if(moving.ok){
+   const movingText=await moving.text();
+   movingMismatch=movingText!==markup;
+   write('MOVING-BRANCH RAW VS PINNED: '+(movingMismatch?'MISMATCH — served text differs; cannot infer newest source':'SAME BYTES at this observation; not an authority guarantee'));
+ }else{write('MOVING-BRANCH RAW HTTP '+moving.status+' — not a valid test fixture')}
+}catch(err){write('MOVING-BRANCH RAW unavailable: '+String(err));}
 check(markup.includes('data-repo="Jozzpoly/ReflexBrain-Lab"'),'on-branch source descriptor exists');
 check(markup.includes('id="view-toggle"'),'actual current source contains its compact-view affordance');
 frame.srcdoc=markup;
@@ -132,7 +143,7 @@ check(badPanel.querySelector('.peek-receipt').hidden,'negative reader does not i
 check(badPanel.querySelector('.peek-select-label').hidden,'negative reader does not expose made-up source sections');
 check(!!badPanel.querySelector('.peek-note a[href^="https://github.com/"]'),'source-native fallback remains available after failure');
 negativeFrame.remove();
-status.textContent='PASS — 4/4 readable public source docs ('+pinnedCount+' SHA-pinned / '+unPinnedCount+' explicitly unpinned); 5/5 search; 4 outlines; unavailable-source fallback; two views';
+status.textContent='PASS on exact source '+sourceSha.slice(0,12)+' — 4/4 docs ('+pinnedCount+' SHA-pinned / '+unPinnedCount+' unpinned); search/sections/fallback/views; moving Raw '+(movingMismatch?'MISMATCH':'not confirmed stale');
 }catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
 })();
 </script></body></html>
