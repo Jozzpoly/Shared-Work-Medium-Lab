@@ -230,6 +230,13 @@ def record_package_slug(package):
         data = item["path"].read_bytes()
         digest.update(len(data).to_bytes(8, "big"))
         digest.update(data)
+    # Record-only packages carry their own declared referents. Their identity
+    # must change when medium.refs.json changes, even if raw record bytes do not.
+    if package["refs_path"] is not None:
+        refs_bytes = package["refs_path"].read_bytes()
+        digest.update(b"medium.refs.json\0")
+        digest.update(len(refs_bytes).to_bytes(8, "big"))
+        digest.update(refs_bytes)
     return f"records-{digest.hexdigest()[:16]}"
 
 
@@ -302,6 +309,20 @@ def declared_links(package, object_ids):
 def prepare_records(packages, out_root: Path, object_ids):
     records_by_target = {object_id: [] for object_id in object_ids}
     manifest_records = []
+
+    # Fail before writing anything if independent record packages still alias
+    # one output namespace (including exact duplicates and hash collisions).
+    record_slug_roots = {}
+    for package in packages:
+        if package["role"] != "records":
+            continue
+        slug = record_package_slug(package)
+        if slug in record_slug_roots:
+            raise ValueError(
+                "independent record-only packages alias the same output slug "
+                f"{slug}: {record_slug_roots[slug]} and {package['root']}"
+            )
+        record_slug_roots[slug] = package["root"]
 
     for package in packages:
         if package["role"] == "object":

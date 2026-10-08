@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - campaign/open-substrate-2026-10-04
+      - research/open-substrate-record-alias-falsifier-2026-10-08
     paths:
       - "campaigns/open-substrate-2026-10-04/**"
       - "campaigns/quiet-presence-2026-10-04/**"
@@ -47,6 +48,9 @@ jobs:
 
       - name: Verify independent record package
         run: python campaigns/open-substrate-2026-10-04/open_verify_records.py
+
+      - name: Falsify record-only package address aliasing
+        run: python campaigns/open-substrate-2026-10-04/record_alias_regression_probe.py
 
       - name: Verify explicit reference boundary
         run: python campaigns/open-substrate-2026-10-04/open_verify_refs.py
