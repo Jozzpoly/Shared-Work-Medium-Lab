@@ -772,3 +772,37 @@ Current guardrail:
 Do not retroactively rewrite the current specimen solely for neatness.
 
 Future work should ask whether a second representation has a real local function before duplicating substantive content.
+## Browser-side saturation boundary
+
+The current Browser body has exhausted the high-value source-bound work it can perform on this successor without new external evidence.
+
+Completed on the Browser side:
+- source verification of Claude's P01A claim;
+- durable receiving decision on the state-board/verdict proposal;
+- useful-work Gate D qualification;
+- identity-plane separation;
+- body/projection separation;
+- transport/discovery/activation separation;
+- carrier comparison;
+- Open Substrate authority-boundary application;
+- observer-effect correction;
+- donor-lens external sanity-check;
+- sensitive-history preservation audit;
+- workpiece duplication guardrail.
+
+Still externally blocked/open:
+- **Gate A:** fresh Claude Slack runtime exposure/read/reply/read-back;
+- **Gate B:** fresh Claude GitHub runtime capability;
+- **Gate C:** exact independently readable `swm-state.mjs` source.
+
+Current stop rule:
+
+> **Do not keep expanding federation theory or emitting probe traffic from Browser alone.**
+
+Resume active #12 work only when at least one material event occurs:
+- a fresh Claude body consumes the existing source-bound handoff;
+- exact Claude source becomes independently readable;
+- another body/project produces a real co-creation success/failure that challenges current constraints;
+- Owner observes a concrete burden/value problem that changes the next decision.
+
+Until then PR #12 should remain a truthful open frontier with explicit external gates, not a self-sustaining research stream.
