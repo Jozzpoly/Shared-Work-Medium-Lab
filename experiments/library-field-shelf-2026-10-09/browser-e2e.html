@@ -164,7 +164,7 @@ await new Promise((resolve,reject)=>{fenceFrame.addEventListener('load',resolve,
 const fixtureWindow=fenceFrame.contentWindow,fixtureDoc=fenceFrame.contentDocument;
 const fakeSha='f'.repeat(40);
 const marker=String.fromCharCode(96).repeat(3);
-const fixtureText=['# Real first section',marker+'js','## FAKE heading in Javascript',marker,'## Real next section','~~~sh','### ALSO_FAKE heading in shell','~~~','### Last true section'].join('\\n');
+const fixtureText=['# Real first section',marker+'js','## FAKE heading in Javascript',marker,'## Real next section','~~~sh','### ALSO_FAKE heading in shell','~~~','### Last true section'].join('\n');
 fixtureWindow.fetch=async(url)=>String(url).includes('api.github.com')?
  {ok:true,json:async()=>({commit:{sha:fakeSha}})}:
  {ok:true,text:async()=>fixtureText};
