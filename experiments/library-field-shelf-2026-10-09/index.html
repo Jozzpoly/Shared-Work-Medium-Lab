@@ -299,9 +299,21 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
         const lines=body.replace(/\r\n/g,'\n').split('\n');
         const observedAt=new Date().toLocaleString('pl-PL');
         const pinnedGithub=sha?'https://github.com/'+repo+'/blob/'+sha+'/'+file:null;
-        const headings=lines.flatMap((line,index)=>{
+        // Ignore Markdown ATX-looking lines inside literal fenced code.
+        // These are source examples, not navigation headings.
+        const headings=[];
+        let fenceChar=null,fenceWidth=0;
+        lines.forEach((line,index)=>{
+          const fence=/^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line);
+          if(fence){
+            const marker=fence[1],char=marker[0];
+            if(!fenceChar){fenceChar=char;fenceWidth=marker.length;return;}
+            if(char===fenceChar && marker.length>=fenceWidth && !fence[2].trim()){fenceChar=null;fenceWidth=0;}
+            return;
+          }
+          if(fenceChar)return;
           const match=/^(#{1,3})\s+(.+)/.exec(line);
-          return match?[{index,label:match[2].trim(),level:match[1].length}]:[];
+          if(match)headings.push({index,label:match[2].trim(),level:match[1].length});
         });
         const choose=(index,label)=>{
           const item=document.createElement('option');
