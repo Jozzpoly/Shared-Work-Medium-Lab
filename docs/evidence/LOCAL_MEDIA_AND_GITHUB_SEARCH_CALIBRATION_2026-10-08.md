@@ -225,3 +225,28 @@ This finding does **not** justify:
 - a universal project-medium protocol.
 
 The next useful evidence should compare sparse peripheral sensing against real existing environmental traces, with source verification after candidate entry.
+
+## Owner-wide GitHub activity sensing — bounded negative
+
+A follow-up tested whether the existing GitHub connector could act as a cheap source-native project-activity peripheral instead of copying events into Slack.
+
+Results:
+- no GitHub Notifications/Events inbox tool is exposed in the current connector namespace;
+- `list_repositories` returns accessible repositories but strips `pushed_at` / `updated_at`, so it cannot rank current project heat;
+- global `search_issues` without a repository scope searches broad GitHub, not the user's installation-visible repository set;
+- `user:Jozzpoly updated:>=2026-10-07` and `author:Jozzpoly updated:>=2026-10-07` returned zero despite independently verified fresh PR activity, so those query forms are not qualified as owner-wide activity sensors here;
+- direct `GET /users/Jozzpoly/events/public` through the generic GitHub fetch tool is rejected as an unsupported endpoint.
+
+Bounded conclusion:
+
+> **The current GitHub connector does not expose a trustworthy one-call owner-wide activity stream.**
+
+This does not imply GitHub lacks such APIs generally. It is a claim about the current Browser connector body.
+
+Practical consequence:
+- use repo-local source-native front doors once a candidate repo is known;
+- use Opera/open-tab/history traces and other working-set evidence for candidate generation;
+- do not interpret empty global GitHub search results as project silence;
+- do not create a copied Slack feed merely to compensate for this absence.
+
+This strengthens the existing distinction between **candidate generation** and **source-native verification**.
