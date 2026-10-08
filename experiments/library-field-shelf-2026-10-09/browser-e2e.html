@@ -12,7 +12,7 @@ const write=s=>{log.push(s);out.textContent=log.join('\n');};
 const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
-const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/70b1907796808274802f0a497adadc34fb83ae4b/experiments/library-field-shelf-2026-10-09/index.html';
+const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/e7d0d3391ffaca889e926c22abff358aaf665369/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(url,{cache:'no-store'});
 check(res.ok,'pinned library HTML network response');
 const markup=await res.text();
@@ -24,7 +24,11 @@ check(!!doc,'same-origin srcdoc and active runtime');
 check(doc.querySelectorAll('.project').length===4,'four real project cards');
 check(doc.querySelectorAll('.peek').length===4,'four accessible native source-peek sections');
 check(doc.querySelectorAll('.peek-receipt').length===4,'four exact-SHA receipt targets');
-check(doc.querySelectorAll('.actions a').length===8,'eight native source/action fallbacks');
+check(doc.querySelectorAll('.actions a').length===10,'ten native source/action or visit links');
+const allLinks=Array.from(doc.querySelectorAll('.actions a')).map(a=>a.href);
+check(allLinks.some(x=>x.includes('/ReflexBrain-Lab/probes/owner-field-lab.html')),'playable Reflex field has explicit action door');
+check(allLinks.some(x=>x==='https://jozzpoly.github.io/Combat-Lab/'),'neutral Combat smoke has separate honest action door');
+check(allLinks.some(x=>x.endsWith('/Jozz-Universal-Rig-Editor#run')),'JURE local run instruction distinguished from web demo');
 const input=doc.getElementById('find'),cards=Array.from(doc.querySelectorAll('.project')),none=doc.getElementById('none');
 const change=value=>{input.value=value;input.dispatchEvent(new win.Event('input',{bubbles:true}))};
 change('reflex');
@@ -49,7 +53,7 @@ change('RECOVERY QUARANTINE');
 check(cards.every(x=>x.hidden)&&!none.hidden,'search cannot silently change after loading source previews');
 change('jure');
 check(cards.filter(x=>!x.hidden).length===1&&!cards[3].hidden,'curated project search remains stable after source loads');
-status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + native fallbacks';
+status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + verified source/action doors';
 }catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
 })();
 </script></body></html>
