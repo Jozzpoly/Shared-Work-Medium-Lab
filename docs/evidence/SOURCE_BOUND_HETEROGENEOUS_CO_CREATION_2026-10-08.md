@@ -1188,3 +1188,37 @@ The first live qualification should test both positive and negative paths:
 A system that wakes on every repository event and merely decides 'nothing important' afterward may still create excessive cognition cost or task noise.
 
 Do not build global monitoring around Work conditions until the negative path is live-qualified.
+## GitHub Work activation is PR-centric, not a universal repo sensor
+
+Current OpenAI documentation qualifies GitHub event-triggered Work tasks specifically around **pull request activity**:
+- opened;
+- ready for review;
+- closed;
+- depending on trigger: reviews/comments, commit updates within PR context, completed merges.
+
+It does not establish arbitrary branch pushes or ordinary repository commits outside a PR as supported wake events.
+
+Official source:
+- https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt
+
+This matters to actual lab workflows.
+
+A live Combat Lab counterexample already existed during candidate-generation dogfood:
+- branch `experiment/material-agency-yard-v0` contained a serious whole-specimen commit;
+- the branch was one commit ahead of main;
+- no qualified PR/result/Owner verdict existed yet.
+
+A PR-centric Work trigger could therefore miss meaningful branch-only frontier activity.
+
+Current rule:
+
+> **do not force a project's authoring workflow to manufacture PRs merely so Medium can observe it.**
+
+Per-project activation must compose with the project's natural source-native workflow:
+- PR-heavy project -> GitHub event task may fit well;
+- branch-only / live-browser / local experiment -> use another candidate sensor or an explicit source-bound pointer when material;
+- dormant project -> no permanent watcher required.
+
+This further rejects the idea that Work webhooks replace candidate generation globally.
+
+They are one body-native activation adapter for workflows that already emit compatible events.
