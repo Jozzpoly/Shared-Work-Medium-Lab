@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='c5fe75971f9136d29c54f5ea5237ca7288d757af';
+const sourceSha='05519a210a4af66c4b05e8040ea49b8d0e147b43';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -40,6 +40,12 @@ frame.srcdoc=markup;
 await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('iframe timeout')),7000)});
 const doc=frame.contentDocument,win=frame.contentWindow;
 check(!!doc,'same-origin srcdoc and active runtime');
+let publicApiCalls=0;
+const savedFetch=win.fetch.bind(win);
+win.fetch=function(url,options){
+ if(String(url).startsWith('https://api.github.com/'))publicApiCalls++;
+ return savedFetch(url,options);
+};
 check(doc.querySelectorAll('.project').length===4,'four real project cards');
 check(doc.querySelectorAll('.peek').length===4,'four accessible native source-peek sections');
 check(doc.querySelectorAll('.peek-receipt').length===4,'four exact-SHA receipt targets');
@@ -96,6 +102,8 @@ for(let i=0;i<panels.length;i++){
    }
  }
 }
+check(unPinnedCount===0||publicApiCalls<=pinnedCount+1,'public API limit triggers session-level backoff instead of retrying on every card');
+write('Actual public GitHub branch API requests made by reader: '+publicApiCalls);
 change('RECOVERY QUARANTINE');
 check(cards.every(x=>x.hidden)&&!none.hidden,'search cannot silently change after loading source previews');
 change('jure');
