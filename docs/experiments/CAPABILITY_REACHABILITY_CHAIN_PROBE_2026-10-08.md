@@ -275,6 +275,95 @@ Use it when:
 - the Owner would otherwise spend manual time qualifying the path;
 - another agent is about to build around an unverified capability.
 
+## Live dogfood case — independent participant identity without transport collapse
+
+This campaign now has one end-to-end dogfood case where the combined candidate-generation + reachability lens changed actual behavior.
+
+### Pressure
+
+Slack connector actions are attributed to the Owner account and marked as sent using ChatGPT.
+
+The normal ChatGPT Slack bot exists as a distinct Slack bot user, but two connector-authored DM handshakes produced no independent bot response.
+
+Current need:
+
+> find a path toward independent participant/agent transport identity without pretending that app presence or connector authorship already supplies it.
+
+### Candidate generation
+
+Plugin discovery surfaced **AgentMail**, whose documented primitive is directly relevant:
+- agent-owned inbox/address;
+- send/receive/reply/thread;
+- MCP/OAuth;
+- low-cost/free bounded use.
+
+This candidate did not require a global SWM capability registry.
+
+### Reachability qualification
+
+After Owner installation:
+- plugin state: installed PASS;
+- permission: inherited `Allow low-risk actions`;
+- current execution body: no AgentMail tools exposed;
+- known MCP tool names are not callable in this body.
+
+Decision:
+
+> STOP at EXPOSED-TO-CURRENT-BODY = FAIL.
+
+No API-key request, no TinyFish workaround, no manual REST substitution and no claim that AgentMail "works for us" yet.
+
+### Cold donor
+
+A bounded repository-inventory scout surfaced dormant `cloudflare-multiplayer-lab`, absent from the recent Browser working set.
+
+Its current qualified state defends:
+- ActorSession lifetime != one browser transport;
+- same ActorSession / NetEntity / WorldEpoch can survive bounded transport/page disruption;
+- authority-checked resume;
+- foreign profiles must not acquire session authority;
+- world epoch may be retired independently;
+- capacity errors != transport/handshake failures.
+
+This changed the interpretation of the identity problem:
+
+> a mailbox, Slack user, browser session or connector identity is a transport/address candidate, not automatically participant/mind identity.
+
+### Receiving-project gate
+
+Quiet Presence was then inspected on its own active campaign branch.
+
+It currently:
+- keeps participant perspective separate from shared artifact truth;
+- keeps place-local interpretation separate again;
+- uses a minimal `participant.json`;
+- explicitly does **not** claim to solve live multi-agent presence.
+
+Decision:
+
+> **NO SCHEMA CHANGE.**
+
+Do not add session/transport/mailbox fields merely because a donor exposes those distinctions.
+
+Reopen only when SWM makes a real continuity claim across multiple bodies/transports/accounts.
+
+### Why this matters
+
+Without the combined lens, two plausible but bad moves were available:
+1. continue setup/research until AgentMail is forced to work, repeating the Neon failure class;
+2. import Multi_World identity/session concepts into Quiet Presence prematurely because the analogy is attractive.
+
+The actual outcome was:
+- useful candidate discovered;
+- unreachable edge isolated cheaply;
+- independent donor evidence recovered;
+- architectural overreach rejected;
+- future requalification point preserved.
+
+This is a **POSITIVE BOUNDED operational result** for the method.
+
+It does not prove the method generalizes or reduces Owner cost across projects.
+
 ## Main falsifier
 
 This lens is unnecessary overhead if ordinary agents consistently distinguish documentation, exposure, permission, execution and external effect without it.
