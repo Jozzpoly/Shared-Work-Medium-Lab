@@ -912,3 +912,60 @@ Operational consequence:
 - treat Browser Connector reachability as a live capability to requalify, not a permanent property of the session;
 - do not treat one disconnect as evidence that the configuration was removed;
 - do not make a durable cross-agent protocol depend on uninterrupted connector availability.
+## Browser-native event activation — Plus Work tasks
+
+Current OpenAI product documentation exposes a materially stronger Browser-side activation primitive than ordinary scheduled polling.
+
+Eligible Plus users can create **event-triggered (webhook-based) tasks in ChatGPT Work** that respond to supported connected-app activity.
+
+Current supported event families include:
+- new Slack channel messages;
+- GitHub pull-request activity in an authorized repository;
+- new Gmail messages.
+
+Slack triggers can be narrowed by channel, sender or thread. Direct messages, reactions, edits and deletions do not trigger these tasks.
+
+Official sources:
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+- https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+- https://help.openai.com/en/articles/12525822-using-slack-in-chatgpt
+
+Current classification:
+
+- **Browser time/cadence activation:** product capability present; this account also exposes the Scheduled Tasks substrate.
+- **Browser app-event activation:** DOCS-CONFIRMED for eligible Plus/Work users; not yet live-qualified in this campaign.
+- **Claude Free app-event/background activation:** still OWNER-INITIATED / unresolved.
+
+### High-value composition candidate
+
+If Gate A later qualifies Claude Free Slack send/read in a fresh body, a new asymmetric path becomes testable:
+
+```
+Claude cognition
+  -> source-bound workpiece/pointer
+  -> one bounded Slack channel message
+  -> ChatGPT Work event-triggered task
+  -> Browser cognition wakes without Owner continuation
+  -> Browser dereferences source / accepts / narrows / rejects
+```
+
+This could remove Owner activation burden on the **Browser receiving side** without requiring a custom event bus.
+
+Important nonclaims:
+- this path is not live-qualified yet;
+- it does not wake Claude Free in the reverse direction;
+- a Slack message remains transport/pointer, not project truth;
+- approvals or workspace/app permissions may pause actions;
+- Work is a distinct ChatGPT execution surface and must not be silently treated as identical to ordinary Browser Chat.
+
+### Design consequence
+
+The federation may not need one global activation service.
+
+A more evidence-compatible hypothesis is:
+
+> **activation can be body-native and asymmetric, while durable work remains source-bound.**
+
+Browser may have scheduled/event-triggered activation where Claude Free does not; paid Claude bodies have their own Scheduled Tasks / Claude Tag paths.
+
+Do not normalize these differences away unless live work proves that a common orchestrator is worth its cost.
