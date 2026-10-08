@@ -469,3 +469,27 @@ Scoped conclusion:
 Do not require continuity, handoff or project truth to depend on it remaining connected.
 
 A durable source (GitHub/other project authority) must preserve any result that matters after the environmental interaction disappears.
+
+## Opera capability-state split after disconnect
+
+After the successful heterogeneous round-trip, the Opera substrate became unreachable to Browser ChatGPT.
+
+A four-layer check produced mutually non-equivalent states:
+
+1. Plugin discovery/search reported Opera Browser Connector as:
+   - `installed: true`;
+   - `status: ENABLED`.
+2. Plugin permission inspection for the same app id reported:
+   - `status: not_installed`;
+   - global permission policy still `Allow low-risk actions`.
+3. The current Browser execution body still exposed the Opera tool namespace.
+4. Both `list_tabs` and the minimal `greeting` handshake failed with:
+   - `Browser not connected`.
+
+Scoped conclusion:
+
+> **catalog installation state, permission metadata, tool exposure, and live provider/session reachability are separate capability layers and may disagree.**
+
+Therefore a future Medium capability model must not collapse any of these into one boolean `available` flag.
+
+The only defensible operational claim is the effect-verified one at the current layer.
