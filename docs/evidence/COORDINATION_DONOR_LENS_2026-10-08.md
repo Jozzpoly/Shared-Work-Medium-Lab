@@ -503,3 +503,44 @@ Current vocabulary guardrail:
 > use `scent` informally only when precision is unnecessary; in design/evidence distinguish **trace**, **cue/scent**, **feedthrough**, **entry point/door**, and **workpiece/artifact**.
 
 This is a conceptual clarification, not a request to add five object types to the Medium schema.
+
+## Independent source sanity-check — 2026-10-08
+
+A separate Browser web check after this note appeared confirmed the main descriptive claims against academic/institutional sources.
+
+### Stigmergy
+
+Vrije Universiteit Brussel's research record for Heylighen (2016) explicitly defines stigmergy as indirect coordination where a trace left by an action in a medium stimulates subsequent actions, and notes that such coordination can occur without planning, control, communication, simultaneous presence or mutual awareness.
+
+Sources:
+- https://researchportal.vub.be/en/publications/stigmergy-as-a-universal-coordination-mechanism-i-definition-and-/
+- https://researchportal.vub.be/en/publications/stigmergy-as-a-universal-coordination-mechanism-ii-varieties-and-/
+
+### Coordination artifacts
+
+CNR/University of Bologna records for Ricci/Viroli/Omicini et al. explicitly frame coordination artifacts as environment-based support for heterogeneous intelligent agents and state that direct interaction / explicit communication are not always the best basis for coherent multi-agent behavior.
+
+Sources:
+- https://www.istc.cnr.it/en/content/coordination-artifacts-environment-based-coordination-intelligent-agents-0
+- https://cris.unibo.it/handle/11585/1795
+
+### Boundary objects
+
+The Star & Griesemer record describes scientific work as involving heterogeneous actors/viewpoints and boundary objects as a way to maintain cooperation across them; later literature restates the classic property that such objects are adaptable locally while retaining enough common identity to remain recognizable across social worlds.
+
+Source:
+- https://doi.org/10.1177/030631289019003001
+
+### Interpretation
+
+This check supports the donor note's vocabulary, but it does **not** establish that SWM is 'a stigmergic system' or should adopt a coordination-artifact architecture.
+
+Current evidence mixes several mechanisms:
+- environmental traces;
+- explicit pointers;
+- durable workpieces;
+- source-native review;
+- direct critique;
+- local receiving decisions.
+
+Therefore preserve multiple lenses and let live work determine which explanatory frame remains useful.
