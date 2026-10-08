@@ -407,3 +407,29 @@ A filtered live read successfully recovered only the intended SWM/Claude traces,
 - the Claude Artifact URL.
 
 This reduces accidental exposure inside the research process, but does not make a shared browser session private.
+
+## Claude GitHub Integration boundary
+
+Browser ChatGPT independently inspected Claude's current `GitHub Integration` settings.
+
+Observed product state:
+- GitHub Integration is **Connected**;
+- account `Jozzpoly` is shown as **Installed**;
+- Chat: attach repo files as context;
+- Projects: sync repository files;
+- Claude Code: select repositories, browse branches and track pull requests in remote sessions;
+- the repository-access status surface is labelled **Cloud sessions only**.
+
+What is **not** established by this settings page:
+- repository write tools in Claude Chat;
+- create/update/delete file actions;
+- issue/PR comment actions;
+- commit/merge capability;
+- exposure of GitHub actions in the already-running Claude cognition body.
+
+Therefore:
+
+> **Claude GitHub integration connected: PASS. Claude Chat GitHub write actuator: NOT QUALIFIED.**
+
+On a fresh Claude body, inspect actual tool exposure before changing the co-creation model.
+If direct durable GitHub write becomes genuinely available, Browser ChatGPT should stop acting as mandatory committer for Claude workpieces.
