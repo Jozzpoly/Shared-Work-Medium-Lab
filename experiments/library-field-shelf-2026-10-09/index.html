@@ -158,11 +158,22 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
 <script>
 (function(){
   const input=document.getElementById('find'),cards=Array.from(document.querySelectorAll('.project')),none=document.getElementById('none');
+  // Search only curated, stable card identity/questions: never source previews
+  // loaded later in the session. Search results must not depend on visit history.
+  const searchIndex=cards.map(card=>({
+    card,
+    haystack:[
+      card.querySelector('h3')?.textContent,
+      card.querySelector('p')?.textContent,
+      card.querySelector('.group')?.textContent,
+      card.querySelector('.status')?.textContent,
+      card.dataset.search
+    ].join(' ').toLocaleLowerCase('pl')
+  }));
   input.addEventListener('input',function(){
     const q=input.value.trim().toLocaleLowerCase('pl');
     let count=0;
-    cards.forEach(card=>{
-      const haystack=(card.textContent+' '+card.dataset.search).toLocaleLowerCase('pl');
+    searchIndex.forEach(({card,haystack})=>{
       const visible=haystack.includes(q);
       card.hidden=!visible;
       if(visible)count++;
