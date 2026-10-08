@@ -1,0 +1,5 @@
+{
+  "target_kind": "source",
+  "target_id": "combat-contact-resident-branch",
+  "local_note": "This is a live, replaceable experimental ref, not the current accepted combat or organism. Before reuse verify the actual branch head, exact CI and the receiving project's canonical research frontier."
+}
