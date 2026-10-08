@@ -593,6 +593,65 @@ This reinforces the existing rule:
 
 Do not solve this by copying the project into Slack.
 
+## Negative control after first real scent — Combat Material Agency Yard
+
+Immediately after admitting the first real ReflexBrain-origin scent, the same process was applied to another live project to test whether the system would start manufacturing cross-project traffic.
+
+### Sender state
+
+Combat Lab canonical `main/docs/RESEARCH_STATE.md` says:
+- no active research specimen;
+- body/world frontier reselected;
+- pre-implementation design;
+- next substantial implementation should be one coherent serious discovery specimen.
+
+A source-native freshness check found branch:
+`experiment/material-agency-yard-v0`
+
+with one commit ahead of `main`:
+
+`b4f6335efce76b4a6765368fa89d7ba4e53c8b32 — research: build first Material Agency Yard whole`
+
+The branch contains a real Rapier 2D specimen with:
+- authorable body envelope/mass/speed/acceleration/braking;
+- bounded grip reach/force;
+- persistent material bodies;
+- world disturbance/spawning;
+- camera/follow controls;
+- browser-ready gate code;
+- explicit anti-inheritance boundary against old R0/L0 traffic/crowd architecture.
+
+The live Combat conversation also contains an attractive emerging hypothesis: movement, pushing, grip, stance, crowd contact and larger-body interaction may share a deeper body/world/controller-coupling axis.
+
+### Missing qualification
+
+At this checkpoint:
+- no branch-local result document was found;
+- no workflow run/status was returned for the branch head through the current GitHub sensor;
+- no Owner Material Agency Yard verdict was observed in the live Combat conversation;
+- canonical `rehearsal/current` has not moved to this specimen;
+- the branch's own UI says the whole must earn Owner attention before rehearsal/current moves.
+
+### Routing temptation
+
+The material-agency hypothesis is superficially relevant to:
+- Feniks body/contact/stance research;
+- Companion embodied teammate behavior;
+- ReflexBrain body/world coupling;
+- future JV/material-world work.
+
+### Decision
+
+> **NONE — DO NOT EMIT A CROSS-PROJECT SCENT YET.**
+
+A serious implementation plus an attractive agent hypothesis is not transferable evidence.
+
+Reopen routing only when Combat itself produces a qualified phenomenon, Owner observation, falsifier, or result that changes a receiving project's current question.
+
+This is the negative control for the ReflexBrain scent:
+
+> admitting one genuine external project scent must not turn every live branch into feed content.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
