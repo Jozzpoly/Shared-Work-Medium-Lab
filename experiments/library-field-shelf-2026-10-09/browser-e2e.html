@@ -1,0 +1,51 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium • browser E2E</title>
+<style>body{margin:0;background:#111823;color:#daeade;font:16px/1.5 system-ui}main{padding:24px;max-width:1100px;margin:auto}pre{padding:16px;border:1px solid #465a6b;white-space:pre-wrap;background:#11141a}iframe{width:100%;height:650px;border:1px solid #53758a;border-radius:8px}strong{color:#b0eed1}</style></head><body><main>
+<h1>Library — browser-level end-to-end qualification</h1>
+<p>Celowo izolowana strona testowa. Przy otwarciu wykonuje żądania tylko do PUBLICZNEGO GitHuba (testuje cztery karty); nie jest częścią zwykłego wejścia do biblioteki.</p>
+<p id="status" role="status"><strong>START</strong> — loading exact library source</p>
+<pre id="log" aria-label="wyniki kroków testu"></pre>
+<iframe id="frame" title="Rzeczywisty HTML biblioteki w ramce testowej"></iframe></main>
+<script>
+(async function(){
+const status=document.getElementById('status'),out=document.getElementById('log'),frame=document.getElementById('frame'),log=[];
+const write=s=>{log.push(s);out.textContent=log.join('\n');};
+const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+try{
+const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/9707936af790dc44527ab0dbf17662d15e71c7e6/experiments/library-field-shelf-2026-10-09/index.html';
+const res=await fetch(url,{cache:'no-store'});
+check(res.ok,'pinned library HTML network response');
+const markup=await res.text();
+check(markup.includes('data-repo="Jozzpoly/ReflexBrain-Lab"'),'on-branch source descriptor exists');
+frame.srcdoc=markup;
+await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('iframe timeout')),7000)});
+const doc=frame.contentDocument,win=frame.contentWindow;
+check(!!doc,'same-origin srcdoc and active runtime');
+check(doc.querySelectorAll('.project').length===4,'four real project cards');
+check(doc.querySelectorAll('.peek').length===4,'four accessible native source-peek sections');
+check(doc.querySelectorAll('.peek-receipt').length===4,'four exact-SHA receipt targets');
+check(doc.querySelectorAll('.actions a').length===8,'eight native source/action fallbacks');
+const input=doc.getElementById('find'),cards=Array.from(doc.querySelectorAll('.project')),none=doc.getElementById('none');
+const change=value=>{input.value=value;input.dispatchEvent(new win.Event('input',{bubbles:true}))};
+change('reflex');
+check(cards.filter(x=>!x.hidden).length===1 && !cards[2].hidden,'search finds ReflexBrain without collapsing other source identities');
+change('NEVER_EXISTS_PROJECT_123');
+check(cards.every(x=>x.hidden)&&!none.hidden,'uncovered subject reports missing in four-card selection, not global absence');
+change('');
+check(cards.every(x=>!x.hidden)&&none.hidden,'search reset restores voluntary panorama');
+const panels=Array.from(doc.querySelectorAll('.peek'));
+for(let i=0;i<panels.length;i++){
+ const p=panels[i],button=p.querySelector('.peek-read'),receipt=p.querySelector('.peek-receipt'),output=p.querySelector('.peek-output'),meta=output.querySelector('.meta');
+ p.open=true;button.click();
+ let elapsed=0;
+ while(button.disabled && elapsed<14500){await wait(200);elapsed+=200}
+ check(!button.disabled,'source '+(i+1)+' fetch eventually returned');
+ check(!output.hidden,'source '+(i+1)+' exposes result/failure locally');
+ if(receipt.hidden)throw Error('source '+(i+1)+' failed to obtain pinned receipt: '+meta.textContent);
+ check(/^https:\/\/github.com\/Jozzpoly\/.+\/blob\/[a-f0-9]{40}\/.+$/.test(receipt.href),'source '+(i+1)+' SHA receipt is first-party, immutable and correctly shaped');
+ check(output.querySelector('pre').textContent.length>25,'source '+(i+1)+' retained real document text');
+}
+status.textContent='PASS — 4/4 browser source receipts + 3/3 search transitions + native source fallbacks';
+}catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
+})();
+</script></body></html>
