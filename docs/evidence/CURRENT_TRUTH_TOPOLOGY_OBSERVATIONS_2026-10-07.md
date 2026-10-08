@@ -157,3 +157,58 @@ This is a concrete instance of the earlier capability-expedition distinction:
 It also sharpens the external-organism lane in accepted `RESEARCH_STATE.md`: the remaining boundary is no longer just "a real LLM exists" but whether the collaboration body has a legitimate actuator into an isolated session without converting the Owner into orchestration glue.
 
 No claim follows that Opera needs more permissions or that a different browser actuator should be built. That decision requires separate pressure/evidence.
+
+
+## Live frontier lifecycle dogfood — 2026-10-08
+
+A portfolio read of the repository's open draft PRs exposed two misleading open-frontier objects.
+
+### PR #6 — child work already complete inside Quiet Presence
+
+Observed:
+- PR #6 base was exactly `campaign/quiet-presence-2026-10-04`;
+- its base SHA matched the then-current head of PR #5;
+- its own scope said it targeted Quiet Presence, not `main`;
+- bounded validation was complete.
+
+Action:
+- mark only PR #6 ready-for-review;
+- merge #6 into the still-draft PR #5 campaign branch;
+- keep PR #5 draft/unmerged;
+- leave `main` untouched.
+
+Result:
+- PR #6 closed/merged;
+- PR #5 remains the live Quiet Presence frontier, now containing the recovered exchange window.
+
+### PR #8 — completed checkpoint, not live campaign handle
+
+Issue #7 explicitly remains the agent-maintained Capability Expedition handle.
+
+Later Issue #7 workpieces continued beyond the first relay checkpoint and still reference PR #8's commit as evidence.
+
+PR #8 itself had no canonical-main merge claim and represented the first source-bound relay snapshot.
+
+Action:
+- close PR #8 **unmerged**;
+- preserve branch, commits, evidence and all existing links;
+- keep Issue #7 open as the live campaign object.
+
+### Current open PR interpretation after cleanup
+
+Remaining draft PRs:
+- #3 — semantic project-surface specimen;
+- #4 — MP-1A controlled semantic-ablation apparatus;
+- #5 — Quiet Presence ecological campaign;
+- #9 — current-truth topology dogfood;
+- #10 — peripheral candidate generation + capability reachability.
+
+No claim that five is an ideal number.
+
+The material finding is narrower:
+
+> an open PR is not automatically a live frontier. Parent-child integration and completed experimental checkpoints can remain fully recoverable without remaining open-frontier objects.
+
+Conversely, older independent experiments must not be closed merely to reduce a count when their research questions remain open.
+
+This is a direct dogfood example of the topology problem: lifecycle state is part of current truth.
