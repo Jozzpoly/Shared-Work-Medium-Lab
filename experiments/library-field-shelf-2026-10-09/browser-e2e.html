@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='bc4a125d9906f6f2e161f27df877e019475b445b';
+const sourceSha='087cd238fd879c449fbaf625170c9d7e75ceb6ca';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -153,6 +153,31 @@ check(badPanel.querySelector('.peek-receipt').hidden,'negative reader does not i
 check(badPanel.querySelector('.peek-select-label').hidden,'negative reader does not expose made-up source sections');
 check(!!badPanel.querySelector('.peek-note a[href^="https://github.com/"]'),'source-native fallback remains available after failure');
 negativeFrame.remove();
+// Source-navigation FALSIFIER: an ATX-looking marker inside a literal fenced
+// Markdown code snippet must never become an offered document section.
+const fenceFrame=document.createElement('iframe');
+fenceFrame.style.cssText='position:absolute;left:-10000px;top:0;width:375px;height:5px';
+fenceFrame.title='Headings in fenced code negative control';
+document.body.appendChild(fenceFrame);
+fenceFrame.srcdoc=markup;
+await new Promise((resolve,reject)=>{fenceFrame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('fence fixture timeout')),7000)});
+const fixtureWindow=fenceFrame.contentWindow,fixtureDoc=fenceFrame.contentDocument;
+const fakeSha='f'.repeat(40);
+const marker=String.fromCharCode(96).repeat(3);
+const fixtureText=['# Real first section',marker+'js','## FAKE heading in Javascript',marker,'## Real next section','~~~sh','### ALSO_FAKE heading in shell','~~~','### Last true section'].join('\\n');
+fixtureWindow.fetch=async(url)=>String(url).includes('api.github.com')?
+ {ok:true,json:async()=>({commit:{sha:fakeSha}})}:
+ {ok:true,text:async()=>fixtureText};
+const fixturePanel=fixtureDoc.querySelector('.peek');
+fixturePanel.open=true;
+fixturePanel.querySelector('.peek-read').click();
+let fenceWait=0,fixtureButton=fixturePanel.querySelector('.peek-read');
+while(fixtureButton.disabled&&fenceWait<2200){await wait(100);fenceWait+=100}
+check(!fixtureButton.disabled,'fenced code fixture reader completed');
+const headingLabels=Array.from(fixturePanel.querySelector('.peek-sections').options).map(x=>x.textContent);
+check(headingLabels.some(x=>x.includes('Real next section')) && headingLabels.some(x=>x.includes('Last true section')),'normal headings survive after code fences');
+check(!headingLabels.some(x=>x.includes('FAKE')),'literal fenced code examples do not become source sections');
+fenceFrame.remove();
 status.textContent='PASS on exact source '+sourceSha.slice(0,12)+' — 4/4 docs ('+pinnedCount+' SHA-pinned / '+unPinnedCount+' unpinned); search/sections/fallback/views; moving Raw '+(movingMismatch?'MISMATCH':'not confirmed stale');
 }catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
 })();
