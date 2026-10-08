@@ -337,6 +337,15 @@ def main():
             for door in source_doors:
                 source_id = door["target_id"]
                 source_href = sources[source_id]["href"]
+                # The field HTML is browsed through HTMLPreview, which rewrites
+                # fragment-bearing hrefs into preview-local navigation. This
+                # previously made a valid GitHub donor URL lead back to Combat.
+                # Check this transport-specific failure, not research semantics.
+                if urlparse(source_href).fragment:
+                    failures.append(
+                        f"public {place_id} source door {source_id} uses a fragment "
+                        "that HTMLPreview rewrites"
+                    )
                 if source_href not in field_text:
                     failures.append(
                         f"public {place_id} field page does not expose source door {source_id}"
