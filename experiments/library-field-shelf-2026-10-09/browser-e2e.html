@@ -12,7 +12,7 @@ const write=s=>{log.push(s);out.textContent=log.join('\n');};
 const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
-const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/9707936af790dc44527ab0dbf17662d15e71c7e6/experiments/library-field-shelf-2026-10-09/index.html';
+const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/70b1907796808274802f0a497adadc34fb83ae4b/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(url,{cache:'no-store'});
 check(res.ok,'pinned library HTML network response');
 const markup=await res.text();
@@ -45,7 +45,11 @@ for(let i=0;i<panels.length;i++){
  check(/^https:\/\/github.com\/Jozzpoly\/.+\/blob\/[a-f0-9]{40}\/.+$/.test(receipt.href),'source '+(i+1)+' SHA receipt is first-party, immutable and correctly shaped');
  check(output.querySelector('pre').textContent.length>25,'source '+(i+1)+' retained real document text');
 }
-status.textContent='PASS — 4/4 browser source receipts + 3/3 search transitions + native source fallbacks';
+change('RECOVERY QUARANTINE');
+check(cards.every(x=>x.hidden)&&!none.hidden,'search cannot silently change after loading source previews');
+change('jure');
+check(cards.filter(x=>!x.hidden).length===1&&!cards[3].hidden,'curated project search remains stable after source loads');
+status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + native fallbacks';
 }catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
 })();
 </script></body></html>
