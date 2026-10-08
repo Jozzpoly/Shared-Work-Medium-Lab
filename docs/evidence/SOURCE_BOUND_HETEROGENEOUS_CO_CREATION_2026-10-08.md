@@ -1129,3 +1129,32 @@ A Slack-triggered variant remains useful specifically for Claude Free Gate A if 
 But GitHub PR activity is the preferred first Browser activation experiment because the useful work itself is the trigger.
 
 Do not arm both variants simultaneously in the first test; isolate one causal path.
+## Activation budget — do not create one watcher per lab
+
+Current ChatGPT task limits create an important anti-architecture constraint.
+
+OpenAI currently documents a **5 active task limit on Plus**, shared across scheduled and event-triggered tasks.
+
+The GitHub event-trigger documentation describes activity in an authorized/connected repository; current docs do not establish one task as an owner-wide multi-repository event bus.
+
+Official sources:
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+- https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt
+
+Therefore:
+
+> **do not model Medium as one permanent Work watcher per lab.**
+
+A more evidence-compatible use is sparse and dynamic:
+- attach event activation to a small number of genuinely live/high-value frontiers;
+- use project-local source doors and normal candidate sensing for the long tail of dormant projects;
+- retire/pause trigger tasks when the frontier closes;
+- reserve at least some task budget for non-Medium uses rather than consuming the account's scheduler capacity.
+
+Cross-project source-bound work may justify one shared coordination-repository trigger if live use proves valuable, but that repository must remain a routing/workpiece surface rather than replacement truth for each lab.
+
+This reinforces a broader principle already emerging from dogfood:
+
+> **activation is attention allocation, not global observation coverage.**
+
+No watcher registry or per-project trigger schema should be added from this observation.
