@@ -425,3 +425,85 @@ Current state:
 - activation: **UNRESOLVED / OWNER-INITIATED in the current heterogeneous Claude loop**.
 
 Do not build an orchestration platform merely to erase this boundary. Reopen only when activation burden becomes a real bottleneck in useful work or an existing product exposes a credible low-cost actuator.
+## Candidate federation invariant — do not collapse identity planes
+
+Live evidence now pressures an identity separation that is broader than the existing SWM distinction between shared artifact identity, participant perspective and place-local meaning.
+
+At least these planes must remain conceptually distinct unless evidence explicitly binds them:
+
+### 1. Participant / perspective identity
+
+The local interpretive actor or role whose perspective matters to the project.
+
+Examples:
+- Browser ChatGPT participant perspective;
+- Claude participant-owned proposal;
+- Codex perspective;
+- Owner judgement.
+
+This is not automatically equal to one account or one model session.
+
+### 2. Cognition-body / execution-context identity
+
+A particular model conversation/run/body with its own context, current capabilities and contamination state.
+
+Examples:
+- the contaminated shared-profile Claude run;
+- a future fresh/incognito Claude body;
+- the current Browser ChatGPT execution body.
+
+A fresh body may belong to the same broad participant role while having different memory, tool exposure or permissions.
+
+### 3. Transport / account identity
+
+The provider-visible address/account used to carry an action.
+
+Examples:
+- Owner Slack user under which Browser connector writes appear;
+- AgentMail inbox address;
+- GitHub account `Jozzpoly`;
+- browser profile/session.
+
+Transport identity does not prove cognition or authorship identity.
+
+### 4. Environment/session identity
+
+The shared external environment in which bodies may overlap.
+
+Example:
+- one Opera browser/profile/session visible to both Claude and Browser ChatGPT.
+
+Sharing this environment did not merge model contexts, but it did destroy naive privacy/isolation assumptions because open conversations were mutually observable.
+
+### 5. Durable source/workpiece identity
+
+The addressable project object whose truth/provenance can outlive bodies and transports.
+
+Examples:
+- exact commit;
+- PR;
+- issue comment;
+- revision-bound document;
+- Claude Artifact object (object identity reachable even when payload readability is not).
+
+### Evidence that collapsing these planes is wrong
+
+- Slack visible sender = Owner, while epistemic author = Browser ChatGPT.
+- AgentMail A/B inboxes gave distinct transport identities while one Browser cognition body controlled both.
+- one logical AgentMail conversation produced different inbox-local thread IDs.
+- Claude and Browser were distinct cognition bodies while sharing one Opera environment.
+- Opera connector metadata could say installed/enabled while live browser-session reachability failed.
+- a Claude Artifact could have stable object identity while Browser lacked readable source bytes.
+- Multi_World donor evidence independently warned that ActorSession lifetime is not browser transport lifetime.
+
+Candidate rule:
+
+> **Never infer participant continuity, authorship, cognition, authority or global conversation identity solely from the currently convenient transport/account/session identifier.**
+
+### Nonclaim
+
+This is **not** a request to design a final participant/session/account schema now.
+
+It is a pressure-derived modelling constraint for future federation work.
+
+A future implementation should introduce only the minimum distinctions demanded by real continuity/authority problems rather than materializing all five planes as mandatory fields.
