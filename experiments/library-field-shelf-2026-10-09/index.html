@@ -52,6 +52,9 @@ h2{font-size:25px;letter-spacing:-.025em;margin:0}
 .peek-output[hidden]{display:none}
 .peek-output pre{font:12px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0}
 .peek-output .meta{font-size:11px;color:#a6d6d0}
+.peek-select-label{display:block;margin:13px 0 8px;color:#bfd1dc;font-size:12px}
+.peek-sections{display:block;width:100%;margin-top:6px;color:#eef5f1;background:#19222e;border:1px solid #637587;border-radius:8px;padding:10px;font:inherit;font-size:13px}
+.peek-sections:focus-visible{outline:3px solid #e1eaa6;outline-offset:2px}
 [hidden]{display:none!important}
 .no-results{border:1px dashed #6a7890;border-radius:12px;color:#dce7ed;padding:22px;margin-top:16px}
 .below{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:32px 0 0}
@@ -99,6 +102,7 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
    <summary>Sprawdź dokument projektu tutaj</summary>
    <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>main</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">Pełne źródło ↗</a></p>
    <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
    <div class="peek-output" hidden aria-live="polite"><div class="meta"></div><pre></pre></div>
    <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
   </details>
@@ -113,6 +117,7 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
    <summary>Sprawdź dokument projektu tutaj</summary>
    <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>main</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md">Pełne źródło ↗</a></p>
    <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
    <div class="peek-output" hidden aria-live="polite"><div class="meta"></div><pre></pre></div>
    <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
   </details>
@@ -127,6 +132,7 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
    <summary>Sprawdź dokument projektu tutaj</summary>
    <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>research/pre-o0-foundations-campaign</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/pre-o0-foundations-campaign/docs/CONTINUE_HERE.md">Pełne źródło ↗</a></p>
    <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
    <div class="peek-output" hidden aria-live="polite"><div class="meta"></div><pre></pre></div>
    <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
   </details>
@@ -141,6 +147,7 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
    <summary>Sprawdź dokument projektu tutaj</summary>
    <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>main</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/docs/STATUS.md">Pełne źródło ↗</a></p>
    <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
    <div class="peek-output" hidden aria-live="polite"><div class="meta"></div><pre></pre></div>
    <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
   </details>
@@ -186,6 +193,8 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
     const meta=output.querySelector('.meta');
     const pre=output.querySelector('pre');
     const receipt=panel.querySelector('.peek-receipt');
+    const sectionLabel=panel.querySelector('.peek-select-label');
+    const sections=panel.querySelector('.peek-sections');
     button.addEventListener('click',async function(){
       button.disabled=true;
       button.textContent='Odczytuję...';
@@ -194,6 +203,9 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
       pre.textContent='';
       receipt.hidden=true;
       receipt.removeAttribute('href');
+      sectionLabel.hidden=true;
+      sections.replaceChildren();
+      sections.onchange=null;
       const controller=new AbortController();
       const cancel=setTimeout(function(){controller.abort();},10000);
       try {
@@ -209,13 +221,32 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
         if(!sourceResponse.ok)throw new Error('Source HTTP '+sourceResponse.status);
         const body=await sourceResponse.text();
         const lines=body.replace(/\r\n/g,'\n').split('\n');
-        const preview=lines.slice(0,38).join('\n').slice(0,4500);
-        pre.textContent=preview+(lines.length>38||body.length>4500?'\n\n[…] Otwórz pełne źródło, aby czytać dalej.':'');
         const observedAt=new Date().toLocaleString('pl-PL');
-        meta.textContent='Odczyt '+observedAt+' • '+ref+' → '+sha.slice(0,12)+' • pierwsze linie oryginału. SHA dokumentuje tę wersję, NIE aktualny kierunek projektu.';
-        receipt.href='https://github.com/'+repo+'/blob/'+sha+'/'+file;
-        receipt.textContent='Otwórz tę dokładną wersję @'+sha.slice(0,12)+' ↗';
-        receipt.hidden=false;
+        const pinnedGithub='https://github.com/'+repo+'/blob/'+sha+'/'+file;
+        const headings=lines.flatMap((line,index)=>{
+          const match=/^(#{1,3})\s+(.+)/.exec(line);
+          return match?[{index,label:match[2].trim(),level:match[1].length}]:[];
+        });
+        const choose=(index,label)=>{
+          const item=document.createElement('option');
+          item.value=String(index);
+          item.textContent=label;
+          sections.append(item);
+        };
+        choose(0,'Początek — linia 1');
+        headings.forEach(x=>choose(x.index,'L'+(x.index+1)+' • '+('· '.repeat(x.level-1))+x.label));
+        sectionLabel.hidden=headings.length===0;
+        const show=(index)=>{
+          const excerpt=lines.slice(index,index+45).join('\n').slice(0,4500);
+          const truncated=(index+45<lines.length || lines.slice(index,index+45).join('\n').length>4500);
+          pre.textContent=excerpt+(truncated?'\n\n[…] Otwórz źródło od tej linii, aby czytać dalej.':'');
+          meta.textContent='Odczyt '+observedAt+' • '+ref+' → '+sha.slice(0,12)+' • od linii '+(index+1)+'. SHA identyfikuje wersję, NIE zatwierdza stanu projektu.';
+          receipt.href=pinnedGithub+'#L'+(index+1);
+          receipt.textContent='Otwórz oryginał @'+sha.slice(0,12)+' • L'+(index+1)+' ↗';
+          receipt.hidden=false;
+        };
+        sections.onchange=()=>show(Number(sections.value));
+        show(0);
       } catch(err) {
         meta.textContent='Nie udało się odczytać przez tę przeglądarkę ('+(err.name==='AbortError'?'limit 10 s':'sieć / uprawnienia / źródło')+'). Użyj odnośnika „Pełne źródło”. Brak dostępu nie dowodzi braku dokumentu.';
         pre.textContent='';
