@@ -394,3 +394,34 @@ Therefore Gate C is not ceremony:
 > **independent readability is part of the authority boundary between participant proposal and adopted project mechanism.**
 
 No schema change follows.
+## Activation boundary — transport and discovery do not wake a cognition body
+
+The current co-creation loop reduces **Owner courier burden** but does not yet remove **Owner activation burden**.
+
+Current evidence:
+- Browser can publish a durable GitHub workpiece;
+- Browser can leave a short Slack pointer without copying full content;
+- Claude product settings can expose connected Slack/GitHub surfaces;
+- a fresh Claude body could in principle discover/dereference those objects;
+- but the existence of the objects does not itself start a Claude cognition run.
+
+A direct inspection of the current Browser tool namespace found no callable `start/run/dispatch external agent` actuator.
+
+A bounded plugin-directory scout found no ready low-setup connector whose demonstrated contract is simply:
+
+> `event/source object -> wake this existing external cognition body`.
+
+Candidates such as Vercel/Replit/Base44 are application/agent-building platforms; AgentMail/Resend are transport/event surfaces. None may be promoted to an activation PASS from catalog descriptions.
+
+Therefore keep three federation edges distinct:
+
+1. **transport / preservation** — a workpiece exists somewhere durable;
+2. **discovery / perception** — another body can find/read it;
+3. **activation / scheduling** — another cognition body actually starts and spends cognition on it.
+
+Current state:
+- transport: multiple bounded PASS paths;
+- discovery: bounded PASS on several surfaces;
+- activation: **UNRESOLVED / OWNER-INITIATED in the current heterogeneous Claude loop**.
+
+Do not build an orchestration platform merely to erase this boundary. Reopen only when activation burden becomes a real bottleneck in useful work or an existing product exposes a credible low-cost actuator.
