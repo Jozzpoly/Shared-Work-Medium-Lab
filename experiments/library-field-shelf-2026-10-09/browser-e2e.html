@@ -71,7 +71,30 @@ await wait(220);
 const grid=doc.querySelector('.grid'),columns=win.getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/);
 check(columns.length===1,'narrow 390px frame reduces project grid to one column');
 check(doc.documentElement.scrollWidth<=doc.documentElement.clientWidth+2,'narrow viewport has no horizontal overflow');
-status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + 4 source outlines + verified action doors';
+// One deliberate browser-level inaccessible-source case. It modifies only the
+// ephemeral test iframe (never the real published Library source).
+const anchor='data-repo="Jozzpoly/Shared-Work-Medium-Lab"';
+check(markup.includes(anchor),'negative control can isolate one source descriptor');
+const negativeFrame=document.createElement('iframe');
+negativeFrame.setAttribute('title','Niedostępne źródło — negatywna kontrola');
+negativeFrame.style.cssText='position:absolute;left:-10000px;top:0;width:375px;height:5px';
+document.body.appendChild(negativeFrame);
+negativeFrame.srcdoc=markup.replace(anchor,'data-repo="Jozzpoly/Medium-Nonexistent-Probe-20261009"');
+await new Promise((resolve,reject)=>{negativeFrame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('negative iframe timeout')),7000)});
+const badDoc=negativeFrame.contentDocument,badPanel=badDoc.querySelector('.peek');
+check(!!badPanel,'negative reader boots without privileged source credentials');
+badPanel.open=true;
+const badButton=badPanel.querySelector('.peek-read');
+badButton.click();
+let badElapsed=0;
+while(badButton.disabled&&badElapsed<10500){await wait(200);badElapsed+=200}
+check(!badButton.disabled,'negative reader exits failed request without stalling');
+check(badPanel.querySelector('.peek-output .meta').textContent.includes('Nie udało'),'negative reader clearly reports source access failure');
+check(badPanel.querySelector('.peek-receipt').hidden,'negative reader does not invent an immutable source receipt');
+check(badPanel.querySelector('.peek-select-label').hidden,'negative reader does not expose made-up source sections');
+check(!!badPanel.querySelector('.peek-note a[href^="https://github.com/"]'),'source-native fallback remains available after failure');
+negativeFrame.remove();
+status.textContent='PASS — 4/4 exact-SHA receipts + 5/5 deterministic search transitions + 4 source outlines + verified action doors + real unavailable-source fallback';
 }catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
 })();
 </script></body></html>
