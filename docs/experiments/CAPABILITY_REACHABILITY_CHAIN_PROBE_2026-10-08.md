@@ -229,6 +229,27 @@ This may be a transient tool-refresh boundary rather than a durable product limi
 
 AgentMail remains a strong identity-transport donor candidate because its primitive directly addresses a current SWM gap: agent-owned transport identity instead of connector actions inheriting Owner identity. It is **not yet a Browser capability PASS**.
 
+### Superpowers subagent methodology without a Browser dispatch actuator
+
+A bounded search for an independent fresh subject found that the installed Superpowers plugin exposes skills named:
+- `dispatching-parallel-agents`;
+- `subagent-driven-development`;
+- `executing-plans`.
+
+The skill text explicitly distinguishes harnesses that have a subagent dispatch tool from harnesses that do not; in the latter case it routes execution inline.
+
+Exact runtime inspection of the current Browser tool namespace found no callable subagent/dispatch/run-agent tool, including no Superpowers-specific dispatch namespace.
+
+Current qualification:
+- methodology / dispatch pattern: EXPOSED;
+- installed skill corpus: PASS;
+- independent worker actuator in this Browser body: **ABSENT**;
+- fresh independent cognition: NOT QUALIFIED.
+
+Do not infer a worker body merely because a skill describes how to use one.
+
+This closes another tempting shortcut for PR #9/#10 fresh-agent tests: the existing Superpowers skill set cannot itself supply the uncontaminated subject required by the experiment in this harness.
+
 ## Permission-state snapshot
 
 Live Plugin Management inspection on 2026-10-08:
