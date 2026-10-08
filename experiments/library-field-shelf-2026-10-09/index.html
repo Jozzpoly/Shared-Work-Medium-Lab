@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Medium • Biblioteka światów — eksperyment</title>
+<style>
+:root{--bg:#0b0d12;--surface:#171b24;--text:#f2f0ec;--muted:#aeb7c7;--line:#374153;--a:#9cded5}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse 90% 43% at 79% 5%,#1c2944 0%,transparent 75%),radial-gradient(ellipse 55% 31% at 5% 30%,#203139 0%,transparent 80%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+a{color:var(--a);text-underline-offset:3px}a:focus-visible,input:focus-visible{outline:3px solid #e1eaa6;outline-offset:4px}
+.shell{max-width:1200px;margin:0 auto;padding:24px clamp(18px,4vw,55px) 85px}
+nav.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:5px 0 35px}
+.wordmark{color:#e6f5f4;font-weight:850;letter-spacing:.12em;text-decoration:none;font-size:14px}
+.kicker{text-transform:uppercase;letter-spacing:.16em;color:#a9cdd0;font-size:12px;font-weight:750}
+.small{color:var(--muted);font-size:13px}
+.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(235px,.55fr);gap:32px;align-items:end;padding:20px 0 50px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(42px,5.5vw,78px);letter-spacing:-.065em;line-height:1.03;margin:17px 0 16px;max-width:760px}
+.lead{color:#c7cedb;max-width:640px;font-size:clamp(16px,1.7vw,20px);line-height:1.55}
+.hero-note{border-left:2px solid #638c9c;padding-left:21px;align-self:center}
+.hero-note strong{display:block;margin-bottom:7px;font-size:16px}
+.hero-note p{color:#b6bfd0;font-size:14px;margin:0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:47px 0 20px}
+h2{font-size:25px;letter-spacing:-.025em;margin:0}
+.filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 22px}
+.search{background:#171d29;color:#fff;border:1px solid #5c6980;border-radius:9px;padding:13px 16px;width:min(100%,380px);font:inherit}
+.search::placeholder{color:#aab6c6}
+.coverage{border:1px solid #526577;border-radius:100px;padding:8px 12px;font-size:12px;color:#c2ced9}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.project{position:relative;overflow:hidden;border:1px solid #425168;border-radius:16px;padding:27px 27px 22px;background:linear-gradient(150deg,rgba(39,48,64,.96),rgba(17,22,31,.97));min-height:310px;display:flex;flex-direction:column;gap:12px}
+.project:before{content:"";height:4px;position:absolute;top:0;left:0;right:0;background:var(--stripe,#91c4d7)}
+.project:hover{border-color:#93c2c6}
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.group{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c2cfdf}
+.status{font-size:12px;border:1px solid #526177;border-radius:6px;padding:3px 8px;color:#d2dded;max-width:180px;text-align:right}
+.project h3{margin:1px 0 0;font-size:clamp(23px,2.5vw,30px);letter-spacing:-.038em;line-height:1.14}
+.project p{margin:0;color:#c1cbd9;font-size:15px}
+.fact{margin-top:auto;border-left:2px solid var(--stripe,#91c4d7);padding:0 0 0 13px;color:#d4dce6;font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:14px 19px;align-items:center;padding-top:10px}
+.actions a{font-weight:650;font-size:14px}
+.actions a.primary{background:#d5e5e1;color:#101d22;border-radius:8px;padding:9px 13px;text-decoration:none}
+.actions a.primary:hover{background:#fff}
+[hidden]{display:none!important}
+.no-results{border:1px dashed #6a7890;border-radius:12px;color:#dce7ed;padding:22px;margin-top:16px}
+.below{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:32px 0 0}
+.below article{border:1px solid #465366;background:#131923c9;padding:24px;border-radius:13px}
+.below h3{margin:0 0 9px;font-size:19px}
+.below p{margin:0;color:#b7c6d3;font-size:14px}
+footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5c3;font-size:13px}
+@media(max-width:810px){.hero{grid-template-columns:1fr}.grid,.below{grid-template-columns:1fr}.project{min-height:0}.hero{padding-bottom:35px}}
+@media(prefers-reduced-motion:no-preference){a,.project{transition:border-color .17s,background .17s}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="top" aria-label="Pochodzenie i nawigacja">
+ <a class="wordmark" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab">MEDIUM / FIELD LAB</a>
+ <span class="small">Eksperyment • cztery jawnie wybrane publiczne źródła • 9 października 2026</span>
+</nav>
+<header class="hero">
+ <div>
+ <div class="kicker">Biblioteka światów / specimen 01</div>
+ <h1>Nie katalog kodu.<br>Wejście do pracy.</h1>
+ <p class="lead">Cztery rzeczywiste projekty. Ich własne pytania, źródła i granice. Zacznij od czegoś, co Cię ciekawi — albo przejdź obok.</p>
+ </div>
+ <aside class="hero-note" aria-label="Granice źródłowe">
+ <strong>Mapa nie jest terytorium.</strong>
+ <p>Te karty to ręcznie wybrane drzwi, nie automatyczna wiedza o stanie prac. Źródła projektów mają pierwszeństwo. Żadna gałąź ani data ostatniego commita nie zastępuje ich oceny.</p>
+ </aside>
+</header>
+<main>
+<section aria-labelledby="places-heading">
+<div class="section-head"><h2 id="places-heading">Miejsca, do których możesz wejść</h2><span class="small">Bez rankingu. Bez powiadomień.</span></div>
+<div class="filters">
+ <label for="find" class="small">Znajdź projekt lub problem</label>
+ <input id="find" class="search" type="search" placeholder="np. fizyczność, rig, pamięć..." autocomplete="off" aria-controls="cards">
+ <span class="coverage">4 wybrane / całość niezinwentaryzowana</span>
+</div>
+<div id="cards" class="grid">
+ <article class="project" style="--stripe:#8ccef5" data-search="medium współpraca agenci biblioteka ślady źródła browser codex">
+  <div class="head"><span class="group">Współpraca i wiedza</span><span class="status">Main ≠ draft</span></div>
+  <h3>Shared Work Medium</h3>
+  <p>Czy różne umysły mogą współdzielić środowisko pracy bez jednego centralnego umysłu i bez zmuszania Ownera do przenoszenia kontekstu?</p>
+  <div class="fact">Aktualne badania są rozdzielone: zaakceptowany stan na main, Quiet Presence nadal w draft PR #5. Nie myl ich.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">Wejdź w stan badań ↗</a><a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5">Otwórz eksperyment ↗</a></div>
+ </article>
+ <article class="project" style="--stripe:#e7b684" data-search="combat fizyka ciało świat ruch kontakt tłum hamowanie materialny">
+  <div class="head"><span class="group">Ciało i świat</span><span class="status">Kandydaci odizolowani</span></div>
+  <h3>Combat Lab</h3>
+  <p>Jak tworzyć znaczącą fizyczną relację między aktorem, kontaktem, przeszkodą i środowiskiem, zamiast kolejnej skryptowej demonstracji?</p>
+  <div class="fact">Main jest badawczym punktem odniesienia, nie zaakceptowanym systemem walki. Test mechanizmu na gałęzi nie oznacza akceptacji Ownera.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md">Wejdź w stan badań ↗</a><a href="https://github.com/Jozzpoly/Combat-Lab/tree/experiment/contact-contingent-resident-v0">Zobacz kandydat ↗</a></div>
+ </article>
+ <article class="project" style="--stripe:#c2a8f5" data-search="reflexbrain refleks organ uczenie embodied agent doświadczenie pamięć ruch">
+  <div class="head"><span class="group">Percepcja i adaptacja</span><span class="status">Main to historia R0</span></div>
+  <h3>ReflexBrain Lab</h3>
+  <p>Czy mały lokalny organ może wyciągać znaczenie z ciągłego doświadczenia aktora bez przejmowania kontroli nad światem, pamięcią i całym mózgiem?</p>
+  <div class="fact">README wprost ostrzega: main jest starym R0. Eksperyment rozwija się na osobnej gałęzi badawczej.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/pre-o0-foundations-campaign/docs/CONTINUE_HERE.md">Wejdź w bieżącą pracę ↗</a><a href="https://github.com/Jozzpoly/ReflexBrain-Lab/pull/6">Otwórz draft ↗</a></div>
+ </article>
+ <article class="project" style="--stripe:#c5db9b" data-search="jure rig asset autorowanie rigging edytor universal wiązanie pivots mechanika">
+  <div class="head"><span class="group">Narzędzia autorskie</span><span class="status">Main kanoniczne</span></div>
+  <h3>JURE</h3>
+  <p>Wizualny warsztat do autorskiego rigowania realnych assetów. Co należy do zamiaru konstruktora, a co jest tylko odczytanym modelem źródłowym?</p>
+  <div class="fact">JURE deklaruje main jako bieżący stan. BIND-00 to ograniczony dowód, nie finalny model wiązań ani automatyczny kierunek implementacji.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/docs/STATUS.md">Wejdź w stan projektu ↗</a><a href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor">Repozytorium ↗</a></div>
+ </article>
+</div>
+<p id="none" class="no-results" hidden role="status">Brak takiej nazwy w tych czterech kartach. To nie znaczy, że projektu albo możliwości nie ma w pozostałym świecie.</p>
+</section>
+<section class="below" aria-label="Co jest poza mapą">
+ <article><h3>Feniks nie jest „brakującym repo”.</h3><p>Jego odradzanie i Studio wymagają własnego źródła prawdy. Ten publiczny, czteroprojektowy eksperyment nie rości sobie prawa do reprezentowania bieżącego Feniksa ani lokalnych plików Ownera.</p></article>
+ <article><h3>Twoja droga, nie nakaz.</h3><p>Możesz przejrzeć projekty, wybrać jedno źródło lub wyjść. Nie ma listy „do nadrobienia”. Ta panorama sama nie jest biblioteką całego estate ani dowodem, że Medium zwiększyło czyjeś możliwości.</p></article>
+</section>
+</main>
+<footer>Materiał projektowy, nie zaakceptowany produkt. Stan źródeł sprawdzony przy tworzeniu (2026-10-09); linki do gałęzi są ruchome. Nie ma ukrytego prywatnego inwentarza, centralnego score ani automatycznego zbierania danych.</footer>
+</div>
+<script>
+(function(){
+  const input=document.getElementById('find'),cards=Array.from(document.querySelectorAll('.project')),none=document.getElementById('none');
+  input.addEventListener('input',function(){
+    const q=input.value.trim().toLocaleLowerCase('pl');
+    let count=0;
+    cards.forEach(card=>{
+      const haystack=(card.textContent+' '+card.dataset.search).toLocaleLowerCase('pl');
+      const visible=haystack.includes(q);
+      card.hidden=!visible;
+      if(visible)count++;
+    });
+    none.hidden=count!==0;
+  });
+})();
+</script>
+</body>
+</html>
