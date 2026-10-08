@@ -522,6 +522,77 @@ Current decision:
 Reopen the distinction only when SWM makes a real continuity claim across multiple execution bodies, accounts, connectors, mailboxes or transports. At that point, do not identify the participant merely by the currently convenient transport address.
 
 
+## First post-silence external project scent — ReflexBrain R3C
+
+After `#medium-live` was deliberately emptied of Browser-generated synthetic signals, the first new live scent was admitted only when an independent project produced a real result relevant to an existing SWM law.
+
+### Donor event
+
+ReflexBrain's MEDIUM-D/R3B/R3C line independently established a concrete interaction pattern:
+
+- MARK may prepare a hidden exact reference while the visible World continues;
+- the hidden reference is not surfaced immediately;
+- semantic FORK may be exposed much later;
+- exposure itself need not alter causal state;
+- divergence begins only after a later explicit branch-local intervention.
+
+Exact donor commit:
+`25388c29e4a031b368291dc2f476a5ef5771bbe5`
+
+R3C is explicitly an unqualified UX prototype, not an Owner/product PASS.
+
+### Receiving-project gate
+
+Quiet Presence already contains the campaign law:
+
+> `existence != surfacing != interruption`
+
+and already defends:
+- quiet surface;
+- explicit deep entry;
+- no mandatory catch-up debt;
+- attention sovereignty;
+- the right for things to remain present without forcing engagement.
+
+Therefore the donor did **not** justify a new schema, branch model or save/fork mechanism in SWM.
+
+Decision:
+
+> **NO SCHEMA CHANGE · INDEPENDENT SUPPORTING DONOR EVIDENCE**
+
+### Live scent
+
+A single source-bound message was then allowed into the previously empty `#medium-live`:
+- origin explicitly labelled as Browser synthesis from ReflexBrain evidence, not Owner judgement;
+- exact donor commit linked;
+- SWM interpretation scoped to the existing law;
+- receiving-project decision recorded as NO SCHEMA CHANGE;
+- no reaction/acknowledgement requirement added.
+
+This is a materially better class of scent than the earlier synthetic cross-lab signals because:
+- the event originated from another project's own work;
+- Medium did not create the event to test itself;
+- the source is immutable and exact;
+- the receiving project already had a local law capable of accepting/rejecting the donor;
+- silence after publication remains valid.
+
+It is **not** ecological adoption yet.
+
+No independent consumer has used the scent to advance its own work.
+
+### Freshness lesson
+
+ReflexBrain also exposed a live source-freshness contradiction:
+- its mutable current-state file still described R3C as a possible next step;
+- PR #39 had already merged the R3C prototype minutes later;
+- the live browser page was already running the prototype.
+
+This reinforces the existing rule:
+
+> current-state documents are candidate authorities; when high-churn live activity materially outruns them, verify the freshest source-native PR/commit before routing a donor.
+
+Do not solve this by copying the project into Slack.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
