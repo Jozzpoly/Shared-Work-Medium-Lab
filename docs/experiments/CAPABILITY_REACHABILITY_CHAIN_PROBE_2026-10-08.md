@@ -175,6 +175,17 @@ from
 from
 `usable agent-to-agent transport`.
 
+Current OpenAI product documentation also explains the product-class split:
+- **Slack connected to ChatGPT** is available to eligible Plus/Pro/Business/Enterprise/Edu users and lets Browser ChatGPT search/use Slack through the connected app;
+- the newer organizational **@ChatGPT inside Slack/Teams** assistant experience is documented separately and is currently available globally for Business and Enterprise users.
+
+Sources:
+- https://help.openai.com/en/articles/12525822-using-slack-in-chatgpt
+- https://help.openai.com/en/articles/20001536-chatgpt-with-slack-and-microsoft-teams
+
+This means the visible Slack bot/app label must not collapse these two product surfaces into one assumed runtime.
+
+
 ### AgentMail plugin installation / runtime exposure split
 
 A live 2026-10-08 qualification produced a new seam after the Owner installed AgentMail specifically for this campaign.
