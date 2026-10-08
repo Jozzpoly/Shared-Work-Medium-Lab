@@ -1,0 +1,561 @@
+# Historical research checkpoints — preserved through 2026-10-08
+
+**Role:** historical evidence, not current routing or a second project-state authority.
+
+Preserved verbatim from the historical checkpoint section of [`RESEARCH_STATE.md` at `b932c07`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/b932c07d83381b67b74a954482faf20788a07184/docs/RESEARCH_STATE.md). The next-step wording, “current” labels and draft lifecycle descriptions below belong to their dated observations. Consult [current research state](RESEARCH_STATE.md) and its live sources before acting. This record requires no ongoing status upkeep.
+
+## Historical frontier checkpoint — 2026-10-03 (superseded by top-of-file routing)
+
+At this 2026-10-03 checkpoint, the fast `semantic-medium-v0` campaign was complete as reconnaissance and the active frontier was **structural research before the next architecture-bearing specimen**.
+
+The immediate research priority at that checkpoint was:
+
+> Which general environmental properties actually increase agent capability, continuity, and self-directed workflow composition — independently of the temporary GitHub/Cloudflare/AXTree/WebMCP mechanisms used during reconnaissance?
+
+The next serious implementation should begin with **MP-1: Affordance Generativity**, because it is closest to the founding Shinden phenomenon: useful workflow emergence from a legible, composable environment.
+
+Before implementation, the project is explicitly working on:
+
+- completing enough primary-source genealogy to recover Owner-confirmed invariants and detect earlier design drift;
+- deep Cloudflare and wider substrate/prior-art audit without vendor lock-in;
+- controlled micro-world + live dogfood experimental methodology;
+- body × projection analysis;
+- falsifiable experiment design, instrumentation, contamination rules, and Owner-burden accounting.
+
+Canonical research gate:
+[docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md](./STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md)
+
+Design branch at that checkpoint:
+`research/medium-physics-experiment-design`
+
+Cloudflare substrate-audit branch at that checkpoint:
+`research/cloudflare-observation-substrate-audit`
+
+Draft PR #3 and Issues #1/#2 remain historical research specimens and evidence. They are not the active implementation frontier.
+
+### Apparatus donor direction
+
+BrowserGym / AgentLab / WebArena-Verified are now strong candidates for **controlled experiment plumbing**, not SWM architecture.
+
+The intended reuse boundary is narrow:
+
+- borrow Chromium lifecycle, explicit action/observation spaces, resettable tasks, AXTree/DOM/screenshot capture, experiment running, and deterministic/network-trace evaluation where they fit;
+- keep MP-1's hidden-seed world generator, pixel-equivalent semantic ablation, parity checks, contamination controls, and emergence scoring independent.
+
+A donor spike is required before adoption.
+
+### Direction correction after full founding-mechanics reread
+
+A direct reread of the founding Shinden branch sharpened the target again.
+
+The founding success was not merely “semantic HTML helps an agent.” It was:
+
+> a broad real task + repeated/addressable environmental structure + usable browser affordances let the agent invent a new batch strategy that had not been prescribed.
+
+Therefore:
+
+- the pixel-equivalent semantic P0/P1 experiment is retained as **MP-1A**, a narrow mechanistic test of semantic legibility;
+- the wider founding claim moves to **MP-1B Affordance Generativity**, where outcome-level prompts must not leak batching/systematic-strategy hints;
+- controlled micro-world experiments and live SWM dogfood should alternate in a discovery → isolation → reintegration loop;
+- confirmatory metrics remain frozen, but unexpected useful behavior is preserved in a separate exploratory novelty ledger;
+- further research-document expansion now has a stop rule: execute/falsify the existing apparatus unless a concrete unresolved confound blocks it.
+
+This correction prevents the benchmark apparatus from silently replacing the original capability-amplification goal.
+
+### MP-1A external subject boundary — PASS
+
+GitHub Actions run `37149534726` validated a fresh external JSONL subject process per treatment.
+
+The subject receives only the frozen task, narrow action contract, and current observation packet. Evaluator ground truth, motif labels, scoring implementation, and hidden-world material do not cross that protocol boundary.
+
+The BrowserGym action boundary is additionally fail-closed before execution to one action per step: `click(<non-empty string bid>)` or `go_back()`. Negative tests reject `noop`, arbitrary `goto`, multi-action payloads, malformed bids, and extended click signatures.
+
+A prior run exposed an ordinary packet-byte logging bug after route completion; it was fixed and the full gate rerun successfully.
+
+Scoped result:
+
+> **PASS — process/protocol isolation is mechanically exercised, but no LLM has yet been used.**
+
+The last non-model seam is real BrowserGym trace → task scoring. Current task scoring has been validated only on synthetic event traces.
+
+### MP-1A navigable acquisition + BrowserGym interaction loop — PASS
+
+The original 25-resource pilot exposed full evidence on one page, which would have made search/acquisition-cost claims invalid.
+
+That flaw was corrected before any real model run.
+
+GitHub Actions run `37148886330` validated a new navigable pilot:
+
+- 29 pages per treatment: 1 index + 25 resource evidence pages + 3 collection pages;
+- no full resource bodies leak to the index;
+- release collection pages do not expose the detailed acceptance-check results;
+- all 29 corresponding P0/P1 pages have identical visible text and links;
+- overall screenshot mismatch remains **0.0%**;
+- P1 is semantically richer on **29/29** pages;
+- all resource/collection references resolve;
+- evaluator labels do not leak.
+
+A deterministic scripted subject then exercised the real BrowserGym loop on both treatments:
+
+`index → Release records → Fir → back → Harbor → final`
+
+Both runs completed with 4 browser actions, zero action errors, and complete per-step URL / AXTree hash / observation-byte traces.
+
+On this fixed route:
+
+- P0 AXTree payload total: **7632 bytes**;
+- P1 AXTree payload total: **12308 bytes**.
+
+This byte difference is treatment mechanics, not capability evidence.
+
+Scoped result:
+
+> **PASS — the apparatus now represents real information acquisition and browser action, rather than treating one all-visible page as a search task.**
+
+The next gate is isolation of the subject interface itself. A real model subject must receive only task + observation + generic action contract/history, never evaluator ground truth or experiment-design context.
+
+### Live ecological specimen 001 — Feniks meta-work
+
+A material live-use specimen has emerged outside the SWM lab implementation.
+
+In current Feniks work, Codex independently used permission to contact Browser GPT / related project conversations, brought a real research question, received a corrective reframing, verified source truth, changed its next experiment, and built a local trace window to preserve where one work stream changed another.
+
+The Owner was able to observe and enter without acting as manual message courier.
+
+Canonical evidence note:
+[docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md](./LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md)
+
+Scoped judgement:
+
+> **MATERIAL FINDING — SWM-like behavior emerged spontaneously in live project work before the technical SWM exists.**
+
+The relevant property is not merely inter-agent messaging. It is:
+
+> independently continuing work streams can route toward one another through shared addressable evidence, materially change each other's continuation, and leave a recoverable trace while the Owner remains participant/authority rather than courier.
+
+This specimen strengthens the ecological-discovery side of the research loop and should be understood before further standardization.
+
+### 2026-10-04 field campaign — Quiet Presence
+
+A new live field campaign has started on:
+
+`campaign/quiet-presence-2026-10-04`
+
+Draft PR:
+
+[#5 — Campaign: Quiet Presence — shared work without attention pressure](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5)
+
+Campaign question:
+
+> **Can independent work streams be present, recoverable and enterable without becoming an attention tax or requiring the Owner to route every interaction?**
+
+This campaign is deliberately distinct from MP-1A.
+
+- **MP-1A** remains the controlled causal line for semantic-legibility effects.
+- **Quiet Presence** is an ecological/product-research line driven by the Feniks-meta live specimen.
+
+The first specimen represents:
+
+- three places (SWM, Feniks, Combat);
+- one recoverable cross-project episode;
+- one Codex-created exchange-window artifact that has different local meaning in Combat and SWM;
+- continuity anchors that are more specific than a conversation URL;
+- no global importance/relevance score;
+- no inbox/unread/notification-count model.
+
+GitHub Actions run `37194311702` passed the first structural gate after an earlier verifier false-positive was corrected.
+
+Scoped result:
+
+> **PASS — the representation can preserve local value, recoverable episode lineage and quiet availability without flattening them into a global feed.**
+
+A same-day deeper audit found two material corrections before ecological use:
+
+1. the first public root still injected the full episode/artifact trace into one page, so it was visually calm but **not informationally quiet**;
+2. the first data model centralized all local placements inside one `world.json`, contradicting the newer requirement that a place/participant can adopt or reinterpret a shared artifact locally without rewriting the artifact or a global registry.
+
+Both were corrected on the campaign branch.
+
+Current branch structure:
+
+- root surface links only to places;
+- deep episode/artifact trace appears only after explicit entry;
+- the shared artifact exists once;
+- Combat and SWM own separate local `doors/*.json` references with independent notes;
+- no central artifact `placements` list remains;
+- the obsolete central `world.json` was removed.
+
+GitHub Actions run `37195413725` passed the stronger structural gate:
+
+> **PASS — shared artifact identity, place-owned local meaning, quiet root and deep trace remain distinct.**
+
+A further field observation found that a moving branch-based HTML-preview URL could display unexpected content while retaining the expected root address. The repository file itself was correct; using an immutable commit-SHA URL produced the expected root surface.
+
+Scoped lesson:
+
+> exact field evidence should prefer revision-bound addresses when surface identity matters; do not infer HTMLPreview implementation details from this single observation.
+
+This is not yet product evidence.
+
+The next evidence must come from **live use**:
+
+- can a human/agent walk past the surface without penalty;
+- can one place be entered without consuming the whole world;
+- can one exact episode be recovered later;
+- can a locally invented artifact remain useful without immediate promotion into platform architecture;
+- can another participant create or reinterpret a local artifact without Owner becoming the mandatory router.
+
+Do not add more schema by default. The next move is ecological exposure and observation.
+
+### Ecological adoption criterion — frozen 2026-10-04
+
+The strongest practical validation of Shared Work Medium is **not** that another agent can operate it when asked.
+
+The target event is:
+
+> **an agent pursuing its own goal independently discovers that the medium is useful, uses it instrumentally, and advances its own work because of that use.**
+
+Evidence levels must remain distinct:
+
+| Evidence | Interpretation |
+| --- | --- |
+| Agent is prompted to inspect/test the medium | apparatus/usability evidence only |
+| Owner explicitly routes an agent to a medium object that may help | useful ecological evidence, but Owner remains part of routing |
+| Agent independently notices and uses a medium affordance for its own external goal | **strong ecological PASS candidate** |
+| Independent instrumental use recurs across bodies/goals without special prompting | stronger evidence that the medium is genuinely useful infrastructure |
+
+A strong ecological PASS should preserve at least:
+
+- a pre-existing agent goal not about validating SWM;
+- a discoverable path into the medium that was not a task-specific instruction;
+- observable use of a medium artifact/place/trace/affordance;
+- a real downstream contribution to the agent's own goal;
+- enough provenance to reconstruct why the use mattered without requiring hidden chain-of-thought.
+
+Do **not** manufacture this event by recruiting idle agents, issuing “try the medium” prompts, or adding attention-pressure mechanisms just to generate activity.
+
+Non-use over a quiet period is not automatically failure. The campaign is now in **ecological incubation**: keep the medium available and truthful, then let real project pressure determine whether it earns use.
+
+### Quiet Presence refinement — attention sovereignty + participant-owned perspective
+
+A fresh Feniks conversation corrected the campaign objective again.
+
+The goal is **not** to minimize Owner attention.
+
+The stronger target is:
+
+> **attention sovereignty** — the Owner may ignore, enter deeply, stay, leave, and return without the system spending attention on their behalf or creating mandatory catch-up debt.
+
+This matters because a long voluntary conversation can be valuable participation rather than avoidable burden.
+
+The Quiet Presence specimen was also structurally deepened:
+
+- the shared `codex-exchange-window` artifact exists once;
+- Codex's own interpretation now lives in `participants/codex/perspectives/`, not inside artifact identity;
+- Combat and SWM continue to own separate local `doors/*.json` references with different local meanings;
+- no central placements remain;
+- root remains informationally quiet and links only to places.
+
+GitHub Actions run `37196383970` passed the stronger gate:
+
+> **PASS — shared artifact identity, participant perspective, place-owned local meaning, quiet root, and deep trace remain distinct.**
+
+This is still structural evidence, not proof of product value.
+
+The next meaningful evidence should come from live use of **voluntary depth**:
+
+- can something remain safely ignored;
+- can someone choose to stay because it is worthwhile;
+- can they leave and return without catch-up debt;
+- can a new participant perspective or local door be added without rewriting shared truth.
+
+### Ecological routing + inhabitant-created affordance
+
+Owner feedback on Live Ecological Specimen 001 exposed two stronger properties.
+
+1. **Value is local; artifacts can migrate.** Codex's exchange-window idea had low immediate fit in Combat Lab but appears highly relevant to SWM. A mature medium should preserve addressable ideas/artifacts across local rejection or de-prioritization and let intelligent participants route them toward better-fitting contexts without requiring one global relevance score.
+
+2. **Participants may create affordances, not only consume them.** Codex did not merely use existing communication/source affordances. He noticed a missing representation — visibility of where one work stream changed another — and built a local window to expose it.
+
+This extends the Shinden criterion:
+
+> a strong medium should support not only unprogrammed workflow composition, but also local invention of new views/traces/tools/projections by its inhabitants, with later reuse/promote/discard decisions remaining evidence-driven.
+
+Do not standardize the exchange window yet. If Codex brings it to SWM, first recover his own originating need and interpretation before absorbing it into existing SWM theory.
+
+### External-organism lane — Claude Free / Sonnet 5.5
+
+The project now has a second experimental lane alongside BrowserGym.
+
+**Controlled lane:** BrowserGym remains the laboratory body for causal isolation, deterministic observation channels, and exact traces.
+
+**Ecological lane:** ordinary external models should be able to enter the medium through normal web affordances with no custom API integration.
+
+The first candidate is Claude Free in an **incognito chat** using Sonnet 5.5:
+
+- live Opera inspection shows this account is on the Free plan, exposes Sonnet 5.5 in the model selector, and offers an incognito-chat control;
+- current Anthropic documentation states incognito chats are available on Free and do not use existing Claude memory or chat history;
+- current Anthropic documentation also exposes web search/fetch to Free accounts, with usage limits resetting on a five-hour session cycle.
+
+This is strategically important:
+
+> a model that can inhabit the medium from an ordinary URL with its own generic web tools is stronger evidence for the original Shinden-style vision than a model wired into a bespoke experimental API.
+
+Claude Free is therefore **not a substitute for BrowserGym**. It is a different organism/body whose native web projection must be calibrated first.
+
+Immediate ecological gate:
+
+1. give fresh incognito Sonnet 5.5 one blinded public P0/P1 page through its ordinary web fetch;
+2. determine whether Claude's native web body preserves any of the semantic distinction or normalizes both pages to the same representation;
+3. record that body/projection result before attempting capability comparisons;
+4. if the projection preserves useful structure, proceed to a small outcome-level ecological task;
+5. if it strips the structure, treat that as body-calibration evidence and adapt the medium only through generic web affordances the body can actually perceive.
+
+This lane explicitly avoids Owner/API credential use.
+
+### Navigable pilot correction — PASS
+
+The first generated pilot exposed too much evidence on one page, which would have made acquisition-cost and Shinden-like search claims invalid.
+
+The pilot was therefore rebuilt as a navigable 29-page world:
+
+- 25 separate resource pages;
+- 3 collection pages;
+- 1 index;
+- index contains summaries, not full evidence;
+- release collection lists members without leaking smoke/contract/Owner-visible check outcomes.
+
+GitHub Actions run `37148633286` passed:
+
+- 29/29 P0/P1 page pairs have identical visible text and link targets;
+- overall screenshot mismatch remains **0.0%**;
+- all 29 P1 pages are semantically richer than their P0 counterparts;
+- no full resource bodies leak to the index;
+- no release-detail evidence leaks to the collection page;
+- no evaluator labels leak into treatments.
+
+This fixes a material flaw before any real model subject is run.
+
+### Draft PR #4 — MP-1A apparatus checkpoint
+
+Draft PR [#4 — Experiment: MP-1A generated semantic-ablation pilot](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/4) now preserves the tested apparatus specimen.
+
+It remains deliberately unmerged.
+
+The PR collects:
+
+- deterministic canonical pilot-world generation;
+- pixel-identical P0/P1 treatment compilation;
+- BrowserGym AXTree divergence evidence;
+- synthetic evaluator validation;
+- the explicit stop boundary before any real credentialed LLM subject.
+
+This is a durable experimental referent, not an architecture candidate.
+
+### MP-1 scoring seam — PASS; first real-subject boundary reached
+
+GitHub Actions run `37146844616` validated the deterministic evaluator on synthetic behavioral traces.
+
+The scorer correctly separated:
+
+- correct stale-state identification from an unjustified broader `proven_false` overclaim;
+- correct common-cause diagnosis from source-count / inference-scope requirements;
+- T3 serial inspection from a generic systematic workflow even when both produced the same correct exceptions;
+- acquisition cost from correctness.
+
+Synthetic T3 comparison:
+
+- serial: 4800 observation bytes, 8 resource reads, `systematic_workflow=0`;
+- generic systematic trace: 1900 observation bytes, 2 exact-source reads, `systematic_workflow=1`.
+
+Scoped result:
+
+> **PASS — BrowserGym body, generated P0/P1 world, and evaluator now form a mechanically tested apparatus seam.**
+
+The next materially new evidence requires a **real isolated LLM subject**.
+
+No Owner API key, OpenAI API account, or credential has been accessed or used for this apparatus work. A real subject run must explicitly select a stateless/isolated model runner and preserve the contamination boundary.
+
+### MP-1A generated pilot-world seam — PASS
+
+Branch `experiment/mp1a-pilot-world-generator` now generates one deterministic canonical project world and compiles it into P0/P1 treatments.
+
+GitHub Actions run `37146692319` established:
+
+- 25-resource world generated deterministically twice with byte-identical output;
+- unique resource IDs and fully resolved declared relations;
+- no evaluator motif-label leakage into treatments;
+- normalized visible text and raw link labels/targets identical;
+- screenshot mismatch **0.0%**;
+- P0 AXTree has no heading/article/listitem semantics;
+- P1 exposes **29 headings, 25 articles, 25 listitems** while preserving the same pixels.
+
+Scoped result:
+
+> **PASS — generated-world treatment compilation can preserve human-visible parity while changing machine-legible semantic topology.**
+
+No LLM subject has run. The next bounded gate is evaluator/logging validation on deterministic synthetic traces before introducing an isolated model runtime.
+
+### MP-1A apparatus seam — BrowserGym PASS
+
+A clean GitHub Actions spike on branch `experiment/mp1a-browsergym-apparatus-spike` validated BrowserGym as a controlled laboratory body for the first semantic-ablation experiment.
+
+Run `37146374251` failed before treatment exposure because Playwright 1.44's Ubuntu dependency helper expected obsolete `libasound2` on Ubuntu 24.04. This was classified as apparatus setup failure, not experimental evidence.
+
+Run `37146441856` then passed after removing only that stale dependency-helper path.
+
+Measured P0/P1 seam:
+
+- normalized human-visible text: identical;
+- link labels/targets: identical;
+- screenshot mismatch: **0.0%**;
+- P0 AXTree headings/lists/listitems: **0 / 0 / 0**;
+- P1 AXTree headings/lists/listitems: **4 / 1 / 3**;
+- P1 also exposes main/navigation/article/region semantics.
+
+Scoped result:
+
+> **PASS — the apparatus can change machine-legible semantic structure while preserving the human-visible page exactly in this pilot.**
+
+No LLM subject has run yet. This does not establish a capability effect.
+
+Next bounded gate: mechanically generated **public pilot** world + parity/self-test. Hidden-seed measured worlds remain blocked until that generator seam is exercised.
+
+### MP-1 apparatus status
+
+The leading controlled experiment has been narrowed further.
+
+The first confirmatory causal contrast should be a **pixel-equivalent semantic ablation**: two surfaces expose the same visible facts, text, links, ordering and near-identical rendered UI, while differing in machine-legible semantic structure.
+
+This isolates environmental semantic legibility more cleanly than comparing a poor page to a polished page.
+
+A hidden-seed generator, body-calibration protocol, and contamination/preregistration protocol are now designed on `research/medium-physics-experiment-design`.
+
+Important contamination boundary:
+
+- the current Browser ChatGPT collaboration context helped design MP-1 and is therefore **not a clean blinded subject** for confirmatory runs;
+- confirmatory controlled subjects should use stateless/isolated contexts with restricted access to the treatment environment;
+- Browser ChatGPT remains valuable for live dogfood/ecological validation.
+
+### Material evidence from semantic-medium-v0
+
+The current web specimen has now generated several scoped findings rather than only a design sketch:
+
+- native semantic HTML is richly exposed through Opera's accessibility-tree sensor, but that projection is deliberately lossy: roles, names, links, controls and accessibility descriptions survive while JSON-LD, custom data attributes, typed link relations, exact machine time values and closed disclosure content may not;
+- effective affordance is relational: a page can expose a control that one agent body can only perceive while another can actually operate;
+- semantic topology can act as an external attention/index layer: in one measured Opera read, the full project AXTree was ~19.9k characters, the relevant change region ~2.4k, and the final change-link query 215 characters;
+- source validators are usable: a conditional GET bound to an observed ETag returned 304 Not Modified, proving a bounded version-check mechanism;
+- a browser-local observer cursor plus GitHub's event stream recovered exactly one unseen IssueCommentEvent after a deliberate source-world change, demonstrating selective continuity without a handoff;
+- ordinary frontier hyperlinks can act as provisional interpretation dependencies, allowing the medium to mark authored state as a stale candidate when linked live objects move;
+- a naive client-only polling design is not viable as the steady state: repeated specimen reads exhausted the public unauthenticated GitHub core limit of 60 requests/hour. The page then degraded truthfully instead of silently inventing state.
+
+The last result is especially important. It is the first concrete infrastructure pressure produced by the specimen itself, not by architectural taste.
+
+Do **not** respond by immediately building a large backend. The next research question is narrower:
+
+> What is the smallest observation substrate that can maintain fresh project deltas, provenance, and observer cursors without every open surface repeatedly polling every source?
+
+Candidate mechanisms now have evidence behind them: event/change feeds, shared caching, source validators, visibility-aware/adaptive sensing, and eventually a small authenticated event receiver/projection service if browser-only composition stops being sufficient.
+
+### Cloudflare observation-substrate probes
+
+Cloudflare is now being tested for a concrete reason produced by live evidence rather than as generic infrastructure.
+
+Two **undeployed** probes exist on `experiment/semantic-medium-v0`:
+
+- a cached dual-representation observation gateway that concentrates repeated GitHub reads and exposes a shared `observation_id` across HTML/JSON projections;
+- a signed GitHub-webhook → SQLite Durable Object event log with monotonic resume cursors.
+
+The research hypothesis is that shared transport/caching can reduce source pressure **and** give heterogeneous agents a common sampled reality, while interpretations remain independent.
+
+Current status: implementation exists and syntax-level checks passed; no Cloudflare deployment, webhook delivery, cache-hit ratio, or multi-observer behavior has been empirically validated yet.
+
+Do not treat Cloudflare as selected architecture until those live measurements exist.
+### First implemented capability bridge
+
+A root `AGENTS.md` now gives Codex a lightweight repository-native orientation contract:
+
+- recover the project from `START_HERE.md` and live repository state;
+- follow source/authority distinctions;
+- inspect Issue #1 as the current shared referent;
+- avoid giant context dumps and premature infrastructure.
+
+This is intentionally a **map**, not a substitute for the project.
+
+### First observed Codex recovery — 2026-10-03
+
+The Owner supplied the repository URL and asked Codex to recover the project, consciously continue the current work without an additional handoff, and persist any material result in the repository.
+
+**Source version:** [`f7a84c2f4e0c39c0e65a2bc5cf52efcdb6eaae34`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/commit/f7a84c2f4e0c39c0e65a2bc5cf52efcdb6eaae34).
+
+Codex cloned that version, read all six tracked files, followed `AGENTS.md` and `START_HERE.md`, and independently retrieved [Issue #1](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/1) and its [initial capability-bridge comment](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/1#issuecomment-5963506774). Live GitHub searches returned that single issue and no pull requests. No executable code, build configuration, or test suite existed at this version.
+
+The recovered task was the issue's **First bounded task**: determine the minimum additional repository structure needed to receive one precise investigation without an Owner-written campaign handoff. The repository's latest frontier explicitly asked for this fresh Codex observation. This run therefore continued the existing experiment rather than selecting a new architecture.
+
+**Bounded judgement:** no additional receiving structure or code is needed for this specimen. The entry files supplied purpose and authority rules; Issue #1 supplied a precise investigation, constraints, and a legitimate no-code outcome. Codex did not need the founding Browser conversation to answer that bounded task. The missing artifact was the observation and its result, now recorded in this existing state document and attached to the same issue. This adds evidence, not a new task schema, service, or mandatory form.
+
+Observed scope:
+
+| Question | Observation / limit |
+| --- | --- |
+| Can Codex find and follow the orientation map? | Yes in this run, after cloning and explicitly locating and reading `AGENTS.md`. Automatic instruction discovery was **not** independently tested: the chat began outside the repository. |
+| Can it recover the frontier without an Owner-written handoff? | Yes. The recovered frontier came from the versioned documents and live Issue #1; the Owner supplied no additional project context. |
+| Can it make a bounded repo-native judgement? | Yes: existing primitives suffice for this first investigation; persist the result and defer infrastructure. This is a research judgement for one specimen, not proof of general sufficiency. |
+| Can the result survive the Codex session? | The return path is this versioned document and an issue-linked result. The issue comment must carry the published commit reference and report remote readback; a local edit alone does not establish persistence. Interrupted execution was not exercised. |
+| Has Browser recovered the result independently? | Not observed in this run. No Browser participant has yet confirmed recovery from the published objects. |
+| Has Owner burden been reduced? | No campaign handoff or low-level technical decision was requested during this run. A quantified improvement, repeated reliability, and Owner experiential acceptance remain unmeasured. The Owner still initiated this run. |
+
+### Access friction observed
+
+Repository files alone did not contain the issue body or discussion. A participant needs an actual issue-reading capability; the reference does not imply access.
+
+In this environment, the initial Git clone failed in Windows Schannel. A command-scoped `git -c http.sslBackend=openssl clone ...` succeeded. Local `gh` reads returned HTTP 401, while the authenticated GitHub connector successfully read repository metadata, Issue #1, its comments, and issue/PR searches. The connector reported push permission as available, but a reported permission is not evidence of a completed write.
+
+These are environment-specific observations, not reasons to build a backend. The existing Git and connector surfaces were sufficient to recover the shared object. A future participant should check its own capabilities and distinguish an access failure from a missing object or missing project context.
+
+### Browser source verification — 2026-10-03
+
+Browser independently fetched commit `df369fee0631f677c306b1ac4d449ce123ea23e6`, the current research state, Issue #1 and its comments, `AGENTS.md`, and `START_HERE.md`.
+
+The persisted Codex result is internally consistent with those sources and is correctly scoped.
+
+However, the Owner had already pasted the Codex transcript into the Browser chat before this repository verification. Therefore this is **source verification, not a clean blinded Browser return-leg observation**.
+
+Do not claim the full Browser↔Codex loop is validated from this run.
+
+### Next evidence needed
+
+The first recovery used a very capable Codex configuration. That establishes that the environment is sufficient for one strong model, but does not isolate how much capability came from the environment itself.
+
+The next useful experiment is therefore a **fresh lower-capability Codex recovery from inside the repository with minimal human instruction**.
+
+The preferred first probe is a Luna-class Codex configuration at low/light reasoning effort. If it succeeds cleanly, stronger effort is unnecessary. If it fails materially, repeat with a higher Luna effort before concluding that the environment is insufficient.
+
+The run should start with the repository already open so that repository-native instruction discovery is exercised. The human prompt should be intentionally minimal, ideally only:
+
+> Continue consciously from the live project state.
+
+The model should recover the active experiment from repository state, respect the existing evidence boundaries, avoid inventing infrastructure, and persist any material result durably.
+
+This next experiment is tracked in Issue #2.
+
+The Browser↔Codex bridge currently has **one source-verified high-capability Codex recovery**.
+
+### First Luna probe — invocation friction observed
+
+A fresh Luna-class session was given the repository URL and a minimal continuation prompt, but the session started in a generic workspace rather than inside a checkout of this repository.
+
+Luna correctly detected that mismatch and did not claim to possess live repo state. Ordinary web access did not recover the repository. After the Owner explicitly invoked the GitHub connector, Luna recovered the current commit, Issue #2, the orientation files, and the scoped evidence boundaries correctly.
+
+It also correctly refused to treat that run as completion of SWM-0002 because repository-native `AGENTS.md` discovery had not been exercised.
+
+This creates a useful distinction:
+
+- **environment comprehension:** promising at the Luna level once the GitHub sensor was available;
+- **body/capability discovery:** still weak enough that the Owner had to manually route the agent to `@GitHub`;
+- **in-repo automatic orientation:** still untested.
+
+The next clean test remains a fresh Luna session started with this repository already opened/checked out, with only the minimal continuation prompt.
+
+Automatic instruction discovery, clean lower-capability in-repo reliability, interruption recovery, repeated reliability, and a clean independent Browser return leg remain unproven.
+

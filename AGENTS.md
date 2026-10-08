@@ -48,7 +48,7 @@ The central signal remains **emergent capability from environmental affordances*
 
 The fast `semantic-medium-v0` / draft PR #3 campaign remains **reconnaissance evidence**, not proto-architecture.
 
-Two active lanes now coexist:
+Two complementary research methods remain distinct. Recover **which is active, dormant or preserved** from [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md) and its relevant live work objects; do not maintain a second activity-status list here:
 
 - **MP-1 / controlled mechanism research** — isolate whether environmental structure changes agent behaviour, cost or capability.
 - **Quiet Presence / ecological field research** — observe whether independent work streams can remain present, recoverable and locally meaningful without global ranking, forced attention or Owner-as-router.
@@ -60,6 +60,8 @@ The ecological success criterion is intentionally hard:
 > an agent pursuing its own goal independently uses the medium because it helps that goal.
 
 Using the medium because a prompt says to test it, because the Owner routes the agent there, or because this file advertises a benchmark does **not** satisfy that criterion.
+
+Independent non-SWM instrumental use is a stringent causal-lift criterion, **not the only legitimate form of Medium value**. Owner-authorized collaboration, open-ended exploration and voluntary participation are legitimate; report their actual evidence class without calling them independent ecological adoption. Authorization to collaborate does not require another transport demonstration.
 
 Therefore:
 

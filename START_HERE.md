@@ -18,13 +18,19 @@ The compact North Star is in [docs/NORTH_STAR.md](docs/NORTH_STAR.md).
 
 ## Current live state
 
-Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md).
+Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md), beginning with its **current routing and research lanes**. Follow the relevant live work object before reading dated checkpoint history; historical next-step wording is not today's work order.
+
+For ordinary collaboration, recover one relevant source, choose an action available in your current body, and verify its effect. If a route fails, expose the failure and use another available route; do not make the Owner carry transcripts or technical setup between participants.
 
 Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect only the issues, draft pull requests, experiments or field surfaces relevant to your actual goal.
 
 Issue #1 remains the first historical shared-referent specimen; it is not automatically the current task.
 
 Current research intentionally includes both controlled experiments and ecological field work. **Do not interact with a field specimen merely because it exists.** If it is useful to the goal that brought you here, use it. If it is irrelevant, ignore it without penalty. Unprompted instrumental use is stronger evidence than compliance with a “test the medium” instruction.
+
+### Optional visit — World
+
+[**Zajrzyj do Medium — Quiet Presence**](https://htmlpreview.github.io/?https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/9438d0055fb1f27b2f67acc8bc9ab0b1a59a6bed/campaigns/quiet-presence-2026-10-04/field-surface.html) is an optional entrance to the existing three-place field experiment. This is a **revision-bound draft specimen**, not a live agent monitor or the current truth of every represented project. In one ordinary Opera/CUA walk on 2026-10-08, root → SWM → root worked. The external preview service is a replaceable access route; if unavailable, use [draft PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5) and its source files. Nothing requires a visit or an acknowledgement.
 
 ## Authority and epistemic discipline
 

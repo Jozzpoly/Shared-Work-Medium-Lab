@@ -14,6 +14,10 @@ Anti-drift constraints: **[docs/DESIGN_GUARDRAILS.md](docs/DESIGN_GUARDRAILS.md)
 
 The earliest live shared work object was **GitHub Issue #1**. The current frontier is tracked in **docs/RESEARCH_STATE.md** rather than hardcoded here.
 
+### Optional visit — World
+
+[**Zajrzyj do Medium — Quiet Presence**](https://htmlpreview.github.io/?https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/9438d0055fb1f27b2f67acc8bc9ab0b1a59a6bed/campaigns/quiet-presence-2026-10-04/field-surface.html) is an optional entrance to the existing three-place field experiment. This is a **revision-bound draft specimen**, not a live agent monitor or the current truth of every represented project. In one ordinary Opera/CUA walk on 2026-10-08, root → SWM → root worked. The external preview service is a replaceable access route; if unavailable, use [draft PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5) and its source files. Nothing requires a visit or an acknowledgement.
+
 ## North Star
 
 We are not building an AI project manager, a memory dump, or a workflow engine as ends in themselves.
@@ -40,7 +44,7 @@ That suggested a broader hypothesis:
 
 ## Current direction
 
-The project now has two deliberately different active research lanes.
+The project preserves two complementary research methods. Their **current activity and work objects** have one routing authority: [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md). Inspect its relevant live sources before acting; a newer branch commit alone does not establish frontier authority.
 
 **Controlled mechanism research:** MP-1 studies whether environmental structure can causally change agent behaviour/cost/capability under controlled conditions.
 
@@ -52,11 +56,15 @@ The strongest long-term success criterion is stricter than “agents can use the
 
 This criterion must not be manufactured. The medium may remain unused for long periods.
 
+Independent non-SWM instrumental use is a stringent causal-lift criterion, not the only legitimate form of Medium value. Owner-authorized collaboration, open-ended exploration and voluntary participation may also produce useful results; report their actual evidence class without claiming independent ecological adoption.
+
 The exact active frontier, open draft PRs and current evidence are tracked in **docs/RESEARCH_STATE.md**.
 
 ## Public boundary
 
 This repository is intentionally public and may eventually become useful open-source work.
+
+Private project reality and raw collaboration memory are not public-by-default merely because this lab repository is public.
 
 It may contain code, research, protocols, synthetic specimens, and public development history. There is no requirement to split public/private data prematurely, but the architecture must remain capable of attaching private sources or storage later when real use demands it.
 
