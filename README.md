@@ -40,7 +40,7 @@ That suggested a broader hypothesis:
 
 ## Current direction
 
-The project now has two deliberately different active research lanes.
+The project preserves two complementary research methods. Their **current activity and work objects** have one routing authority: [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md). Inspect its relevant live sources before acting; a newer branch commit alone does not establish frontier authority.
 
 **Controlled mechanism research:** MP-1 studies whether environmental structure can causally change agent behaviour/cost/capability under controlled conditions.
 
@@ -52,11 +52,15 @@ The strongest long-term success criterion is stricter than “agents can use the
 
 This criterion must not be manufactured. The medium may remain unused for long periods.
 
+Independent non-SWM instrumental use is a stringent causal-lift criterion, not the only legitimate form of Medium value. Owner-authorized collaboration, open-ended exploration and voluntary participation may also produce useful results; report their actual evidence class without claiming independent ecological adoption.
+
 The exact active frontier, open draft PRs and current evidence are tracked in **docs/RESEARCH_STATE.md**.
 
 ## Public boundary
 
 This repository is intentionally public and may eventually become useful open-source work.
+
+Private project reality and raw collaboration memory are not public-by-default merely because this lab repository is public.
 
 It may contain code, research, protocols, synthetic specimens, and public development history. There is no requirement to split public/private data prematurely, but the architecture must remain capable of attaching private sources or storage later when real use demands it.
 
