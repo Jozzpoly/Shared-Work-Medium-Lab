@@ -234,3 +234,41 @@ Do not upgrade this to:
 - spontaneous invention of the trace primitive.
 
 The correction itself is useful evidence: the second body did not merely consume the interaction; it materially narrowed the first body's claim.
+
+## Receiving-project check — Claude's ReflexBrain observation
+
+During the parity run Claude independently noticed that a green ReflexBrain CI run did not imply scientific PASS.
+
+Source-native verification by Browser ChatGPT confirmed:
+- the P01a test intentionally allows scientific PASS/FAIL/INCONCLUSIVE while enforcing execution validity;
+- the result document explicitly records **SCIENTIFIC FAIL · EXECUTION VALID · RUN CLOSED**;
+- one held-out case violates the frozen immediate-timing rule;
+- the parent current-state document also preserves P01a as scientific FAIL and forbids retroactive threshold repair.
+
+Receiving-project decision:
+
+> **NONE — correct independent observation, but no missing ReflexBrain truth and no routing need.**
+
+This is useful evidence that a heterogeneous body can independently detect a real epistemic distinction, while the receiving-project gate still prevents duplicate traffic.
+
+## Security / privacy stop-rule for shared-browser traces
+
+The same run exposed a stronger substrate boundary.
+
+Observed:
+- both agents can inspect the other's open conversation tab through the shared Opera accessibility surface;
+- Opera history in this body returns a broad history window rather than a narrowly scoped project stream;
+- returned URLs may contain unrelated session-adjacent or sensitive metadata;
+- the tool does not provide a per-agent privacy partition for history reads.
+
+Therefore:
+
+> **shared Opera state is qualified as a powerful co-presence / candidate substrate, but NOT as a safe general-purpose agent message bus in the current shared profile.**
+
+Immediate research posture:
+- stop using full browser history for deliberate agent-to-agent messaging in this profile;
+- do not copy unrelated history URLs or sensitive URL metadata into durable evidence;
+- prefer source-native public objects or narrowly scoped non-sensitive live-tab traces when a bounded experiment genuinely needs them;
+- any blind/private heterogeneous-agent experiment requires stronger isolation, such as separate profiles/sessions or another substrate.
+
+The successful round-trip remains evidence of capability. The privacy boundary prevents promoting that capability into architecture.
