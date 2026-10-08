@@ -1077,3 +1077,55 @@ No Work task was created, no event trigger was armed, and no synthetic trigger m
 This is a surface-preparation PASS only, not an event-activation PASS.
 
 The channel remains apparatus-only and must not be confused with `#medium-live`.
+## Minimal future E2E contract — source event wakes Browser Work
+
+Current OpenAI GitHub app documentation makes the future Browser activation test more precise.
+
+Supported GitHub event-trigger activity can include:
+- pull request opened;
+- marked ready for review;
+- closed;
+- depending on trigger: reviews, comments, commit updates and completed merges.
+
+Official source:
+- https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt
+
+### Preferred first live test
+
+Do not use a synthetic Slack ping if GitHub can carry the handoff naturally.
+
+1. In ChatGPT Work, create one event-triggered task for the authorized `Jozzpoly/Shared-Work-Medium-Lab` repository.
+2. Narrow its condition to PR #12 (or its branch) and a supported PR activity type visible in the Work trigger editor.
+3. Prompt it only to:
+   - identify the triggering PR/event;
+   - dereference current PR #12 source-bound evidence;
+   - state exact source revision observed;
+   - report `ACTIVATION_PASS` plus one source-grounded sentence;
+   - take no external write action.
+4. Only after the task is armed, produce one ordinary, meaningful PR #12 event such as a small evidence commit/update that would have been useful anyway.
+5. Verify in Scheduled/Work that a new cognition run actually started because of that event and read back its source revision.
+
+### PASS criterion
+
+> a supported GitHub event caused a new Work cognition run without Owner `continue` / manual chat start, and that run independently dereferenced the correct source-bound PR state.
+
+### FAIL / INCONCLUSIVE boundaries
+
+- task configured but no source event occurred -> UNRUN;
+- event occurred before task activation -> UNRUN;
+- notification appeared but no cognition/source dereference occurred -> transport/event PASS only;
+- task starts but observes stale/wrong repository or cannot access PR source -> activation PASS / source-reachability FAIL;
+- approval pause blocks a read-only run -> permission/setup boundary, not cognition failure;
+- ordinary Browser chat manually performs the review -> does not count.
+
+### Slack alternative
+
+`#medium-probes` now has the required `@ChatGPT` app membership live-qualified.
+
+A Slack-triggered variant remains useful specifically for Claude Free Gate A if Claude later qualifies bounded Slack send:
+
+`Claude -> one source pointer in #medium-probes -> Work event task -> source review`
+
+But GitHub PR activity is the preferred first Browser activation experiment because the useful work itself is the trigger.
+
+Do not arm both variants simultaneously in the first test; isolate one causal path.
