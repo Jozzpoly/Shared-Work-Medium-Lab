@@ -1,7 +1,8 @@
 # Primary-Source Genealogy — partial, source-bounded
 
 **Date:** 2026-10-03
-**Status:** partial audit; explicitly incomplete
+**Last recovery update:** 2026-10-08
+**Status:** partial audit; explicitly incomplete; founding missing-middle Owner constraints materially narrowed, full adjacent transcript still unrecovered
 
 ## Coverage boundary
 
