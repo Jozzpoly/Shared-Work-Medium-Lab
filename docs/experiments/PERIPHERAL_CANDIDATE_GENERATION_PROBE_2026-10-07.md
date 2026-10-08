@@ -433,6 +433,76 @@ This is stronger than a TTL heuristic. It separates:
 
 A quiet channel is a valid outcome and currently preferable to synthetic activity.
 
+## Cold-donor positive — Multi_World identity/transport separation
+
+The recent-attention baseline has a predictable blind spot: a dormant project can contain highly relevant qualified evidence while being absent from current ChatGPT/sidebar/history activity.
+
+A bounded cold scout used only the Owner's repository inventory as a candidate list. Repository descriptions were empty, so names provided weak information scent. One cold repository name was directly relevant to the active Medium problem:
+
+`cloudflare-multiplayer-lab`
+
+It was absent from the observed recent working set.
+
+### Source-native traversal
+
+The root README identified:
+- the project as a multiplayer/shared-world technology lab;
+- `docs/MULTI_WORLD_CURRENT_STATE.md` as compact current technical/project truth;
+- a qualified World V0 / Ongoing Yard baseline.
+
+The current-state document then defended, inside its two-actor envelope:
+
+- **ActorSession lifetime is not identical to one browser transport**;
+- private refresh/re-entry can preserve the same ActorSession / NetEntity / WorldEpoch while authority remains valid;
+- foreign profiles must not acquire private ActorSession authority;
+- room recovery may retire one WorldEpoch and enter a fresh one without leaving false recovery state;
+- room-capacity failures are distinct from transport/handshake failures;
+- uncertain directory/recovery state fails closed rather than silently converting Resume into fresh admission.
+
+This is real donor evidence from a different project, not a proposed SWM architecture.
+
+### Why it matters to the current Medium problem
+
+Current SWM pressure includes:
+- Slack connector writes inheriting Owner account identity;
+- ChatGPT Slack bot presence not yielding an independent cognition identity;
+- AgentMail potentially supplying a stable mailbox/address identity;
+- Browser/connector sessions changing across runs.
+
+Multi_World supplies a strong warning:
+
+> **transport/session/address identity must not be silently promoted into participant/mind identity.**
+
+A future participant model may need distinctions analogous in spirit to:
+- participant / actor continuity;
+- current execution body or transport;
+- shared-world/exchange lifetime;
+- authority to resume or act.
+
+The analogy must remain falsifiable. SWM is not a multiplayer simulation and does not inherit Multi_World's data structures or protocol.
+
+### Candidate-generation result
+
+This is a **POSITIVE BOUNDED cold-donor result**:
+
+- recent working-set sensors did not surface the project;
+- low-cost repository inventory surfaced a weak candidate by name;
+- one README + one current-state read confirmed material relevance;
+- the donor changed the interpretation of the active identity/transport problem.
+
+Therefore a robust candidate-generation strategy needs a **cold fallback**, but not continuous global scanning.
+
+Current pressure-driven ordering:
+
+`local context / memory / sidebar / recent history`
+-> if unresolved material edge remains,
+`cheap cold inventory / repository-name scout`
+-> exact source-native front door
+-> local current-truth gate
+-> only then deeper donor evidence.
+
+Do not turn this into a permanent global catalog or periodic full-corpus crawl.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
