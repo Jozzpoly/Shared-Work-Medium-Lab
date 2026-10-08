@@ -493,3 +493,63 @@ Scoped conclusion:
 Therefore a future Medium capability model must not collapse any of these into one boolean `available` flag.
 
 The only defensible operational claim is the effect-verified one at the current layer.
+
+## Reconciliation with the 2026-10-07 heterogeneous-browser fixture
+
+The closed PR #10 already contained `HETEROGENEOUS_SHARED_BROWSER_PROBE_2026-10-07.md` with a staged probe design. The 2026-10-08 result should therefore be interpreted against that prior fixture rather than as a newly invented test family.
+
+### Probe 0 — one-body trace persistence
+
+**PASS BOUNDED in Claude's body.**
+
+Claude executed the existing open→close→history pattern and recovered its unique trace after tab closure.
+
+Correction: Claude did not independently invent Probe 0; it executed the pre-existing fixture.
+
+### Probe A — same-world identity
+
+**PASS BOUNDED, bidirectional.**
+
+- Claude created unique shared-browser traces visible to Browser ChatGPT without Owner token copy/paste.
+- Browser ChatGPT created a unique acknowledgement trace visible to Claude before Claude read the ChatGPT conversation.
+
+This strongly supports that both connectors were observing the same ordinary Opera environment during the qualified window.
+
+It does not prove stable identity across browser/profile changes or after the connector disconnects.
+
+### Probe B — environmental handoff without context copy
+
+**NOT PASSED.**
+
+The actual exchange used explicit probe-like tokens and both participants knew shared-browser parity was under investigation.
+
+The stronger fixture required ordinary work by-products, no instruction encoded for the receiver, and instrumental reuse under a separately phrased goal.
+
+That has not occurred.
+
+### Probe C — same referent / different private interpretations
+
+**UNRUN.**
+
+The current shared session also invalidates any naive assumption that the participants' conversation surfaces are private: open model conversations are mutually readable through the shared browser.
+
+A clean interpretation-divergence test would need either:
+- separate browser profiles/sessions;
+- precommitted interpretation hashes before either side can inspect the other's conversation;
+- or another isolation mechanism.
+
+### Probe D — stale observer state
+
+**NOT DELIBERATELY RUN.**
+
+The later Opera disconnect demonstrates substrate volatility, but is not itself the stale-source comparison specified by Probe D.
+
+### Ecological success candidate
+
+**OPEN.**
+
+No unrelated project task has yet been materially advanced because one heterogeneous agent spontaneously reused the other's ambient browser trace.
+
+Therefore the strongest surviving result remains:
+
+> **shared-world / heterogeneous-body reachability is boundedly demonstrated; ecological instrumental reuse is not.**
