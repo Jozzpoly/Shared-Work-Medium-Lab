@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium • fragment timing transport proof</title></head>
+<body style="background:#10151e;color:#eff9f6;max-width:850px;margin:3rem auto;padding:16px;font:16px/1.5 system-ui">
+<main><h1>HTMLPreview — static versus dynamic source anchors</h1>
+<p>Kontrola w obrębie wyłącznie publicznego repozytorium. Ta strona nie uruchamia żądań sieciowych, nie zapisuje niczego ani nie otwiera docelowego linku bez działania użytkownika.</p>
+<p id="static"><a id="static-source" href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/README.md#run">Kontrola statyczna z #run</a></p>
+<p id="dynamic"><a id="dynamic-source" href="#">Link dynamiczny — oczekiwanie na JavaScript</a></p>
+<pre id="result" role="status">Script pending</pre>
+</main>
+<script>
+(function(){
+const target='https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/33091b3c5bc12cf71035bd0e3512a4c94ecc11f0/docs/RESEARCH_STATE.md#L1';
+function test(){
+ const dynamic=document.getElementById('dynamic-source');
+ dynamic.href=target;
+ dynamic.textContent='Dynamiczny dokładny commit + #L1';
+ document.getElementById('result').textContent='Static after renderer: '+document.getElementById('static-source').href+'\nDynamic after timer: '+dynamic.href+'\nDynamic exact target: '+String(dynamic.href===target);
+}
+setTimeout(test,300);
+})();
+</script></body></html>
