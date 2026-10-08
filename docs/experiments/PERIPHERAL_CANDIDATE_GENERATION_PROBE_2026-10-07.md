@@ -314,6 +314,37 @@ A bounded live check compared several source-native GitHub observation modes. Th
 
 **Important negative control:** mere activity does not imply transferable value. A dormant but semantically relevant donor may be more useful than a high-churn project; recency can only generate inspection candidates, not rank scientific importance.
 
+## ChatGPT sidebar as ambient project topology — 2026-10-08
+
+A live Opera read of an ordinary Combat Lab ChatGPT page exposed another baseline candidate-generation substrate: the ChatGPT sidebar/navigation accessibility tree itself.
+
+Without opening another project, the current page exposed links to conversations belonging to multiple other project IDs, including conversation titles clearly associated with:
+- Shared Work Medium;
+- ReflexBrain;
+- Feniks;
+- Companion/SPC;
+- additional project clusters.
+
+The current Combat project also exposed its own explicit project-link label.
+
+This is not a claim that the sidebar is complete, stable or semantically sufficient.
+
+Scoped finding:
+
+> ordinary Browser ChatGPT may already expose cross-project topology as ambient navigation affordances. A receiving agent does not necessarily need a shared event feed merely to know that another project exists.
+
+Implication for ecological baselines:
+- do not disable or ignore the normal sidebar/project topology when testing whether Slack/shared scents improve candidate generation;
+- a valid treatment must beat the ordinary product's own ambient project visibility, not an artificially isolated blank agent;
+- conversation titles/links are weak information scent, not project truth;
+- following a sidebar candidate should still lead to the project's own current-truth/front-door recovery before any cross-project conclusion is formed.
+
+This composes naturally with Opera history:
+- sidebar/current tabs provide semantic labels and live navigation;
+- history provides recent temporal residue after tabs close;
+- repository front doors provide source authority;
+- Slack should only fill gaps that remain material after these ordinary surfaces.
+
 ## Opera working-set trace composition — 2026-10-08
 
 A bounded passive read tested whether the Owner's existing browser already exposes a useful recent working set without a Medium-maintained registry.
