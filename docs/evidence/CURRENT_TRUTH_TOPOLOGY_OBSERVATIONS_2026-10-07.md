@@ -212,3 +212,49 @@ The material finding is narrower:
 Conversely, older independent experiments must not be closed merely to reduce a count when their research questions remain open.
 
 This is a direct dogfood example of the topology problem: lifecycle state is part of current truth.
+
+
+## Medium self-front-door freshness gap — 2026-10-08
+
+A fresh read of canonical `main` exposed a real self-dogfood contradiction.
+
+`START_HERE.md` correctly routes fresh entrants to `docs/RESEARCH_STATE.md`.
+
+However `docs/RESEARCH_STATE.md` currently says:
+- last material update: **2026-10-04**;
+- active lanes: MP-1 + Quiet Presence;
+- active frontier: structural research before next architecture-bearing specimen;
+- current design branch: `research/medium-physics-experiment-design`;
+- current Cloudflare substrate-audit branch: `research/cloudflare-observation-substrate-audit`.
+
+Since then, live research produced material new frontier evidence in:
+- PR #9 — current-truth topology dogfood;
+- PR #10 — peripheral candidate generation + capability reachability;
+- Quiet Presence child PR #6 was completed and merged into draft parent #5;
+- Capability Expedition PR #8 was closed unmerged as a completed checkpoint while Issue #7 remained the live campaign handle;
+- Slack Free survivability was qualified;
+- AgentMail passed bounded bidirectional transport-identity E2E after fresh execution-body exposure;
+- source-native front-door recovery and cold-donor discovery produced positive bounded dogfood.
+
+This does **not** mean main must immediately be rewritten from every draft branch.
+
+It does mean:
+
+> the canonical root front door is now materially older than obvious live research activity.
+
+Classification:
+
+**FRONT_DOOR_FRESHNESS_GAP — SELF-DOGFOOD POSITIVE.**
+
+Current safe posture:
+- do not silently promote draft claims into `main`;
+- keep PR #9's topology specimen as an explicit route from accepted baseline to active frontier evidence;
+- treat `main/docs/RESEARCH_STATE.md` as accepted baseline + historical/current intent, not complete live frontier inventory until a deliberate consolidation decision occurs.
+
+This strengthens the need to distinguish:
+- accepted/canonical baseline;
+- active draft frontier;
+- field/live evidence;
+- historical donor material.
+
+The project itself now exhibits the exact problem under study.
