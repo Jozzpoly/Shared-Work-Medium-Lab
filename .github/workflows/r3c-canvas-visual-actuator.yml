@@ -1,0 +1,36 @@
+name: R3C canvas visual-actuator boundary
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/r3c-canvas-visual-actuator.yml"
+      - "experiments/r3c-canvas-visual-actuator/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-world-gesture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Install pinned Playwright and PNG reader
+        working-directory: experiments/r3c-canvas-visual-actuator
+        run: npm install --no-save --no-audit --no-fund playwright@1.64.0 pngjs@7.0.0
+      - name: Install Chromium
+        working-directory: experiments/r3c-canvas-visual-actuator
+        run: npx playwright install --with-deps chromium
+      - name: Exercise real pointer gesture against public R3C
+        run: node experiments/r3c-canvas-visual-actuator/run.mjs
+      - name: Preserve bounded visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r3c-canvas-gesture-evidence
+          path: experiments/r3c-canvas-visual-actuator/evidence/
+          if-no-files-found: warn
+          retention-days: 7
