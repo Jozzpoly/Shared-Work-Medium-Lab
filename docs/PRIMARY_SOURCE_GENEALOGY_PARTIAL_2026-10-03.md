@@ -245,3 +245,14 @@ From this point forward:
 
 > prefer executing/falsifying the frozen apparatus over adding another design document unless a concrete unresolved confound requires one.
 
+
+
+## 2026-10-08 partial recovery note
+
+Later prior-conversation recovery narrowed part of the previously inaccessible middle interval.
+
+Two Owner-message anchors were recovered:
+- 2026-10-02 19:49:44 UTC: capability amplification over mere organization, lower AI-management burden, shared reality with independent minds, agent reach extended through environment/tool senses and actuators, and preservation of freedom/serendipity.
+- 2026-10-03 11:28:53 UTC: self-maintained project-state projection, deep critical exploration, and explicit resistance to long-term lock-in from temporary simplifications.
+
+The full surrounding message sequence is still not recovered. Treat this as a narrowed coverage gap, not a complete transcript reconstruction.
