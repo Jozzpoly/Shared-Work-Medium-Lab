@@ -29,6 +29,7 @@ Recent lifecycle corrections:
 - PR #3 (`semantic-medium-v0`) is closed unmerged as completed historical reconnaissance; its branch/commits remain donor evidence.
 - PR #6 was merged only into draft Quiet Presence parent PR #5; this did **not** merge Quiet Presence into `main`.
 - PR #8 is closed unmerged as a completed Capability Expedition checkpoint; Issue #7 remains the live campaign handle.
+- PR #10 is closed unmerged as a completed peripheral-candidate/reachability checkpoint. It qualified Opera history as a candidate-only working-set sensor, separated capability discovery from end-to-end reachability, produced one real ReflexBrain scent plus deliberate NONE outcomes, and stopped before manufacturing ecological adoption. Reopen only under new material pressure.
 
 Current routing consequence:
 
