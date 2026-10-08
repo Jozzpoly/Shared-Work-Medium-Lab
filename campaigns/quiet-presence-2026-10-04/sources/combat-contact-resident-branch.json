@@ -1,9 +1,9 @@
 {
   "id": "combat-contact-resident-branch",
-  "title": "Combat — live isolated two-body material encounter",
+  "title": "Combat — live isolated three-body material pressure experiment",
   "kind": "live experimental branch pointer",
   "authority": "live Combat Git ref for an unaccepted candidate; not canonical architecture",
-  "description": "The current bounded candidate adds a second independent physical body to the contact-resident research, with actor-local sensors and counterfactual mass/contact evidence. Read the branch HEAD and exact CI; prior one-body branch remains historical control. No Owner/crowd/organism PASS.",
+  "description": "Receiving-project candidate with two independently sensed movers and optional finite-force third holder. Real Rapier manifold activity, local directional-touch A/B, live insertion/removal and bounded stress. Previous two-body branch is preserved as a control. Read current exact branch head/CI, not this summary; no Owner, crowd or organism PASS.",
   "binding": "live",
-  "href": "https://github.com/Jozzpoly/Combat-Lab/tree/experiment/two-body-material-encounter-v0"
+  "href": "https://github.com/Jozzpoly/Combat-Lab/tree/experiment/three-body-pressure-chain-v0"
 }
