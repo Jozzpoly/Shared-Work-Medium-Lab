@@ -105,7 +105,7 @@ This is **Owner-confirmed intent**, not a frozen architecture. A website is curr
 The Owner explicitly distinguishes two complementary human-facing intentions:
 
 - **World:** a place for voluntary exploration of real project worlds, agent work, experiments and shared sources. Entry and depth should be chosen, not imposed.
-- **For me:** a Polish-first, Owner-relevant attention perspective that may surface meaningful problems, achievements, experiment outcomes, who is working on what, direct requests and future notifications / mobile agent communication. Quiet Presence is **not** a blanket ban on useful notifications. None of this selects a feed, inbox, messaging architecture or notification rule yet.
+- **For me:** an Owner-relevant attention perspective that may surface meaningful problems, achievements, experiment outcomes, who is working on what, direct requests and future notifications / mobile agent communication. Quiet Presence is **not** a blanket ban on useful notifications. None of this selects a feed, inbox, messaging architecture or notification rule yet.
 
 This distinction is **Owner intent / product horizon**, not a claim that either surface exists or has earned Owner product qualification. It must remain visible while we research agent-native affordances, provenance and attention sovereignty. Do not mistake today's field specimens for the whole intended Medium.
 
