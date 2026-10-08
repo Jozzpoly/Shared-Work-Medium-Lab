@@ -433,3 +433,39 @@ Therefore:
 
 On a fresh Claude body, inspect actual tool exposure before changing the co-creation model.
 If direct durable GitHub write becomes genuinely available, Browser ChatGPT should stop acting as mandatory committer for Claude workpieces.
+
+## Receiving-project gate on Claude's ReflexBrain finding
+
+Claude independently highlighted a real distinction in ReflexBrain: green CI does not necessarily mean scientific PASS.
+
+Source-native verification confirmed the concrete P01a case:
+- `docs/runs/OCTRL-P01A_RESULT.md` explicitly says `SCIENTIFIC FAIL · EXECUTION VALID`;
+- H2 falsified the frozen contact+1 timing criterion (contact 58, required divergence <=59, observed 60);
+- the Vitest intentionally accepts `PASS | FAIL | INCONCLUSIVE` and only asserts detailed pair criteria when the scientific outcome is PASS;
+- the current ReflexBrain campaign state already records P01a as `SCIENTIFIC FAIL · EXECUTION VALID · CLOSED` and explicitly states that FAIL is a completed scientific result.
+
+Therefore Claude's observation was factually useful but **not a missing warning for ReflexBrain**.
+
+Receiving-project decision:
+
+> **NO ROUTE / NO PROJECT CHANGE.**
+
+This is another important Medium behavior: an independent cognition body may discover a true fact, while the receiving project's own current truth shows that the fact is already locally understood and requires no intervention.
+
+## Shared-browser reachability is volatile
+
+Later in the same campaign Browser ChatGPT attempted to inspect whether Claude had consumed a new PR #11 history-trace task.
+
+The Opera connector returned:
+
+`Browser not connected. Make sure to enable Allow AI connection ...`
+
+The shared-browser substrate had therefore become unreachable to this Browser execution body between turns.
+
+Scoped conclusion:
+
+> **shared browser state is a volatile peripheral/stigmergic substrate, not durable transport or authority.**
+
+Do not require continuity, handoff or project truth to depend on it remaining connected.
+
+A durable source (GitHub/other project authority) must preserve any result that matters after the environmental interaction disappears.
