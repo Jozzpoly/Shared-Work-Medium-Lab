@@ -259,3 +259,25 @@ This strengthens the need to distinguish:
 - historical donor material.
 
 The project itself now exhibits the exact problem under study.
+
+### Minimal repair — canonical router refreshed without claim promotion
+
+A narrow stewardship commit then updated only the canonical routing layer on `main`:
+
+- `docs/RESEARCH_STATE.md` last material update advanced to 2026-10-08;
+- active draft frontiers #4/#5/#9/#10 are now named explicitly;
+- lifecycle changes for #3/#6/#8 are recorded;
+- the text explicitly states that the refresh **does not promote draft claims into canonical architecture**;
+- `main` remains accepted baseline while draft PRs carry active frontier evidence.
+
+Commit:
+`7a08e00ff3622b0ee79d1bf92a599e32a3967b77`
+
+Read-back from `main` confirmed the new router after write.
+
+Updated classification:
+
+> **FRONT_DOOR_FRESHNESS_GAP — DETECTED, SELF-DOGFOODED, MINIMALLY REPAIRED.**
+
+This is stronger evidence than leaving the gap unresolved. The repair demonstrates that current-truth topology can be improved by changing only the routing surface rather than copying unstable draft state into the canonical summary.
+
