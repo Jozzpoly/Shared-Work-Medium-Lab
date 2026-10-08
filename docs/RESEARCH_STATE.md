@@ -271,9 +271,9 @@ The next architecture-bearing implementation is gated by the structural research
 
 Temporary mechanisms from reconnaissance — GitHub as world model, Browser as central mind, Cloudflare primitives, AXTree, WebMCP, current observation IDs, polling/cache shapes — are donor hypotheses only. The next serious specimen should be designed cleanly from the underlying properties and evidence rather than by extending v0.
 
-## Current frontier
+## Historical frontier checkpoint — 2026-10-03 (superseded by top-of-file routing)
 
-The fast `semantic-medium-v0` campaign is complete as reconnaissance. The active frontier is now **structural research before the next architecture-bearing specimen**.
+At this 2026-10-03 checkpoint, the fast `semantic-medium-v0` campaign was complete as reconnaissance and the active frontier was **structural research before the next architecture-bearing specimen**.
 
 The immediate research priority is:
 
@@ -292,10 +292,10 @@ Before implementation, the project is explicitly working on:
 Canonical research gate:
 [docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md](./STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md)
 
-Current design branch:
+Design branch at that checkpoint:
 `research/medium-physics-experiment-design`
 
-Current Cloudflare substrate-audit branch:
+Cloudflare substrate-audit branch at that checkpoint:
 `research/cloudflare-observation-substrate-audit`
 
 Draft PR #3 and Issues #1/#2 remain historical research specimens and evidence. They are not the active implementation frontier.
