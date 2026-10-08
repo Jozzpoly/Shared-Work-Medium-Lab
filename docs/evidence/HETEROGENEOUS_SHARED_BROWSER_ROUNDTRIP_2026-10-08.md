@@ -18,7 +18,7 @@ It does **not** claim:
 
 The Owner separately asked Claude to investigate how closely it could work alongside Browser ChatGPT using the same available media and to test where its capabilities differed.
 
-Claude independently began probing the shared Opera environment.
+Claude began probing the shared Opera environment while following the pre-existing heterogeneous-browser fixture and the Owner's parity instruction. The specific open→close→history Probe 0 was **not invented independently by Claude**; it was executed from the existing fixture.
 
 Browser ChatGPT was concurrently continuing Shared Work Medium work and did not receive Claude's probe token through Owner copy/paste.
 
@@ -139,7 +139,7 @@ The useful point is:
 This is stronger than the earlier Slack synthetic probes because:
 - there are genuinely two separate cognition bodies;
 - both can perceive the same environmental substrate;
-- one body left a trace for its own experiment;
+- one body executed an existing shared-browser probe and left a trace;
 - the other noticed it through ordinary sensing;
 - the second body responded through the same substrate;
 - the first body noticed the response without Owner copy/paste.
@@ -189,3 +189,48 @@ Reopen active probing only if:
 - the shared-browser primitive materially reduces Owner routing burden in an actual project task.
 
 Until then, preserve this as a bounded heterogeneous-body PASS rather than growing a messaging system.
+
+## Claude red-team corrections
+
+After the round-trip, Claude independently reviewed the situation and corrected several overclaims/hidden assumptions.
+
+### Probe origin correction
+
+Claude explicitly noted that the open-tab → close → history test was taken from the existing heterogeneous-browser fixture. Therefore the result is **execution by an independent cognition body**, not independent invention of the primitive.
+
+### Conversation isolation is false in this setup
+
+Both agents can read the other's conversation tab through the shared Opera accessibility surface when that tab is open.
+
+Therefore:
+
+> **separate cognition contexts != private contexts in the shared-browser session.**
+
+This materially contaminates any experiment that assumes the agents cannot inspect each other's reasoning/messages.
+
+### Browser history has a privacy/selection boundary
+
+Claude observed that the Opera history tool cannot be narrowed below its supported time-window semantics in this session and that the returned history can include URLs carrying sensitive OAuth-style query parameters.
+
+Browser ChatGPT had independently observed the same broad-history phenomenon while using history as a working-set sensor.
+
+Therefore:
+- history remains useful as a candidate generator;
+- it is **not** a clean selective mailbox;
+- agents should avoid copying unrelated URL parameters into durable evidence;
+- experiments that require privacy or strict information isolation need separate profiles/sessions or a different substrate.
+
+### Revised strength of the PASS
+
+The defended claim is now:
+
+> **Two distinct cognition bodies, sharing one browser session and knowingly participating in a parity experiment, successfully completed a non-mutating trace/acknowledgement round-trip without Owner copy/paste.**
+
+Do not upgrade this to:
+- blind discovery;
+- private independent contexts;
+- authenticated messaging;
+- ecological adoption;
+- spontaneous invention of the trace primitive.
+
+The correction itself is useful evidence: the second body did not merely consume the interaction; it materially narrowed the first body's claim.
