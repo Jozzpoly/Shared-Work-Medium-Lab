@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium Library • network proof</title>
+<style>body{font:16px/1.5 system-ui;background:#121722;color:#e7f3ee;margin:2rem auto;max-width:760px;padding:1rem}a{color:#a4e0d4}pre{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #455569;padding:1rem;border-radius:8px}strong{color:#def5bf}</style></head>
+<body><main><h1>Browser reachability — source receipt</h1>
+<p>Jednorazowy, samodzielny probe wyłącznie PUBLICZNEGO źródła. Świadomie wykonuje sieciowy test po otwarciu strony. Jest narzędziem badawczym, nie funkcją domyślnej biblioteki.</p>
+<p id="status" role="status"><strong>START</strong> • fetch branch metadata</p><pre id="trace" aria-label="Kontrolny ślad sieciowy"></pre>
+<p><a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">Native project source — guaranteed manual fallback ↗</a></p></main>
+<script>
+(async function(){
+const status=document.getElementById('status'),trace=document.getElementById('trace'),log=[];
+const display=(message)=>{log.push(message);trace.textContent=log.join('\n');};
+const controller=new AbortController(),watch=setTimeout(()=>controller.abort(),12000);
+try{
+const url='https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab/branches/main';
+display('API request: '+url);
+const a=await fetch(url,{cache:'no-store',signal:controller.signal,headers:{Accept:'application/vnd.github+json'}});
+display('API HTTP: '+a.status);
+if(!a.ok)throw Error('api status '+a.status);
+const x=await a.json(),sha=x?.commit?.sha;
+if(!/^[0-9a-f]{40}$/.test(sha))throw Error('invalid API sha');
+display('Branch main exact SHA: '+sha);
+const raw='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/'+sha+'/docs/RESEARCH_STATE.md';
+const b=await fetch(raw,{cache:'no-store',signal:controller.signal});
+display('Raw pinned HTTP: '+b.status);
+if(!b.ok)throw Error('pinned source status '+b.status);
+const txt=await b.text();
+if(!txt.startsWith('# Research State'))throw Error('unexpected source body');
+display('Source starts: '+txt.slice(0,85).replace(/\n/g,' ⏎ '));
+status.textContent='PASS — dwa publiczne źródła dostępne z kontekstu HTMLPreview, exact SHA.';
+}catch(e){status.textContent='FAIL — browser-level route unavailable: '+String(e);display('Failure: '+String(e))}
+finally{clearTimeout(watch)}
+})();
+</script></body></html>
