@@ -346,3 +346,30 @@ Current classification:
 > **STRONGER HYPOTHESIS FROM LIVE EVIDENCE · NOT CANONICAL ARCHITECTURE.**
 
 The next useful evidence should come from real co-created work, not another federation diagram.
+## Evidence-lane separation — co-creation is not ecological adoption
+
+The current Claude collaboration must remain separate from the frozen Quiet Presence ecological-adoption criterion.
+
+Claude was explicitly invited by the Owner to co-create Shared Work Medium and investigate parity/collaboration.
+
+Therefore the current run can establish:
+- heterogeneous body calibration;
+- source-bound co-creation;
+- cross-agent falsification/correction;
+- reduced Owner copy/paste burden;
+- capability-boundary discovery;
+- usefulness of participant-owned proposals and receiving decisions.
+
+It cannot establish the stronger ecological target:
+
+> an agent pursuing its own non-SWM goal independently discovers that Medium is useful and advances that external work because of it.
+
+Current classification:
+
+> **CO-CREATION LANE: MATERIAL ACTIVE EVIDENCE**
+
+> **QUIET PRESENCE ECOLOGICAL ADOPTION: UNCHANGED / STILL OPEN**
+
+Do not score deliberate Claude co-creation as ecological adoption merely because two heterogeneous cognition bodies are now involved.
+
+The earlier Claude Free incognito/native-web lane remains a cleaner future body-calibration route for blinded or unrelated-goal experiments, but the current shared-profile Claude session is already contaminated by SWM fixture/source/conversation exposure.
