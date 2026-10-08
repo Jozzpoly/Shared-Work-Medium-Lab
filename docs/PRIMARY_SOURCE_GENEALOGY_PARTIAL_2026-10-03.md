@@ -314,3 +314,20 @@ The still-missing adjacent transcript sequence matters mainly for:
 - discovering whether other Owner constraints were present but remain unrecovered.
 
 Do not use the improved confidence in these directions as permission to freeze an architecture.
+
+
+## Recovered anti-lock-in boundary — no specific donor veto found
+
+A focused search for Owner-level rejection of assistant-generated constructs such as Project World, a thin shared spine, one observation plane, event-log/cursor continuity, Browser-centrality, GitHub-centrality or Cloudflare-as-architecture did **not** recover a specific founding-period veto of those named constructs.
+
+What *was* recovered is a stronger methodological constraint:
+
+- early simplifications must not bind the long-term horizon;
+- the current direction should be challenged consciously rather than defended because work already exists;
+- document/theory accumulation should stop when a serious experiment is the better next move.
+
+Therefore the correct genealogy claim is:
+
+> **the Owner did not grant architectural privilege to those donor hypotheses; no recovered source establishes that he categorically rejected each one either.**
+
+Keep them falsifiable and replaceable. Absence of an explicit veto is not endorsement.
