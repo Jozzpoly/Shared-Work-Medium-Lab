@@ -187,9 +187,9 @@ Do not spend further Owner attention on repairing the current Codex Desktop work
 
 Issue #2 remains useful evidence and can be revisited under better conditions, but it is no longer the campaign's immediate frontier.
 
-## Current leading architectural hypothesis
+## Current compact operating hypothesis — not architecture
 
-The first useful organism likely needs two coupled loops.
+Current field evidence continues to support two coupled loops as a compact working model. They are behavioral/epistemic laws for participants, **not** a commitment to one shared runtime, bus, schema or substrate.
 
 ### Epistemic loop
 
