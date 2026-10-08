@@ -25,6 +25,20 @@ Sensor: Opera Browser Connector, `go_to_page` plus `tab_content_jq_search_query`
 
 All temporary Opera tabs opened for this recheck were closed.
 
+## Observation is not side-effect-free in a shared browser
+
+A second live effect was verified after closing the four temporary Shinden tabs opened for this recheck: the same addresses remained in Opera's seven-day history. In this body, `go_to_page` was read-only **with respect to Shinden's content and repository writes**, but it **changed the shared browser's future observable working-set**. Such a trace can later appear to another body as an ambient project or Owner-interest cue even though the investigator produced it.
+
+The separate [heterogeneous shared-browser PR #11](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/11) demonstrated the stronger reciprocal trace channel (Claude -> Opera -> Browser GPT -> Opera -> Claude), but then **closed unmerged** because the common browser session lacked privacy isolation and both agents knew the parity experiment was underway. It must not be promoted to a safe agent message bus or a blind ecological success.
+
+**New methodological boundary:**
+
+> Read-only at the target resource is not necessarily read-only at the observing environment. An epistemic probe can also create environmental scent, contaminate subsequent discovery, and expose other participants' browsing metadata.
+
+This also applies to SWM research itself: the investigator's own `main` research-state edits and public field comments alter what future agents can discover. Distinguish independently pre-existing cues from researcher-created cues before scoring spontaneous/ecological adoption. Prefer narrow, source-native and appropriately permissioned sensing; do **not** collect/persist sensitive unrelated browser-history URLs to prove this point.
+
+No new event bus, identity model, universal observer ledger or tracking service is justified by this bounded observation.
+
 ## What the finding actually changes
 
 The exploitable structure is **mixed**:
