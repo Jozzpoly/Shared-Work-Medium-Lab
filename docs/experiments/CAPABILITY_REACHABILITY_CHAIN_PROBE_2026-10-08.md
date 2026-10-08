@@ -265,6 +265,27 @@ Important consequence:
 
 > "permission denied" and "capability missing" must be diagnosed separately.
 
+### Agent-only Library promotion blocked at container-session alignment
+
+A real follow-up attempted to promote the generalized capability-chain failure into the persistent `Unified Browser GPT` agent-only Friction Ledger.
+
+Observed:
+- current v0.6 ledger and CURRENT were materialized successfully;
+- a valid v0.7 JSON candidate was produced in `/mnt/data` and passed JSON validation;
+- the candidate file remained present in the active container;
+- three bounded Library upload attempts returned `container_session_expired`;
+- canonical `CURRENT.json` was deliberately **not** modified because the referenced v0.7 artifact never published.
+
+Current classification:
+
+> **artifact prepared locally + Library mutation action exists != publication path complete.**
+
+Blocking seam: container/file-service session alignment between the generated artifact path and Library mutation body.
+
+Do not bypass this by exposing the agent-only ledger as a user-facing attachment merely to obtain a new file reference.
+
+The reusable capability lesson remains preserved in this source-native PR branch; global runtime promotion is deferred until the mutation seam is reachable through a legitimate agent-only path.
+
 ## Effect-verification rule
 
 Whenever practical, qualify execution through a second sensor.
