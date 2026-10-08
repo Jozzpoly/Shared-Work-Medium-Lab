@@ -298,3 +298,51 @@ Success is not "more messages".
 Success is:
 
 > **heterogeneous agent bodies actually contributing different useful capabilities while source truth stays recoverable and Owner routing burden drops.**
+
+## Candidate federation hypothesis — heterogeneous bodies, shared referents
+
+This campaign now provides concrete pressure behind an older canonical SWM direction: specialized models/tools should behave as **attachable bodies/senses**, not prerequisites that the whole system must normalize around.
+
+Observed in the current Claude ↔ Browser case:
+
+- Claude contributes a local sandbox/test-reproduction body and independent falsification perspective;
+- Browser ChatGPT contributes authenticated GitHub/Slack writes, project stewardship and connector/plugin reachability work;
+- both can sometimes overlap on Opera perception, but that shared browser substrate is volatile and privacy-limited;
+- durable GitHub/source objects remain independently dereferenceable authority;
+- Claude can produce a participant-owned proposal while Browser can source-check, reject parts, preserve parts and write a separate receiving decision;
+- neither body needs to surrender its own capability boundary or become the other's execution proxy.
+
+A candidate federated formulation is therefore:
+
+> **shared referents + source authority + heterogeneous bodies + local perspectives + explicit capability boundaries**
+
+rather than:
+
+> one shared runtime + one capability set + one global agent identity + one transport.
+
+### What this hypothesis would explain
+
+It naturally fits several observed results:
+- Slack can be useful to Browser but absent/unqualified in Claude runtime;
+- Claude can reproduce CI locally while Browser may be better positioned to update durable repository state;
+- Opera can be a temporary overlapping sense without becoming project truth;
+- a Claude artifact may exist before Browser can independently read its exact source;
+- receiving projects can return `NONE` even when another body discovered a true fact;
+- participant-owned proposals can coexist with canonical source truth without immediate standardization.
+
+### Falsifiers / reasons not to promote this yet
+
+Do **not** promote this to SWM architecture if live work shows that:
+- the Owner still has to courier most useful context between bodies;
+- one body becomes a permanent manual proxy/committer for another body's unreadable output;
+- capability differences create more ceremony than leverage;
+- source-bound workpieces cannot be independently dereferenced across bodies;
+- participant/local perspectives repeatedly drift into incompatible pseudo-truths;
+- coordination artifacts grow faster than useful project work;
+- a simpler single-body workflow consistently performs better.
+
+Current classification:
+
+> **STRONGER HYPOTHESIS FROM LIVE EVIDENCE · NOT CANONICAL ARCHITECTURE.**
+
+The next useful evidence should come from real co-created work, not another federation diagram.
