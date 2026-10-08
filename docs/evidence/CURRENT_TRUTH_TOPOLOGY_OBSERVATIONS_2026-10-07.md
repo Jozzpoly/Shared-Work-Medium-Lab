@@ -196,14 +196,15 @@ Action:
 
 ### Current open PR interpretation after cleanup
 
-Remaining draft PRs:
-- #3 — semantic project-surface specimen;
+Remaining draft PRs after an additional lifecycle decision:
 - #4 — MP-1A controlled semantic-ablation apparatus;
 - #5 — Quiet Presence ecological campaign;
 - #9 — current-truth topology dogfood;
 - #10 — peripheral candidate generation + capability reachability.
 
-No claim that five is an ideal number.
+PR #3 was then closed unmerged because canonical `main/docs/RESEARCH_STATE.md` already classifies `semantic-medium-v0` as a completed reconnaissance/historical specimen rather than an active frontier.
+
+No claim that four is an ideal number.
 
 The material finding is narrower:
 
