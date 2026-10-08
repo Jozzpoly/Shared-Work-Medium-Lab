@@ -12,7 +12,7 @@ const write=s=>{log.push(s);out.textContent=log.join('\n');};
 const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
-const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/b13fa38c6f304cbdb8b153ed65c74e49a5bf510c/experiments/library-field-shelf-2026-10-09/index.html';
+const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/fa898d72014928dcd3db3c3f86533e1164737d7c/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(url,{cache:'no-store'});
 check(res.ok,'pinned library HTML network response');
 const markup=await res.text();
@@ -24,6 +24,7 @@ check(!!doc,'same-origin srcdoc and active runtime');
 check(doc.querySelectorAll('.project').length===4,'four real project cards');
 check(doc.querySelectorAll('.peek').length===4,'four accessible native source-peek sections');
 check(doc.querySelectorAll('.peek-receipt').length===4,'four exact-SHA receipt targets');
+check(cards[2].textContent.includes('jednym z kilku równoległych torów badań'),'Reflex selected branch is not misrepresented as entire laboratory');
 check(doc.querySelectorAll('.actions a').length===10,'ten native source/action or visit links');
 const allLinks=Array.from(doc.querySelectorAll('.actions a')).map(a=>a.href);
 check(allLinks.some(x=>x.includes('/ReflexBrain-Lab/probes/owner-field-lab.html')),'playable Reflex field has explicit action door');
