@@ -1,0 +1,9 @@
+{
+  "id": "combat-contact-resident-branch",
+  "title": "Combat — current isolated material-response experiment",
+  "kind": "live experimental branch pointer",
+  "authority": "live Combat Git ref for an unaccepted candidate; not canonical architecture",
+  "description": "Follow the latest isolated resident/World trial implementation and read its exact latest CI results. Source may move or be retired; machine PASS does not qualify a living NPC or Owner experience.",
+  "binding": "live",
+  "href": "https://github.com/Jozzpoly/Combat-Lab/tree/experiment/contact-contingent-resident-v0"
+}
