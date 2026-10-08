@@ -71,6 +71,17 @@ h2{font-size:25px;letter-spacing:-.025em;margin:0}
 .peek-sections:focus-visible{outline:3px solid #e1eaa6;outline-offset:2px}
 [hidden]{display:none!important}
 .no-results{border:1px dashed #6a7890;border-radius:12px;color:#dce7ed;padding:22px;margin-top:16px}
+
+.bridge{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.8fr);gap:25px;align-items:center;margin-top:43px;padding:28px 30px;border-radius:17px;border:1px solid #485970;background:radial-gradient(ellipse at 90% 12%,#293348 0%,transparent 76%),#121923}
+.bridge h2{font-size:clamp(24px,2.5vw,31px);margin:11px 0}
+.bridge p{color:#bec9d5;font-size:14px;margin:0 0 12px}
+.bridge-links{display:flex;gap:11px 18px;flex-wrap:wrap;margin:16px 0 0;font-size:13px;font-weight:650}
+.bridge-timeline{margin:0;padding:0 0 0 20px;list-style:none;border-left:1px dashed #7893a7}
+.bridge-timeline li{position:relative;padding:8px 0 13px;color:#deebf2;font-size:13px}
+.bridge-timeline li:before{content:"";position:absolute;left:-26px;top:14px;width:10px;height:10px;background:#a7cfca;border:2px solid #182432;border-radius:100%}
+.bridge-timeline time{display:block;font:600 12px/1.4 ui-monospace,Consolas,monospace;color:#9acec4;margin-bottom:3px}
+.bridge-foot{color:#aabdc8!important;font-size:12px!important;margin:14px 0 0!important}
+@media(max-width:810px){.bridge{grid-template-columns:1fr;padding:22px}.bridge-timeline{margin-left:6px}}
 .below{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:32px 0 0}
 .below article{border:1px solid #465366;background:#131923c9;padding:24px;border-radius:13px}
 .below h3{margin:0 0 9px;font-size:19px}
@@ -168,6 +179,27 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
  </article>
 </div>
 <p id="none" class="no-results" hidden role="status">Brak takiej nazwy w tych czterech kartach. To nie znaczy, że projektu albo możliwości nie ma w pozostałym świecie.</p>
+</section>
+<section class="bridge" aria-labelledby="bridge-title">
+<div>
+<div class="kicker">Powiązanie źródłowe / zachowany epizod</div>
+<h2 id="bridge-title">Jeden ślad między laboratoriami</h2>
+<p>ReflexBrain badał różnicę między materialną przeszkodą a zdolnością konkretnego aktora do działania. W Combacie rozpoczęto osobny eksperyment reakcji na kontakt. Medium później zarejestrowało źródło donora obok odbiorcy.</p>
+<p><strong>To nie jest dowód, że Medium rozpoczęło eksperyment Combatu.</strong> Początek odbiorcy wyprzedza dodanie jego drzwi w Quiet Presence. Relację można poznawać, ale nie wolno odwracać jej chronologii.</p>
+<div class="bridge-links" aria-label="Pierwotne dowody relacji">
+<a href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/87d94c84288982dd6c150494b24504097ec4474f/docs/PRE_O0_CAMPAIGN_CURRENT_STATE_2026-10-06.md">Źródło ReflexBrain ↗</a>
+<a href="https://github.com/Jozzpoly/Combat-Lab/commit/c591fad5f6913fef01455ad6a5a7ffa9c7da7ce6">Pierwszy commit Combat ↗</a>
+<a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/commit/06a64b3eaa7cb37db821bf02e7f41596881cc805">Późniejszy wpis Medium ↗</a>
+</div>
+</div>
+<div aria-label="Historyczna kolejność, nie strzałka przyczynowości">
+<ol class="bridge-timeline">
+<li><time datetime="2026-10-08T12:17:22Z">12:17:22 UTC</time>Źródłowy snapshot badań ReflexBrain</li>
+<li><time datetime="2026-10-08T22:18:37Z">22:18:37 UTC</time>Combat zaczyna izolowany eksperyment kontaktu</li>
+<li><time datetime="2026-10-08T22:20:13Z">22:20:13 UTC</time>Medium rejestruje pinned donor ReflexBrain</li>
+</ol>
+<p class="bridge-foot">Zapis dnia 8.10.2026. Kolejność to nie automatyczny dowód wpływu. To mały fragment świata, nie globalna mapa zależności.</p>
+</div>
 </section>
 <section class="below" aria-label="Co jest poza mapą">
  <article><h3>Feniks nie jest „brakującym repo”.</h3><p>Jego odradzanie i Studio wymagają własnego źródła prawdy. Ten publiczny, czteroprojektowy eksperyment nie rości sobie prawa do reprezentowania bieżącego Feniksa ani lokalnych plików Ownera.</p></article>
