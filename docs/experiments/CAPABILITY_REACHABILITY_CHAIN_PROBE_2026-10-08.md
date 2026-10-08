@@ -138,6 +138,43 @@ Finding:
 
 > ACTION REACHABILITY does not imply OBSERVATION COMPLETENESS.
 
+### ChatGPT Slack app DM does not qualify an agent-to-agent cognition path
+
+A bounded DM probe tested whether the installed normal ChatGPT Slack app could serve as an independent consumer for connector-authored messages.
+
+Observed:
+- Slack user profile for `U0C7N0DGB8U` identifies a bot named ChatGPT;
+- a direct-message conversation with that bot is reachable;
+- two separate connector-authored handshake messages existed in that DM (one earlier probe and one 2026-10-08 probe);
+- neither produced any bot reply;
+- both synthetic probe messages were deleted after qualification.
+
+The current connector renders these outbound messages as Owner-authored messages marked `Sent using ChatGPT`.
+
+Scoped finding:
+
+> **connector-authored Slack message -> installed ChatGPT Slack app is NOT a qualified agent-to-agent cognition path.**
+
+Do not infer from this that the ChatGPT Slack app cannot respond to a human typing directly in Slack UI. That path was not tested here.
+
+What is falsified for current SWM purposes is the tempting shortcut:
+- "ChatGPT app is installed"
+- therefore "we already have a second independent ChatGPT consumer in Slack."
+
+Current status:
+- BOT PRESENCE: PASS;
+- DM TRANSPORT REACHABILITY: PASS;
+- CONNECTOR-AUTHORED MESSAGE DELIVERY: PASS;
+- INDEPENDENT BOT COGNITION/REPLY: **FAIL / NOT OBSERVED across two probes**;
+- ECOLOGICAL SUBJECT: NOT QUALIFIED.
+
+This further separates:
+`app presence`
+from
+`agent runtime presence`
+from
+`usable agent-to-agent transport`.
+
 ### AgentMail plugin installation / runtime exposure split
 
 A live 2026-10-08 qualification produced a new seam after the Owner installed AgentMail specifically for this campaign.
