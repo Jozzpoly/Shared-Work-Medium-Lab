@@ -84,6 +84,26 @@ After recovering the founding Shinden specimen, the Owner explicitly confirmed t
 
 This is **Owner-confirmed intent**, not a frozen architecture. A website is currently the strongest experimental medium because the founding specimen demonstrated browser-native capability emergence, but the exact substrate, schema, and interaction model remain open to evidence.
 
+## Owner-confirmed participation boundary — World / For me (recovered 2026-10-08)
+
+The Owner explicitly distinguishes two complementary human-facing intentions:
+
+- **World:** a place for voluntary exploration of real project worlds, agent work, experiments and shared sources. Entry and depth should be chosen, not imposed.
+- **For me:** a Polish-first, Owner-relevant attention perspective that may surface meaningful problems, achievements, experiment outcomes, who is working on what, direct requests and future notifications / mobile agent communication. Quiet Presence is **not** a blanket ban on useful notifications. None of this selects a feed, inbox, messaging architecture or notification rule yet.
+
+This distinction is **Owner intent / product horizon**, not a claim that either surface exists or has earned Owner product qualification. It must remain visible while we research agent-native affordances, provenance and attention sovereignty. Do not mistake today's field specimens for the whole intended Medium.
+
+## Preserved non-frontier donor — Open Substrate (recovered 2026-10-08)
+
+The separately retained [Open Substrate branch](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/tree/campaign/open-substrate-2026-10-04/campaigns/open-substrate-2026-10-04) contains a substantial *bounded passive-representation* experiment that is **not** an open PR or the current ecological frontier:
+
+- Phase 0–4 characterized closed-type assumptions, admitted unknown passive shared objects without bespoke type dispatch, separated independently owned record packages, rejected inferred identity semantics in arbitrary raw JSON, and passed a second minimal-object falsifier without another adapter change.
+- Browser Walk 01/02 established a Polish-first derived Owner view with voluntary technical/raw depth, while retaining direct source evidence. These are Browser/mechanistic findings, **not** Owner UX PASS.
+- Real-work admission later preserved a bounded ReflexBrain observation and exposed a genuine adapter mistake: explicitly declared source/provenance JSON was misclassified as a generic record. The correction and falsifier passed at recorded commit `1943f9543c267e19361d353613aee12ba8ffbeae` / Actions run `37229120270`. This is **not** independent ecological adoption.
+- An independent Codex red-team seam is described in [CODEX_READY_SEAM_2026-10-04.md](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/campaign/open-substrate-2026-10-04/campaigns/open-substrate-2026-10-04/CODEX_READY_SEAM_2026-10-04.md); the record does not establish that such a review has actually happened.
+
+This is a **conditional source door**, useful if a future question concerns unknown passive forms, local records, explicit references, source fidelity or Owner/agent view separation. It is not authorization to integrate the adapter, create a common ontology, move Quiet Presence, or revive an otherwise stopped implementation campaign. Main remains the accepted source of SWM-wide state.
+
 ## Strategic direction reset — 2026-10-03
 
 The local Codex Desktop path reached a deliberate stop condition: setup and workspace friction became more expensive for the Owner than the experiment was worth.
