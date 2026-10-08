@@ -838,3 +838,36 @@ Current consequence:
 - if a paid Claude body is ever deliberately introduced, requalify Scheduled Tasks directly before considering custom orchestration.
 
 This is a product/economic boundary, not an SWM architecture requirement.
+## Native event-driven Claude activation donor — Claude Tag is organizational/paid
+
+Anthropic also has a native Slack-triggered cognition surface: **Claude Tag**.
+
+Current official documentation states that Claude Tag:
+- is invoked by tagging `@Claude` in Slack;
+- works under its **own identity** rather than merely borrowing the requesting user's Slack identity;
+- can use organization tools/context;
+- builds context from channels it participates in;
+- can follow up on its own / proactively contribute under configured conditions.
+
+Official sources:
+- https://support.claude.com/en/articles/15594475-what-is-claude-tag
+- https://claude.com/product/tag
+
+However Claude Tag is currently a **Team / Enterprise beta** capability, not a Free-plan surface.
+
+Therefore current activation map becomes:
+
+1. **Free Claude connector body after manual start** — bounded tools/perception possible; background/event wake-up not qualified.
+2. **Scheduled Tasks / Cowork** — native recurring/cloud activation exists, but current official availability is paid plans.
+3. **Claude Tag in Slack** — native Slack-addressable participant/activation exists with its own identity, but currently Team/Enterprise.
+
+This sharply narrows the current-Free problem:
+
+> **the missing edge is not that Anthropic lacks activation primitives; it is that the current Free body does not expose the paid/organizational activation surfaces.**
+
+Do not build a custom event bus merely to imitate Claude Tag or Cowork Scheduled Tasks unless activation burden becomes materially important enough to justify that infrastructure.
+
+The current Free experiment should continue to distinguish:
+- connector availability after cognition starts;
+- transport/pointer availability;
+- actual cognition activation.
