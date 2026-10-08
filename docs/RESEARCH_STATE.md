@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** Quiet Presence ecological field campaign active in stewardship/incubation; MP-1 apparatus preserved as a dormant controlled-method checkpoint; reconnaissance remains frozen
+**Status:** Quiet Presence ecological field campaign active in stewardship/incubation + bounded heterogeneous shared-browser round-trip frontier; MP-1 apparatus preserved as a dormant controlled-method checkpoint; reconnaissance remains frozen
 
 **Last material update:** 2026-10-08
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
@@ -14,6 +14,9 @@ Current open draft research frontiers:
 
 - **PR #5 — Quiet Presence ecological campaign**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
+
+- **PR #11 — heterogeneous shared-browser round-trip**  
+  Preserves one bounded Claude ↔ Browser ChatGPT round-trip through shared Opera state. Owner-routed and non-blind; not ecological adoption or a transport architecture.
 
 
 Recent lifecycle corrections:
