@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** Quiet Presence ecological field campaign active in stewardship/incubation; heterogeneous shared-browser round-trip preserved as a completed bounded checkpoint; MP-1 apparatus dormant; reconnaissance frozen
+**Status:** Quiet Presence ecological field campaign active in stewardship/incubation + source-bound heterogeneous co-creation frontier; heterogeneous shared-browser round-trip preserved as a completed bounded checkpoint; MP-1 apparatus dormant; reconnaissance frozen
 
 **Last material update:** 2026-10-08
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
@@ -14,6 +14,9 @@ Current open draft research frontiers:
 
 - **PR #5 — Quiet Presence ecological campaign**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
+
+- **PR #12 — source-bound heterogeneous co-creation**  
+  Successor to closed #11. Tests useful Claude ↔ Browser work through source-bound objects while shared Opera is reduced to discovery/pointers; connector runtime exposure remains to be qualified on a fresh Claude body.
 
 
 Recent lifecycle corrections:
