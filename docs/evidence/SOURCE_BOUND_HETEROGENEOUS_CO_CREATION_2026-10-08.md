@@ -1057,3 +1057,23 @@ Official sources:
 - https://help.openai.com/pl-pl/articles/10291617-scheduled-tasks-in-chatgpt
 - https://help.openai.com/pl-pl/articles/12525822-chatgpt-connector-for-slack
 - https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+## Slack precondition for future Work event-trigger test — LIVE PASS
+
+OpenAI's current event-triggered Work contract requires `@ChatGPT` to be a member of each Slack channel monitored by a Slack-triggered task.
+
+Live qualification on `#medium-probes` (`C0C7PCKRG3E`):
+- before change, channel membership contained only Owner user `U0C7D089D53`;
+- the existing ChatGPT Slack app user is `U0C7N0DGB8U`;
+- Browser invited that existing bot/app user to `#medium-probes`;
+- Slack returned `ok: true`;
+- independent membership read-back returned exactly both user IDs.
+
+Current state:
+
+> **`#medium-probes` satisfies the Slack-channel membership precondition for a future ChatGPT Work event-triggered task.**
+
+No Work task was created, no event trigger was armed, and no synthetic trigger message was emitted.
+
+This is a surface-preparation PASS only, not an event-activation PASS.
+
+The channel remains apparatus-only and must not be confused with `#medium-live`.
