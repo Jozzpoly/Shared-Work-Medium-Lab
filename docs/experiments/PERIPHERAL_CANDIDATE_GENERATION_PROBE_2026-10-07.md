@@ -314,6 +314,47 @@ A bounded live check compared several source-native GitHub observation modes. Th
 
 **Important negative control:** mere activity does not imply transferable value. A dormant but semantically relevant donor may be more useful than a high-churn project; recency can only generate inspection candidates, not rank scientific importance.
 
+## Opera working-set trace composition — 2026-10-08
+
+A bounded passive read tested whether the Owner's existing browser already exposes a useful recent working set without a Medium-maintained registry.
+
+Observed connector behavior:
+- Opera history exposes visited URLs and timestamps, but not useful page titles in this environment;
+- current tabs expose both URLs and human-readable titles;
+- ChatGPT project URLs appear in more than one formatting form (base project ID with or without a readable slug);
+- normalizing to the 32-hex project identity and composing history with current-tab identity restored a useful recent-project fingerprint.
+
+Seven-day bounded result after normalization:
+- Slack workspace: 14 relevant traces;
+- Medium project: 7;
+- GitHub ReflexBrain: 7;
+- Feniks project: 5;
+- ReflexBrain Pages: 4;
+- Combat project: 4;
+- GitHub Shared Work Medium: 3;
+- ReflexBrain project: 2.
+
+This is **not** an importance ranking and not a complete project inventory.
+
+Scoped finding:
+
+> Owner browsing behavior already leaves a low-authority temporal working-set trace. History supplies recency/frequency; current tabs can supply semantic labels for project identities that are presently open.
+
+Useful role:
+- generate cheap project candidates near current Owner activity;
+- recover recently visited source surfaces after tabs close;
+- bias orientation before expensive global discovery.
+
+Hard boundaries:
+- browser history is private Owner context;
+- visits may be accidental, stale or unrelated to the current question;
+- inactive but highly relevant donors will be missed;
+- project identity mapping is partial when no current semantic label is available;
+- clearing/changing browser profile destroys the trace;
+- frequency must never become project priority or scientific relevance.
+
+Therefore Opera history is a **peripheral scent sensor**, not project truth or a central registry.
+
 ## Existing-memory and project-topology counterpressure
 
 A live read of an ordinary Combat Lab conversation exposed another competing candidate-generation substrate: the project agent was already reasoning about future transfer to **Feniks** and **Studio** while pursuing Combat Lab's own research questions.
