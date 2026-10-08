@@ -1,0 +1,9 @@
+{
+  "id": "combat-live-research-state",
+  "title": "Combat Lab — live research state",
+  "kind": "live state pointer",
+  "authority": "Jozzpoly/Combat-Lab canonical research state",
+  "description": "Current selected frontier and research evidence boundaries. Inspect live experimental branches and CI separately for candidate execution.",
+  "binding": "live",
+  "href": "https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md"
+}
