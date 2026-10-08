@@ -22,6 +22,19 @@ h1{font-size:clamp(36px,4.2vw,62px);letter-spacing:-.065em;line-height:1.03;marg
 .hero-note strong{display:block;margin-bottom:7px;font-size:16px}
 .hero-note p{color:#b6bfd0;font-size:14px;margin:0}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 14px}
+.view-controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.view-toggle{background:#253342;border:1px solid #859fa9;border-radius:9px;padding:8px 12px;color:#e6f4ec;font:inherit;font-size:13px;cursor:pointer}
+.view-toggle:hover{background:#354d5d}
+.view-toggle:focus-visible{outline:3px solid #e1eaa6;outline-offset:3px}
+#cards.compact{grid-template-columns:1fr}
+#cards.compact .project{display:grid;grid-template-columns:minmax(200px,.7fr) minmax(0,1.3fr);grid-template-areas:"head desc" "title fact" "actions actions" "peek peek";gap:8px 22px;min-height:0;padding:19px 22px}
+#cards.compact .project > .head{grid-area:head}
+#cards.compact .project > h3{grid-area:title}
+#cards.compact .project > p{grid-area:desc}
+#cards.compact .project > .fact{grid-area:fact;margin-top:0}
+#cards.compact .project > .actions{grid-area:actions}
+#cards.compact .project > .peek{grid-area:peek}
+@media(max-width:810px){#cards.compact .project{display:flex;gap:12px}}
 h2{font-size:25px;letter-spacing:-.025em;margin:0}
 .filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
 .search{background:#171d29;color:#fff;border:1px solid #5c6980;border-radius:9px;padding:13px 16px;width:min(100%,380px);font:inherit}
@@ -86,7 +99,7 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
 </header>
 <main>
 <section aria-labelledby="places-heading">
-<div class="section-head"><h2 id="places-heading">Miejsca, do których możesz wejść</h2><span class="small">Bez rankingu. Bez powiadomień.</span></div>
+<div class="section-head"><h2 id="places-heading">Miejsca, do których możesz wejść</h2><div class="view-controls"><span class="small">Bez rankingu. Bez powiadomień.</span><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">Widok zwarty</button></div></div>
 <div class="filters">
  <label for="find" class="small">Znajdź projekt lub problem</label>
  <input id="find" class="search" type="search" placeholder="np. fizyczność, rig, pamięć..." autocomplete="off" aria-controls="cards">
@@ -166,6 +179,13 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
 <script>
 (function(){
   const input=document.getElementById('find'),cards=Array.from(document.querySelectorAll('.project')),none=document.getElementById('none');
+  const viewButton=document.getElementById('view-toggle');
+  const cardGrid=document.getElementById('cards');
+  viewButton.addEventListener('click',function(){
+    const compact=cardGrid.classList.toggle('compact');
+    viewButton.setAttribute('aria-pressed',String(compact));
+    viewButton.textContent=compact?'Widok rozbudowany':'Widok zwarty';
+  });
   // Search only curated, stable card identity/questions: never source previews
   // loaded later in the session. Search results must not depend on visit history.
   const searchIndex=cards.map(card=>({
