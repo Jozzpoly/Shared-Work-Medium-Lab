@@ -1025,3 +1025,35 @@ This further strengthens the provisional source-bound/stigmergic interpretation:
 > **prefer useful work that naturally emits a source-native event over explicit agent-to-agent transport when the project itself can carry the handoff.**
 
 No schema change follows.
+## Ordinary Browser runtime boundary for Work/Codex activation
+
+After qualifying the product-level composition, the current ordinary Browser Chat execution namespace was inspected for callable Codex/Work activation actions.
+
+Observed:
+- no callable `start Codex task`, `dispatch Codex`, `create Work task`, `create event-triggered Work task`, or equivalent actuator is exposed in this chat body;
+- the only Codex-related OpenAI Platform actions currently exposed are API-key setup actions, which are a different capability class and must not be substituted for Codex Cloud/Work task execution.
+
+Therefore:
+
+> **product capability exists != callable capability from this ordinary Browser Chat body.**
+
+The `Codex -> PR -> Work event -> Browser` composition must be configured/qualified through the relevant Work/Codex product surfaces, not simulated through API-key tooling.
+
+### Plus / Poland-EEA qualification
+
+Current OpenAI Help documentation explicitly lists eligible Plus users for event-triggered Work tasks and provides a Polish localized help article.
+
+No separate EEA exclusion is stated for event-triggered tasks in the task documentation.
+
+However the Slack app documentation retains a general boundary that availability depends on plan, region and workspace settings.
+
+Current status for this Owner:
+- Plus plan: **eligible by documented plan class**;
+- Slack connected in ordinary Chat: **live-known from this campaign**;
+- Work event-trigger UI/effect in Poland: **NOT LIVE-QUALIFIED**;
+- regional/app/workspace restrictions: must be respected if the Work UI does not expose the trigger.
+
+Official sources:
+- https://help.openai.com/pl-pl/articles/10291617-scheduled-tasks-in-chatgpt
+- https://help.openai.com/pl-pl/articles/12525822-chatgpt-connector-for-slack
+- https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
