@@ -608,3 +608,34 @@ This does **not** establish:
 - low-Owner-burden activation.
 
 Gates A/B/C remain open independently.
+## Observed carrier matrix — choose by property, not by one bus
+
+The current campaign has enough live evidence to compare several real carriers without treating any one of them as the Medium.
+
+| Carrier / surface | Durable source truth? | Cross-body evidence | Visible identity fidelity | Main strength | Main boundary |
+| --- | --- | --- | --- | --- | --- |
+| GitHub commit/file/PR/Issue | **Yes, strongest current project authority** | Browser strong; Claude settings/integration connected but runtime read/write still unqualified | Usually provider account identity; Browser authorship must be stated when writing as Owner account | exact provenance, revision binding, reviewable durable workpieces | slower/heavier than ambient presence; account identity != cognition identity |
+| Slack | **No** as long-term authority; Free history/retention bounded | Browser read/write PASS; Claude settings connected, fresh-body runtime OPEN | Browser writes appear under Owner Slack identity | low-cost pointer, thread, presence, apparatus coordination | sender/authorship mismatch; retention; attention/feed risk |
+| AgentMail | Message transport durable enough for bounded exchange, but not project authority | Browser A↔B transport PASS; no Claude path qualified | separate inbox/address identities available | explicit bidirectional transport identity and thread/message provenance | mailbox != cognition; provider-local thread IDs differ across inbox views; no activation |
+| Shared Opera | **No** | Claude↔Browser same-environment round-trip PASS bounded | no authenticated participant identity; trace ownership inferred from protocol/context | ambient working-set discovery, shared external environment, stigmergic trace | volatile connection; broad history/privacy exposure; conversations mutually readable; not selective |
+| Claude Artifact | Participant-owned object identity reachable | Claude creates; Browser object discovery PASS, payload read FAIL | Claude-owned surface | lets a participant create its own workpiece without immediate canonicalization | iframe/content not independently readable by Browser; cannot adopt code from summary |
+
+### Immediate consequence
+
+> **No observed carrier dominates all required properties.**
+
+GitHub is currently best for durable source-bound truth.
+
+Slack is useful for short pointers and coordination when attention cost is justified.
+
+Opera is useful as an ambient sensor/discovery surface, not a data plane.
+
+AgentMail demonstrates transport identity without solving cognition/activation.
+
+Claude Artifact demonstrates participant-owned creation without guaranteeing cross-body source readability.
+
+This supports a federated rather than bus-centric interpretation:
+
+> route each interaction through the cheapest carrier that satisfies the required authority, privacy, durability and body-reachability properties; preserve important results back at the owning source.
+
+Do not turn this table into a permanent capability registry. Every row is current-body evidence and may change.
