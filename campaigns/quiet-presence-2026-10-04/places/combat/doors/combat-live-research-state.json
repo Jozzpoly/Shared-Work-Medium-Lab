@@ -1,0 +1,5 @@
+{
+  "target_kind": "source",
+  "target_id": "combat-live-research-state",
+  "local_note": "Use the receiving project's current source for selected frontier and evidence boundaries; this Combat place is a dated perspective, and experimental branch/CI status must be checked separately."
+}
