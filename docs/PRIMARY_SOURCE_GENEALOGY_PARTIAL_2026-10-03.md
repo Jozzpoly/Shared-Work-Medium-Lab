@@ -16,11 +16,11 @@ Recovered directly:
 
 Not fully recovered:
 
-- the middle portion of the originating SWM conversation between the founding Shinden segment and the later currently loaded section.
+- the complete adjacent message sequence from the middle portion of the originating SWM conversation between the founding Shinden segment and the later loaded section; several material Owner anchors from that interval were recovered on 2026-10-08, but the full sequence is still missing.
 
-The ChatGPT UI currently stops that recovery with `Wczytywanie starszych wiadomości…` in the accessible conversation surface.
+The original ChatGPT UI recovery stopped at `Wczytywanie starszych wiadomości…`. Later prior-conversation recovery narrowed that gap without reconstructing the complete transcript.
 
-Therefore this document is **not** a complete conversation summary and must not be used to claim that the missing middle contains no additional Owner intent or corrections.
+Therefore this document is **not** a complete conversation summary and must not be used to claim that the still-missing adjacent sequence contains no additional Owner intent or corrections.
 
 ## Recovered exact founding mechanics
 
