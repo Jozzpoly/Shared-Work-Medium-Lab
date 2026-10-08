@@ -14,9 +14,14 @@ Anti-drift constraints: **[docs/DESIGN_GUARDRAILS.md](docs/DESIGN_GUARDRAILS.md)
 
 The earliest live shared work object was **GitHub Issue #1**. The current frontier is tracked in **docs/RESEARCH_STATE.md** rather than hardcoded here.
 
-### Optional visit — World
+### Optional visit — World: preserved scene or evolving field
 
-[**Zajrzyj do Medium — Quiet Presence**](https://htmlpreview.github.io/?https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/9438d0055fb1f27b2f67acc8bc9ab0b1a59a6bed/campaigns/quiet-presence-2026-10-04/field-surface.html) is an optional entrance to the existing three-place field experiment. This is a **revision-bound draft specimen**, not a live agent monitor or the current truth of every represented project. In one ordinary Opera/CUA walk on 2026-10-08, root → SWM → root worked. The external preview service is a replaceable access route; if unavailable, use [draft PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5) and its source files. Nothing requires a visit or an acknowledgement.
+There are two **voluntary**, different time views of the same Quiet Presence experiment:
+
+- **[Preserved scene — 2026-10-04](https://htmlpreview.github.io/?https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/9438d0055fb1f27b2f67acc8bc9ab0b1a59a6bed/campaigns/quiet-presence-2026-10-04/field-surface.html)**: immutable historical visit. Its three places and source doors reflect that exact revision, not the latest branch.
+- **[Evolving field — draft branch](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html)**: moving HTMLPreview entrance into the current **draft** Quiet Presence branch. It may expose newer locally owned doors and experiments, but is **not** a reliable current-state authority or a reproducible source receipt.
+
+The moving preview is a convenience, not a real-time feed, agent monitor, accepted release or proof of current project state. HTMLPreview and moving branch paths can cache or misresolve; when correctness matters, open [draft PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5), pin its exact commit, and revalidate the relevant project-native sources. Neither entrance requires an acknowledgement. This dual-entry distinction is about navigation, not a new architecture or notification obligation.
 
 ## North Star
 
