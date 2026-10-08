@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='05519a210a4af66c4b05e8040ea49b8d0e147b43';
+const sourceSha='bc4a125d9906f6f2e161f27df877e019475b445b';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -59,7 +59,9 @@ check(doc.querySelectorAll('.actions a').length===10,'ten native source/action o
 const allLinks=Array.from(doc.querySelectorAll('.actions a')).map(a=>a.href);
 check(allLinks.some(x=>x.includes('/ReflexBrain-Lab/probes/owner-field-lab.html')),'playable Reflex field has explicit action door');
 check(allLinks.some(x=>x==='https://jozzpoly.github.io/Combat-Lab/'),'neutral Combat smoke has separate honest action door');
-check(allLinks.some(x=>x.endsWith('/Jozz-Universal-Rig-Editor#run')),'JURE local run instruction distinguished from web demo');
+check(allLinks.some(x=>x.endsWith('/Jozz-Universal-Rig-Editor/blob/main/README.md')),'JURE instructions go to the full source without fragment rewrite');
+const initialAnchors=Array.from(doc.querySelectorAll('a[href]')).filter(a=>!a.classList.contains('peek-receipt'));
+check(initialAnchors.every(a=>!a.getAttribute('href').includes('#')),'no static source/action link uses an HTMLPreview-rewritten fragment');
 const input=doc.getElementById('find'),cards=Array.from(doc.querySelectorAll('.project')),none=doc.getElementById('none');
 check(cards[2].textContent.includes('jednym z kilku równoległych torów badań'),'Reflex selected branch is not misrepresented as entire laboratory');
 const change=value=>{input.value=value;input.dispatchEvent(new win.Event('input',{bubbles:true}))};
