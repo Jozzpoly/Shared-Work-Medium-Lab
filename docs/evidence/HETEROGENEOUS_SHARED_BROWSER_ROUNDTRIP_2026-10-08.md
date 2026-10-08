@@ -301,3 +301,84 @@ Medium-level value:
 > a second cognition body can serve as an independent anomaly detector / re-validator, while the owning project's source remains the authority that determines whether the anomaly is a bug, a deliberate contract, or a misunderstanding.
 
 This is qualitatively more useful than a transport-only ACK: the second body changed what the first body chose to inspect, and the source-native gate then corrected both agents' possible overclaim.
+
+## Asymmetric co-creation loop — first live instance
+
+The Owner explicitly invited Claude to co-create Shared Work Medium using the imperfect capabilities available today, including the deliberate shared-visibility cheat of one Opera session.
+
+Claude then produced a concrete contribution rather than another transport probe:
+- a Claude Artifact titled `Tablica stanu SWM v0 (as-of 7367c7a)`;
+- a candidate tool `swm-state.mjs`;
+- a generated `STATE_AS_OF.json`;
+- an analysis of ReflexBrain result/verdict recovery pressure;
+- explicit proposals for machine-readable verdict projection and Owner-verdict handling.
+
+### Artifact reachability
+
+Browser ChatGPT independently discovered the artifact URL through Opera history:
+`https://claude.ai/artifact/WbG4GNSh7RHbEG6wZS3gWE`
+
+The shared Opera session exposes:
+- artifact title;
+- Artifact UI;
+- access label `Only you`;
+- a `User-generated artifact content` iframe.
+
+But Browser ChatGPT's current Opera body does not traverse/read the iframe payload, and an ordinary external web fetch cannot access the artifact URL.
+
+Therefore:
+
+> **Claude Artifact object reachability: PASS. Independent Browser ChatGPT full-content read: NOT YET PASS.**
+
+The shared browser account/session is sufficient to expose the object, but not sufficient to make the artifact payload a qualified cross-agent data plane.
+
+### Conversation as provisional source channel
+
+Because the Owner explicitly accepts mutual visibility of the agent conversations for this experiment, Claude's own conversation remains readable through Opera.
+
+That conversation exposed the candidate tool's claimed behavior and limitations, but not independently readable tool bytes suitable for adoption.
+
+Browser ChatGPT therefore refused to copy/commit the implementation from the summary.
+
+### Source-native reply
+
+Browser ChatGPT independently verified that ReflexBrain branch `research/pre-o0-foundations-campaign` still pointed to:
+`7367c7ab7fd27382fc1a01b51387ed21cc258de7`
+
+and wrote a durable response on this PR branch:
+`docs/medium/REPLY_7367c7a.md`
+
+The response:
+- accepted the recovery problem;
+- verified P01A's intentional `scientific FAIL / execution PASS` separation;
+- rejected a global SWM-owned verdict ontology;
+- preserved project-local authority for Owner/scientific verdicts;
+- kept `swm-state.mjs` as a donor pending exact source review;
+- requested a future independently readable source path before adoption.
+
+Browser ChatGPT then left only a non-mutating browser-history pointer:
+`#swm-reply-7367c7a`
+
+and closed the tab.
+
+### Current observed co-creation shape
+
+This is the first live instance of:
+
+```
+Claude native work / local execution
+  -> Claude-side workpiece + shared-browser pointer
+  -> Browser ChatGPT discovers pointer
+  -> Browser ChatGPT verifies owning source
+  -> Browser ChatGPT writes durable project-side reply
+  -> shared-browser pointer back to Claude
+```
+
+The loop is asymmetric by design:
+- Claude currently has local execution / publishing capabilities that Browser ChatGPT does not use in the same way;
+- Browser ChatGPT currently has authenticated GitHub/Slack/AgentMail write actuators Claude does not have in that body;
+- Opera is a shared discovery substrate, not authority.
+
+Do not generalize this into a permanent architecture yet.
+
+The next useful qualification is whether Claude, on a later callable turn, independently finds `#swm-reply-7367c7a`, reads the durable reply, and exposes the exact `swm-state.mjs` source in a form Browser ChatGPT can actually inspect.
