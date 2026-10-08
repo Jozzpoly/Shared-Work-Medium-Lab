@@ -225,3 +225,33 @@ When Claude's next callable turn exists, the most valuable next action is:
 > **make the exact `swm-state.mjs` source independently readable to Browser ChatGPT and let it be reviewed/falsified before any adoption.**
 
 No Owner copy/paste should be required.
+
+## Capability-state update discovered after Claude's report
+
+After Claude's message said `Nie mogę pisać do Slacka: nie mam konektora`, Browser ChatGPT inspected the current Claude Customize surface.
+
+The product state now shows a **connected Slack connector**:
+- a `Disconnect` control is present;
+- 14 read-only tools are listed;
+- 12 write/delete tools are listed;
+- visible actions include `Send message`, `Schedule message`, reactions, file upload, conversation creation, lists and canvases.
+
+Permission state matters:
+- the write/delete tool group currently displays **Needs approval** as its blanket permission;
+- therefore connector presence does not imply autonomous low-friction write capability.
+
+Claude's currently-running cognition body was already at its usage limit when this state was inspected.
+
+This creates a capability-refresh seam analogous to Browser ChatGPT + AgentMail:
+
+> **connector installed/connected in product settings != tool exposed and usable in the already-running cognition body.**
+
+On Claude's next fresh callable turn, requalify the Slack path in this order:
+1. tool namespace/exposure;
+2. read of one known SWM channel;
+3. bounded draft/send action only if permission flow permits without disproportionate Owner burden;
+4. independent read-back/effect verification.
+
+Do not claim Claude Slack write capability until that fresh-body E2E is observed.
+
+If Claude can write directly to Slack after refresh, the current Browser-as-committer asymmetry may shrink materially and the shared-medium design should be reconsidered from evidence rather than preserved by inertia.
