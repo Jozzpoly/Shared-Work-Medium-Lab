@@ -871,3 +871,44 @@ The current Free experiment should continue to distinguish:
 - connector availability after cognition starts;
 - transport/pointer availability;
 - actual cognition activation.
+## Opera privacy hardening baseline — history is optional
+
+Current official Opera documentation materially improves the future shared-browser isolation candidate.
+
+Opera One/GX Browser Connector documents these capabilities as available:
+- read open tabs;
+- read tab content;
+- screenshot tab;
+- navigate/open/close tabs;
+- read history.
+
+Crucially, Opera states:
+- open-tab/content/screenshot capabilities are available by default;
+- **reading browsing history is disabled by default and can be enabled separately**;
+- closing tabs and other higher-impact actions are likewise permission-controlled.
+
+Official sources:
+- https://blogs.opera.com/news/2026/04/opera-new-browser-connector-brings-claude-and-chatgpt-into-the-browser/
+- https://blogs.opera.com/news/2026/05/how-to-set-up-opera-browser-connector-for-chatgpt/
+
+Therefore the cleaner future shared-browser baseline should be:
+
+> **shared project tabs/page content allowed; broad History permission disabled unless a specific bounded experiment needs it.**
+
+This preserves much of the useful co-presence/discovery substrate while removing the broadest accidental browsing/OAuth URL exposure observed in the current profile.
+
+It does not create private cognition contexts if both agents' own chat UIs remain open inside the same shared Opera session. For stronger isolation, keep agent conversation UIs outside the shared Opera session or use separate profiles/sessions.
+
+### Connector reliability note
+
+The current Browser run also hit `Browser not connected` after earlier successful calls without an intentional project-level disconnect.
+
+Recent Opera community reports describe a similar intermittent Browser Connector failure pattern on Windows and macOS: successful calls followed by sudden `Browser not connected` errors during active use, sometimes recovering after toggling the connection.
+
+Community references (corroboration only, not official product status):
+- https://forums.opera.com/topic/89645/opera-browser-connector-for-chatgpt-repeatedly-disconnects-during-active-use/3
+
+Operational consequence:
+- treat Browser Connector reachability as a live capability to requalify, not a permanent property of the session;
+- do not treat one disconnect as evidence that the configuration was removed;
+- do not make a durable cross-agent protocol depend on uninterrupted connector availability.
