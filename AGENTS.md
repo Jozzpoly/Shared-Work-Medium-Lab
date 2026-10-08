@@ -20,6 +20,7 @@ Your first responsibility is to recover the real project state from the reposito
 - A machine/test PASS is only valid for the scope it actually tests.
 - Do not overwrite experiential/product-level Owner feedback with narrower mechanical evidence.
 - Prefer exact repository paths, commits, issues, PRs, and artifacts over prose context copying.
+- **Before a costly cross-project action, donor experiment, or claim about another project's current need, re-ground against that receiving project's freshest source-native frontier.** An exact pinned source can remain perfectly correct while no longer being decision-relevant after newer PRs/runs/branch state. Check only the relevant live frontier; do not turn this into an estate-wide crawl or watcher.
 - **Negative code-search results are not absence evidence without coverage.** This GitHub connector reported only 2/26 connected repositories indexed on 2026-10-08; `DurableObject` search returned zero even though the public Cloudflare source contained it. Before declaring a capability missing, check current search/index coverage, the actual active branch, and source-native Git trees/exact files where warranted. See [bounded negative control](docs/evidence/GITHUB_CODE_SEARCH_COVERAGE_NEGATIVE_CONTROL_2026-10-08.md). Do not turn this into a mandatory estate-wide crawl.
 - Preserve links to rich sources instead of replacing them with one canonical summary.
 - Keep changes small, reversible, and justified by observed collaboration friction.
