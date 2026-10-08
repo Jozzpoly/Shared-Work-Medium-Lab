@@ -1158,3 +1158,33 @@ This reinforces a broader principle already emerging from dogfood:
 > **activation is attention allocation, not global observation coverage.**
 
 No watcher registry or per-project trigger schema should be added from this observation.
+## Work event conditions are not yet a qualified quiet-attention filter
+
+A tempting interpretation is that ChatGPT Work event-triggered tasks could directly implement the future sparse Owner-facing `For me` surface.
+
+Current documentation is not sufficient for that claim.
+
+OpenAI exposes separate `Trigger`, `Condition`, and `Prompt` fields, but the current docs inspected here do not establish the exact negative-path semantics:
+- whether a false condition prevents a cognition run entirely;
+- whether it prevents task-result creation;
+- whether it suppresses notifications;
+- how grouped events interact with conditions.
+
+OpenAI also documents that event-triggered tasks can run up to **30 times per hour and 720 times per day across all event-triggered tasks**, with multiple events potentially grouped.
+
+Official source:
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+
+Therefore:
+
+> **Work event activation is a candidate sparse-attention substrate, not yet a qualified `For me` filter.**
+
+The first live qualification should test both positive and negative paths:
+
+1. one matching PR event -> task wakes and reads exact source;
+2. one deliberately non-matching event -> observe whether any run/result/notification appears;
+3. inspect Scheduled for hidden/paused/grouped runs rather than judging only by push notifications.
+
+A system that wakes on every repository event and merely decides 'nothing important' afterward may still create excessive cognition cost or task noise.
+
+Do not build global monitoring around Work conditions until the negative path is live-qualified.
