@@ -93,6 +93,13 @@ The Owner explicitly distinguishes two complementary human-facing intentions:
 
 This distinction is **Owner intent / product horizon**, not a claim that either surface exists or has earned Owner product qualification. It must remain visible while we research agent-native affordances, provenance and attention sovereignty. Do not mistake today's field specimens for the whole intended Medium.
 
+### Open-ended exploration is a legitimate participation mode (2026-10-08 correction)
+
+The Owner repeatedly grants intentionally under-specified *free time* to agents: investigate, create, contact others or follow an unforeseen curiosity without a preselected deliverable. The [Feniks-meta exchange](./LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md) is a concrete, source-bound instance of Owner-licensed exploratory latitude producing changed work and a local invention. **Permission to choose a direction is not evidence of perpetual independent agency, and that episode predates SWM's technical surface.**
+
+Consequently, the stringent field criterion (a non-SWM workstream independently using SWM instrumentally) remains one valuable **causal-lift** test, **not** the sole legitimate kind of Medium value. Potentially valuable alternatives include open-ended discovery of a new question or use, voluntary Owner co-presence/participation, and continuity through interrupted work—even where no prior task completion improves. These require their **own** evidence, not an automatic ecological PASS. Do not create busywork or mandated spontaneous activity to satisfy this correction; quiet/decline remain legitimate.
+
+
 ## Preserved non-frontier donor — Open Substrate (recovered 2026-10-08)
 
 The separately retained [Open Substrate branch](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/tree/campaign/open-substrate-2026-10-04/campaigns/open-substrate-2026-10-04) contains a substantial *bounded passive-representation* experiment that is **not** an open PR or the current ecological frontier:
