@@ -337,6 +337,30 @@ Therefore:
 
 This is especially important for active, conceptually coupled projects such as Combat/Feniks/Studio, where ordinary memory may already make donor candidates highly available. The best future ecological subjects may instead be quieter or more weakly coupled project pairs where a useful relation is not already culturally salient.
 
+## Ecological silence gate — 2026-10-08
+
+The live Slack surface was deliberately reduced to **zero research-generated scents**.
+
+Four Browser-generated cross-lab signals and the remaining synthetic probe residue were removed from `#medium-live` after their claims were preserved in this draft branch.
+
+Reason:
+
+- no signal had an independent consumer;
+- all message authorship/handling reactions were produced through the same Owner-authorized Browser path;
+- no non-SWM agent followed a scent and materially changed local work;
+- keeping them would make the live surface look ecologically active when the experiment had not demonstrated ecology.
+
+Current rule:
+
+> `#medium-live` may remain empty indefinitely. The next scent must originate from a real project/runtime/Owner observation or another genuinely independent work path, not from the need to populate the Medium.
+
+This is stronger than a TTL heuristic. It separates:
+- **apparatus evidence** -> `#medium-probes` / draft-branch evidence;
+- **durable research interpretation** -> repository;
+- **ecological peripheral scent** -> `#medium-live` only after a real external event exists.
+
+A quiet channel is a valid outcome and currently preferable to synthetic activity.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
