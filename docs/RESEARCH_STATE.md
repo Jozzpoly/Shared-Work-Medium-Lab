@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** dual research lanes active — MP-1 controlled mechanism work + Quiet Presence ecological field campaign; reconnaissance remains frozen
+**Status:** Quiet Presence ecological field campaign active in stewardship/incubation; MP-1 apparatus preserved as a dormant controlled-method checkpoint; reconnaissance remains frozen
 
 **Last material update:** 2026-10-08
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
@@ -12,9 +12,6 @@ This section is a **routing update only**. It does not promote draft-branch rese
 
 Current open draft research frontiers:
 
-- **PR #4 — MP-1A controlled semantic-ablation apparatus**  
-  Controlled mechanism lane remains open; real-subject/causal qualification is not complete.
-
 - **PR #5 — Quiet Presence ecological campaign**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
 
@@ -22,6 +19,7 @@ Current open draft research frontiers:
 Recent lifecycle corrections:
 
 - PR #3 (`semantic-medium-v0`) is closed unmerged as completed historical reconnaissance; its branch/commits remain donor evidence.
+- PR #4 is closed unmerged as a completed MP-1A apparatus checkpoint. It qualified the semantic-ablation/scoring seam with synthetic and BrowserGym evidence; the real-subject comparison remains deferred until a genuinely isolated/stateless model subject is callable.
 - PR #6 was merged only into draft Quiet Presence parent PR #5; this did **not** merge Quiet Presence into `main`.
 - PR #8 is closed unmerged as a completed Capability Expedition checkpoint; Issue #7 remains the live campaign handle.
 - PR #9 is closed unmerged as a completed current-truth topology/stewardship checkpoint. It exposed and minimally repaired the canonical front-door freshness gap, and showed that successful lifecycle writes still require semantic read-back. Fresh-agent T0/T1/T2 behavioral qualification remains open only when a genuinely fresh subject becomes callable.
@@ -47,11 +45,11 @@ GitHub is currently useful because it already provides:
 - issues, commits, PRs, and Actions as existing inspectable objects;
 - a place where the lab can later grow executable code.
 
-### Current active lanes — 2026-10-04
+### Current research lanes — status refreshed 2026-10-08
 
-**MP-1 / controlled mechanism research** remains the causal-isolation line for testing whether environmental structure changes agent behaviour, acquisition cost, correctness or workflow formation.
+**MP-1 / controlled mechanism research** remains a preserved causal-isolation method, not an active run. PR #4 is closed unmerged as apparatus/donor evidence; its next load-bearing step requires a genuinely isolated/stateless real model subject.
 
-**Quiet Presence / ecological field research** is now in stewardship + incubation mode. Its current target is attention sovereignty and useful shared reality without global ranking: things may remain present and recoverable while participants can ignore, enter deeply, leave and return without mandatory catch-up debt.
+**Quiet Presence / ecological field research** is the current live field lane in stewardship + incubation mode. Its current target is attention sovereignty and useful shared reality without global ranking: things may remain present and recoverable while participants can ignore, enter deeply, leave and return without mandatory catch-up debt.
 
 The strongest long-term ecological success criterion is intentionally hard:
 
