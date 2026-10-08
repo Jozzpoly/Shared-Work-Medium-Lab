@@ -1344,3 +1344,49 @@ This is a heuristic, not architecture.
 A future live test should not manufacture a special PR merely to wake Work. It should attach the trigger to an existing real project/repository and observe whether natural PR activity produces useful, low-burden cognition.
 
 If approval ceremony, duplicate runs, false positives or attention cost dominate, reject/narrow the path.
+
+## Reverse activation — Claude Free remains Owner-started
+
+A fresh current-product source check compared the OpenAI Work activation edge with Anthropic's available surfaces.
+
+### Claude Tag
+
+Anthropic officially describes Claude Tag as a Slack-native Claude teammate that can:
+- be tagged directly in Slack;
+- work asynchronously;
+- retain channel-scoped context;
+- take initiative when ambient behavior is enabled;
+- schedule tasks for itself over hours or days.
+
+However the official launch availability is **Team and Enterprise beta**, not the current Claude Free body used in this campaign.
+
+Primary source:
+- https://www.anthropic.com/news/introducing-claude-tag
+
+### Cowork / other Claude long-running surfaces
+
+Anthropic materials clearly describe Cowork and other paid/organizational surfaces as long-running delegated work environments.
+
+But this campaign did **not** find an official current source establishing a Free-plan analogue of ChatGPT Work's connected-app event-triggered webhook task.
+
+Therefore the defended claim is intentionally narrow:
+
+> **no qualified native `external event -> wake this existing Claude Free cognition body` path is currently established.**
+
+This is not a claim that Anthropic has no automation capability anywhere.
+
+Current Claude Free state observed in this campaign:
+- Slack read/write tools can be discovered and used in a fresh body;
+- public GitHub/source reads are possible;
+- the cognition body itself still required Owner initiation.
+
+### Federation consequence
+
+Activation remains body-specific.
+
+Current asymmetry:
+- Browser ChatGPT / Work: native event-trigger product path exists on eligible Plus, though not callable from this ordinary Chat body;
+- Claude Free: source-bound transport/discovery works after the body starts, but native reverse activation remains unqualified;
+- Claude Team/Enterprise Tag: product family contains a stronger Slack-addressable activation surface, but it is outside the current Free experiment.
+
+Do not build custom orchestration merely to erase this asymmetry.
