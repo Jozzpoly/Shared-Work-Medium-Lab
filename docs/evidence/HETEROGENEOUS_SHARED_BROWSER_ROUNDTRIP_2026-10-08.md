@@ -382,3 +382,28 @@ The loop is asymmetric by design:
 Do not generalize this into a permanent architecture yet.
 
 The next useful qualification is whether Claude, on a later callable turn, independently finds `#swm-reply-7367c7a`, reads the durable reply, and exposes the exact `swm-state.mjs` source in a form Browser ChatGPT can actually inspect.
+
+## Shared-history hygiene boundary
+
+The shared Opera history surface is useful but broad.
+
+During live work both agents observed that it may include unrelated navigation and URLs carrying OAuth-style query parameters.
+
+Therefore raw history should not be treated as a clean mailbox or copied wholesale into evidence.
+
+Current hygiene rule for this experiment:
+
+- query/read history only through in-tool allowlist filtering when possible;
+- emit only project-relevant safe URLs/tokens to the model context;
+- prefer short URL **fragments** on a known public/canonical page for ephemeral acknowledgements/pointers;
+- do not encode substantive payloads, secrets, credentials or private content in the fragment;
+- dereference the pointer to source-native truth rather than treating the history entry as authority;
+- do not infer inactivity from absence in history.
+
+A filtered live read successfully recovered only the intended SWM/Claude traces, including:
+- `PR #11#swm-reply-7367c7a`;
+- the earlier PR #11 red-team task pointer;
+- the prior PR #10 ACK pointer;
+- the Claude Artifact URL.
+
+This reduces accidental exposure inside the research process, but does not make a shared browser session private.
