@@ -281,3 +281,24 @@ Updated classification:
 
 This is stronger evidence than leaving the gap unresolved. The repair demonstrates that current-truth topology can be improved by changing only the routing surface rather than copying unstable draft state into the canonical summary.
 
+
+## Lifecycle write read-back caught semantic residue — 2026-10-08
+
+Closing PR #10 exposed a live stewardship failure in the canonical router.
+
+Sequence:
+- PR #10 was closed unmerged as a completed checkpoint;
+- `main/docs/RESEARCH_STATE.md` received a lifecycle update;
+- the first write acknowledgement succeeded;
+- read-back showed PR #10 still listed as an active frontier;
+- a second patch removed the heading but left an orphaned continuation sentence under PR #9;
+- a second read-back caught that semantic residue;
+- a final targeted removal restored a truthful active-frontier list.
+
+Scoped finding:
+
+> **write success != front-door correctness; lifecycle routing changes require semantic read-back, not only mutation acknowledgement.**
+
+The failure was not broken JSON/Markdown. The document remained syntactically valid while its meaning was wrong.
+
+This strengthens the current-truth topology claim without establishing the still-unrun fresh-agent T0/T1/T2 behavioral comparison.
