@@ -101,6 +101,45 @@ try {
   result.observations.compareStatus = await page.locator('#status').innerText();
   result.observations.compareViewVisible = await page.locator('#compareView').isVisible();
   await page.screenshot({ path: path.join(dir, 'compare-ab.png'), fullPage: true });
+  // Capture both rendered worlds AT ONCE, rather than trusting the app's own
+  // divergence label. This avoids mistaking serial snapshots of a moving world
+  // for simultaneous comparison. Crop status overlays / footer text.
+  const container = page.locator('#compareView');
+  const [boxWhole, boxA, boxB] = await Promise.all([
+    container.boundingBox(),
+    page.locator('#worldA').boundingBox(),
+    page.locator('#worldB').boundingBox()
+  ]);
+  if (!boxWhole || !boxA || !boxB) throw new Error('Cannot ground both comparison canvases');
+  const together = PNG.sync.read(await container.screenshot({
+    path: path.join(dir, 'compare-atomic.png')
+  }));
+  const xA = Math.round(boxA.x - boxWhole.x), yA = Math.round(boxA.y - boxWhole.y);
+  const xB = Math.round(boxB.x - boxWhole.x), yB = Math.round(boxB.y - boxWhole.y);
+  const w = Math.floor(Math.min(boxA.width, boxB.width));
+  const h = Math.floor(Math.min(boxA.height, boxB.height));
+  let compared = 0, different = 0;
+  for (let yy = 45; yy < h - 38; yy += 2) {
+    for (let xx = 24; xx < w - 24; xx += 2) {
+      const left = ((yA + yy) * together.width + (xA + xx)) * 4;
+      const right = ((yB + yy) * together.width + (xB + xx)) * 4;
+      if (left < 0 || right < 0 || left + 3 >= together.data.length || right + 3 >= together.data.length) continue;
+      const d = Math.abs(together.data[left] - together.data[right])
+        + Math.abs(together.data[left + 1] - together.data[right + 1])
+        + Math.abs(together.data[left + 2] - together.data[right + 2]);
+      compared++;
+      if (d > 75) different++;
+    }
+  }
+  result.observations.sameFrameVisualComparison = {
+    comparedSampledPixels: compared,
+    significantlyDifferentSampledPixels: different,
+    fraction: compared ? different / compared : null,
+    source: 'single screenshot of both worlds; labels and footer excluded'
+  };
+  if (compared < 1000 || different < 70) {
+    throw new Error('A/B rendered material difference not independently visible at selected sampling scale');
+  }
   if (!result.observations.compareViewVisible || !/COMPARE/.test(result.observations.compareStatus)) {
     throw new Error('No visible A/B comparison');
   }
