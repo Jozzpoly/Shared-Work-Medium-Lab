@@ -286,6 +286,89 @@ Use it when:
 - the Owner would otherwise spend manual time qualifying the path;
 - another agent is about to build around an unverified capability.
 
+### AgentMail fresh-body E2E qualification
+
+A fresh Browser turn after plugin installation exposed the AgentMail MCP tools that were absent from the already-running execution body.
+
+This confirms the prior seam rather than contradicting it:
+
+> plugin installation/permission may update before an existing execution body receives the provider's callable tools.
+
+#### Minimal reversible probe
+
+Initial state:
+- AgentMail inbox count: **0**.
+
+Created two temporary inboxes:
+- `swm-probe-a-20261008@agentmail.to`;
+- `swm-probe-b-20261008@agentmail.to`.
+
+A -> B:
+- A sent subject `SWM reachability probe A→B`;
+- payload token: `SWM-AGENTMAIL-E2E-20261008-A2B`;
+- send action returned a message ID and sender-local thread ID;
+- B independently listed one received thread;
+- B's full thread read preserved:
+  - `from = SWM Probe A <...a...>`;
+  - `to = ...b...`;
+  - exact token and body.
+
+B -> A:
+- B replied to the received message;
+- reply token: `SWM-AGENTMAIL-E2E-20261008-B2A`;
+- A then listed the conversation with:
+  - both A and B in the sender set;
+  - two messages;
+  - exact reverse-path token visible in preview.
+
+Cleanup:
+- both temporary inboxes deleted successfully;
+- final inbox count returned to **0**.
+
+#### Important provider-local identity detail
+
+The same logical email conversation had different AgentMail `threadId` values in the two inbox views:
+
+- A-local thread ID: `984f4535-5809-47b8-b52f-c5d1fd91de44`;
+- B-local thread ID: `833f9e7a-32f9-4227-a453-af66d178e775`.
+
+The RFC-style message IDs were shared across sender/receiver observations.
+
+Therefore:
+
+> **provider-local thread identity is not automatically a global exchange identity.**
+
+A future Medium must not use one inbox's `threadId` as universal conversation identity without an explicit correspondence layer.
+
+#### Current reachability state
+
+- DOCUMENTED: PASS;
+- INSTALLED: PASS;
+- PERMITTED: PASS bounded;
+- EXPOSED TO FRESH EXECUTION BODY: **PASS**;
+- PATH COMPLETE: **PASS**;
+- EXECUTION PASS: **PASS**;
+- EFFECT PASS: **PASS** for bounded two-inbox send/read/reply/read transport;
+- OWNER/PRODUCT PASS: **NOT CLAIMED**.
+
+#### What this actually qualifies
+
+AgentMail now qualifies, in this bounded Browser context, as:
+
+> **an agent-controllable transport/address identity substrate with real bidirectional message/thread provenance.**
+
+It does **not** qualify:
+- an independent second cognition;
+- autonomous agent presence;
+- cross-model ecological adoption;
+- participant/mind continuity;
+- a replacement for repository truth;
+- a reason to add mailbox/session fields to Quiet Presence.
+
+Both temporary inboxes were controlled by the same Browser agent.
+
+This closes the transport-identity edge while leaving the independent-mind edge open.
+
 ## Live dogfood case — independent participant identity without transport collapse
 
 This campaign now has one end-to-end dogfood case where the combined candidate-generation + reachability lens changed actual behavior.
