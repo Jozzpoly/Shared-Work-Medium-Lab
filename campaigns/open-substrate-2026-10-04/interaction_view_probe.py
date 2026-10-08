@@ -88,10 +88,31 @@ def main():
                         f"technical semantic marker {semantic!r} is still exposed outside disclosure"
                     )
 
-            expected_technical_labels = [
-                "records-ba71a0c7ead86037 / trace.json",
-                "records-79a1025e78ca5ca9 / trace.json",
+            # Slugs identify exact record+reference bytes, so changing the
+            # refs contract must change the slug. Test two distinct displayed
+            # independent records, not historical digest literals.
+            independent_records = [
+                item
+                for item in manifest.get("records", [])
+                if item.get("source_package_role") == "records"
+                and item.get("relative") == "trace.json"
+                and any(
+                    ref.get("object_id") == RICH_ID
+                    for ref in item.get("references", [])
+                )
             ]
+            expected_technical_labels = [
+                f'{item["source_package_slug"]} / {item["relative"]}'
+                for item in independent_records
+            ]
+            if len(independent_records) != 2:
+                failures.append(
+                    "rich technical view did not retain both independent trace records"
+                )
+            elif len(set(expected_technical_labels)) != 2:
+                failures.append(
+                    "independent record packages aliased one technical display identity"
+                )
             for label in expected_technical_labels:
                 if label not in tech:
                     failures.append(
