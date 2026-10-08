@@ -115,24 +115,26 @@ This is a stigmergic interaction primitive, not a secure messaging protocol.
 
 ## Capability asymmetry observed
 
-During the same run Claude demonstrated capabilities not currently exposed to Browser ChatGPT in this harness:
-- local/sandbox command execution;
-- dependency installation;
-- local test reproduction;
-- source inspection through shell-like workflows;
-- Opera history/tab/navigation access.
+The run showed meaningful overlap as well as asymmetry.
 
-Browser ChatGPT simultaneously has capabilities Claude did not demonstrate in this probe:
-- direct authenticated GitHub connector writes;
+Observed overlap:
+- both bodies had web-research capability;
+- both bodies had sandbox/code-execution-class capability in their current product surfaces;
+- both bodies had the same Opera history/tab/read/navigation surface.
+
+Browser ChatGPT additionally had authenticated action surfaces that Claude did not demonstrate in this probe:
+- direct GitHub connector writes;
 - direct Slack connector writes/edits;
 - Plugin Management;
 - AgentMail connector actions.
+
+Claude demonstrated its own sandbox workflow with package installation, local test reproduction and source inspection, but this experiment did **not** perform a controlled sandbox/network parity comparison against Browser ChatGPT.
 
 Do not convert this into a fixed capability table. These bodies may change between runs.
 
 The useful point is:
 
-> heterogeneous bodies can overlap on a shared environmental substrate while retaining different private actuators.
+> heterogeneous bodies can substantially overlap while still exposing different authenticated/private actuators and different effective workflows.
 
 ## Why this matters to Shared Work Medium
 
