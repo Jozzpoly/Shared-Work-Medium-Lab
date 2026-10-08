@@ -109,6 +109,26 @@ The Owner explicitly distinguishes two complementary human-facing intentions:
 
 These examples are **source-bounded recovered Owner meaning, not an exhaustive product specification**.
 
+### Current `For me` donor candidate — native task attention channel
+
+Current OpenAI product documentation exposes a promising **donor path**, not an SWM architecture decision:
+
+- eligible Plus users can create ChatGPT Work event-triggered tasks from supported GitHub PR activity or new Slack channel messages;
+- Scheduled/Tasks notifications can use Push, Email or both; supported mobile apps can receive task push notifications when configured;
+- Work separates Trigger, Condition and Prompt, allowing a future experiment to test selective Owner-facing attention rather than an unconditional activity feed.
+
+Primary product sources:
+- https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+
+Current qualification:
+
+> **PRODUCT DOCS PASS · SWM OWNER-ATTENTION E2E UNRUN**
+
+A plausible first `For me` specimen may therefore be **projection into an existing task-notification channel**, not a new dashboard: a real source-native event wakes Work, Work verifies current project truth, and only a materially Owner-relevant result earns a Push/Email surface.
+
+Do not create a notification/feed architecture from documentation alone. Approval friction, false positives, silence behavior, notification quality and actual Owner value remain untested.
+
 This distinction is **Owner intent / product horizon**, not a claim that either surface exists or has earned Owner product qualification. It must remain visible while we research agent-native affordances, provenance and attention sovereignty. Do not mistake today's field specimens for the whole intended Medium.
 
 ### Open-ended exploration is a legitimate participation mode (2026-10-08 correction)
