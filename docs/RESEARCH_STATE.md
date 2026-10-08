@@ -61,6 +61,8 @@ Prompted “test the medium” behaviour is not equivalent evidence. Silence is 
 
 The originating Browser conversation remains a primary research source and still needs a complete audit before any architecture is treated as settled.
 
+**Founding Shinden sensor correction (2026-10-08):** The [bounded live /episodes recheck](./evidence/SHINDEN_FOUNDING_SENSOR_RECHECK_2026-10-08.md) verifies a mixed-semantic, body-specific answer channel (table semantics plus Font Awesome private-use check/cross glyphs) and differentiates site-reported upload markers from verified underlying availability. This is **not** a replay/audit of the original 2026-10-01 94-title run, and does not close the genealogy requirement.
+
 That audit should reconstruct:
 
 - the actual problem that motivated SWM;
