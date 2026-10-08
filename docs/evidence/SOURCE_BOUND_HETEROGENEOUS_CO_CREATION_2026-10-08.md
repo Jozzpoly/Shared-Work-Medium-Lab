@@ -373,3 +373,24 @@ Current classification:
 Do not score deliberate Claude co-creation as ecological adoption merely because two heterogeneous cognition bodies are now involved.
 
 The earlier Claude Free incognito/native-web lane remains a cleaner future body-calibration route for blinded or unrelated-goal experiments, but the current shared-profile Claude session is already contaminated by SWM fixture/source/conversation exposure.
+## Open Substrate constraint on participant-owned workpieces
+
+The historical Open Substrate campaign at commit `2807bd2843167ecde3dabcc190ca82c6b961b206` already defended a relevant boundary:
+
+> arbitrary participant/tool/source content stays semantically opaque unless it explicitly opts into Medium-level identity relationships.
+
+That campaign also separated representation openness from capability/execution permission and required explicit reference boundaries rather than recursively inferring Medium semantics from arbitrary payload fields.
+
+Applied to the current Claude workpiece:
+
+- the Claude Artifact object may be addressable while its implementation payload remains unreadable to Browser;
+- Browser may preserve the artifact as a participant-owned referent;
+- Browser may source-verify claims independently and publish a separate receiving decision;
+- Browser must **not** reconstruct/adopt `swm-state.mjs` from prose or artifact UI summaries;
+- exact source bytes or another independently readable source-bound representation are required before code review/adoption.
+
+Therefore Gate C is not ceremony:
+
+> **independent readability is part of the authority boundary between participant proposal and adopted project mechanism.**
+
+No schema change follows.
