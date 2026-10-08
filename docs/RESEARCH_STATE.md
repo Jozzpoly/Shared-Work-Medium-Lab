@@ -1,12 +1,12 @@
 # Research State
 
-**Status:** Quiet Presence ecological field campaign active in stewardship/incubation; heterogeneous shared-browser and source-bound co-creation checkpoints preserved; MP-1 apparatus dormant; reconnaissance frozen
+**Status:** Quiet Presence ecological field incubating (draft PR #5); separate public visual Library/source-use candidate in draft PR #17; broader Library work under Issue #7; MP-1 dormant; reconnaissance frozen
 
-**Last material update:** 2026-10-08
+**Last material update:** 2026-10-09
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
 
-## Frontier topology refresh — 2026-10-08
+## Frontier topology refresh — 2026-10-09
 
 This section is a **routing update only**. It does not promote draft-branch research claims into canonical architecture.
 
@@ -14,6 +14,12 @@ Current open draft research frontiers:
 
 - **[PR #5 — Quiet Presence ecological campaign](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5)**  
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
+
+- **[PR #17 — Library Field Shelf visual/source experiment](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/17)**  
+  Separate unmerged *draft* candidate: four manually selected **public** project entrypoints, source-native actions, voluntary compact/expanded visual modes, live on-demand document/heading traversal, exact-SHA receipts when public GitHub API permits, **explicitly unpinned** source access when it is rate-limited. Connected Opera E2E qualified both pinned and rate-limited modes at different times; **no Owner UX acceptance, broader estate coverage or agent discovery lift is established**.
+
+- **[Issue #7 — broader Library / Atlas collaboration](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7)**  
+  Active joint research with Claude/Browser/other participants, separate from the PR #17 implementer's specimen. The initial private-inclusive Kataster prototype was valuable visual exploration but had known silent coverage omissions, source-authority errors and private-public boundaries. Its snapshot is **not** a complete/current estate index or approved product; do not copy/publish it to this public repository. Preserve voluntary World exploration *and* source-bound agent utility as distinct questions.
 
 
 Recent lifecycle corrections:
