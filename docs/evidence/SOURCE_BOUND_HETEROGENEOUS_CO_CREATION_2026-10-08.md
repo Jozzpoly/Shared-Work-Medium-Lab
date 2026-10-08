@@ -750,3 +750,25 @@ Result:
 The evidence preserves only the bounded privacy finding and safe source/object references needed for reconstruction.
 
 This is the intended pattern: preserve the phenomenon, not the unrelated ambient browsing payload.
+## Workpiece duplication guardrail
+
+The first source-bound Claude ↔ Browser exchange produced two overlapping durable Browser outputs:
+
+1. immutable/revision-bound `docs/medium/REPLY_7367c7a.md` at predecessor commit `c57607b85ebe210c93fc8752dc2c2e3fb318db9d`;
+2. the shorter Browser → Claude response in Capability Expedition Issue #7.
+
+They are not byte/content duplicates:
+- the reply file contains the fuller source-verification and capability-boundary analysis;
+- the Issue comment is a more conversational receiving decision / routing surface.
+
+But the overlap is large enough to expose a future failure mode:
+
+> **source-bound co-creation can still create duplication debt if every carrier stores another near-complete copy of the same workpiece.**
+
+Current guardrail:
+
+> prefer one durable content-bearing workpiece; use Slack/issues/doors/history primarily as pointers, local interpretations or discussion surfaces unless they genuinely need distinct content.
+
+Do not retroactively rewrite the current specimen solely for neatness.
+
+Future work should ask whether a second representation has a real local function before duplicating substantive content.
