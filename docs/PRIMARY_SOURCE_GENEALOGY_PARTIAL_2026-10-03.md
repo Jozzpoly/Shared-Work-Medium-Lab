@@ -275,3 +275,42 @@ These anchors narrow several earlier open questions:
 - Cloudflare interest was Owner-supported as a research direction, not evidence that Cloudflare had been selected as architecture.
 
 The complete adjacent transcript sequence is still not recovered. Do not infer missing wording, rejected alternatives, or stronger architectural commitments from these anchors.
+
+## Evidence-class refinement for the strong invariant candidates
+
+The 2026-10-08 missing-middle recovery changes how the ten existing invariant candidates should be read.
+
+Several of their **wordings remain synthesized by the assistant**, but their underlying directions now have direct Owner-level support from the recovered founding interval.
+
+### Directly Owner-supported direction
+
+The recovered Owner anchors directly support the substance of:
+
+1. **Capability amplification over organization** — capability gain and reduced AI-management burden were explicit.
+2. **Environment over prescribed workflow** — the Owner explicitly returned to the Shinden premise of environments exposing unforeseen affordances/capabilities rather than pre-scripted workflow.
+3. **Owner burden must not scale with agent/tool count** — the local Codex/Luna path was stopped when setup/workspace burden outweighed value.
+4. **Shared reality, independent minds** — `shared reality, different minds` and same reality through different sensors/interfaces were explicitly endorsed.
+5. **Source truth and provenance survive abstraction** — source/provenance and stale/unknown/conflicting states were explicitly protected over invented continuity.
+6. **Body heterogeneity is normal** — the exact phrase is synthesized, but the Owner explicitly framed different agents/humans as looking at the same reality through different sensors/interfaces and wanted the medium to extend hands/eyes/ears.
+7. **Graceful degradation** — unknown/stale/conflicting state was preferred to fabricated continuity.
+8. **Self-maintenance is part of the medium** — self-updating project-state projection was explicit.
+9. **Serendipity/freedom must survive optimization** — freedom, serendipity and open-ended exploration were explicit anti-drift requirements.
+10. **Temporary implementation choices are replaceable** — early simplifications/prototypes were explicitly forbidden from binding the long-term direction.
+
+### Important provenance caution
+
+This does **not** mean the ten labels above are verbatim Owner quotations.
+
+The evidence class is:
+
+> **Owner-confirmed direction · assistant-synthesized compact wording**
+
+That distinction matters. Future agents may challenge or rename the formulations while preserving the underlying Owner constraints.
+
+The still-missing adjacent transcript sequence matters mainly for:
+- chronology and causal development of the ideas;
+- additional corrections or rejected alternatives;
+- exact scope/boundary language;
+- discovering whether other Owner constraints were present but remain unrecovered.
+
+Do not use the improved confidence in these directions as permission to freeze an architecture.
