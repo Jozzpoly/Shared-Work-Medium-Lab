@@ -275,7 +275,7 @@ Temporary mechanisms from reconnaissance — GitHub as world model, Browser as c
 
 At this 2026-10-03 checkpoint, the fast `semantic-medium-v0` campaign was complete as reconnaissance and the active frontier was **structural research before the next architecture-bearing specimen**.
 
-The immediate research priority is:
+The immediate research priority at that checkpoint was:
 
 > Which general environmental properties actually increase agent capability, continuity, and self-directed workflow composition — independently of the temporary GitHub/Cloudflare/AXTree/WebMCP mechanisms used during reconnaissance?
 
