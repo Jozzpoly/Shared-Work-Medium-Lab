@@ -240,6 +240,9 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
     });
     none.hidden=count!==0;
   });
+  // One shared public API quota can affect every project card in this browser
+  // (and other agents using the same egress). Do not repeat a known 403/429.
+  let publicApiBlocked=false;
   document.querySelectorAll('.peek').forEach(function(panel){
     const button=panel.querySelector('.peek-read');
     const output=panel.querySelector('.peek-output');
@@ -263,18 +266,25 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
         const {repo,ref,file}=panel.dataset;
         const branchUrl='https://api.github.com/repos/'+repo+'/branches/'+encodeURIComponent(ref);
         let sha=null,apiReason='';
-        const apiController=new AbortController();
-        const apiCancel=setTimeout(()=>apiController.abort(),5000);
-        try{
-          const branchResponse=await fetch(branchUrl,{cache:'no-store',signal:apiController.signal,headers:{'Accept':'application/vnd.github+json'}});
-          if(!branchResponse.ok)throw new Error('API HTTP '+branchResponse.status);
-          const branchData=await branchResponse.json();
-          const candidate=branchData?.commit?.sha;
-          if(!/^[a-f0-9]{40}$/.test(candidate))throw new Error('API bez poprawnego SHA');
-          sha=candidate;
-        }catch(err){
-          apiReason=(err.name==='AbortError'?'przekroczony czas GitHub API':String(err.message||err));
-        }finally{clearTimeout(apiCancel)}
+        if(publicApiBlocked){
+          apiReason='publiczne GitHub API niedostępne po wcześniejszym limicie/403 w tej sesji';
+        }else{
+          const apiController=new AbortController();
+          const apiCancel=setTimeout(()=>apiController.abort(),5000);
+          try{
+            const branchResponse=await fetch(branchUrl,{cache:'no-store',signal:apiController.signal,headers:{'Accept':'application/vnd.github+json'}});
+            if(!branchResponse.ok){
+              if(branchResponse.status===403||branchResponse.status===429)publicApiBlocked=true;
+              throw new Error('API HTTP '+branchResponse.status);
+            }
+            const branchData=await branchResponse.json();
+            const candidate=branchData?.commit?.sha;
+            if(!/^[a-f0-9]{40}$/.test(candidate))throw new Error('API bez poprawnego SHA');
+            sha=candidate;
+          }catch(err){
+            apiReason=(err.name==='AbortError'?'przekroczony czas GitHub API':String(err.message||err));
+          }finally{clearTimeout(apiCancel)}
+        }
         // If unauthenticated GitHub API is rate limited, still let the reader
         // inspect the public moving-ref document, but NEVER forge a pinned receipt.
         const raw='https://raw.githubusercontent.com/'+repo+'/'+(sha||ref)+'/'+file;
