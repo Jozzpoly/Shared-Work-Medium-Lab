@@ -1,6 +1,12 @@
 name: Quiet Presence specimen
 
 on:
+  pull_request:
+    branches:
+      - campaign/quiet-presence-2026-10-04
+    paths:
+      - "campaigns/quiet-presence-2026-10-04/**"
+      - ".github/workflows/quiet-presence.yml"
   push:
     branches:
       - campaign/quiet-presence-2026-10-04
@@ -35,6 +41,9 @@ jobs:
 
       - name: Verify campaign laws
         run: python campaigns/quiet-presence-2026-10-04/verify.py
+
+      - name: Verify artifact body transport
+        run: python campaigns/quiet-presence-2026-10-04/test_window_body.py
 
       - name: Upload specimen
         if: always()
