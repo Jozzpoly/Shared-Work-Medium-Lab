@@ -1,31 +1,46 @@
-# Library Field Shelf — deliberately narrow visual specimen
+# Library Field Shelf — public visual/source experiment
 
-Date: 2026-10-09. This is **not** the entire estate, a canonical ontology, or a replacement for Claude's broader private-inclusive library research. It is a public-source-only, manually authored first human-usable panorama on a separate candidate branch.
+**Status:** draft PR #17; unqualified Owner experience, no global estate census, no claim of independent agent adoption. 2026-10-09.
 
-## Exact coverage boundary
+This is a different, intentionally **small** probe beside Claude's more comprehensive Library/Kataster direction. Its question is whether a calm human-readable project panorama can lead to **real first-party actions, original evidence and exact source sections** without lying about project authority or creating an attention obligation.
 
-Four **selected** public repository entrypoints, not a sampled estimate of all repositories and not a complete GitHub census: Shared-Work-Medium-Lab, Combat-Lab, ReflexBrain-Lab, Jozz-Universal-Rig-Editor. Feniks and local workspaces are explicitly *outside* coverage, not absent from reality. The source descriptions were checked against their project-native research state/README before writing.
+## Coverage and authority
 
-## What the experiment exposes
+Exactly **four deliberately selected PUBLIC repositories**, not "4/26 of a correctly sampled inventory" and not the whole estate. The prototype embeds neither private repo metadata nor Claude's private-inclusive Kataster ZIP.
 
-- Source-first *actionable* doors; no artificial "latest branch", global priority, score or ambient unread obligation.
-- Different project-native authority: SWM draft vs main, Combat experimental branch vs main, ReflexBrain historical main vs live research campaign, JURE canonical main.
-- Search enhances an already-present semantic HTML card grid; all links and all cards are readable without JavaScript.
-- The optional **“Sprawdź dokument projektu tutaj”** section fetches a public Markdown source only when the reader presses “Odczytaj teraz”, retaining first-party GitHub links for full context. The visible preview is the first 38 lines / 4500 characters of the source text, rendered with `textContent` so source content cannot execute as HTML. A moving ref is **not** an immutable version, nor does read time equal source update time. Failure/timeout (10 s) leaves the native source link accessible. This is an opt-in *retrieval affordance*, not a declared current project-state inference.
-- Native links open first-party repo sources; no source navigation depends on HTMLPreview hash-fragment handling.
-- Public-only sources. No private Kataster ZIP, branch forest inventory or secrets are embedded.
+| Place | Actual entry source | Crucial boundary |
+|---|---|---|
+| Medium | [main research state](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md) and draft [QP PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5) | main accepted routing ≠ incubating draft implementation |
+| Combat | [main research state](https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md), isolated contact-responsive branch, neutral Pages | no Owner-qualified combat/organism; live public Pages is **neutral smoke only** |
+| ReflexBrain | Pre-O0 [CONTINUE_HERE](https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/pre-o0-foundations-campaign/docs/CONTINUE_HERE.md), [live unqualified owner Field Lab](https://jozzpoly.github.io/ReflexBrain-Lab/probes/owner-field-lab.html) | main = historical R0, Pre-O0 is **one of multiple research lanes**; O-CTRL/G5 PR #45 and other pressure branches coexist; playable does not mean scientifically qualified |
+| JURE | [main/docs/STATUS.md](https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/docs/STATUS.md), local [run instructions](https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor#run) | main is accepted foundation, BIND-00 is provisional and the workbench runs locally |
 
-## What must be falsified
+Feniks/Studio and private/local workspaces are **not** included; not indexed does **not** mean nonexistent or dormant. Card prose is **agent-authored provisional interpretation**, not Owner-ratified project direction. Source documents and their own boundaries prevail.
 
-1. Does the rendered page have an accessible heading/card/link structure in a real browser with all four entry sources?
-2. Does a human find it **more useful** than QP's existing three-place field? This cannot be declared by its maker; ask only if the Owner voluntarily tries it.
-3. Would an agent with a real project task actually find relevant unknown material that native project search missed? Needs a later reader and no-library baseline.
-4. Does the presentation create an inaccurate illusion of completeness or live current truth? If yes, change or discard it.
+## Instrumental surfaces
 
-Read-only prototype. Keep on an isolated draft until qualified; no owner approval is assumed.
+- Two reversible presentations: editorial cards and compact list. Both keep the project-native status cautions; no global ranking, urgency count, activity score or "unread" debt.
+- Source/action doors link to project-owned repositories, a QP draft World visit, a real ReflexBrain field, a carefully **labeled neutral** Combat smoke, or local JURE start instructions.
+- A source-inspection disclosure is **opt-in**. It does not issue network requests in the background during ordinary entry.
+- On request it first attempts public GitHub branch metadata; a successful HEAD yields an immutable commit SHA and a second fetch of that exact raw document. It offers a GitHub source receipt at SHA + original line number. Source Markdown is inserted via `textContent`, never executable HTML.
+- If the unauthenticated GitHub REST API is rate-limited/unavailable, it still attempts **the same public document at the moving branch path**, marks it `NIEPRZYPIĘTE`, keeps SHA receipt **hidden**, and preserves the first-party source fallback. If the raw source itself is unavailable, it reports failure without inventing a document. No new credential or provider is required.
+- From whichever document text is actually obtained, section navigation is derived directly from literal original Markdown headings (up to level 3). It is not an LLM-generated summary, project plan or authority claim. Search indexes only fixed curator-authored card copy; fetching a source cannot silently alter search results.
+- Accessible section controls, keyboard-scrollable source text, compact live status messages instead of announcing several thousand source characters, and a responsive single-column narrow layout.
 
-## Current qualification boundary — 2026-10-09
+## Actual browser qualification — evidence boundary
 
-- **Opera rendered:** the exact on-branch HTML preview exposes all four source-inspection disclosure triangles, four project cards, eight native source/action links and a search box in its accessibility tree. Earlier screenshot review led to viewport compaction.
-- **Logic mock PASS:** executed the **exact committed inline JavaScript** against a minimal in-memory browser-element/fetch mock. Verified source-relevant filtering, on-demand successful source response with text-only insertion, HTTP failure fallback, and re-enabled retry. The syntax parsed. This is not a live network/CORS/browser-click test.
-- **Remaining unqualified:** real click-through/keypress in Opera (connector here is read-only), raw.githubusercontent.com CORS from HTMLPreview at runtime, actual Owner benefit, agent-native ecological use, corpus coverage/freshness. The native source links do not depend on the optional fetch succeeding.
+The connected Opera browser ran **source-fetch and actual interactive JavaScript** using the test page below. This is different from merely viewing an AXTree or executing a mocked unit.
+
+- [`network-proof.html`](network-proof.html): HTMLPreview-origin GitHub API `200` → exact-sha raw source `200`; exact first source text was visible in AXTree. Independently repeated by Agent_Slack in [PR #17 evidence comment](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/17#issuecomment-6070770230).
+- [`browser-e2e.html`](browser-e2e.html): one explicit testing page opens actual served candidate HTML in a same-origin `srcdoc` frame and performs DOM interactions. Verified four project cards, ten source/action links, reading all four original public documents, deep heading navigation (including ReflexBrain's non-introductory `Current next move`), changing source links to line-specific SHA receipts when possible, five deterministic search transitions, reversible compact view, narrow 390px layout without horizontal overflow, limited screen-reader announcement, keyboard focus, and a deliberately nonexistent-repo control without fake receipts.
+- **Before rate exhaustion:** real Opera run showed **4/4 exact-SHA source receipts**; each had real API and raw-source responses.
+- **After repeat runs exhausted the unauthenticated GitHub limit:** Opera's `api.github.com/rate_limit` returned core `0/60`; API returned an explicit rate-limit error. With the bounded fallback implementation, actual browser E2E then showed **4/4 original documents readable, 0 pinned / 4 explicitly unpinned**, source section navigation retained, and the deliberately unavailable repository correctly rejected.
+- E2E test orchestration no longer consumes GitHub REST API quota just to load its own candidate. It hashes actual served moving-ref HTML with browser SHA-256 and states explicitly that this **content hash is not a Git commit HEAD receipt**. The test source itself is in git and can be inspected/repeated. Moving previews, HTMLPreview caching and provider-specific limits remain possible.
+
+The earlier reviewer independently found an overclaim that labeled the selected Pre-O0 source as ReflexBrain's entire active frontier. [Source-bound reviewer note](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/17#issuecomment-6070702230) informed the correction: one lane among several.
+
+## Qualification deliberately missing
+
+Neither a developer's screenshots nor automated PASSes prove that the Owner wants to stay here, finds the art direction satisfying, learns independently, or gains a new workflow. A later **reader other than the maker** is required for external-use evidence; a controlled no-Library comparator is required before claiming incremental agent discovery/capability.
+
+No watcher, backend, event bus, whole-estate generator, access token, private corpus release, Work invocation, unconditional QP adoption or merge to `main` has been introduced. Keep this as a **replaceable draft specimen**, not a new canonical Medium ontology.
