@@ -16,7 +16,7 @@ Current open draft research frontiers:
   Attention sovereignty / local presence campaign remains draft and in incubation/stewardship mode.
 
 - **PR #12 — source-bound heterogeneous co-creation**  
-  Successor to closed #11. Tests useful Claude ↔ Browser work through source-bound objects while shared Opera is reduced to discovery/pointers; connector runtime exposure remains to be qualified on a fresh Claude body.
+  Successor to closed #11. Actual fresh Claude body qualified bounded Slack read/write/readback; GitHub public-source read works but authenticated GitHub write is **not exposed** in this body. Exact Claude `swm-state.mjs` source was recovered, SHA-256 matched, preserved and independently reviewed; its current implementation was **not adopted**. This is useful co-creation, **not** autonomous activation or Quiet Presence ecological adoption. Read the [live PR #12](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/12) for the source-bound details and any later revision.
 
 
 Recent lifecycle corrections:
