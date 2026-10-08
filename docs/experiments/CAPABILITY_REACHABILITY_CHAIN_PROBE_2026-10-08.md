@@ -138,6 +138,49 @@ Finding:
 
 > ACTION REACHABILITY does not imply OBSERVATION COMPLETENESS.
 
+### AgentMail plugin installation / runtime exposure split
+
+A live 2026-10-08 qualification produced a new seam after the Owner installed AgentMail specifically for this campaign.
+
+Observed through Plugin Management:
+- AgentMail status: `installed=true`;
+- app-specific permission: `Use my default`;
+- inherited global permission: `Allow low-risk actions`.
+
+Vendor/current MCP documentation exposes inbox/message/thread primitives including:
+- `create_inbox`;
+- `list_inboxes`;
+- `send_message`;
+- `list_threads`;
+- `get_thread`;
+- `reply_to_message`.
+
+Sources:
+- https://docs.agentmail.to/integrations/mcp
+- https://www.agentmail.to/docs/integrations/langchain
+
+However, the current Browser execution body's callable tool inventory did **not** expose any AgentMail namespace or the known MCP tool names after installation. Exact runtime introspection returned them as unavailable.
+
+Current evidence state:
+
+- DOCUMENTED: PASS;
+- INSTALLED: PASS;
+- PERMITTED: PASS (bounded low-risk policy);
+- EXPOSED TO CURRENT EXECUTION BODY: **FAIL / NOT PRESENT**;
+- PATH COMPLETE: FAIL;
+- EXECUTION PASS: NOT RUN;
+- EFFECT PASS: NOT RUN.
+
+Do not work around this by asking the Owner for API keys or by substituting metered browser automation. The missing edge is product/runtime tool exposure, not AgentMail service capability.
+
+Important new distinction:
+
+> **installed/connected plugin state may become visible before its tools become callable by the already-running execution body.**
+
+This may be a transient tool-refresh boundary rather than a durable product limitation. Requalify cheaply on a fresh run/turn before making a broader absence claim.
+
+AgentMail remains a strong identity-transport donor candidate because its primitive directly addresses a current SWM gap: agent-owned transport identity instead of connector actions inheriting Owner identity. It is **not yet a Browser capability PASS**.
+
 ## Permission-state snapshot
 
 Live Plugin Management inspection on 2026-10-08:
