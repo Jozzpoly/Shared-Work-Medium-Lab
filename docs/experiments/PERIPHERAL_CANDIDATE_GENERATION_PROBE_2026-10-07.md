@@ -503,6 +503,25 @@ Current pressure-driven ordering:
 
 Do not turn this into a permanent global catalog or periodic full-corpus crawl.
 
+### Selected non-action after checking Quiet Presence
+
+The donor was checked against the current Quiet Presence specimen rather than translated directly into a new schema.
+
+Observed on the live campaign branch:
+- `participants/codex/participant.json` currently contains only a local participant ID, title and description;
+- Codex's perspective is structurally separate from shared artifact identity;
+- place-owned local meaning is separate again;
+- the campaign explicitly says it is **not a live agent monitor and does not claim to solve multi-agent presence**.
+
+Therefore no participant/session/transport fields were added.
+
+Current decision:
+
+> **NO SCHEMA CHANGE.** Multi_World supplies a future boundary condition, not a missing field requirement in the present Quiet Presence experiment.
+
+Reopen the distinction only when SWM makes a real continuity claim across multiple execution bodies, accounts, connectors, mailboxes or transports. At that point, do not identify the participant merely by the currently convenient transport address.
+
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
