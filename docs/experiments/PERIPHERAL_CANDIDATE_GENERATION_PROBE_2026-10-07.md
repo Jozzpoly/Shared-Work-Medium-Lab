@@ -789,3 +789,44 @@ The Browser agent that designed this fixture is contaminated by the current Slac
 Current Browser tools also do not expose a legitimate independent model/subagent invocation path. Opera can observe authenticated external model surfaces but currently lacks click/type actuation; no subagent-spawn actuator is present.
 
 Therefore this fixture remains **UNRUN** until a legitimate independent subject body is available without turning the Owner into orchestration glue.
+
+## Ecological consumption check and campaign stop condition — 2026-10-08
+
+After the first real ReflexBrain scent was published, Browser performed a **passive-only** check of two existing live receiving workstreams:
+- Combat Lab current conversation;
+- Feniks current conversation.
+
+Across their currently accessible conversation trees, no trace of the Slack scent, `#medium-live`, `swm://scent/...`, or the Reflex donor was observed.
+
+Bounded result:
+
+> **NO ECOLOGICAL CONSUMPTION OBSERVED in these two live receiving workstreams.**
+
+This is not a global absence claim. It says only that the two inspected real workstreams had not visibly consumed the scent.
+
+No message was sent to either project, no prompt asked them to inspect Medium, and no activity was manufactured.
+
+### What this campaign has now established
+
+- candidate generation can succeed through an existing Owner working-set trace (Opera history);
+- source-native dereference can recover fresher project truth and correct stale peripheral traces;
+- receiving-project gating can emit either a real scent (ReflexBrain) or deliberate silence (Feniks, Combat);
+- capability discovery must be separated from end-to-end reachability;
+- AgentMail qualifies bounded transport/address identity but not independent cognition;
+- Slack can remove manual courier burden while still inheriting Owner visible sender identity;
+- the current Browser body lacks a qualified low-friction fresh independent cognition actuator;
+- current GitHub connector surfaces do not provide a trustworthy one-call owner-wide activity stream.
+
+### Stop condition
+
+Further Browser-generated probing now risks turning candidate-generation research into self-sustaining Medium activity.
+
+Do **not** continue this campaign merely to increase sample count.
+
+Reopen only when real pressure appears, for example:
+- a receiving workstream independently follows or fails to follow a peripheral trace;
+- a fresh independent subject becomes genuinely callable;
+- a project suffers a concrete missed-donor / stale-source / false-capability failure that the current method cannot handle;
+- a new execution body exposes a materially different candidate or reachability surface.
+
+Until then, silence is the correct ecological posture.
