@@ -256,3 +256,22 @@ Two Owner-message anchors were recovered:
 - 2026-10-03 11:28:53 UTC: self-maintained project-state projection, deep critical exploration, and explicit resistance to long-term lock-in from temporary simplifications.
 
 The full surrounding message sequence is still not recovered. Treat this as a narrowed coverage gap, not a complete transcript reconstruction.
+
+
+## 2026-10-08 additional missing-middle anchors
+
+A broader prior-conversation recovery found several more Owner-level anchors from the previously incomplete founding interval.
+
+- **2026-10-01 21:24 UTC** — Owner accepted the direction that human/Browser/other agent bodies may refer to the same reality through different sensors and interfaces; Browser/Work/Codex was valued as a serious bridge for carrying project soul/history/context, not established as the final architecture.
+- **2026-10-02 00:16 UTC** — Owner wanted the project to grow as a snowball while preserving freedom, serendipity and open-ended exploration, and warned against prematurely fixing architecture or future possibilities.
+- **2026-10-03 00:11 UTC** — Owner bounded publicness: public lab/code/protocols/synthetic specimens were acceptable; private project reality and raw collaboration memory were not to become the public substrate by default.
+- **2026-10-03 02:28 UTC** — Owner stopped the local Codex/Luna path because setup/workspace burden outweighed its current value; the operational burden itself violated the Medium goal.
+- **2026-10-03 13:49 UTC** — Owner asked for much more serious structural/fundamental experiments, supported deep Cloudflare exploration, and explicitly rejected letting early simplifications bind the long-term horizon.
+
+These anchors narrow several earlier open questions:
+- privacy/publicness had an explicit Owner boundary during the founding period;
+- Browser↔Codex was already being treated as a potentially useful bridge whose setup burden could disqualify the current path;
+- shared-reality / heterogeneous-sensor thinking and anti-lock-in/open-endedness appeared before the later canonical documents;
+- Cloudflare interest was Owner-supported as a research direction, not evidence that Cloudflare had been selected as architecture.
+
+The complete adjacent transcript sequence is still not recovered. Do not infer missing wording, rejected alternatives, or stronger architectural commitments from these anchors.
