@@ -969,3 +969,59 @@ A more evidence-compatible hypothesis is:
 Browser may have scheduled/event-triggered activation where Claude Free does not; paid Claude bodies have their own Scheduled Tasks / Claude Tag paths.
 
 Do not normalize these differences away unless live work proves that a common orchestrator is worth its cost.
+## Codex composition donor — work-product trace can wake Browser
+
+Current OpenAI product evidence supplies a stronger source-bound composition candidate than direct agent messaging.
+
+Relevant current capabilities:
+- Codex Cloud is available to eligible Plus users;
+- Codex exposes its own scheduled/background Automations;
+- Codex naturally writes durable repository changes / PRs when operating in a repository workflow;
+- ChatGPT Work on eligible Plus can create event-triggered tasks responding to supported GitHub pull-request activity.
+
+Official sources:
+- https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan
+- https://openai.com/index/introducing-the-codex-app/
+- https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+- https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex
+
+This creates a high-value composition candidate:
+
+```
+Codex cognition / automation
+  -> commit / PR / reviewable repository work
+  -> GitHub PR event
+  -> ChatGPT Work event-triggered task
+  -> Browser cognition wakes
+  -> source-native review / routing / stewardship
+```
+
+Why this is attractive:
+- the useful work itself is the coordination trace;
+- GitHub remains project/source authority;
+- no extra global message bus is required;
+- Browser does not need to poll continuously;
+- Codex and Browser can keep different capability bodies;
+- Owner copy/paste can potentially disappear from the receiving path.
+
+Current status:
+
+> **COMPOSITION CANDIDATE · PRODUCT CAPABILITIES DOCS-CONFIRMED · END-TO-END NOT LIVE-QUALIFIED.**
+
+Do not infer that Codex Automations are currently configured on this account or that the exact GitHub event types needed by a given project are available until reviewed in Work.
+
+### Slack nuance
+
+OpenAI has also documented Codex Slack integration for Plus and higher plans, while the current `@ChatGPT` setup guide describes a separate workspace/environment/service-account path for Codex Cloud where available.
+
+Therefore do not collapse 'Codex Slack integration exists' into 'this personal Plus Slack workspace is already configured to launch Codex'.
+
+The GitHub work-product path is conceptually cleaner for project work even if Slack later qualifies.
+
+### Architectural implication
+
+This further strengthens the provisional source-bound/stigmergic interpretation:
+
+> **prefer useful work that naturally emits a source-native event over explicit agent-to-agent transport when the project itself can carry the handoff.**
+
+No schema change follows.
