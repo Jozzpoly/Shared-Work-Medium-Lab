@@ -593,6 +593,27 @@ This reinforces the existing rule:
 
 Do not solve this by copying the project into Slack.
 
+### Transport identity caveat for the first real scent
+
+Slack read-back confirmed that the Browser-generated ReflexBrain scent is visually authored by the connected **Owner Slack account**.
+
+That creates a real epistemic/social identity mismatch:
+- action origin: Browser ChatGPT through the Slack connector;
+- visible Slack sender: Przemysław;
+- claim authority: source-bound Browser synthesis, explicitly **not Owner judgement**.
+
+The live scent was edited to state this caveat explicitly.
+
+Current consequence:
+
+> **direct actuation without Owner courier burden is not the same as independent participant identity.**
+
+The Slack connector can remove manual copy/paste while still inheriting the Owner's visible social identity.
+
+Therefore this scent is valid as a transport/source-routing specimen, but it is **not** evidence that Browser has acquired an independent Slack participant identity.
+
+This keeps AgentMail's bounded transport-identity result relevant while avoiding the opposite error of treating mailbox identity as independent cognition.
+
 ## Negative control after first real scent — Combat Material Agency Yard
 
 Immediately after admitting the first real ReflexBrain-origin scent, the same process was applied to another live project to test whether the system would start manufacturing cross-project traffic.
