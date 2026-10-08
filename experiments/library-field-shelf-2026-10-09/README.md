@@ -42,6 +42,10 @@ The connected Opera browser ran **source-fetch and actual interactive JavaScript
 
 The earlier reviewer independently found an overclaim that labeled the selected Pre-O0 source as ReflexBrain's entire active frontier. [Source-bound reviewer note](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/17#issuecomment-6070702230) informed the correction: one lane among several.
 
+## Original-Markdown section correctness
+
+Real-browser E2E now includes a deliberately hostile **source-outline** fixture. A literal Markdown code block contains lines that look like `## FAKE` headings, followed by real `##` and `###` headings outside fences. The navigational outline ignores the code examples and retains the real sections. The first run failed because the *test fixture itself* mistakenly supplied literal `\\n` text rather than line separators; the fixture was corrected, then the connected Opera AXTree displayed **PASS** for both the positive and negative cases at [test revision `57ab0ef9`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/57ab0ef91e45a484cc87783e802a856bcc3a3512/experiments/library-field-shelf-2026-10-09/browser-e2e.html). This is source-structure correctness, not an inference of project meaning. It does not claim to implement every Markdown heading syntax or fenced-language edge case.
+
 ## Qualification deliberately missing
 
 Neither a developer's screenshots nor automated PASSes prove that the Owner wants to stay here, finds the art direction satisfying, learns independently, or gains a new workflow. A later **reader other than the maker** is required for external-use evidence; a controlled no-Library comparator is required before claiming incremental agent discovery/capability.
