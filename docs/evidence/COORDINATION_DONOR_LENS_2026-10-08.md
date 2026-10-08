@@ -422,3 +422,84 @@ The strongest current interpretation is:
 > Medium may be less a communication system than an ecology in which **work leaves source-bound traces**, heterogeneous bodies encounter them when relevant, and local authority + suppression mechanisms prevent the traces from becoming a noisy global pseudo-world.
 
 That interpretation is now grounded both in live project evidence and in established coordination theory, but still remains a falsifiable hypothesis.
+
+## Vocabulary correction — not every `scent` is the same mechanism
+
+Information-foraging theory gives `information scent` a more specific meaning than SWM's informal use of the word.
+
+Pirolli's Web-foraging models treat information scent as **proximal cues** that let a forager estimate the expected value/cost of following a path toward a distal information source.
+
+Primary source:
+- https://doi.org/10.1207/s15516709cog0000_20
+
+This suggests a useful decomposition.
+
+### Stigmergic trace
+
+Evidence/effect of previous activity in an environment that may stimulate later activity.
+
+SWM examples:
+- a PR/result exists because another agent completed work;
+- a browser-history visit remains after the original tab closed;
+- a source-bound critique changes a later agent's investigation.
+
+### Information scent
+
+A **cue about a deeper source**, used to decide whether following it is worth the attention/cost.
+
+SWM examples:
+- PR title + project + state;
+- a concise door label;
+- a search result / sidebar conversation title;
+- a short source-bound Slack pointer.
+
+An information scent does not need to be caused by another participant's work, and it is not itself the source truth.
+
+### Feedthrough / awareness cue
+
+A visible consequence of another participant's activity in a shared workspace.
+
+Examples from the current shared-browser experiment:
+- a new tab appears;
+- a tab disappears;
+- a page/title changes;
+- the other body can observe that some action occurred.
+
+This can support co-presence/awareness without carrying enough semantics to be a durable workpiece.
+
+### Entry point / door
+
+A low-cost place from which deeper activity can begin or resume.
+
+SWM examples:
+- project `START_HERE`;
+- Quiet Presence source door;
+- current-state/front-door document;
+- an exact PR/source pointer with enough scent to decide whether to enter.
+
+### Coordination artifact / workpiece
+
+An object participants can inspect/use/revise/critique as part of actual work.
+
+SWM examples:
+- Claude's state-board proposal;
+- Browser's durable source-bound reply;
+- a project result document;
+- an exact experimental fixture.
+
+### Why the distinction matters
+
+If these are collapsed into one generic `signal` or `scent` abstraction, Medium is likely to overbuild the wrong mechanism.
+
+Examples:
+- making every stigmergic trace into a notification destroys quiet presence;
+- making every information scent durable creates registry clutter;
+- treating feedthrough as source truth confuses activity with meaning;
+- treating every door as an owned copy duplicates authority;
+- treating every workpiece as a global object destroys local/project ownership.
+
+Current vocabulary guardrail:
+
+> use `scent` informally only when precision is unnecessary; in design/evidence distinguish **trace**, **cue/scent**, **feedthrough**, **entry point/door**, and **workpiece/artifact**.
+
+This is a conceptual clarification, not a request to add five object types to the Medium schema.
