@@ -274,3 +274,30 @@ Immediate research posture:
 - any blind/private heterogeneous-agent experiment requires stronger isolation, such as separate profiles/sessions or another substrate.
 
 The successful round-trip remains evidence of capability. The privacy boundary prevents promoting that capability into architecture.
+
+## Independent re-validation case — ReflexBrain P01A
+
+During the same heterogeneous run, Claude independently noticed that a green GitHub Actions check could coexist with a logged scientific `FAIL` in ReflexBrain.
+
+Browser ChatGPT then verified the claim directly from source-native evidence:
+
+- PR #14 head: `4f8e2d92d2efc5676a34cf6dc069667f3e85083b`;
+- workflow run #548 / job `112550470392`: conclusion `success`;
+- the same job log contains:
+  - `P01A_RESULT {"outcome":"FAIL", ...}`;
+  - H2 failing the frozen `contact+1` timing criterion;
+  - Vitest reporting all 8 tests passed;
+- the exact test intentionally asserts that outcome is one of `PASS | FAIL | INCONCLUSIVE` and only requires all pair-level passes when the scientific outcome itself is `PASS`;
+- `docs/runs/OCTRL-P01A_RESULT.md` explicitly states `SCIENTIFIC FAIL · EXECUTION VALID · RUN CLOSED` and says the test intentionally permits scientific PASS/FAIL while requiring execution validity.
+
+Therefore Claude's observation was factually useful but the stronger interpretation `green CI masked an accidental research failure` would have been wrong.
+
+Receiving-project decision:
+
+> **NONE for ReflexBrain — the distinction was already intentional and source-native.**
+
+Medium-level value:
+
+> a second cognition body can serve as an independent anomaly detector / re-validator, while the owning project's source remains the authority that determines whether the anomaly is a bug, a deliberate contract, or a misunderstanding.
+
+This is qualitatively more useful than a transport-only ACK: the second body changed what the first body chose to inspect, and the source-native gate then corrected both agents' possible overclaim.
