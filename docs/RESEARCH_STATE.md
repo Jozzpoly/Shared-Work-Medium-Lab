@@ -35,6 +35,15 @@ Current routing consequence:
 
 Do not infer that the newest draft is automatically the most important project direction.
 
+### Real-project frontier freshness field result — 2026-10-08
+
+A source-native, read-only review during Medium work discovered an **actionable source-to-decision freshness mismatch** in another research project: the current [SPC R6 branch at `888cbdea`](https://github.com/Jozzpoly/Llm-Live-NPC/tree/888cbdea4530dbbc125c93b57a0614170547d878) already contains real-Luna single-current-plan **run #34**, its explicit noncanonical-provenance caveat, deterministic single-plan integration and canonicalized saved-proposal replay, while its project-designated canonical recovery/experiment documents and [PR #148](https://github.com/Jozzpoly/Llm-Live-NPC/pull/148) description still end their active work order at run #33 and ask for the now-partly-tested next pressure. A scoped [receiving-project source notice](https://github.com/Jozzpoly/Llm-Live-NPC/pull/148#issuecomment-6068247031) was left **without modifying SPC runtime, roadmaps or code**.
+
+Do **not** upgrade run #34 to full integrated provider-runtime, Owner or personhood PASS: both provider twins chose `relinquish_matter`, but the frozen source IDs were noncanonical; later exact local replay uses repaired kernel-derived IDs, not new provider sampling. End-to-end autonomous life remains unproven. This is **Owner-routed Medium field work**, not independent Quiet Presence ecological adoption or comparative proof that Medium outperforms ordinary GitHub source inspection.
+
+Together with [older R3C-vs-R3G source relevance timing in SWM PR #13](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/13#issuecomment-6065976869) and the [Claude `swm-state.mjs` stale-tree source review in PR #12](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/12), this warrants keeping **exact snapshot correctness** separate from **current frontier relevance at decision time**. It does **not** warrant a global index, watcher, task bus, automatic cross-project write or another research fixture without material new pressure.
+
+
 ## Live truth
 
 The project is no longer only a conversation. This public repository is now the first shared substrate used to develop and observe the system itself.
