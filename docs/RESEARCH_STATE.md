@@ -21,7 +21,6 @@ Current open draft research frontiers:
 - **PR #9 — current-truth topology dogfood**  
   Studies accepted baseline vs active frontier vs historical evidence, including this project's own stale-front-door problem.
 
-- **PR #10 — peripheral candidate generation + capability reachability**  
   Studies how another project/capability enters the candidate set, how source-native current truth is recovered, and whether the current Browser body can actually execute a claimed capability end-to-end.
 
 Recent lifecycle corrections:
