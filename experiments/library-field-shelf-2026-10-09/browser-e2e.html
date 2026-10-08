@@ -1,7 +1,7 @@
 <!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium • browser E2E</title>
 <style>body{margin:0;background:#111823;color:#daeade;font:16px/1.5 system-ui}main{padding:24px;max-width:1100px;margin:auto}pre{padding:16px;border:1px solid #465a6b;white-space:pre-wrap;background:#11141a}iframe{width:100%;height:650px;border:1px solid #53758a;border-radius:8px}strong{color:#b0eed1}</style></head><body><main>
 <h1>Library — browser-level end-to-end qualification</h1>
-<p>Celowo izolowana strona testowa. Przy otwarciu wykonuje żądania tylko do PUBLICZNEGO GitHuba (testuje cztery karty); nie jest częścią zwykłego wejścia do biblioteki.</p>
+<p>Celowo izolowana strona testowa. Przy otwarciu odczytuje HEAD tej publicznej gałęzi, przypina SHA i wykonuje testy wyłącznie na tej wersji; nie jest częścią zwykłego wejścia do biblioteki.</p>
 <p id="status" role="status"><strong>START</strong> — loading exact library source</p>
 <pre id="log" aria-label="wyniki kroków testu"></pre>
 <iframe id="frame" title="Rzeczywisty HTML biblioteki w ramce testowej"></iframe></main>
@@ -12,11 +12,19 @@ const write=s=>{log.push(s);out.textContent=log.join('\n');};
 const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
-const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/fa898d72014928dcd3db3c3f86533e1164737d7c/experiments/library-field-shelf-2026-10-09/index.html';
+const branch='experiment/library-field-shelf-2026-10-09';
+const branchApi='https://api.github.com/repos/Jozzpoly/Shared-Work-Medium-Lab/branches/'+encodeURIComponent(branch);
+const resolved=await fetch(branchApi,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});
+check(resolved.ok,'current candidate branch metadata fetched');
+const pin=(await resolved.json())?.commit?.sha;
+check(/^[a-f0-9]{40}$/.test(pin),'candidate HEAD resolves to an exact commit');
+write('RUN-AT SOURCE SHA: '+pin);
+const url='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/'+pin+'/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(url,{cache:'no-store'});
 check(res.ok,'pinned library HTML network response');
 const markup=await res.text();
 check(markup.includes('data-repo="Jozzpoly/ReflexBrain-Lab"'),'on-branch source descriptor exists');
+check(markup.includes('id="view-toggle"'),'actual current source contains its compact-view affordance');
 frame.srcdoc=markup;
 await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('iframe timeout')),7000)});
 const doc=frame.contentDocument,win=frame.contentWindow;
