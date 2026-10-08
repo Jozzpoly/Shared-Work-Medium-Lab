@@ -673,7 +673,7 @@ This is the negative control for the ReflexBrain scent:
 
 > admitting one genuine external project scent must not turn every live branch into feed content.
 
-## Opera history as Owner-working-set candidate sensor — first positive live case
+## Opera history as shared-environment candidate sensor — first positive live case
 
 After the GitHub owner-wide activity-sensor attempts failed, Opera's native browsing history produced a qualitatively different result.
 
@@ -699,7 +699,7 @@ The R3C scent already present in `#medium-live` was then updated to cite PR #40'
 
 ### Bounded qualification
 
-> **Opera history is qualified as an Owner-generated working-set candidate sensor, not a current-truth source.**
+> **Opera history is qualified as a shared-environment working-set candidate sensor, not a current-truth or authorship/provenance source.**
 
 It can answer:
 - what project surfaces the Owner/browser actually touched recently;
@@ -715,9 +715,29 @@ It cannot establish:
 
 This is materially different from copying project events into Slack:
 
-> Browser history is an already-existing trace of real work. Medium may use it to generate candidates, then dereference to the owning source.
+> Browser history is a trace of activity in the shared browser environment. Medium may use it to generate candidates, then dereference to the owning source; it must not infer who produced the visit without separate evidence.
 
 Do not turn history into a ranked activity feed or a surveillance loop.
+
+### Observer-effect correction — 2026-10-08
+
+A later live microprobe on `main` qualified an important contamination boundary:
+
+> **read-only at the target resource is not necessarily read-only at the observing environment.**
+
+Opening a page with Opera `go_to_page` and then closing the temporary tab left that address in the shared browser history.
+
+Therefore earlier wording that treated history as specifically **Owner-generated** was too strong.
+
+Correct interpretation:
+- history proves a visit occurred in the shared browser/profile;
+- it does not identify whether the visit came from Owner navigation, Browser ChatGPT, Claude, another agent, or another process;
+- agent research itself can create scents that later candidate-generation logic observes;
+- ecological/spontaneous-use scoring must distinguish pre-existing traces from researcher-created traces whenever that distinction matters.
+
+The R3E/Feniks cases remain useful evidence that history can surface candidates, but **not** evidence that those candidate traces were Owner-generated.
+
+Source-native dereference and receiving-project gating remain required.
 
 ## Opera-history second case — Feniks candidate, receiving-project NONE
 
@@ -808,7 +828,7 @@ No message was sent to either project, no prompt asked them to inspect Medium, a
 
 ### What this campaign has now established
 
-- candidate generation can succeed through an existing Owner working-set trace (Opera history);
+- candidate generation can succeed through an existing shared-browser activity trace (Opera history), while visit authorship/provenance remains unknown unless separately established;
 - source-native dereference can recover fresher project truth and correct stale peripheral traces;
 - receiving-project gating can emit either a real scent (ReflexBrain) or deliberate silence (Feniks, Combat);
 - capability discovery must be separated from end-to-end reachability;
