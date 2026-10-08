@@ -1,6 +1,6 @@
 # Research State
 
-**Status:** Quiet Presence ecological field campaign active in stewardship/incubation + source-bound heterogeneous co-creation frontier; heterogeneous shared-browser round-trip preserved as a completed bounded checkpoint; MP-1 apparatus dormant; reconnaissance frozen
+**Status:** Quiet Presence ecological field campaign active in stewardship/incubation; heterogeneous shared-browser and source-bound co-creation checkpoints preserved; MP-1 apparatus dormant; reconnaissance frozen
 
 **Last material update:** 2026-10-08
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
