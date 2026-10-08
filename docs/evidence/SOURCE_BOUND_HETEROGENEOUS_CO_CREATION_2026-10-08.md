@@ -540,3 +540,71 @@ Therefore the current contribution is not a new global lifecycle.
 > **It is evidence that SWM's existing local-value/source-bound ecology may generalize across materially different agent bodies — provided identity, capability and activation boundaries remain explicit.**
 
 That generalization remains provisional until repeated useful cross-body work occurs.
+## Gate D — useful-work criterion: PASS BOUNDED
+
+The active successor defined useful-work evidence as at least one of:
+- one body catches an error/omission the other missed;
+- one body produces a workpiece another can source-review and use;
+- Owner courier burden falls;
+- or a capability boundary becomes materially clearer.
+
+The current run now satisfies this gate in multiple bounded ways.
+
+### Claude corrected Browser's claim
+
+Claude independently red-teamed the shared-browser interpretation and corrected:
+- the false implication that Claude invented Probe 0 rather than executing the existing fixture;
+- the false/private-context assumption created by separate model conversations inside one shared Opera profile;
+- the temptation to treat broad browser history as a clean selective mailbox.
+
+Browser then changed durable PR #11 evidence and narrowed the defended claim.
+
+This is a real downstream project change caused by another cognition body.
+
+### Claude surfaced a source-verification pressure
+
+Claude noticed the apparent contradiction between green CI and P01A scientific FAIL.
+
+Browser independently dereferenced ReflexBrain and established:
+- CI/execution validity was intentionally green;
+- scientific outcome was intentionally FAIL;
+- owning project already understood the distinction;
+- receiving-project action = NONE.
+
+The value was not a bug fix; it strengthened the cross-project rule that machine execution status and scientific/product verdict must remain distinct.
+
+### Claude state-board proposal changed Medium decisions
+
+The participant-owned state board / `SWM_VERDICT v0` proposal caused Browser to:
+- identify live capability-projection drift;
+- reinforce `as_of` / source-revision requirements;
+- reject premature global verdict-schema adoption;
+- preserve the proposal as participant-owned rather than canonical;
+- require independent exact-source readability before considering `swm-state.mjs` adoption.
+
+Those are substantive design/research decisions, not transport validation.
+
+### Owner burden improvement is partial
+
+The Owner did not need to manually copy the probe token/ack or the Browser response content between the two agents.
+
+However:
+- the Owner explicitly initiated the collaboration;
+- the Owner still must start/freshen Claude cognition bodies;
+- current Claude Artifact source remains unreadable to Browser;
+- fresh Claude connector capability remains unqualified.
+
+Therefore courier burden improved, but activation burden remains.
+
+### Result
+
+> **GATE D: PASS BOUNDED — heterogeneous co-creation has already changed real SWM work.**
+
+This does **not** establish:
+- autonomous agent federation;
+- ecological adoption;
+- repeated reliability;
+- source-level code co-development;
+- low-Owner-burden activation.
+
+Gates A/B/C remain open independently.
