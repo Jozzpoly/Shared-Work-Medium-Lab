@@ -659,3 +659,36 @@ Do not respond by building a universal observer ledger.
 For current SWM work the practical rule is narrower:
 
 > prefer source-native verification, minimize broad shared-environment probing, and avoid scoring researcher-created scent as spontaneous discovery.
+## Candidate federation invariant — shared referent does not imply shared observation
+
+A parallel Shinden founding-sensor recheck on canonical `main` produced a body/projection boundary that matters directly to heterogeneous co-creation.
+
+The same source page could expose answer-bearing private-use glyphs through Opera's accessibility projection while a separate textual/crawled projection did not preserve the same observation in the same form.
+
+The captures were not synchronized, so that microprobe does not isolate the exact transformation mechanism.
+
+But it is sufficient to preserve this constraint:
+
+> **one source identity does not guarantee observation equivalence across agent bodies/sensors.**
+
+For federated work this suggests keeping at least these concepts distinct when the difference matters:
+
+1. **source/referent identity** — what external/project object is being inspected;
+2. **body/projection observation** — what evidence actually reached a particular cognition body through a particular sensor/path;
+3. **local interpretation/verdict** — what that participant concluded from the observation.
+
+This composes with the earlier identity-plane constraint.
+
+Examples:
+- Browser may know a Claude Artifact object exists while being unable to read its iframe payload;
+- Claude GitHub Integration may expose a different repository projection than Browser's authenticated GitHub connector;
+- Slack settings may show connected tools while a running cognition body lacks runtime exposure;
+- two bodies can share an Opera profile yet have different private model context.
+
+Practical rule:
+
+> when a cross-body disagreement matters, first ask whether the participants actually observed equivalent evidence before treating the difference as reasoning disagreement.
+
+Do not respond by normalizing every source into one universal representation.
+
+Body-specific projection differences can themselves be valuable evidence about the medium.
