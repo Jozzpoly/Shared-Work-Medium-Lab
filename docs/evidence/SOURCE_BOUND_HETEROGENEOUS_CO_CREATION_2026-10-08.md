@@ -1286,3 +1286,58 @@ Current status by edge:
 This candidate is materially stronger than custom agent-message orchestration because project work itself can become the trigger substrate.
 
 But do not promote the whole chain until each edge is observed end-to-end.
+
+## Native activation should remain body-specific
+
+The Work event-trigger documentation changes the activation problem in one important way.
+
+A heterogeneous federation does **not** need every cognition body to emit the same transport object.
+
+Two bounded candidates now exist:
+
+### Claude-shaped path
+
+`Claude fresh body`
+` -> bounded Slack channel message / source pointer`
+` -> ChatGPT Work Slack event trigger`
+` -> Work dereferences source-native object`
+` -> review / NONE / owner-required`
+
+Why this is plausible:
+- Claude fresh body already demonstrated bounded Slack read/write/readback;
+- OpenAI officially documents new Slack channel messages as a Work event source on eligible Plus;
+- `#medium-probes` already contains @ChatGPT and can remain apparatus-only.
+
+Current status: **COMPOSITION CANDIDATE · WORK E2E UNRUN**.
+
+### Codex/repo-shaped path
+
+`Codex or another repo-native body`
+` -> real PR activity in owning repository`
+` -> ChatGPT Work GitHub event trigger`
+` -> Work source-native review`
+` -> review / NONE / owner-required`
+
+This path is conceptually stronger because the **work product itself** carries the activation signal.
+
+It avoids:
+- duplicate Slack summaries;
+- Owner-visible Slack authorship ambiguity;
+- a separate cross-agent message bus;
+- copying project truth out of the owning repository.
+
+Current status: **COMPOSITION CANDIDATE · WORK E2E UNRUN**.
+
+### Preference under current evidence
+
+Prefer the most source-native event the producing body can already create as part of useful work.
+
+Current heuristic:
+
+> **work-product event > source-bound pointer > generic coordination message**
+
+This is a heuristic, not architecture.
+
+A future live test should not manufacture a special PR merely to wake Work. It should attach the trigger to an existing real project/repository and observe whether natural PR activity produces useful, low-burden cognition.
+
+If approval ceremony, duplicate runs, false positives or attention cost dominate, reject/narrow the path.
