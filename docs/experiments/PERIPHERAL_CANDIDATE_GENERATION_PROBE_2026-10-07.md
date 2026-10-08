@@ -719,6 +719,41 @@ This is materially different from copying project events into Slack:
 
 Do not turn history into a ranked activity feed or a surveillance loop.
 
+## Opera-history second case — Feniks candidate, receiving-project NONE
+
+A second bounded test used Opera history without naming a target project in advance.
+
+History surfaced a recent Feniks project conversation. The Browser opened that exact trace and recovered the current tail rather than guessing a repository name.
+
+Fresh Feniks Owner-confirmed pressures included:
+- normal authoring/experiment/play should remain fluid rather than governed by technical boundaries;
+- permissive experimentation may include manually imposing things that could later become emergent;
+- Studio should remain a composable workshop rather than pushing specialist work into disconnected mental worlds;
+- parallel/forked work instances are attractive long-horizon capability;
+- honest experiment exposure and Owner↔agent trust are critical;
+- agency/trust continuity may matter more than preserving every technical/data form.
+
+### Receiving-project gate
+
+SWM canonical/Quiet Presence already defends closely matching principles:
+- manual Owner upkeep/courier/babysitting is rejected as steady-state workflow;
+- technical ceremony must not exceed task value;
+- attention sovereignty is explicit;
+- source truth, scoped claims and Owner experiential authority remain first-class;
+- specialized bodies should attach only when they create net leverage at low Owner setup cost.
+
+Decision:
+
+> **NONE — INDEPENDENT SUPPORTING EVIDENCE, NO NEW SCENT, NO SCHEMA CHANGE.**
+
+The Feniks trace did not currently change a Medium decision strongly enough to justify another ambient message.
+
+This is important counterevidence against feed pressure:
+
+> a candidate sensor may succeed while routing still outputs silence.
+
+Opera history is therefore useful only in composition with a receiving-project relevance gate.
+
 ## Existing-environment counterpressure
 
 A live Opera inspection during fixture design exposed a strong competing substrate:
