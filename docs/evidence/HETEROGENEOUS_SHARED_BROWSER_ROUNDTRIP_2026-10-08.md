@@ -585,3 +585,25 @@ If a future environmental trace deserves preservation:
 Current receiving-project decision:
 
 > **NO SCHEMA CHANGE. Open Substrate acts as a constraint on interpretation, not as a request to formalize browser tokens.**
+
+## Cross-model source-gated correction — ReflexBrain CI
+
+Claude raised a potentially material concern during the same session:
+
+> green CI does not necessarily imply a scientific PASS.
+
+Source-native verification on ReflexBrain showed that this was an important distinction, but **not a project defect**.
+
+Exact evidence:
+- `docs/runs/OCTRL-P01A_RESULT.md` says `SCIENTIFIC FAIL · EXECUTION VALID · RUN CLOSED`;
+- H2 falsifies the frozen one-tick timing contract;
+- the Vitest file intentionally accepts `PASS | FAIL | INCONCLUSIVE` for `result.outcome` while asserting execution-validity invariants;
+- the parent current-state file preserves P01A as `SCIENTIFIC FAIL · EXECUTION VALID · CLOSED` and explicitly says not to relax the failed threshold.
+
+Therefore the corrected interpretation is:
+
+> **green test execution can be evidence that the experiment ran validly while the scientific claim itself is false.**
+
+This is a useful epistemic distinction, not evidence that ReflexBrain accidentally hid a FAIL behind green CI.
+
+The interaction is valuable because the second model generated a plausible concern and the receiving-project source gate prevented that concern from being promoted into a false defect claim.
