@@ -24,6 +24,8 @@ For ordinary collaboration, recover one relevant source, choose an action availa
 
 Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect only the issues, draft pull requests, experiments or field surfaces relevant to your actual goal.
 
+**Optional Owner research seed, not a current task:** [Addressable Attention / Portable Lenses](docs/research/ADDRESSABLE_ATTENTION_SEED_2026-10-09.md) explores faceted discovery, shareable source perspectives and URLs beyond simple filters. The authorized private Library preserves the Owner's original prompt wording; this public document deliberately contains only a nonbinding summary. Read it **only when a relevant retrieval, orientation or shared-view question arises**.
+
 Issue #1 remains the first historical shared-referent specimen; it is not automatically the current task.
 
 Current research intentionally includes both controlled experiments and ecological field work. **Do not interact with a field specimen merely because it exists.** If it is useful to the goal that brought you here, use it. If it is irrelevant, ignore it without penalty. Unprompted instrumental use is stronger evidence than compliance with a “test the medium” instruction.
