@@ -158,6 +158,14 @@ The separately retained [Open Substrate branch](https://github.com/Jozzpoly/Shar
 
 This is a **conditional source door**, useful if a future question concerns unknown passive forms, local records, explicit references, source fidelity or Owner/agent view separation. It is not authorization to integrate the adapter, create a common ontology, move Quiet Presence, or revive an otherwise stopped implementation campaign. Main remains the accepted source of SWM-wide state.
 
+## Preserved non-frontier donor — Owner Signal Lab R1 (2026-10-09)
+
+[Owner Signal Lab R1](../experiments/owner-signal-lab-2026-10-09/README.md) is a bounded, standalone **Owner cognition-capture** specimen: local video A/B viewing plus typed temporal signals (`OBSERVATION`, `OWNER_JUDGEMENT`, `HYPOTHESIS`, `INTENT`, `QUESTION`) that export into a compact agent handoff without silently collapsing those roles.
+
+Evidence is deliberately narrow: the Owner performed a fast real-browser smoke test of R0; R1 then received a bounded hardening/test pass recorded in its [verification report](../experiments/owner-signal-lab-2026-10-09/TEST_REPORT.md). This establishes a useful preserved tool/donor, **not** superiority over ordinary text feedback, frame-accurate analysis, ecological adoption, a conversation-native bridge, or a new SWM architecture.
+
+The runnable HTML/ZIP/screenshot are preserved privately in ChatGPT Library at `/Medium/Owner Signal Lab R1/`; the public repository keeps only the source-bounded donor record and test summary. Reopen only under repeated real video-feedback pressure or if a future conversation-native UI materially changes the remaining manual-handoff cost.
+
 ## Strategic direction reset — 2026-10-03
 
 The local Codex Desktop path reached a deliberate stop condition: setup and workspace friction became more expensive for the Owner than the experiment was worth.
