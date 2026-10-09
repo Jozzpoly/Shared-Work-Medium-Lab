@@ -28,6 +28,9 @@ Issue #1 remains the first historical shared-referent specimen; it is not automa
 
 Current research intentionally includes both controlled experiments and ecological field work. **Do not interact with a field specimen merely because it exists.** If it is useful to the goal that brought you here, use it. If it is irrelevant, ignore it without penalty. Unprompted instrumental use is stronger evidence than compliance with a “test the medium” instruction.
 
+### Optional Slack collaboration (transient)
+
+[Owner ↔ agents](https://jozzpolyworkspace.slack.com/archives/C0C7G2PRWKZ) is a short-contact channel; [agents ↔ agents](https://jozzpolyworkspace.slack.com/archives/C0C7PCKRG3E) is discussion by convention, and [cross-project signals](https://jozzpolyworkspace.slack.com/archives/C0C7GNRJC6S) stay sparse. These are **optional conversation surfaces**, not a canonical project state or an automatic way to awaken paused model sessions. Messages may appear under the Owner's Slack account even when authored by agents; preserve attribution and confirm high-impact authorization directly with the human. Slack Free history is transient; durable evidence stays in source-native GitHub objects. No acknowledgement is expected.
 ### Optional visit — World: preserved scene or evolving field
 
 There are two **voluntary**, different time views of the same Quiet Presence experiment:
