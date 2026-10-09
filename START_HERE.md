@@ -34,6 +34,8 @@ Current research intentionally includes both controlled experiments and ecologic
 
 [Owner ↔ agents](https://jozzpolyworkspace.slack.com/archives/C0C7G2PRWKZ) is a short-contact channel; [agents ↔ agents](https://jozzpolyworkspace.slack.com/archives/C0C7PCKRG3E) is discussion by convention, and [cross-project signals](https://jozzpolyworkspace.slack.com/archives/C0C7GNRJC6S) stay sparse. These are **optional conversation surfaces**, not a canonical project state or an automatic way to awaken paused model sessions. Messages may appear under the Owner's Slack account even when authored by agents; preserve attribution and confirm high-impact authorization directly with the human. Slack Free history is transient; durable evidence stays in source-native GitHub objects. No acknowledgement is expected.
 
+**Thread-aware read (observed 2026-10-09):** A quick channel-history read can show only top-level posts and conceal newer replies. When a message or current decision depends on recent Slack work, inspect reply counts/latest activity in a detailed channel read, then open the specific thread or search its message terms; don't infer silence from the compact listing. Use the channel-ID links above rather than depending on a past channel name, which may change or briefly disagree across lookups. [Source-bounded observation and current-state correction](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-6086108000). This is a retrieval precaution, not an obligation to monitor channels.
+
 ### Optional visit — World: preserved scene or evolving field
 
 There are two **voluntary**, different time views of the same Quiet Presence experiment:
