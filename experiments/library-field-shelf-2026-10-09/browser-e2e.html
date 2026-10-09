@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='1cc7a40c9a9c47e5b3d19e9f3c45e482353e0769';
+const sourceSha='58b235cd7e9e7a0ae6f9b20f24e4256cee7a88a8';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -62,6 +62,10 @@ check(allLinks.includes('https://llm-live-npc.jozzpoly.workers.dev/'),'SPC brows
 check(allLinks.some(x=>x.endsWith('/Llm-Live-NPC/pull/148')),'SPC unmerged research PR is explicitly discoverable');
 check(allLinks.some(x=>x==='https://jozzpoly.github.io/Combat-Lab/'),'neutral Combat smoke has separate honest action door');
 check(allLinks.some(x=>x.endsWith('/Jozz-Universal-Rig-Editor/blob/main/README.md')),'JURE instructions go to the full source without fragment rewrite');
+const qpw=doc.getElementById('qp-world-visit');
+const expectedWorld='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html';
+check(!!qpw && qpw.href===expectedWorld,'World source resolves to exactly one preview wrapper after JS');
+check(markup.includes('id="qp-world-visit" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5"'),'World native fallback exists before renderer mutation');
 const initialAnchors=Array.from(doc.querySelectorAll('a[href]')).filter(a=>!a.classList.contains('peek-receipt'));
 check(initialAnchors.every(a=>!a.getAttribute('href').includes('#')),'no static source/action link uses an HTMLPreview-rewritten fragment');
 const input=doc.getElementById('find'),cards=Array.from(doc.querySelectorAll('.project')),none=doc.getElementById('none');
