@@ -6,6 +6,18 @@
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
 
+## Owner-observed product boundary — 2026-10-10 recovery
+
+**Existing Medium human experience: Owner-observed FAIL / not accepted.** The Owner judged the previous Medium stale, unintuitive, unattractive and insufficiently self-maintaining, with no natural reason for other projects/agents to keep it current. He explicitly corrected the misleading old Feniks/First Hearth framing and said Feniks is being reborn rather than represented by that old SPC experiment.
+
+A more visually ambitious library concept from **Claude** was received positively **as an exploratory direction/prototype**, with strong emphasis on art direction, composition, color, detail and pleasurable navigation. **That positive reaction is not a verdict on Browser's separate draft PR #17**, nor a ratification of a Library architecture.
+
+Narrow technical source/browser PASSes remain valid only for their tested SHA, reader route, network state and body. They **do not overturn** Owner-observed failure of the earlier product, prove PR #17 usability or prove that Medium increased independent agent capability. Neither draft #5 nor #17 is Owner-accepted or merged.
+
+North-star pressure remains: a genuinely appealing *dual-use World / contextual For me* environment, automatically maintained from project-native truth where possible, that expands agent perception/action and lowers Owner handoff/orchestration without a compulsory feed or rigid central architecture. Its strongest ecological indicator is **later, independent use for another project's own work**, not an author testing their own Medium.
+
+**Source-of-truth corrections pending or performed in drafts** must be read from live PR HEAD, not presumed accepted on `main`. Retain this separation until a new Owner experiential test or a materially different mechanism warrants a fresh verdict.
+
 ## Frontier topology refresh — 2026-10-09
 
 This section is a **routing update only**. It does not promote draft-branch research claims into canonical architecture.
