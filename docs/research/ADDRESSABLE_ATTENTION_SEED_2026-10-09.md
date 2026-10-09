@@ -23,7 +23,7 @@ Existing source trail: [Issue #7 Owner idea and draft boundaries](https://github
 
 - `source`: first-party document/world/event identity and authority;
 - `selector`: paragraph, source lines, symbol, event, actor, region or interval;
-- `state`: exact commit/snapshot and observation time, not only moving branch;
+- `state`: exact commit/snapshot and observation time, not only moving branch; **do not collapse when something happened, when a source recorded it, and when an actor learned it into one `asof` timestamp**;
 - `view`: desired presentation/perspective and what the viewer is allowed to see;
 - `query`: bounded set/filter/graph operators and derived-alias versions;
 - `question`: decision, claim, competing hypotheses, refutation sought.
@@ -38,10 +38,15 @@ Optional `comparison` and `experiment` data can be larger external, authorized m
 - [RFC 3986 §3.5](https://www.rfc-editor.org/rfc/rfc3986.html#section-3.5): fragment semantics depend on representation; fragments do not grant secrecy.
 - [RFC 6901](https://www.rfc-editor.org/rfc/rfc6901.html): structural JSON pointers, not fuzzy memory semantics.
 - [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html): URI templates, not automatic execution.
+- [W3C PROV-O](https://www.w3.org/TR/prov-o/): distinguish entities, activities, agents, derivation, revision and attribution. This is valuable for link receipts but **not** automatically authenticated authorship.
+- [RFC 7089 Memento](https://www.rfc-editor.org/rfc/rfc7089.html): a possible temporal web-resource/version-selection donor, not a universal time-travel ability.
 
 ## Existing empirical boundary
 
 At PR #17 pinned commit `4c74b13`, its five-card search uses joined text `includes(q)`, not URL-controlled state. In ten **deliberately constructed** two-word queries against the same five actual card fields, source-equivalent substring behavior matched an intended card **1/10**; unordered token-AND **10/10**. This is an *illustrative mechanism falsifier*, not unbiased recall testing or Owner UX approval. An isolated canonical encoding/decoding test produced a 144-character seven-key query string, but **no browser app is yet qualified to consume it**. HTMLPreview uses the outer `?` for its own raw file URL, and its static links have known rewrite hazards.
+
+
+**New falsifier — multiple clocks:** Consider an SPC event at tick 400, Mira learning of it at tick 900, and our test recording the observation at wall-clock time T. `world_at=400`, `actor_knows_at=900`, and `source_checked_at=T` answer **different questions** even when the URL contains exactly the same actor/event reference. In Medium the same issue appears when an old quote, a later GitHub correction, and the current project frontier differ. A single label `asof=...` hides that disagreement. This is a conceptual counterexample, **not an R6 runtime fact**.
 
 ## Trust, privacy and Owner attention invariants
 
