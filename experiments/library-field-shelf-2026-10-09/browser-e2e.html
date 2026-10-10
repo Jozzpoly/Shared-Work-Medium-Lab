@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='577fbb87360c4948080c346ffdf691cfb17f91cd';
+const sourceSha='3b9e3e4960de5a2619fbb7302b5fc10b0656faa7';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -72,6 +72,7 @@ const initialAnchors=Array.from(doc.querySelectorAll('a[href]')).filter(a=>!a.cl
 check(initialAnchors.every(a=>!a.getAttribute('href').includes('#')),'no static source/action link uses an HTMLPreview-rewritten fragment');
 const input=doc.getElementById('find'),cards=Array.from(doc.querySelectorAll('.project')),none=doc.getElementById('none');
 check(cards[2].textContent.includes('jednym z kilku równoległych torów badań'),'Reflex selected branch is not misrepresented as entire laboratory');
+check(cards[4].textContent.includes('Równoległe badania')&&!cards[4].textContent.includes('R6 na PR #148'),'SPC status labels research as parallel, not a single current PR');
 const change=value=>{input.value=value;input.dispatchEvent(new win.Event('input',{bubbles:true}))};
 change('reflex');
 check(cards.filter(x=>!x.hidden).length===1 && !cards[2].hidden,'search finds ReflexBrain without collapsing other source identities');
