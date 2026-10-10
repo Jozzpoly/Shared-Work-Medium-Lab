@@ -36,6 +36,12 @@ Separate:
 
 A content SHA-256 is an integrity digest of acquired bytes, **not** proof of a Git commit identity or of freshness.
 
+## First native-source baseline (bounded)
+
+Using the connected GitHub tools against pinned main `cff9839`, a directed retrieval of `START_HERE.md` lines 1–34, `RESEARCH_STATE.md` lines 1–65 and the live open-PR listing took **three source operations**. It recovered the explicit Owner FAIL, the current frontier, and draft PRs #5/#17 (plus this draft #22). The two textual read responses contained ~3.3 KB and ~10.6 KB respectively. The source revision and explicit PR HEADs were separately identified.
+
+**Scope:** this shows GitHub-native retrieval is adequate for one small, prompted orientation task. It is NOT a clean independent agent run, a latency/token experiment, a matched A/B against the gateway, or evidence that Cloudflare is unnecessary for more complex shared observations. In particular, the PR list is a moving response while the file reads were pinned; **they are not a single atomic snapshot**.
+
 ## Next real decision: does Cloudflare earn a role?
 
 Run a bounded A/B for the same real source change:
