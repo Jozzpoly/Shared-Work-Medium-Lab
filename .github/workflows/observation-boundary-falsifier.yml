@@ -20,5 +20,5 @@ jobs:
         run: node --test experiments/observation-boundary-falsifier-2026-10-10/*.test.mjs experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/*.test.mjs
       - name: Generate both source views from one read
         run: node experiments/observation-boundary-falsifier-2026-10-10/native-baseline.mjs /tmp/swm-source-navigation
-      - name: Verify Wrangler can bundle isolated probe without deploying
-        run: npx --yes wrangler@4.129.0 deploy --dry-run --config experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/wrangler.jsonc
+      - name: Simulate actual Cloudflare root-directory deploy without publishing
+        run: npx --yes wrangler@4.129.0 deploy --dry-run
