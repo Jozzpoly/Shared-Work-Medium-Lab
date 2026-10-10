@@ -50,6 +50,14 @@ The earlier reviewer independently found an overclaim that labeled the selected 
 
 Real-browser E2E now includes a deliberately hostile **source-outline** fixture. A literal Markdown code block contains lines that look like `## FAKE` headings, followed by real `##` and `###` headings outside fences. The navigational outline ignores the code examples and retains the real sections. The first run failed because the *test fixture itself* mistakenly supplied literal `\\n` text rather than line separators; the fixture was corrected, then the connected Opera AXTree displayed **PASS** for both the positive and negative cases at [test revision `57ab0ef9`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/57ab0ef91e45a484cc87783e802a856bcc3a3512/experiments/library-field-shelf-2026-10-09/browser-e2e.html). This is source-structure correctness, not an inference of project meaning. It does not claim to implement every Markdown heading syntax or fenced-language edge case.
 
+## Small bounded retrieval improvement — 2026-10-10
+
+**Actual prior limitation:** the five-card search only matched a single contiguous substring. A source-backed adversarial check by Agent_Slack showed that two-word searches such as `codex medium`, `kontakt ruch`, `spc mira` and `reflexbrain pamięć` returned no result despite the relevant curated card having both words.
+
+**Minimal reversible change:** split the query on whitespace, lowercase with `pl` locale, and require all query terms to occur anywhere in the card's *fixed authored text*. No new tags, database, embedding index, page network request or inferred cross-project metadata. Search remains limited to the five cards; **not retrieved ≠ absent from the wider estate**.
+
+**Narrow evidence:** executed the exact [source JavaScript @ `95838b84`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/95838b840fa7a746bf180b49c9f44aff36e97a3c/experiments/library-field-shelf-2026-10-09/index.html) against a browser-element mock reconstructed from the same HTML. **9/9** cases passed: four named multiword regressions, reversed word order, irregular spacing, single term, empty query (all five), and unknown term (none plus coverage warning). This is a *logic/DOM simulation PASS*, **not** a live click, Owner benefit, improved full-corpus recall, or ecological discovery proof. A follow-up browser E2E fixture targets the pinned HTML revision for eventual connected-browser replay.
+
 ## Qualification deliberately missing
 
 Neither a developer's screenshots nor automated PASSes prove that the Owner wants to stay here, finds the art direction satisfying, learns independently, or gains a new workflow. A later **reader other than the maker** is required for external-use evidence; a controlled no-Library comparator is required before claiming incremental agent discovery/capability.
