@@ -3,13 +3,13 @@ import assert from "node:assert/strict";
 import {createHash} from "node:crypto";
 import {qualify,PIN} from "./live-qualification.mjs";
 const origin="https://swm-medium-observation-probe.jozzpoly.workers.dev";
-const source="## Medium real source\nOwner-observed FAIL / not accepted.\n";
+const source="## Owner-observed product boundary\nOwner-observed FAIL / not accepted.\n## Frontier topology refresh\n";
 const digest=createHash("sha256").update(source).digest("hex");
 const observation={
   observation_id:"sha256:"+digest,
   observed_at:"2026-10-10T02:00:00Z",
-  source:{commit_sha:PIN,content_sha256:digest},
-  claims_about_current_product:[],headings:[{title:"Medium real source",line:1}]
+  source:{commit_sha:PIN,content_sha256:digest,url:"https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/"+PIN+"/docs/RESEARCH_STATE.md"},
+  claims_about_current_product:[],kind:"navigation-only",schema:"swm.source-navigation-observation.v0",headings:[{title:"Owner-observed product boundary",line:1},{title:"Frontier topology refresh",line:3}]
 };
 function fake({badDigest=false,noHit=false,badQuery=false}={}){
   const calls=[];
@@ -41,7 +41,7 @@ test("live qualification validates immutable source and observes a real cache HI
   const r=await qualify(origin,{fetchFn:f.fetchFn});
   assert.equal(r.mechanics,"PASS");
   assert.equal(r.cache,"HIT_OBSERVED");
-  assert.equal(r.observations.headings,1);
+  assert.equal(r.observations.headings,2);
   assert.equal(f.calls.length,7);
 });
 test("mechanical PASS never promotes missing cache evidence into HIT",async()=>{
