@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Medium • Biblioteka światów — eksperyment</title>
+<style>
+:root{--bg:#0b0d12;--surface:#171b24;--text:#f2f0ec;--muted:#aeb7c7;--line:#374153;--a:#9cded5}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse 90% 43% at 79% 5%,#1c2944 0%,transparent 75%),radial-gradient(ellipse 55% 31% at 5% 30%,#203139 0%,transparent 80%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+a{color:var(--a);text-underline-offset:3px}a:focus-visible,input:focus-visible{outline:3px solid #e1eaa6;outline-offset:4px}
+.shell{max-width:1200px;margin:0 auto;padding:24px clamp(18px,4vw,55px) 85px}
+nav.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:5px 0 17px}
+.wordmark{color:#e6f5f4;font-weight:850;letter-spacing:.12em;text-decoration:none;font-size:14px}
+.kicker{text-transform:uppercase;letter-spacing:.16em;color:#a9cdd0;font-size:12px;font-weight:750}
+.small{color:var(--muted);font-size:13px}
+.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(235px,.55fr);gap:32px;align-items:end;padding:5px 0 27px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(36px,4.2vw,62px);letter-spacing:-.065em;line-height:1.03;margin:12px 0 10px;max-width:760px}
+.lead{color:#c7cedb;max-width:640px;font-size:clamp(16px,1.4vw,18px);line-height:1.55}
+.hero-note{border-left:2px solid #638c9c;padding-left:21px;align-self:center}
+.hero-note strong{display:block;margin-bottom:7px;font-size:16px}
+.hero-note p{color:#b6bfd0;font-size:14px;margin:0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 14px}
+.view-controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.view-toggle{background:#253342;border:1px solid #859fa9;border-radius:9px;padding:8px 12px;color:#e6f4ec;font:inherit;font-size:13px;cursor:pointer}
+.view-toggle:hover{background:#354d5d}
+.view-toggle:focus-visible{outline:3px solid #e1eaa6;outline-offset:3px}
+#cards.compact{grid-template-columns:1fr}
+#cards.compact .project{display:grid;grid-template-columns:minmax(200px,.7fr) minmax(0,1.3fr);grid-template-areas:"head desc" "title fact" "actions actions" "peek peek";gap:8px 22px;min-height:0;padding:19px 22px}
+#cards.compact .project > .head{grid-area:head}
+#cards.compact .project > h3{grid-area:title}
+#cards.compact .project > p{grid-area:desc}
+#cards.compact .project > .fact{grid-area:fact;margin-top:0}
+#cards.compact .project > .actions{grid-area:actions}
+#cards.compact .project > .peek{grid-area:peek}
+@media(max-width:810px){#cards.compact .project{display:flex;gap:12px}}
+h2{font-size:25px;letter-spacing:-.025em;margin:0}
+.filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
+.search{background:#171d29;color:#fff;border:1px solid #5c6980;border-radius:9px;padding:13px 16px;width:min(100%,380px);font:inherit}
+.search::placeholder{color:#aab6c6}
+.coverage{border:1px solid #526577;border-radius:100px;padding:8px 12px;font-size:12px;color:#c2ced9}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.project{position:relative;overflow:hidden;border:1px solid #425168;border-radius:16px;padding:23px 25px 20px;background:linear-gradient(150deg,rgba(39,48,64,.96),rgba(17,22,31,.97));min-height:285px;display:flex;flex-direction:column;gap:12px}
+.project:before{content:"";height:4px;position:absolute;top:0;left:0;right:0;background:var(--stripe,#91c4d7)}
+.project:hover{border-color:#93c2c6}
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.group{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c2cfdf}
+.status{font-size:12px;border:1px solid #526177;border-radius:6px;padding:3px 8px;color:#d2dded;max-width:180px;text-align:right}
+.project h3{margin:1px 0 0;font-size:clamp(23px,2.5vw,30px);letter-spacing:-.038em;line-height:1.14}
+.project p{margin:0;color:#c1cbd9;font-size:15px}
+.fact{margin-top:auto;border-left:2px solid var(--stripe,#91c4d7);padding:0 0 0 13px;color:#d4dce6;font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:14px 19px;align-items:center;padding-top:10px}
+.actions a{font-weight:650;font-size:14px}
+.actions a.primary{background:#d5e5e1;color:#101d22;border-radius:8px;padding:9px 13px;text-decoration:none}
+.actions a.primary:hover{background:#fff}
+.peek{margin-top:4px;padding-top:12px;border-top:1px solid #445066}
+.peek summary{cursor:pointer;font-size:14px;font-weight:700;color:#d8eae8;padding:6px 0}
+.peek summary:hover{text-decoration:underline}
+.peek-note{font-size:12px!important;color:#b9c7d8!important;margin:8px 0!important}
+.peek button{border:1px solid #93c2bb;border-radius:8px;background:#203438;color:#e1f6f1;padding:9px 13px;font:inherit;font-size:13px;cursor:pointer;margin:2px 0 9px}
+.peek button:hover{background:#2b4649}
+.peek button:disabled{opacity:.7;cursor:wait}
+.peek-output{font-size:13px;color:#d9e4f2;background:#0b111a;border:1px solid #43516a;border-radius:9px;padding:13px;overflow:auto;max-height:310px}
+.peek-output[hidden]{display:none}
+.peek-output pre{font:12px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0}
+.peek-output pre:focus-visible{outline:2px solid #e1eaa6;outline-offset:3px}
+.peek-output .meta{font-size:11px;color:#a6d6d0}
+.peek-select-label{display:block;margin:13px 0 8px;color:#bfd1dc;font-size:12px}
+.peek-sections{display:block;width:100%;margin-top:6px;color:#eef5f1;background:#19222e;border:1px solid #637587;border-radius:8px;padding:10px;font:inherit;font-size:13px}
+.peek-sections:focus-visible{outline:3px solid #e1eaa6;outline-offset:2px}
+[hidden]{display:none!important}
+.no-results{border:1px dashed #6a7890;border-radius:12px;color:#dce7ed;padding:22px;margin-top:16px}
+
+.bridge{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.8fr);gap:25px;align-items:center;margin-top:43px;padding:28px 30px;border-radius:17px;border:1px solid #485970;background:radial-gradient(ellipse at 90% 12%,#293348 0%,transparent 76%),#121923}
+.bridge h2{font-size:clamp(24px,2.5vw,31px);margin:11px 0}
+.bridge p{color:#bec9d5;font-size:14px;margin:0 0 12px}
+.bridge-links{display:flex;gap:11px 18px;flex-wrap:wrap;margin:16px 0 0;font-size:13px;font-weight:650}
+.bridge-timeline{margin:0;padding:0 0 0 20px;list-style:none;border-left:1px dashed #7893a7}
+.bridge-timeline li{position:relative;padding:8px 0 13px;color:#deebf2;font-size:13px}
+.bridge-timeline li:before{content:"";position:absolute;left:-26px;top:14px;width:10px;height:10px;background:#a7cfca;border:2px solid #182432;border-radius:100%}
+.bridge-timeline time{display:block;font:600 12px/1.4 ui-monospace,Consolas,monospace;color:#9acec4;margin-bottom:3px}
+.bridge-foot{color:#aabdc8!important;font-size:12px!important;margin:14px 0 0!important}
+@media(max-width:810px){.bridge{grid-template-columns:1fr;padding:22px}.bridge-timeline{margin-left:6px}}
+.below{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:32px 0 0}
+.below article{border:1px solid #465366;background:#131923c9;padding:24px;border-radius:13px}
+.below h3{margin:0 0 9px;font-size:19px}
+.below p{margin:0;color:#b7c6d3;font-size:14px}
+footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5c3;font-size:13px}
+@media(max-width:810px){.hero{grid-template-columns:1fr}.grid,.below{grid-template-columns:1fr}.project{min-height:0}.hero{padding-bottom:35px}}
+@media(prefers-reduced-motion:no-preference){a,.project{transition:border-color .17s,background .17s}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="top" aria-label="Pochodzenie i nawigacja">
+ <a class="wordmark" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab">MEDIUM / FIELD LAB</a>
+ <span class="small">Eksperyment • pięć jawnie wybranych publicznych źródeł • 9 października 2026</span>
+</nav>
+<header class="hero">
+ <div>
+ <div class="kicker">Biblioteka światów / specimen 01</div>
+ <h1>Nie katalog kodu.<br>Wejście do pracy.</h1>
+ <p class="lead">Pięć rzeczywistych projektów. Ich własne pytania, źródła i granice. Zacznij od czegoś, co Cię ciekawi — albo przejdź obok.</p>
+ </div>
+ <aside class="hero-note" aria-label="Granice źródłowe">
+ <strong>Mapa nie jest terytorium.</strong>
+ <p>Te karty to ręcznie wybrane drzwi, nie automatyczna wiedza o stanie prac. Źródła projektów mają pierwszeństwo. Żadna gałąź ani data ostatniego commita nie zastępuje ich oceny.</p>
+ </aside>
+</header>
+<main>
+<section aria-labelledby="places-heading">
+<div class="section-head"><h2 id="places-heading">Miejsca, do których możesz wejść</h2><div class="view-controls"><span class="small">Bez rankingu. Bez powiadomień.</span><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">Widok zwarty</button></div></div>
+<div class="filters">
+ <label for="find" class="small">Znajdź projekt lub problem</label>
+ <input id="find" class="search" type="search" placeholder="np. kontakt ruch, spc mira..." autocomplete="off" aria-controls="cards">
+ <span class="coverage">5 wybranych / całość niezinwentaryzowana</span>
+</div>
+<div id="cards" class="grid">
+ <article class="project" style="--stripe:#8ccef5" data-search="medium współpraca agenci biblioteka ślady źródła browser codex">
+  <div class="head"><span class="group">Współpraca i wiedza</span><span class="status">Main ≠ draft</span></div>
+  <h3>Shared Work Medium</h3>
+  <p>Czy różne umysły mogą współdzielić środowisko pracy bez jednego centralnego umysłu i bez zmuszania Ownera do przenoszenia kontekstu?</p>
+  <div class="fact">Aktualne badania są rozdzielone: zaakceptowany stan na main, Quiet Presence nadal w draft PR #5. Nie myl ich.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">Wejdź w stan badań ↗</a><a id="qp-world-visit" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5">Odwiedź World (draft) ↗</a></div>
+  <details class="peek" data-repo="Jozzpoly/Shared-Work-Medium-Lab" data-ref="main" data-file="docs/RESEARCH_STATE.md">
+   <summary>Sprawdź dokument projektu tutaj</summary>
+   <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>main</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md">Pełne źródło ↗</a></p>
+   <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
+   <div class="peek-output" hidden><div class="meta" role="status" aria-live="polite"></div><pre tabindex="0" aria-label="Tekst oryginalnego dokumentu, przewijany klawiaturą"></pre></div>
+   <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
+  </details>
+ </article>
+ <article class="project" style="--stripe:#e7b684" data-search="combat fizyka ciało świat ruch kontakt tłum hamowanie materialny">
+  <div class="head"><span class="group">Ciało i świat</span><span class="status">Kandydaci odizolowani</span></div>
+  <h3>Combat Lab</h3>
+  <p>Jak tworzyć znaczącą fizyczną relację między aktorem, kontaktem, przeszkodą i środowiskiem, zamiast kolejnej skryptowej demonstracji?</p>
+  <div class="fact">Main jest badawczym punktem odniesienia, nie zaakceptowanym systemem walki. Publiczny Pages pokazuje wyłącznie neutralny smoke; właściwy kandydat pozostaje w eksperymentalnej gałęzi.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md">Wejdź w stan badań ↗</a><a href="https://github.com/Jozzpoly/Combat-Lab/tree/experiment/contact-contingent-resident-v0">Zobacz kandydat ↗</a><a href="https://jozzpoly.github.io/Combat-Lab/">Neutralny smoke (tylko) ↗</a><a href="https://github.com/Jozzpoly/Combat-Lab/pulls">Inne otwarte PR (GitHub) ↗</a></div>
+  <details class="peek" data-repo="Jozzpoly/Combat-Lab" data-ref="main" data-file="docs/RESEARCH_STATE.md">
+   <summary>Sprawdź dokument projektu tutaj</summary>
+   <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>main</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md">Pełne źródło ↗</a></p>
+   <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
+   <div class="peek-output" hidden><div class="meta" role="status" aria-live="polite"></div><pre tabindex="0" aria-label="Tekst oryginalnego dokumentu, przewijany klawiaturą"></pre></div>
+   <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
+  </details>
+ </article>
+ <article class="project" style="--stripe:#c2a8f5" data-search="reflexbrain refleks organ uczenie embodied agent doświadczenie pamięć ruch">
+  <div class="head"><span class="group">Percepcja i adaptacja</span><span class="status">Pre-O0 ≠ całe laboratorium</span></div>
+  <h3>ReflexBrain Lab</h3>
+  <p>Czy mały lokalny organ może wyciągać znaczenie z ciągłego doświadczenia aktora bez przejmowania kontroli nad światem, pamięcią i całym mózgiem?</p>
+  <div class="fact">Main to historyczne R0. Pre-O0 jest jednym z kilku równoległych torów badań (obok m.in. O-CTRL/G5). Field Lab to żywy, lecz niekwalifikowany playground — nie dowód learned organu.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/pre-o0-foundations-campaign/docs/CONTINUE_HERE.md">Otwórz kampanię Pre-O0 ↗</a><a href="https://jozzpoly.github.io/ReflexBrain-Lab/probes/owner-field-lab.html">Uruchom Field Lab ↗</a><a href="https://github.com/Jozzpoly/ReflexBrain-Lab/pull/6">PR #6 — Pre-O0 ↗</a></div>
+  <details class="peek" data-repo="Jozzpoly/ReflexBrain-Lab" data-ref="research/pre-o0-foundations-campaign" data-file="docs/CONTINUE_HERE.md">
+   <summary>Sprawdź dokument projektu tutaj</summary>
+   <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>research/pre-o0-foundations-campaign</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/pre-o0-foundations-campaign/docs/CONTINUE_HERE.md">Pełne źródło ↗</a></p>
+   <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
+   <div class="peek-output" hidden><div class="meta" role="status" aria-live="polite"></div><pre tabindex="0" aria-label="Tekst oryginalnego dokumentu, przewijany klawiaturą"></pre></div>
+   <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
+  </details>
+ </article>
+ <article class="project" style="--stripe:#c5db9b" data-search="jure rig asset autorowanie rigging edytor universal wiązanie pivots mechanika">
+  <div class="head"><span class="group">Narzędzia autorskie</span><span class="status">Main kanoniczne</span></div>
+  <h3>JURE</h3>
+  <p>Wizualny warsztat do autorskiego rigowania realnych assetów. Co należy do zamiaru konstruktora, a co jest tylko odczytanym modelem źródłowym?</p>
+  <div class="fact">JURE deklaruje main jako bieżący stan. Uruchomienie wymaga lokalnego środowiska Node; BIND-00 to ograniczony dowód, nie finalny model wiązań.</div>
+  <div class="actions"><a class="primary" href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/docs/STATUS.md">Wejdź w stan projektu ↗</a><a href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/README.md">Instrukcje lokalnego uruchomienia ↗</a></div>
+  <details class="peek" data-repo="Jozzpoly/Jozz-Universal-Rig-Editor" data-ref="main" data-file="docs/STATUS.md">
+   <summary>Sprawdź dokument projektu tutaj</summary>
+   <p class="peek-note">Odczyt publicznego dokumentu z ustalonego SHA gałęzi <code>main</code> po kliknięciu, bez automatycznej synchronizacji. <a href="https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/docs/STATUS.md">Pełne źródło ↗</a></p>
+   <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
+   <div class="peek-output" hidden><div class="meta" role="status" aria-live="polite"></div><pre tabindex="0" aria-label="Tekst oryginalnego dokumentu, przewijany klawiaturą"></pre></div>
+   <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
+  </details>
+ </article>
+ <article class="project" style="--stripe:#f1aba2" data-search="spc llm live npc rezydenci mira janek ida oren nela wolni agenci pięć mieszkańców personhood r6 prywatna historia zobowiązanie relacje">
+  <div class="head"><span class="group">Rezydenci i świat przyczynowy</span><span class="status">Równoległe badania</span></div>
+  <h3>LLM Live NPC / SPC</h3>
+  <p>Czy pięciu rezydentów może prowadzić własne sprawy w jednym świecie, pamiętać faktyczne zobowiązania i wybierać działanie bez ciągłego polecenia gracza?</p>
+  <div class="fact">Aktualna praca R6 jest na osobnej gałęzi. Publiczne „Mira i Ty” można otworzyć, ale <strong>nie</strong> jest dowodem, że najnowszy R6 stał się grywalnym produktem. Repozytoryjny main zachowuje wcześniejszy etap P0.</div>
+  <div class="actions">
+   <a class="primary" href="https://github.com/Jozzpoly/Llm-Live-NPC/blob/recovery/spc-post-stress-complementary-personhood-r6/docs/SPC_R6_COMPLEMENTARY_PERSONHOOD_EXPERIMENT.md">Wejdź w R6 ↗</a>
+   <a href="https://llm-live-npc.jozzpoly.workers.dev/">Odwiedź Mirę (osobny runtime) ↗</a>
+   <a href="https://github.com/Jozzpoly/Llm-Live-NPC/pull/148">PR #148 ↗</a><a href="https://github.com/Jozzpoly/Llm-Live-NPC/pulls">Inne otwarte PR (GitHub) ↗</a>
+  </div>
+  <details class="peek" data-repo="Jozzpoly/Llm-Live-NPC" data-ref="recovery/spc-post-stress-complementary-personhood-r6" data-file="docs/SPC_R6_COMPLEMENTARY_PERSONHOOD_EXPERIMENT.md">
+   <summary>Sprawdź dokument projektu tutaj</summary>
+   <p class="peek-note">Odczyt oryginalnego R6 po kliknięciu. To kontrakt eksperymentalny, nie zaakceptowany rezultat ani pełny aktualny stan. <a href="https://github.com/Jozzpoly/Llm-Live-NPC/blob/recovery/spc-post-stress-complementary-personhood-r6/docs/SPC_R6_COMPLEMENTARY_PERSONHOOD_EXPERIMENT.md">Pełne źródło ↗</a></p>
+   <button type="button" class="peek-read">Odczytaj teraz</button>
+   <label class="peek-select-label" hidden>Przejdź do sekcji oryginalnego dokumentu<select class="peek-sections"></select></label>
+   <div class="peek-output" hidden><div class="meta" role="status" aria-live="polite"></div><pre tabindex="0" aria-label="Tekst oryginalnego dokumentu, przewijany klawiaturą"></pre></div>
+   <a class="peek-receipt" href="#" hidden target="_blank" rel="noopener noreferrer">Otwórz dokładną wersję źródła ↗</a>
+  </details>
+ </article>
+</div>
+<p id="none" class="no-results" hidden role="status">Brak takiej nazwy w tych czterech kartach. To nie znaczy, że projektu albo możliwości nie ma w pozostałym świecie.</p>
+</section>
+<section class="bridge" aria-labelledby="bridge-title">
+<div>
+<div class="kicker">Powiązanie źródłowe / zachowany epizod</div>
+<h2 id="bridge-title">Jeden ślad między laboratoriami</h2>
+<p>ReflexBrain badał różnicę między materialną przeszkodą a zdolnością konkretnego aktora do działania. W Combacie rozpoczęto osobny eksperyment reakcji na kontakt. Medium później zarejestrowało źródło donora obok odbiorcy.</p>
+<p><strong>To nie jest dowód, że Medium rozpoczęło eksperyment Combatu.</strong> Początek odbiorcy wyprzedza dodanie jego drzwi w Quiet Presence. Relację można poznawać, ale nie wolno odwracać jej chronologii.</p>
+<div class="bridge-links" aria-label="Pierwotne dowody relacji">
+<a href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/87d94c84288982dd6c150494b24504097ec4474f/docs/PRE_O0_CAMPAIGN_CURRENT_STATE_2026-10-06.md">Źródło ReflexBrain ↗</a>
+<a href="https://github.com/Jozzpoly/Combat-Lab/commit/c591fad5f6913fef01455ad6a5a7ffa9c7da7ce6">Pierwszy commit Combat ↗</a>
+<a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/commit/06a64b3eaa7cb37db821bf02e7f41596881cc805">Późniejszy wpis Medium ↗</a>
+</div>
+</div>
+<div aria-label="Historyczna kolejność, nie strzałka przyczynowości">
+<ol class="bridge-timeline">
+<li><time datetime="2026-10-08T12:17:22Z">12:17:22 UTC</time>Źródłowy snapshot badań ReflexBrain</li>
+<li><time datetime="2026-10-08T22:18:37Z">22:18:37 UTC</time>Combat zaczyna izolowany eksperyment kontaktu</li>
+<li><time datetime="2026-10-08T22:20:13Z">22:20:13 UTC</time>Medium rejestruje pinned donor ReflexBrain</li>
+</ol>
+<p class="bridge-foot">Zapis dnia 8.10.2026. Kolejność to nie automatyczny dowód wpływu. To mały fragment świata, nie globalna mapa zależności.</p>
+</div>
+</section>
+<section class="below" aria-label="Co jest poza mapą">
+ <article><h3>Feniks nie jest „brakującym repo”.</h3><p>Jego odradzanie i Studio wymagają własnego źródła prawdy. Ten publiczny, pięcioprojektowy eksperyment nie rości sobie prawa do reprezentowania bieżącego Feniksa ani lokalnych plików Ownera.</p></article>
+ <article><h3>Twoja droga, nie nakaz.</h3><p>Możesz przejrzeć projekty, wybrać jedno źródło lub wyjść. Nie ma listy „do nadrobienia”. Ta panorama sama nie jest biblioteką całego estate ani dowodem, że Medium zwiększyło czyjeś możliwości.</p></article>
+</section>
+</main>
+<footer>Materiał projektowy, nie zaakceptowany produkt. Stan źródeł sprawdzony przy tworzeniu (2026-10-09); linki do gałęzi są ruchome. Nie ma ukrytego prywatnego inwentarza, centralnego score ani automatycznego zbierania danych.</footer>
+</div>
+<script>
+(function(){
+  // HTMLPreview rewrites external .html links emitted statically.
+  // The PR remains a working source-native fallback if JS is disabled.
+  const worldVisit=document.getElementById('qp-world-visit');
+  if(worldVisit){
+    worldVisit.href='https://htmlpreview.github.io/?'+'https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html';
+  }
+  const input=document.getElementById('find'),cards=Array.from(document.querySelectorAll('.project')),none=document.getElementById('none');
+  const viewButton=document.getElementById('view-toggle');
+  const cardGrid=document.getElementById('cards');
+  viewButton.addEventListener('click',function(){
+    const compact=cardGrid.classList.toggle('compact');
+    viewButton.setAttribute('aria-pressed',String(compact));
+    viewButton.textContent=compact?'Widok rozbudowany':'Widok zwarty';
+  });
+  // Search only curated, stable card identity/questions: never source previews
+  // loaded later in the session. Search results must not depend on visit history.
+  const searchIndex=cards.map(card=>({
+    card,
+    haystack:[
+      card.querySelector('h3')?.textContent,
+      card.querySelector('p')?.textContent,
+      card.querySelector('.group')?.textContent,
+      card.querySelector('.status')?.textContent,
+      card.dataset.search
+    ].join(' ').toLocaleLowerCase('pl')
+  }));
+  input.addEventListener('input',function(){
+    const terms=input.value.trim().toLocaleLowerCase('pl').split(/\s+/).filter(Boolean);
+    let count=0;
+    searchIndex.forEach(({card,haystack})=>{
+      const visible=terms.every(term=>haystack.includes(term));
+      card.hidden=!visible;
+      if(visible)count++;
+    });
+    none.hidden=count!==0;
+  });
+  // One shared public API quota can affect every project card in this browser
+  // (and other agents using the same egress). Do not repeat a known 403/429.
+  let publicApiBlocked=false;
+  document.querySelectorAll('.peek').forEach(function(panel){
+    const button=panel.querySelector('.peek-read');
+    const output=panel.querySelector('.peek-output');
+    const meta=output.querySelector('.meta');
+    const pre=output.querySelector('pre');
+    const receipt=panel.querySelector('.peek-receipt');
+    const sectionLabel=panel.querySelector('.peek-select-label');
+    const sections=panel.querySelector('.peek-sections');
+    button.addEventListener('click',async function(){
+      button.disabled=true;
+      button.textContent='Odczytuję...';
+      output.hidden=false;
+      meta.textContent='Pobieram tekst wyłącznie ze wskazanego publicznego źródła.';
+      pre.textContent='';
+      receipt.hidden=true;
+      receipt.removeAttribute('href');
+      sectionLabel.hidden=true;
+      sections.replaceChildren();
+      sections.onchange=null;
+      try {
+        const {repo,ref,file}=panel.dataset;
+        const branchUrl='https://api.github.com/repos/'+repo+'/branches/'+encodeURIComponent(ref);
+        let sha=null,apiReason='';
+        if(publicApiBlocked){
+          apiReason='publiczne GitHub API niedostępne po wcześniejszym limicie/403 w tej sesji';
+        }else{
+          const apiController=new AbortController();
+          const apiCancel=setTimeout(()=>apiController.abort(),5000);
+          try{
+            const branchResponse=await fetch(branchUrl,{cache:'no-store',signal:apiController.signal,headers:{'Accept':'application/vnd.github+json'}});
+            if(!branchResponse.ok){
+              if(branchResponse.status===403||branchResponse.status===429)publicApiBlocked=true;
+              throw new Error('API HTTP '+branchResponse.status);
+            }
+            const branchData=await branchResponse.json();
+            const candidate=branchData?.commit?.sha;
+            if(!/^[a-f0-9]{40}$/.test(candidate))throw new Error('API bez poprawnego SHA');
+            sha=candidate;
+          }catch(err){
+            apiReason=(err.name==='AbortError'?'przekroczony czas GitHub API':String(err.message||err));
+          }finally{clearTimeout(apiCancel)}
+        }
+        // If unauthenticated GitHub API is rate limited, still let the reader
+        // inspect the public moving-ref document, but NEVER forge a pinned receipt.
+        const raw='https://raw.githubusercontent.com/'+repo+'/'+(sha||ref)+'/'+file;
+        const sourceController=new AbortController();
+        const sourceCancel=setTimeout(()=>sourceController.abort(),10000);
+        let body;
+        try{
+          const sourceResponse=await fetch(raw,{cache:'no-store',signal:sourceController.signal});
+          if(!sourceResponse.ok)throw new Error('Source HTTP '+sourceResponse.status);
+          body=await sourceResponse.text();
+        }finally{clearTimeout(sourceCancel)}
+        const lines=body.replace(/\r\n/g,'\n').split('\n');
+        const observedAt=new Date().toLocaleString('pl-PL');
+        const pinnedGithub=sha?'https://github.com/'+repo+'/blob/'+sha+'/'+file:null;
+        // Ignore Markdown ATX-looking lines inside literal fenced code.
+        // These are source examples, not navigation headings.
+        const headings=[];
+        let fenceChar=null,fenceWidth=0;
+        lines.forEach((line,index)=>{
+          const fence=/^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line);
+          if(fence){
+            const marker=fence[1],char=marker[0];
+            if(!fenceChar){fenceChar=char;fenceWidth=marker.length;return;}
+            if(char===fenceChar && marker.length>=fenceWidth && !fence[2].trim()){fenceChar=null;fenceWidth=0;}
+            return;
+          }
+          if(fenceChar)return;
+          const match=/^(#{1,3})\s+(.+)/.exec(line);
+          if(match)headings.push({index,label:match[2].trim(),level:match[1].length});
+        });
+        const choose=(index,label)=>{
+          const item=document.createElement('option');
+          item.value=String(index);
+          item.textContent=label;
+          sections.append(item);
+        };
+        choose(0,'Początek — linia 1');
+        headings.forEach(x=>choose(x.index,'L'+(x.index+1)+' • '+('· '.repeat(x.level-1))+x.label));
+        sectionLabel.hidden=headings.length===0;
+        const show=(index)=>{
+          const excerpt=lines.slice(index,index+45).join('\n').slice(0,4500);
+          const truncated=(index+45<lines.length || lines.slice(index,index+45).join('\n').length>4500);
+          pre.textContent=excerpt+(truncated?'\n\n[…] Otwórz pełne źródło, aby czytać dalej.':'');
+          if(sha){
+            meta.textContent='PRZYPIĘTE • Odczyt '+observedAt+' • '+ref+' → '+sha.slice(0,12)+' • od linii '+(index+1)+'. SHA identyfikuje wersję, NIE zatwierdza stanu projektu.';
+            receipt.href=pinnedGithub+'#L'+(index+1);
+            receipt.textContent='Otwórz oryginał @'+sha.slice(0,12)+' • L'+(index+1)+' ↗';
+            receipt.hidden=false;
+          }else{
+            meta.textContent='NIEPRZYPIĘTE • Odczyt '+observedAt+' • gałąź '+ref+' • od linii '+(index+1)+'. Nie można ustalić SHA ('+apiReason+'). Tekst może być nieaktualny i NIE jest odtwarzalnym dowodem; użyj pełnego źródła.';
+            receipt.hidden=true;
+            receipt.removeAttribute('href');
+          }
+        };
+        sections.onchange=()=>show(Number(sections.value));
+        show(0);
+      } catch(err) {
+        meta.textContent='Nie udało się odczytać przez tę przeglądarkę ('+(err.name==='AbortError'?'limit 10 s':'sieć / uprawnienia / źródło')+'). Użyj odnośnika „Pełne źródło”. Brak dostępu nie dowodzi braku dokumentu.';
+        pre.textContent='';
+      } finally {
+        button.disabled=false;
+        button.textContent='Odczytaj ponownie';
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

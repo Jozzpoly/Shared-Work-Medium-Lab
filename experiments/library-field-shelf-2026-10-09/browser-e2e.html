@@ -1,0 +1,215 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium • browser E2E</title>
+<style>body{margin:0;background:#111823;color:#daeade;font:16px/1.5 system-ui}main{padding:24px;max-width:1100px;margin:auto}pre{padding:16px;border:1px solid #465a6b;white-space:pre-wrap;background:#11141a}iframe{width:100%;height:650px;border:1px solid #53758a;border-radius:8px}strong{color:#b0eed1}</style></head><body><main>
+<h1>Library — browser-level end-to-end qualification</h1>
+<p>Celowo izolowana strona testowa. Przy otwarciu testuje konkretny Git SHA i porównuje go z opcjonalnym ruchomym Raw; hash i różnice zapisuje w śladzie; nie jest częścią zwykłego wejścia do biblioteki.</p>
+<p id="status" role="status"><strong>START</strong> — loading exact library source</p>
+<pre id="log" aria-label="wyniki kroków testu"></pre>
+<iframe id="frame" title="Rzeczywisty HTML biblioteki w ramce testowej"></iframe></main>
+<script>
+(async function(){
+const status=document.getElementById('status'),out=document.getElementById('log'),frame=document.getElementById('frame'),log=[];
+const write=s=>{log.push(s);out.textContent=log.join('\n');};
+const check=(b,message)=>{if(!b)throw Error('ASSERT FAIL: '+message);write('PASS: '+message);};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+try{
+const branch='experiment/library-field-shelf-2026-10-09';
+// Deliberate exact fixture: branch URLs have been observed returning OLD body,
+// even with cache:no-store. Never silently qualify an unknown served revision.
+const sourceSha='3b9e3e4960de5a2619fbb7302b5fc10b0656faa7';
+const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
+const relative='/experiments/library-field-shelf-2026-10-09/index.html';
+const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
+check(res.ok,'immutable exact-commit library HTML fetched');
+const markup=await res.text();
+const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(markup));
+const contentHash=Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,'0')).join('');
+write('RUN-AT IMMUTABLE GIT SHA: '+sourceSha);
+write('CONTENT SHA-256: '+contentHash);
+let movingMismatch=false;
+try{
+ const moving=await fetch(origin+branch+relative,{cache:'no-store'});
+ if(moving.ok){
+   const movingText=await moving.text();
+   movingMismatch=movingText!==markup;
+   write('MOVING-BRANCH RAW VS PINNED: '+(movingMismatch?'MISMATCH — served text differs; cannot infer newest source':'SAME BYTES at this observation; not an authority guarantee'));
+ }else{write('MOVING-BRANCH RAW HTTP '+moving.status+' — not a valid test fixture')}
+}catch(err){write('MOVING-BRANCH RAW unavailable: '+String(err));}
+check(markup.includes('data-repo="Jozzpoly/ReflexBrain-Lab"'),'on-branch source descriptor exists');
+check(markup.includes('id="view-toggle"'),'actual current source contains its compact-view affordance');
+frame.srcdoc=markup;
+await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('iframe timeout')),7000)});
+const doc=frame.contentDocument,win=frame.contentWindow;
+check(!!doc,'same-origin srcdoc and active runtime');
+let publicApiCalls=0;
+const savedFetch=win.fetch.bind(win);
+win.fetch=function(url,options){
+ if(String(url).startsWith('https://api.github.com/'))publicApiCalls++;
+ return savedFetch(url,options);
+};
+check(doc.querySelectorAll('.project').length===5,'five real project cards');
+check(doc.querySelectorAll('.peek').length===5,'five accessible native source-peek sections');
+check(doc.querySelectorAll('.peek-receipt').length===5,'five source receipt controls');
+const bridge=doc.querySelector('.bridge');
+check(!!bridge,'one optional historical cross-project encounter is present');
+const times=Array.from(bridge.querySelectorAll('time')).map(t=>t.getAttribute('datetime'));
+check(times.length===3&&times.every((t,i)=>i===0||times[i-1]<t),'cross-project chronology is ascending, not invented causal order');
+check(bridge.querySelectorAll('.bridge-links a').length===3,'historical encounter retains three primary native sources');
+check(bridge.textContent.includes('To nie jest dowód, że Medium rozpoczęło'),'source encounter rejects false Medium-origin claim');
+check(doc.querySelectorAll('.actions a').length===15,'fifteen source/action/visit links');
+const allLinks=Array.from(doc.querySelectorAll('.actions a')).map(a=>a.href);
+check(allLinks.some(x=>x.includes('/ReflexBrain-Lab/probes/owner-field-lab.html')),'playable Reflex field has explicit action door');
+check(allLinks.includes('https://llm-live-npc.jozzpoly.workers.dev/'),'SPC browser runtime separate from its R6 research contract');
+check(allLinks.some(x=>x.endsWith('/Llm-Live-NPC/pull/148')),'SPC unmerged research PR is explicitly discoverable');
+check(allLinks.includes('https://github.com/Jozzpoly/Llm-Live-NPC/pulls'),'SPC native open-PR door requires no static frontier rebuild');
+check(allLinks.includes('https://github.com/Jozzpoly/Combat-Lab/pulls'),'Combat native open-PR door requires no static frontier rebuild');
+check(allLinks.some(x=>x==='https://jozzpoly.github.io/Combat-Lab/'),'neutral Combat smoke has separate honest action door');
+check(allLinks.some(x=>x.endsWith('/Jozz-Universal-Rig-Editor/blob/main/README.md')),'JURE instructions go to the full source without fragment rewrite');
+const qpw=doc.getElementById('qp-world-visit');
+const expectedWorld='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html';
+check(!!qpw && qpw.href===expectedWorld,'World source resolves to exactly one preview wrapper after JS');
+check(markup.includes('id="qp-world-visit" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5"'),'World native fallback exists before renderer mutation');
+const initialAnchors=Array.from(doc.querySelectorAll('a[href]')).filter(a=>!a.classList.contains('peek-receipt'));
+check(initialAnchors.every(a=>!a.getAttribute('href').includes('#')),'no static source/action link uses an HTMLPreview-rewritten fragment');
+const input=doc.getElementById('find'),cards=Array.from(doc.querySelectorAll('.project')),none=doc.getElementById('none');
+check(cards[2].textContent.includes('jednym z kilku równoległych torów badań'),'Reflex selected branch is not misrepresented as entire laboratory');
+check(cards[4].textContent.includes('Równoległe badania')&&!cards[4].textContent.includes('R6 na PR #148'),'SPC status labels research as parallel, not a single current PR');
+const change=value=>{input.value=value;input.dispatchEvent(new win.Event('input',{bubbles:true}))};
+change('reflex');
+check(cards.filter(x=>!x.hidden).length===1 && !cards[2].hidden,'search finds ReflexBrain without collapsing other source identities');
+change('spc');
+check(cards.filter(x=>!x.hidden).length===1&&!cards[4].hidden,'source-driven project search discovers SPC');
+const multiWordQueries=[
+ ['codex medium',0],
+ ['kontakt ruch',1],
+ ['spc mira',4],
+ ['mira spc',4],
+ ['reflexbrain pamięć',2],
+ ['   kontakt   ruch   ',1]
+];
+for(const [query,index] of multiWordQueries){
+ change(query);
+ check(cards.filter(x=>!x.hidden).length===1&&!cards[index].hidden,'unordered multiword query '+query.trim()+' resolves only intended source card');
+}
+change('hamowanie');
+check(cards.filter(x=>!x.hidden).length===1&&!cards[1].hidden,'single-term query preserved');
+change('NEVER_EXISTS_PROJECT_123');
+check(cards.every(x=>x.hidden)&&!none.hidden,'uncovered subject reports missing in five-card selection, not global absence');
+change('');
+check(cards.every(x=>!x.hidden)&&none.hidden,'search reset restores voluntary panorama');
+const panels=Array.from(doc.querySelectorAll('.peek'));
+let pinnedCount=0,unPinnedCount=0;
+for(let i=0;i<panels.length;i++){
+ const p=panels[i],button=p.querySelector('.peek-read'),receipt=p.querySelector('.peek-receipt'),output=p.querySelector('.peek-output'),meta=output.querySelector('.meta');
+ p.open=true;button.click();
+ let elapsed=0;
+ while(button.disabled && elapsed<14500){await wait(200);elapsed+=200}
+ check(!button.disabled,'source '+(i+1)+' fetch eventually returned');
+ check(!output.hidden,'source '+(i+1)+' exposes result/failure locally');
+ if(receipt.hidden){
+   check(meta.textContent.includes('NIEPRZYPIĘTE'),'source '+(i+1)+' visibly marks API-limited moving-ref read');
+   check(!receipt.hasAttribute('href'),'source '+(i+1)+' does not forge a pinned receipt');
+   unPinnedCount++;
+ }else{
+   check(meta.textContent.includes('PRZYPIĘTE'),'source '+(i+1)+' explicitly marks verified SHA mode');
+   check(/^https:\/\/github.com\/Jozzpoly\/.+\/blob\/[a-f0-9]{40}\/.+$/.test(receipt.href),'source '+(i+1)+' SHA receipt is first-party, immutable and correctly shaped');
+   pinnedCount++;
+ }
+ check(output.querySelector('pre').textContent.length>25,'source '+(i+1)+' retained real document text');
+ const select=p.querySelector('.peek-sections');
+ check(!p.querySelector('.peek-select-label').hidden && select.options.length>1,'source '+(i+1)+' offers source-derived section navigation');
+ if(i===4){
+   const contract=Array.from(select.options).find(x=>x.textContent.includes('Why R6 exists'));
+   check(!!contract,'SPC section navigator exposes R6 experiment purpose from source');
+   select.value=contract.value;select.dispatchEvent(new win.Event('change',{bubbles:true}));
+   check(output.querySelector('pre').textContent.startsWith('## 1. Why R6 exists'),'SPC purpose is actual original Markdown not a generated synopsis');
+ }
+ if(i===2){
+   const step=Array.from(select.options).find(x=>x.textContent.includes('Current next move'));
+   check(!!step,'Reflex source contains its non-introductory next-move section');
+   select.value=step.value; select.dispatchEvent(new win.Event('change',{bubbles:true}));
+   check(output.querySelector('pre').textContent.startsWith('## Current next move'),'deep source selection shows original text, not a generated summary');
+   if(receipt.hidden){
+     check(meta.textContent.includes('NIEPRZYPIĘTE'),'deep source remains navigable without falsely pinned link');
+   }else{
+     check(receipt.href.endsWith('#L'+(Number(step.value)+1)),'deep section changes pinned Github link to exact original line');
+   }
+ }
+}
+check(unPinnedCount===0||publicApiCalls<=pinnedCount+1,'public API limit triggers session-level backoff instead of retrying on every card');
+write('Actual public GitHub branch API requests made by reader: '+publicApiCalls);
+change('RECOVERY QUARANTINE');
+check(cards.every(x=>x.hidden)&&!none.hidden,'search cannot silently change after loading source previews');
+change('jure');
+check(cards.filter(x=>!x.hidden).length===1&&!cards[3].hidden,'curated project search remains stable after source loads');
+const firstText=panels[0].querySelector('.peek-output');
+check(firstText.querySelector('pre').getAttribute('tabindex')==='0','long source preview can receive keyboard focus');
+check(firstText.querySelector('.meta').getAttribute('aria-live')==='polite','only concise metadata has an accessibility announcement');
+check(!firstText.hasAttribute('aria-live'),'long raw source does not announce itself automatically');
+frame.style.width='390px';
+await wait(220);
+const grid=doc.querySelector('.grid'),columns=win.getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/);
+check(columns.length===1,'narrow 390px frame reduces project grid to one column');
+check(doc.documentElement.scrollWidth<=doc.documentElement.clientWidth+2,'narrow viewport has no horizontal overflow');
+change('');
+check(cards.every(x=>!x.hidden),'desktop view check starts with visible cards, not a filtered-away element');
+frame.style.width='1024px';await wait(350);
+const viewButton=doc.getElementById('view-toggle');
+check(viewButton?.getAttribute('aria-pressed')==='false','overview defaults to expanded readable mode');
+viewButton.click();
+check(doc.getElementById('cards').classList.contains('compact')&&viewButton.getAttribute('aria-pressed')==='true','compact view is deliberate and accessible');
+write('Desktop probe: iframe.innerWidth='+win.innerWidth+' computed='+win.getComputedStyle(cards[0]).display);
+check(win.getComputedStyle(cards[0]).display==='grid','compact view uses real two-dimensional project rows');
+viewButton.click();
+check(!doc.getElementById('cards').classList.contains('compact')&&viewButton.getAttribute('aria-pressed')==='false','expanded mode is reversible without losing source state');
+// One deliberate browser-level inaccessible-source case. It modifies only the
+// ephemeral test iframe (never the real published Library source).
+const anchor='data-repo="Jozzpoly/Shared-Work-Medium-Lab"';
+check(markup.includes(anchor),'negative control can isolate one source descriptor');
+const negativeFrame=document.createElement('iframe');
+negativeFrame.setAttribute('title','Niedostępne źródło — negatywna kontrola');
+negativeFrame.style.cssText='position:absolute;left:-10000px;top:0;width:375px;height:5px';
+document.body.appendChild(negativeFrame);
+negativeFrame.srcdoc=markup.replace(anchor,'data-repo="Jozzpoly/Medium-Nonexistent-Probe-20261009"');
+await new Promise((resolve,reject)=>{negativeFrame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('negative iframe timeout')),7000)});
+const badDoc=negativeFrame.contentDocument,badPanel=badDoc.querySelector('.peek');
+check(!!badPanel,'negative reader boots without privileged source credentials');
+badPanel.open=true;
+const badButton=badPanel.querySelector('.peek-read');
+badButton.click();
+let badElapsed=0;
+while(badButton.disabled&&badElapsed<10500){await wait(200);badElapsed+=200}
+check(!badButton.disabled,'negative reader exits failed request without stalling');
+check(badPanel.querySelector('.peek-output .meta').textContent.includes('Nie udało'),'negative reader clearly reports source access failure');
+check(badPanel.querySelector('.peek-receipt').hidden,'negative reader does not invent an immutable source receipt');
+check(badPanel.querySelector('.peek-select-label').hidden,'negative reader does not expose made-up source sections');
+check(!!badPanel.querySelector('.peek-note a[href^="https://github.com/"]'),'source-native fallback remains available after failure');
+negativeFrame.remove();
+// Source-navigation FALSIFIER: an ATX-looking marker inside a literal fenced
+// Markdown code snippet must never become an offered document section.
+const fenceFrame=document.createElement('iframe');
+fenceFrame.style.cssText='position:absolute;left:-10000px;top:0;width:375px;height:5px';
+fenceFrame.title='Headings in fenced code negative control';
+document.body.appendChild(fenceFrame);
+fenceFrame.srcdoc=markup;
+await new Promise((resolve,reject)=>{fenceFrame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('fence fixture timeout')),7000)});
+const fixtureWindow=fenceFrame.contentWindow,fixtureDoc=fenceFrame.contentDocument;
+const fakeSha='f'.repeat(40);
+const marker=String.fromCharCode(96).repeat(3);
+const fixtureText=['# Real first section',marker+'js','## FAKE heading in Javascript',marker,'## Real next section','~~~sh','### ALSO_FAKE heading in shell','~~~','### Last true section'].join('\n');
+fixtureWindow.fetch=async(url)=>String(url).includes('api.github.com')?
+ {ok:true,json:async()=>({commit:{sha:fakeSha}})}:
+ {ok:true,text:async()=>fixtureText};
+const fixturePanel=fixtureDoc.querySelector('.peek');
+fixturePanel.open=true;
+fixturePanel.querySelector('.peek-read').click();
+let fenceWait=0,fixtureButton=fixturePanel.querySelector('.peek-read');
+while(fixtureButton.disabled&&fenceWait<2200){await wait(100);fenceWait+=100}
+check(!fixtureButton.disabled,'fenced code fixture reader completed');
+const headingLabels=Array.from(fixturePanel.querySelector('.peek-sections').options).map(x=>x.textContent);
+check(headingLabels.some(x=>x.includes('Real next section')) && headingLabels.some(x=>x.includes('Last true section')),'normal headings survive after code fences');
+check(!headingLabels.some(x=>x.includes('FAKE')),'literal fenced code examples do not become source sections');
+fenceFrame.remove();
+status.textContent='PASS on exact source '+sourceSha.slice(0,12)+' — 5/5 docs ('+pinnedCount+' SHA-pinned / '+unPinnedCount+' unpinned); search/sections/fallback/views; moving Raw '+(movingMismatch?'MISMATCH':'not confirmed stale');
+}catch(error){write('FAIL: '+String(error));status.textContent='FAIL — '+String(error)}
+})();
+</script></body></html>
