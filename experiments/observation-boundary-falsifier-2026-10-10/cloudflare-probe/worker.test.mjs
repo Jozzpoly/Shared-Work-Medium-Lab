@@ -1,3 +1,4 @@
+import {createHash} from "node:crypto";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {createHandler, sampleObservation, renderObservationHtml} from "./src/index.mjs";
@@ -5,6 +6,8 @@ import {createHandler, sampleObservation, renderObservationHtml} from "./src/ind
 const COMMIT="a".repeat(40), BLOB="b".repeat(40);
 const text=["# Medium","## Owner-observed product boundary","Owner-observed FAIL / not accepted.","## Frontier topology refresh","### Current PR","## <img src=x>",""].join("\n");
 const source={sha:BLOB,encoding:"base64",content:Buffer.from(text,"utf8").toString("base64")};
+const DIGEST=createHash("sha256").update(text,"utf8").digest("hex");
+const pinnedEnv={PINNED_SOURCE_COMMIT:COMMIT,PINNED_SOURCE_SHA256:DIGEST,PINNED_SOURCE_BLOB_SHA:BLOB};
 const clock=()=>"2026-10-10T01:00:00Z";
 const req=path=>new Request("https://example.workers.dev"+path);
 function fakeOrigin({status=200,commit=COMMIT}={}){
@@ -12,6 +15,7 @@ function fakeOrigin({status=200,commit=COMMIT}={}){
   const requestFn=async(url,init)=>{
     calls.push({url,headers:init.headers});
     if(status!==200)return new Response("source failure",{status});
+    if(url.includes("raw.githubusercontent.com"))return new Response(text,{status:200});
     return Response.json(url.endsWith("/commits/main")?{sha:commit}:source);
   };
   return {calls,requestFn};
@@ -20,8 +24,8 @@ function fakeOrigin({status=200,commit=COMMIT}={}){
 test("HTML + JSON from identical pinned commit match in identity and source",async()=>{
   const origin=fakeOrigin();
   const handler=createHandler({requestFn:origin.requestFn,now:clock});
-  const html=await handler(req("/project?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
-  const json=await handler(req("/project.json?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
+  const html=await handler(req("/project?ref="+COMMIT),pinnedEnv);
+  const json=await handler(req("/project.json?ref="+COMMIT),pinnedEnv);
   const data=await json.json();
   assert.equal(html.status,200);
   assert.equal(json.status,200);
@@ -31,7 +35,8 @@ test("HTML + JSON from identical pinned commit match in identity and source",asy
   assert.equal(data.source.git_ref_pinned,true);
   assert.equal(data.source.blob_sha,BLOB);
   assert.equal(origin.calls.length,2);
-  assert.ok(origin.calls.every(c=>c.url.endsWith("?ref="+COMMIT)));
+  assert.ok(origin.calls.every(c=>c.url.includes("raw.githubusercontent.com/"+ "Jozzpoly/Shared-Work-Medium-Lab/"+COMMIT)));
+  assert.equal(data.source.source_channel,"github-raw-verified-content-digest");
 });
 
 test("latest views do not claim atomicity; HTTP cache policy is observable",async()=>{
@@ -128,4 +133,27 @@ test("health endpoint rejects arbitrary query keys before source I/O",async()=>{
   const r=await handler(req("/health?nonce=1"),{});
   assert.equal(r.status,400);
   assert.equal(origin.calls.length,0);
+});
+
+test("approved pinned route succeeds via raw content even if REST API is limited",async()=>{
+  let restCalls=0,rawCalls=0;
+  const requestFn=async url=>{
+    if(url.includes("raw.githubusercontent.com")){rawCalls++;return new Response(text);}
+    restCalls++;return new Response("GitHub rate-limited",{status:403});
+  };
+  const h=createHandler({requestFn,now:clock});
+  const result=await h(req("/project?ref="+COMMIT),pinnedEnv);
+  assert.equal(result.status,200);
+  assert.equal(rawCalls,1);
+  assert.equal(restCalls,0);
+});
+test("pinned source digest corruption is rejected, not silently accepted",async()=>{
+  const origin=fakeOrigin();
+  const h=createHandler({requestFn:origin.requestFn,now:clock});
+  const bad={...pinnedEnv,PINNED_SOURCE_SHA256:"f".repeat(64)};
+  const result=await h(req("/project.json?ref="+COMMIT),bad);
+  const body=await result.json();
+  assert.equal(result.status,503);
+  assert.equal(body.status,"source-unknown");
+  assert.match(body.detail,/digest mismatch/);
 });
