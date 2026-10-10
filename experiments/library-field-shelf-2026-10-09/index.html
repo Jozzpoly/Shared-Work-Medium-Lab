@@ -113,7 +113,7 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
 <div class="section-head"><h2 id="places-heading">Miejsca, do których możesz wejść</h2><div class="view-controls"><span class="small">Bez rankingu. Bez powiadomień.</span><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">Widok zwarty</button></div></div>
 <div class="filters">
  <label for="find" class="small">Znajdź projekt lub problem</label>
- <input id="find" class="search" type="search" placeholder="np. fizyczność, rig, pamięć..." autocomplete="off" aria-controls="cards">
+ <input id="find" class="search" type="search" placeholder="np. kontakt ruch, spc mira..." autocomplete="off" aria-controls="cards">
  <span class="coverage">5 wybranych / całość niezinwentaryzowana</span>
 </div>
 <div id="cards" class="grid">
@@ -256,10 +256,10 @@ footer{border-top:1px solid #364153;margin-top:50px;padding-top:19px;color:#aab5
     ].join(' ').toLocaleLowerCase('pl')
   }));
   input.addEventListener('input',function(){
-    const q=input.value.trim().toLocaleLowerCase('pl');
+    const terms=input.value.trim().toLocaleLowerCase('pl').split(/\s+/).filter(Boolean);
     let count=0;
     searchIndex.forEach(({card,haystack})=>{
-      const visible=haystack.includes(q);
+      const visible=terms.every(term=>haystack.includes(term));
       card.hidden=!visible;
       if(visible)count++;
     });
