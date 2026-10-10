@@ -1,76 +1,46 @@
-# Cloudflare B candidate — read-only observation probe
+# Cloudflare observation probe — live research state
 
-**Status:** isolated experimental branch; not deployed, not accepted Medium product, not a globally coherent observer.
+**Status (2026-10-10):** deployed read-only experimental Worker. This is **not** an accepted Medium product or a general shared-agent service. [Draft PR #22](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/22) remains unmerged; canonical Medium **Owner FAIL / not accepted** remains authoritative.
 
-## What this does
+**Live service:** https://swm-medium-observation-probe.jozzpoly.workers.dev/
 
-Cloudflare Worker serves:
-- `GET /health`: only runtime availability, explicitly NOT GitHub source health;
-- `GET /project`: semantic HTML list of `docs/RESEARCH_STATE.md` headings;
-- `GET /project.json`: same navigational model in JSON.
+## What the Worker actually provides
 
-The Worker first identifies the current `main` Git commit using GitHub API, then fetches **this exact commit** of `docs/RESEARCH_STATE.md`. A response contains an immutable commit URL, Git blob SHA, SHA-256 of observed bytes and a sample time. It NEVER infers project status, accepted Owner verdict, active tasks or agent liveness. A failure is explicit `source-unknown` (503), with HTTP `no-store`.
-
-Use `?ref=cff9839c1ac33189c23d93a399f17b44e8f219a0` on either representation to fetch the **one explicitly approved** exact commit without querying the moving `main` head. All other refs, unknown query parameters, or duplicate parameters are rejected before GitHub access. For two separate HTML/JSON requests **only pinned ref makes the source revision identical by contract**. Default moving-`main` responses are NOT atomic across requests.
-
-## Why Workers Caching, not Cache API
-
-The current Cloudflare Workers Caching (`cache.enabled` in Wrangler) can cache Worker outputs on `*.workers.dev` by normal HTTP response cache headers. It should be tested against actual Workers Builds; this repository only tests request/response semantics and bundling.
-
-The programmatic `caches.default` Cache API is **not a trustworthy workers.dev experiment**: its documented behavior on workers.dev, dashboard previews and across data centers is different. Therefore this probe avoids `caches.default`.
-
-- Current latest-source responses: `Cache-Control: public, max-age=300`.
-- Exact-commit responses: `Cache-Control: public, max-age=3600`.
-- Errors/health: `Cache-Control: no-store`.
-- No custom cache hit flag is fabricated. Runtime/outside cache evidence requires live Cloudflare headers/metrics and repeat requests.
-- Never interpret a cached snapshot as live current-state truth.
-
-Docs: https://developers.cloudflare.com/workers/cache/ and https://developers.cloudflare.com/workers/cache/configuration/ .
-
-## Actual Owner Cloudflare interface — corrected 2026-10-10
-
-The Owner's video **directly shows** that `swm-medium-observation-probe` already exists and is connected to `Jozzpoly/Shared-Work-Medium-Lab`. The Builds panel has **Root directory `/`**, build command `None`, deploy command `npx wrangler deploy`. The experiment branch is visible as the selected Production branch, but the screen also displays **Unsaved changes** throughout the capture; this recording alone does not prove that the branch was saved. The latest Cloudflare build in the capture had **failed**, with no exact build logs inspected.
-
-**Engineering resolution:** add `wrangler.jsonc` at **repository root on the isolated experiment branch only**. It names the existing Worker `swm-medium-observation-probe` and points `main` to `experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/src/index.mjs`. Its other settings match the nested experimental config. No Cloudflare Root directory change, new Worker, new repository, or new project name is needed. `main` has no new root config and must remain unmodified.
-
-**Exact existing settings accommodated:**
-
-| Cloudflare setting | Existing value / requirement |
+| Route | Contract |
 | --- | --- |
-| Worker | `swm-medium-observation-probe` — already exists |
-| Git repository | `Jozzpoly/Shared-Work-Medium-Lab` — connected |
-| Branch | `experiment/observation-boundary-falsifier-2026-10-10` — selected on screen; save status unverified |
-| Root directory | `/` — **keep unchanged** |
-| Build command | `None` — **keep unchanged** |
-| Deploy command | `npx wrangler deploy` — **keep unchanged** |
-| Code entry | root `wrangler.jsonc` on the experiment branch, pointing into the probe folder |
-| Approved pinned source | `cff9839c1ac33189c23d93a399f17b44e8f219a0` |
+| `GET /health` | Runtime-only, NOT GitHub source health |
+| `GET /project` | Simple semantic HTML navigation for observed document headings |
+| `GET /project.json` | Same navigational model in JSON |
+| `GET /project[.json]?ref=cff9839c1ac33189c23d93a399f17b44e8f219a0` | **One allowlisted immutable commit** with SHA-256 checked against pinned expected bytes |
 
-**Verification:** CI must run `node --test` and `npx wrangler deploy --dry-run` from the **repository root**, not `--config` in the nested folder. [Run #38017731891](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38017731891) proved 27/27 tests and a successful root dry-run at commit `642f03cb678775771b0ceaee4e878bd252a58413`. This is not proof of real Cloudflare deployment.
+The default, moving `main` view reads `docs/RESEARCH_STATE.md` through GitHub Raw and supplies a **content SHA-256 + sampled-at time**, but **no asserted Git commit or blob SHA**. This is intentional: unauthenticated Cloudflare-origin GitHub REST reads returned a real **HTTP 403** during the first live test. Raw GitHub avoids that particular REST budget dependency. The moving source can still be delayed by GitHub CDN or Cloudflare cache; `main` is **not** a globally atomic revision.
 
-**Important restraint:** no further Owner navigation through speculative settings. If the UI still says `Unsaved changes` for the already chosen production branch, the only potentially needed manual action is **Save** in that existing Builds screen. Do not press Deploy in the old repository-import wizard or change the root directory. An account-side build/deploy must be verified from its actual run logs and the real generated Worker URL, which are not accessible from these GitHub-only tests.
+The pinned view uses the immutable GitHub Raw URL and an independently recorded expected SHA-256; mismatching bytes fail closed. It is a reproducible historical sample, not the current project. Every other arbitrary `ref`, duplicated or unknown query parameter is rejected before source access.
 
-### Account-side gate recovered (2026-10-10)
+A moving source's heading line numbers are sampled positions, **not guaranteed stable deep links** when GitHub changes. HTML explicitly warns about that. Product claims are never inferred from navigation; `claims_about_current_product` stays empty.
 
-The connected Opera browser's **live Cloudflare Settings > Builds** accessibility tree was refreshed after the Owner's correction. The `Production branch` field persisted as `experiment/observation-boundary-falsifier-2026-10-10` after page reload, with no `Unsaved changes` notice. Root directory remains `/` and deploy command remains `npx wrangler deploy`. The dashboard's latest-build label still referred to the **older failed `main` build** at the time of this check.
+## Verified live evidence
 
-This checkpoint is **not** evidence of successful network deployment. A new branch push is deliberately used to probe whether the existing GitHub integration now builds the isolated Worker with the root config. Do not change account settings or merge this draft to `main` as a workaround.
+- **[GitHub Actions #38018785019](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38018785019)**: 29/29 source/mechanism tests, real pinned Cloudflare HTTP/source-integrity **PASS**, `CF-Cache-Status` sequence **MISS → HIT → MISS** (JSON twice, HTML once). Snapshot digest: `c12c04a6fc23b47caf750beae97ae7dad139bf021f2deca17997ee411ce6573e`.
+- **[GitHub Actions #38019221203](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38019221203)**: 34/34 tests, real moving `main` observation `HTTP 200`, epistemic contract **PASS**, separate GitHub Raw comparison **SAME_BYTES** (both SHA-256 `59df42c314d2018d1ab0d31b6d503dd3b04baee90da318fcdbd595874383c7b4` at the sampled time). Pinned cache `HIT` also reconfirmed.
+- **Cloudflare dashboard:** production branch `experiment/observation-boundary-falsifier-2026-10-10`, root directory `/`, deploy command `npx wrangler deploy`. The dashboard directly confirmed upload/deployment from this branch; e.g. version ID `72f3e61a-9f91-4bec-b6f0-e80e5a7d0560` at the preceding moving-main code commit. Further head deployments should be checked by their own build record.
+- The current tests run from repository root via `node --test` and `wrangler deploy --dry-run`. CI diagnostic PASS is narrower than actual Cloudflare HTTP PASS; both are narrower than Owner/product PASS.
 
-## Boundaries and evidence
+## Deployment and safety boundaries
 
-- Only one public source; no private conversations, personal data, API model calls or writes.
-- GitHub unauthenticated public REST limit is shared and finite. Workers Caching should reduce duplicate source calls, but the actual rate, cache hits and costs **must** be observed on real deployment; may still fail with concurrent misses or edge variation.
-- Tests simulate the GitHub source and validate pinned ref, failure transparency, HTML escaping and no invented product interpretation. CI also runs `wrangler deploy --dry-run`; neither simulates Cloudflare's actual Workers Cache network.
-- No claim of MCP, cross-chat memory, autonomous agent wakeups, shared agent persistence or Cloudflare vendor selection.
+The existing Cloudflare Worker was configured by the Owner before this line. No new Cloudflare account, Worker, database, credentials, write endpoint, queue, MCP server or private-data surface was created. A **root `wrangler.jsonc` exists only on the isolated experimental branch**, pointing at `cloudflare-probe/src/index.mjs`; do not copy it to `main` by momentum.
 
-## Deployment readiness checkpoint
+Workers Caching uses HTTP `Cache-Control` and `cache.enabled` (not programmatic `caches.default`):
+- moving main: **300 seconds** max-age;
+- immutable pinned sample: **3600 seconds**;
+- failure and health: `no-store`.
 
-**SOURCE-TEST PASS, LIVE DEPLOY NOT DONE.** The Worker is ready for a *controlled* read-only deployment after production branch and root directory are confirmed. The repository root selected in the Owner's initial screenshot is still not a valid target. Public route key-space is now bounded: no arbitrary `ref`, duplicated parameters or cache-busting `nonce` can trigger source I/O.
+Separate HTML and JSON requests on unpinned `main` can legitimately sample different revisions. Across deployment changes an already cached representation can continue serving its earlier source sample until expiry. Observed timestamp and digest are required to interpret freshness; one cache HIT does not prove global consistency or reduced Owner burden.
 
-**After deployment:** run `node experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/live-qualification.mjs https://swm-medium-observation-probe.<account-subdomain>.workers.dev/` from a checkout. This conducts **seven bounded HTTP GETs** and separates mechanical provenance PASS/FAIL from actual `Cf-Cache-Status: HIT` evidence. The command is for an agent or CI runner; the Owner need not execute it manually. It is NOT run automatically and cannot run until the real URL exists.
+## Decision boundary / next run
 
-**Current evidence:** [21/21 security+mechanism PASS at run #38016748354](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38016748354); [25/25 including synthetic live-qualifier tests at run #38016892935](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38016892935). More recent commits must be requalified on their own GitHub Actions run. `wrangler deploy --dry-run` checks bundling, not cloud availability, real cache hits or Owner value.
+**Mechanism demonstrated:** bounded public Cloudflare source projection, cache HIT and moving-source read without GitHub REST. **Not demonstrated:** differential agent capability over native GitHub/Actions/Pages, lower Owner cost, long-term freshness/reconciliation, private-source access, or satisfying human World / For me UX.
 
-## Real B qualification (after explicit deployment)
+Next, test an **instrumental receiving-agent task** against A (native GitHub/source) and B (Worker projection), including genuine source changes and uncertainty. If no measured advantage over A emerges, park the Cloudflare line as a proven donor. Do **not** generalize the infrastructure or merge PR #22 based on 34/34 machine PASS.
 
-Compare A and B on the SAME pinned commit: get HTML + JSON and verify observation SHA; measure source requests and latency on repeated identical requests, force unavailable source where safe, check stale cache response behavior; compare orientation against actual source and Owner FAIL, then do a real agent-task comparison. If B has no material gain, stop and retire deployment. Never merge B by machine PASS alone.
+Resume by reading [Medium canonical Research State](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md) and PR #22 HEAD; do not re-open unrelated Cloudflare configuration quests.

@@ -75,6 +75,7 @@ export async function sampleObservation(env,{requestFn=fetch,now=()=>new Date().
       url:"https://github.com/"+REPO+"/blob/"+(commit??"main")+"/"+DOC_PATH,
       repository:REPO,commit_sha:commit,blob_sha:blobSha,
       content_sha256:hash,git_ref_pinned:commit!==null,source_version_verified:commit!==null,source_channel:channel,
+      line_anchors_stable:commit!==null,
       observed_as_readable_at:observedAt
     },
     headings:headings(text)
@@ -85,13 +86,18 @@ function esc(s) {
 }
 export function renderObservationHtml(o){
   const links=o.headings.map(h=>"<li><a href=\""+esc(o.source.url)+"#L"+h.line+"\">"+esc(h.title)+"</a></li>").join("\n");
+  const versionNote=o.source.git_ref_pinned
+    ? "<p>Przypięta rewizja Git; odnośniki do linii odnoszą się do tej konkretnej wersji.</p>"
+    : "<p>Niezweryfikowana rewizja Git: obserwacja zmiennej gałęzi main. Odnośniki do linii mogą się przesunąć po kolejnej zmianie źródła.</p>";
+  const displayedRevision=o.source.git_ref_pinned ? "commit <code>"+esc(o.source.commit_sha)+"</code>" : "main (dokładny commit nieznany)";
+  const sourceLabel=o.source.git_ref_pinned ? "Otwórz przypięte źródło" : "Otwórz ruchome źródło main";
   return "<!doctype html><html lang=\"pl\"><head><meta charset=\"utf-8\"><title>Medium — źródła</title></head><body><main>"+
     "<h1>Medium — nawigacja po źródłach</h1>"+
     "<p>Indeks dokumentu; nie interpretuje aktualnego stanu, znaczenia zmian ani Owner PASS.</p>"+
-    "<p>Próbka: <time>"+esc(o.observed_at)+"</time>, commit <code>"+esc(o.source.commit_sha)+"</code>.</p>"+
+    "<p>Próbka: <time>"+esc(o.observed_at)+"</time>, "+displayedRevision+".</p>"+versionNote+
     "<p>Obserwacja: <code>"+esc(o.observation_id)+"</code>.</p>"+
     "<nav aria-label=\"Sekcje\"><ol>"+links+"</ol></nav>"+
-    "<p><a href=\""+esc(o.source.url)+"\">Otwórz przypięte źródło</a></p></main></body></html>";
+    "<p><a href=\""+esc(o.source.url)+"\">"+sourceLabel+"</a></p></main></body></html>";
 }
 export function createHandler({requestFn=fetch,now=()=>new Date().toISOString()}={}){
   return async(request,env={})=>{

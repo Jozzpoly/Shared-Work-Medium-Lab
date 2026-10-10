@@ -176,3 +176,17 @@ test("moving main can change without providing a dishonest fixed commit",async()
   assert.equal(first.source.commit_sha,null);
   assert.equal(second.source.git_ref_pinned,false);
 });
+
+test("moving link projections expose revision and line-anchor uncertainty",async()=>{
+  const origin=fakeOrigin();
+  const current=await sampleObservation({}, {requestFn:origin.requestFn,now:clock});
+  const html=renderObservationHtml(current);
+  assert.equal(current.source.line_anchors_stable,false);
+  assert.match(html,/Niezweryfikowana rewizja Git/);
+  assert.match(html,/Odnośniki do linii mogą się przesunąć/);
+  assert.ok(!html.includes("<code>null</code>"));
+  assert.match(html,/Otwórz ruchome źródło main/);
+  const pinned=await sampleObservation(pinnedEnv,{requestFn:origin.requestFn,now:clock,ref:COMMIT});
+  assert.equal(pinned.source.line_anchors_stable,true);
+  assert.match(renderObservationHtml(pinned),/Przypięta rewizja Git/);
+});
