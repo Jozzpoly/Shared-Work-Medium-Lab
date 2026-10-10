@@ -4,6 +4,8 @@ This is the canonical entry point for a fresh human or agent entering Shared Wor
 
 Do **not** assume the latest chat, summary, or implementation idea is authoritative. Recover the current state from this repository and linked sources.
 
+**Current Owner product verdict (2026-10-10):** The existing Medium human-facing experience was **not accepted (Owner FAIL)**. Quiet Presence PR #5 and the separate five-card Library PR #17 are unmerged experiments, not a working or Owner-approved Medium. Claude's broader visual Library exploration was received positively *as a direction*, not as product acceptance. Before describing Feniks or any project's present state, verify the receiving project's own live sources; First Hearth is historical SPC/LLM Live NPC evidence, **not current Feniks**. See the [canonical Owner-observed boundary](docs/RESEARCH_STATE.md#owner-observed-product-boundary--2026-10-10-recovery).
+
 ## What this project is trying to do
 
 Shared Work Medium (SWM) explores whether a deliberately designed working environment can:
