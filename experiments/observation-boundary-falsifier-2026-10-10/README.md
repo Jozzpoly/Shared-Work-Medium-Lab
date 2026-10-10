@@ -9,7 +9,7 @@ The old Cloudflare gateway caches a *derived interpretation* of project sources.
 **Pinned evidence:**
 - Current canonical source at audit time: [RESEARCH_STATE.md @ cff9839](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/cff9839c1ac33189c23d93a399f17b44e8f219a0/docs/RESEARCH_STATE.md), blob `ee457f2951d9014f05e0f9fb944d93ab574cebc8`.
 - Historical [gateway source](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/4ee5c9c6f31d216de7e9bd0af0d507a21c863038/experiments/semantic-medium-v0/cloudflare-observation-gateway/src/index.js) and [design/readme](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/4ee5c9c6f31d216de7e9bd0af0d507a21c863038/experiments/semantic-medium-v0/cloudflare-observation-gateway/README.md).
-- Live source was independently read with the connected GitHub tool; the four negative controls were checked against its **pinned content**. The Node test syntax/runner was separately exercised against a small local fixture. Running `node --test` in the full repository checkout is still a distinct unperformed check.
+- Live source was independently read with the connected GitHub tool; the four negative controls were checked against its **pinned content**. The Node test syntax/runner was separately exercised against a small local fixture. Full-checkout qualification was subsequently completed in [GitHub Actions run #38015268165](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38015268165): Node 22.23.3, eight tests passed, and two read-only views generated from the actual checked-out Medium document (52 navigational headings).
 
 ## Actual negative findings
 
@@ -51,7 +51,7 @@ From the root of a full checkout:
 - `node --test experiments/observation-boundary-falsifier-2026-10-10/*.test.mjs`
 - `node experiments/observation-boundary-falsifier-2026-10-10/native-baseline.mjs <output-directory>`
 
-**Execution evidence:** a stand-in local copy on Node 22 generated both representations and passed eight smoke/negative-control tests against a deliberately small synthetic `RESEARCH_STATE.md` fixture. Four historical-parser checks were also independently evaluated against the pinned real source using the connected GitHub reader. The exact remotely committed Node files have **not** been run in a complete checkout; no deployment, GitHub Actions workflow, real-browser or agent utility test exists yet.
+**Execution evidence:** a stand-in local copy on Node 22 generated both representations and passed eight smoke/negative-control tests against a deliberately small synthetic `RESEARCH_STATE.md` fixture. Four historical-parser checks were also independently evaluated against the pinned real source using the connected GitHub reader. The exact remotely committed Node files **were qualified against the full repository checkout** in [GitHub Actions #38015268165](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38015268165): 8/8 PASS and a 52-heading HTML/JSON navigation generation. No Cloudflare deployment, real-browser UX qualification or agent capability-lift test has occurred.
 
 This candidate is deliberately limited: it will go stale until regenerated, covers one public source only, and creates a link/index rather than a useful World or For me experience. Its purpose is to give Cloudflare a **working, cheap comparator**, not become Medium by momentum.
 
