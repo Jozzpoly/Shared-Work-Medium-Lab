@@ -54,15 +54,38 @@ async function digest(s) {
 }
 export async function sampleObservation(env,{requestFn=fetch,now=()=>new Date().toISOString(),ref=null}={}) {
   if(ref!==null&&!COMMIT_RE.test(ref))throw sourceError("invalid pinned commit",400);
-  const commit=ref??(await readJson(requestFn,API+"/commits/main",env))?.sha;
-  if(!COMMIT_RE.test(commit||""))throw sourceError("cannot verify source commit");
-  const file=await readJson(requestFn,API+"/contents/"+DOC_PATH+"?ref="+commit,env);
-  if(file?.encoding!=="base64"||typeof file.content!=="string"||!COMMIT_RE.test(file.sha||"")) {
-    throw sourceError("cannot verify pinned document");
+  let commit, text, blobSha, hash, channel;
+  if(ref!==null){
+    // Immutable source path with an independently prequalified digest.
+    // No unauthenticated GitHub REST quota is consumed by this specimen route.
+    if(ref!==env.PINNED_SOURCE_COMMIT ||
+       !/^[a-f0-9]{64}$/.test(env.PINNED_SOURCE_SHA256||"") ||
+       !COMMIT_RE.test(env.PINNED_SOURCE_BLOB_SHA||"")){
+      throw sourceError("unqualified pinned source",400);
+    }
+    commit=ref;
+    const rawUrl="https://raw.githubusercontent.com/"+REPO+"/"+commit+"/"+DOC_PATH;
+    const response=await requestFn(rawUrl,{headers:{"User-Agent":"swm-medium-observation-probe"}});
+    if(!response.ok)throw sourceError("pinned raw source unavailable: HTTP "+response.status);
+    text=await response.text();
+    if(text.length>500000)throw sourceError("pinned raw source too large");
+    hash=await digest(text);
+    if(hash!==env.PINNED_SOURCE_SHA256)throw sourceError("pinned raw content digest mismatch");
+    blobSha=env.PINNED_SOURCE_BLOB_SHA;
+    channel="github-raw-verified-content-digest";
+  }else{
+    commit=(await readJson(requestFn,API+"/commits/main",env))?.sha;
+    if(!COMMIT_RE.test(commit||""))throw sourceError("cannot verify source commit");
+    const file=await readJson(requestFn,API+"/contents/"+DOC_PATH+"?ref="+commit,env);
+    if(file?.encoding!=="base64"||typeof file.content!=="string"||!COMMIT_RE.test(file.sha||"")) {
+      throw sourceError("cannot verify source document");
+    }
+    if(file.content.length>800000)throw sourceError("source exceeds sample size");
+    text=decodeBase64(file.content);
+    hash=await digest(text);
+    blobSha=file.sha;
+    channel="github-rest-pinned-read";
   }
-  if(file.content.length>800000)throw sourceError("source exceeds sample size");
-  const text=decodeBase64(file.content);
-  const hash=await digest(text);
   const observedAt=now();
   if(Number.isNaN(Date.parse(observedAt)))throw sourceError("invalid clock",500);
   return {
@@ -72,8 +95,8 @@ export async function sampleObservation(env,{requestFn=fetch,now=()=>new Date().
     claims_about_current_product:[],
     source:{
       url:"https://github.com/"+REPO+"/blob/"+commit+"/"+DOC_PATH,
-      repository:REPO,commit_sha:commit,blob_sha:file.sha,
-      content_sha256:hash,git_ref_pinned:true,
+      repository:REPO,commit_sha:commit,blob_sha:blobSha,
+      content_sha256:hash,git_ref_pinned:true,source_channel:channel,
       observed_as_readable_at:observedAt
     },
     headings:headings(text)
