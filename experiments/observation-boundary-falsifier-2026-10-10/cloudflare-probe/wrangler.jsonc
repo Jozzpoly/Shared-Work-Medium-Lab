@@ -3,5 +3,10 @@
   "name": "swm-medium-observation-probe",
   "main": "src/index.mjs",
   "compatibility_date": "2026-10-10",
-  "observability": { "enabled": true }
+  "observability": {
+    "enabled": true
+  },
+  "cache": {
+    "enabled": true
+  }
 }
