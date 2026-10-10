@@ -8,5 +8,8 @@
   },
   "cache": {
     "enabled": true
+  },
+  "vars": {
+    "PINNED_SOURCE_COMMIT": "cff9839c1ac33189c23d93a399f17b44e8f219a0"
   }
 }
