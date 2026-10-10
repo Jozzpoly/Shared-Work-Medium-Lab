@@ -22,3 +22,8 @@ jobs:
         run: node experiments/observation-boundary-falsifier-2026-10-10/native-baseline.mjs /tmp/swm-source-navigation
       - name: Simulate actual Cloudflare root-directory deploy without publishing
         run: npx --yes wrangler@4.149.0 deploy --dry-run
+      - name: Qualify real Cloudflare HTTP response and cache headers (non-gating)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: node experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/live-qualification.mjs https://swm-medium-observation-probe.jozzpoly.workers.dev/
+
