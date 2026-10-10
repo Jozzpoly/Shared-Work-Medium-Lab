@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='95838b840fa7a746bf180b49c9f44aff36e97a3c';
+const sourceSha='577fbb87360c4948080c346ffdf691cfb17f91cd';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -55,11 +55,13 @@ const times=Array.from(bridge.querySelectorAll('time')).map(t=>t.getAttribute('d
 check(times.length===3&&times.every((t,i)=>i===0||times[i-1]<t),'cross-project chronology is ascending, not invented causal order');
 check(bridge.querySelectorAll('.bridge-links a').length===3,'historical encounter retains three primary native sources');
 check(bridge.textContent.includes('To nie jest dowód, że Medium rozpoczęło'),'source encounter rejects false Medium-origin claim');
-check(doc.querySelectorAll('.actions a').length===13,'thirteen source/action/visit links');
+check(doc.querySelectorAll('.actions a').length===15,'fifteen source/action/visit links');
 const allLinks=Array.from(doc.querySelectorAll('.actions a')).map(a=>a.href);
 check(allLinks.some(x=>x.includes('/ReflexBrain-Lab/probes/owner-field-lab.html')),'playable Reflex field has explicit action door');
 check(allLinks.includes('https://llm-live-npc.jozzpoly.workers.dev/'),'SPC browser runtime separate from its R6 research contract');
 check(allLinks.some(x=>x.endsWith('/Llm-Live-NPC/pull/148')),'SPC unmerged research PR is explicitly discoverable');
+check(allLinks.includes('https://github.com/Jozzpoly/Llm-Live-NPC/pulls'),'SPC native open-PR door requires no static frontier rebuild');
+check(allLinks.includes('https://github.com/Jozzpoly/Combat-Lab/pulls'),'Combat native open-PR door requires no static frontier rebuild');
 check(allLinks.some(x=>x==='https://jozzpoly.github.io/Combat-Lab/'),'neutral Combat smoke has separate honest action door');
 check(allLinks.some(x=>x.endsWith('/Jozz-Universal-Rig-Editor/blob/main/README.md')),'JURE instructions go to the full source without fragment rewrite');
 const qpw=doc.getElementById('qp-world-visit');
