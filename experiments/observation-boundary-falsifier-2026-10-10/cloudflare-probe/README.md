@@ -50,6 +50,12 @@ The Owner's video **directly shows** that `swm-medium-observation-probe` already
 
 **Important restraint:** no further Owner navigation through speculative settings. If the UI still says `Unsaved changes` for the already chosen production branch, the only potentially needed manual action is **Save** in that existing Builds screen. Do not press Deploy in the old repository-import wizard or change the root directory. An account-side build/deploy must be verified from its actual run logs and the real generated Worker URL, which are not accessible from these GitHub-only tests.
 
+### Account-side gate recovered (2026-10-10)
+
+The connected Opera browser's **live Cloudflare Settings > Builds** accessibility tree was refreshed after the Owner's correction. The `Production branch` field persisted as `experiment/observation-boundary-falsifier-2026-10-10` after page reload, with no `Unsaved changes` notice. Root directory remains `/` and deploy command remains `npx wrangler deploy`. The dashboard's latest-build label still referred to the **older failed `main` build** at the time of this check.
+
+This checkpoint is **not** evidence of successful network deployment. A new branch push is deliberately used to probe whether the existing GitHub integration now builds the isolated Worker with the root config. Do not change account settings or merge this draft to `main` as a workaround.
+
 ## Boundaries and evidence
 
 - Only one public source; no private conversations, personal data, API model calls or writes.
