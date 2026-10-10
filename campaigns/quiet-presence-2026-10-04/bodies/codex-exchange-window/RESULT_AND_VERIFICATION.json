@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-03 22:24:09 UTC",
+  "question": "Czy rzeczywista wymiana między istniejącymi rozmowami zmieni mój dalszy wybór, i czy możemy pokazać tę zmianę razem z pełnymi wejściami i źródłem?",
+  "stopCondition": "Jedno konkretne rozwidlenie, jawny ślad i działające małe okno; bez przejścia do kampanii implementacyjnej.",
+  "ownerRequest": "dobra to puszczam chwilowo kierownicę.\nzrób coś po swojemu jako codex.\n\nale świadomie, wedle wizji i flow tej konwersacji.",
+  "observedResults": [
+    "Combat skierował próbę od samego przeglądania transkryptu do widocznych skutków wymiany i wskazał First Hearth.",
+    "Codex przeczytał wskazane źródła i wybrane sekcje kodu na b6f00b63dad65a8053fb72ef4c894bcb6ef205d6, a następnie wrócił do Combat z granicą aktywnej sesji.",
+    "Combat przyjął zawężenie sformułowania i zaproponował przyszłą sytuację ze zabranym przedmiotem; próby gry nie przeprowadzono.",
+    "GPT z Projekt Feniks finalny test przesunął akcent z niezależności zadań na wzajemną podatność ich historii.",
+    "Codex stworzył i sprawdził małe okno dwóch rzeczywistych rozwidleń."
+  ],
+  "conversationVerification": [
+    {
+      "threadId": "6abeb571-7aa8-83eb-a532-e67885c16cec",
+      "title": "Opowieść o eksperymencie",
+      "turnId": "dd2b5c1d-b3cd-476a-9ee1-02eaa5dff7b1",
+      "completed": true,
+      "exactSentTextMatched": true,
+      "fullRecord": "COMBAT_EXCHANGE_1.json"
+    },
+    {
+      "threadId": "6abeb571-7aa8-83eb-a532-e67885c16cec",
+      "title": "Opowieść o eksperymencie",
+      "turnId": "7f7f1844-7bdd-4746-aa92-791a87542fec",
+      "completed": true,
+      "exactSentTextMatched": true,
+      "fullRecord": "COMBAT_EXCHANGE_2.json"
+    },
+    {
+      "threadId": "6ab2a3b0-b048-83ed-af28-8c6246b5468a",
+      "title": "Projekt Feniks finalny test",
+      "turnId": "e3e8cca3-593c-413c-ab40-198188cdda16",
+      "completed": true,
+      "exactSentTextMatched": true,
+      "fullRecord": "GUIDE_EXCHANGE.json"
+    }
+  ],
+  "interpretationBoundary": "Wskazania wpływu na wybór Codexa są jawnym opisem jego pracy i widocznej sekwencji czynności. Wypowiedzi Browserów pozostają ich interpretacjami, nie nowymi deklaracjami Ownera. Nie jest to wgląd w ukryte rozumowanie ani dowód dalszej pracy projektów.",
+  "browserVerification": {
+    "surface": "Codex In-app Browser; temporary local preview; closed after checks",
+    "selectionBothForks": true,
+    "fullMessageDisclosure": true,
+    "sixTextFieldsMatched": true,
+    "widgetStateRestoredAfterPreviewReload": true,
+    "noConsoleErrorsOrWarningsObserved": true,
+    "narrowViewport": {
+      "width": 320,
+      "height": 844,
+      "iframeWidthClosed": 288,
+      "iframeWidthExpanded": 273,
+      "horizontalOverflow": false,
+      "screenshotInspected": true
+    },
+    "desktopGeometry": {
+      "viewportWidth": 736,
+      "iframeWidth": 704,
+      "horizontalOverflow": false
+    },
+    "desktopScreenshotBoundary": "Backend screenshot crop did not cover the full overridden viewport; desktop claim is DOM geometry. Narrow screenshot was inspected.",
+    "temporaryViewportReset": true,
+    "previewServerStopped": true
+  },
+  "sourceVerification": {
+    "allExact": true,
+    "checks": [
+      {
+        "id": "combat-1-userMessage",
+        "exact": true,
+        "characters": 2036
+      },
+      {
+        "id": "combat-1-agentMessage",
+        "exact": true,
+        "characters": 4485
+      },
+      {
+        "id": "combat-2-userMessage",
+        "exact": true,
+        "characters": 1553
+      },
+      {
+        "id": "combat-2-agentMessage",
+        "exact": true,
+        "characters": 5129
+      },
+      {
+        "id": "source",
+        "exact": true
+      },
+      {
+        "id": "owner",
+        "exact": true,
+        "formatting": "normalizowane odstępy, treść i pisownia zachowane"
+      }
+    ],
+    "forks": 2,
+    "fragmentBytes": 33100,
+    "literalFragment": true,
+    "placeholderRemaining": false,
+    "feniksRootEntries": 0,
+    "baselineHash": "D46A366C2D4BFF8991976BEE0D3FD03AA22E3BF13AFC246BD06CC6BA218CC277",
+    "files": [
+      {
+        "name": "COMBAT_EXCHANGE_1.json",
+        "bytes": 10383,
+        "sha256": "22AD3798C6792E5A421A1D691D73ACD887554F5E5DC8275F89D1AB35268937AA"
+      },
+      {
+        "name": "COMBAT_EXCHANGE_2.json",
+        "bytes": 15872,
+        "sha256": "07A22C14F0ED2D0E7778799804C9268711385E8DBBA71B7B8E3EB0E6BFF1E9F2"
+      },
+      {
+        "name": "FIRST_HEARTH_SOURCE_SNAPSHOT.json",
+        "bytes": 82857,
+        "sha256": "8C5693E58F3A945D138194F9FDDD45B2BF74F5522A814DEFA53AC6767A3EF251"
+      },
+      {
+        "name": "GUIDE_EXCHANGE.json",
+        "bytes": 5611,
+        "sha256": "F850515594D9489941394BD71F855CC51694C232DACD171EF6984B052FE2C238"
+      },
+      {
+        "name": "GUIDE_PROMPT_PENDING.json",
+        "bytes": 1993,
+        "sha256": "8C5592229E8B60A923CE2CFF20E430543A50D7A705A6EA69AC04F9E5E4D5C532"
+      },
+      {
+        "name": "slad-wspolnej-proby.html",
+        "bytes": 33100,
+        "sha256": "F266F081F5927E1ECECAACA16DA0208E131B62144C65D414DA19B49954FCD35F"
+      }
+    ]
+  },
+  "limits": [
+    "Nie uruchomiono First Hearth, płatnego modelu ani testów SPC.",
+    "Nie ustalono dokładnego refu dla wspomnienia Mira/Jacek.",
+    "Bieżąca gotowość całego SPC nie jest wynikiem tej historycznej kontroli źródeł.",
+    "Okno pokazuje utrwaloną próbę; nie prowadzi autonomicznego dialogu i nie odtwarza żywego świata.",
+    "Nie zbadano odczucia Ownera podczas używania tego okna.",
+    "Nie wybrano kampanii implementacyjnej i nie zmieniono repozytoriów."
+  ],
+  "recoveryFiles": [
+    "COMBAT_EXCHANGE_1.json",
+    "COMBAT_EXCHANGE_2.json",
+    "GUIDE_EXCHANGE.json",
+    "FIRST_HEARTH_SOURCE_SNAPSHOT.json",
+    "slad-wspolnej-proby.html"
+  ],
+  "priorBaseline": {
+    "path": "../feniks-audit-2026-10-03/ROZMOWA_TROJKI.jsonl",
+    "sha256": "D46A366C2D4BFF8991976BEE0D3FD03AA22E3BF13AFC246BD06CC6BA218CC277"
+  }
+}

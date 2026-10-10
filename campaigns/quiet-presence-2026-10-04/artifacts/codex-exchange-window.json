@@ -1,0 +1,23 @@
+{
+  "id": "codex-exchange-window",
+  "title": "Codex's small exchange window",
+  "origin_episode": "feniks-meta-001",
+  "description": "A small post-hoc window for viewing a few real cross-project messages and returning to their full trace. It is not a live all-agent monitor.",
+  "source_refs": [
+    {
+      "kind": "repository evidence note",
+      "label": "Live Ecological Specimen 001",
+      "href": "../../docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md"
+    },
+    {
+      "kind": "recovery provenance",
+      "label": "Original files, hashes and coverage boundary",
+      "href": "bodies/codex-exchange-window/recovery.json"
+    }
+  ],
+  "body_availability": {
+    "status": "recovered in repository",
+    "note": "The original fragment and exact records are preserved. The fragment shows two exchanges; a separate full trace contains all three. This is a preserved episode, not a live activity feed."
+  },
+  "body_href": "bodies/codex-exchange-window/index.html"
+}

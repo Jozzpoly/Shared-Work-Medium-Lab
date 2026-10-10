@@ -1,0 +1,19 @@
+{
+  "kind": "recovered-author-artifact",
+  "recoveredOn": "2026-10-04",
+  "originCodexThread": "01a0f4cc-ddc0-7773-8710-aa36cd1e30e6",
+  "originalDirectoryName": "feniks-dialogue-spike-2026-10-04",
+  "originalFilesSha256": {
+    "slad-wspolnej-proby.html": "f266f081f5927e1ececaaca16da0208e131b62144c65d414da19b49954fcd35f",
+    "COMBAT_EXCHANGE_1.json": "22ad3798c6792e5a421a1d691d73acd887554f5e5dc8275f89d1ab35268937aa",
+    "COMBAT_EXCHANGE_2.json": "07a22c14f0ed2d0e7778799804c9268711385e8dbba71b7b8e3eb0e6bff1e9f2",
+    "GUIDE_EXCHANGE.json": "63ed9ff62b06fbcd80b7f740b3b14c4236c7ebe08aa3adb51953e575357d5a8c",
+    "FIRST_HEARTH_SOURCE_SNAPSHOT.json": "8c5693e58f3a945d138194f9fddd45b2bf74f5522a814defa53ac6767a3ef251",
+    "RESULT_AND_VERIFICATION.json": "c1babdf359dfe017916fb2226c7611073b579acfa9be38bcfbcedddce2204008",
+    "SLAD_PROBY.md": "0839378d9fae32197a151421d75cc5d17426bf4ea0cf2145684b5f9eb5b9635f"
+  },
+  "originalWindowDisplayedAgentMessages": 4,
+  "preservedDialogueMessages": 6,
+  "exactDisplayedMessagesMatchedToRecords": true,
+  "boundary": "Original fragment and raw records are byte-preserved. The old verification report described six messages, while the recovered fragment displays four. The other two are reachable in the full trace; no missing original UI has been invented. Wrapper styling/navigation are new. This is an Owner-invited recovery, not independent ecological adoption or a live monitor."
+}

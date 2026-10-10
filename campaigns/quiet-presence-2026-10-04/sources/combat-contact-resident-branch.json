@@ -1,0 +1,9 @@
+{
+  "id": "combat-contact-resident-branch",
+  "title": "Combat — live physical obstacle-choice and intervention workbench",
+  "kind": "live experimental branch pointer",
+  "authority": "live Combat Git ref for an unaccepted candidate; not canonical architecture",
+  "description": "Isolated, unaccepted Combat branch: editable real body starts, mass/morphology, off-center torque, finite directional and lateral behaviors. True 2D physical A/B trajectories overlay authored starting obstacles; a wrong-side correction passed 6 of 6 manually feasible nearby geometries and cannot pass 3 where the finite controller's manually chosen good side also fails. Those are bounded tests, not organism or crowd quality. Always read exact live branch SHA and CI before reuse.",
+  "binding": "live",
+  "href": "https://github.com/Jozzpoly/Combat-Lab/tree/experiment/finite-lateral-maneuver-v0"
+}

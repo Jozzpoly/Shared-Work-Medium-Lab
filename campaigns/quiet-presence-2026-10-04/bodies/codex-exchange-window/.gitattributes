@@ -1,0 +1,2 @@
+# Preserve transcript bytes, including CRLF and intentional Markdown whitespace.
+* -text -whitespace
