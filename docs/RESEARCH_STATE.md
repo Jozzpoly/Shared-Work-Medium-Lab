@@ -30,7 +30,7 @@ North-star pressure remains: a genuinely appealing *dual-use World / contextual 
 
 **Source-of-truth corrections pending or performed in drafts** must be read from live PR HEAD, not presumed accepted on `main`. Retain this separation until a new Owner experiential test or a materially different mechanism warrants a fresh verdict.
 
-## Frontier topology refresh — 2026-10-09
+## Frontier topology refresh — 2026-10-10
 
 This section is a **routing update only**. It does not promote draft-branch research claims into canonical architecture.
 
@@ -41,6 +41,9 @@ Current open draft research frontiers:
 
 - **[PR #17 — Library Field Shelf visual/source experiment](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/17)**  
   Separate unmerged *draft* candidate: a small, deliberately selected nonexhaustive set of **public** project entrypoints (verify the current coverage at PR #17's live head), source-native actions, voluntary compact/expanded visual modes, live on-demand document/heading traversal, exact-SHA receipts when public GitHub API permits, **explicitly unpinned** source access when it is rate-limited. Connected Opera E2E qualified both pinned and rate-limited modes at different times; **no Owner UX acceptance, broader estate coverage or agent discovery lift is established**.
+
+- **[PR #22 — GitHub-native vs Cloudflare source-observation comparator](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/22)**  
+  New isolated, **unmerged and undeployed** read-only experiment. It checks whether a Cloudflare Worker improves source reachability/observation costs over existing GitHub routes *without misrepresenting Owner verdicts or project truth*. Local tests and Wrangler dry-run do **not** qualify live Cloudflare caching, Owner UX, incremental agent capability, or a decision to host Medium there. Verify live PR head and independent receiving-task evidence before using it.
 
 - **[Issue #7 — broader Library / Atlas collaboration](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7)**  
   Active joint research with Claude/Browser/other participants, separate from the PR #17 implementer's specimen. The initial private-inclusive Kataster prototype was valuable visual exploration but had known silent coverage omissions, source-authority errors and private-public boundaries. Its snapshot is **not** a complete/current estate index or approved product; do not copy/publish it to this public repository. Preserve voluntary World exploration *and* source-bound agent utility as distinct questions.
