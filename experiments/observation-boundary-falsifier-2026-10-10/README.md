@@ -55,6 +55,12 @@ From the root of a full checkout:
 
 This candidate is deliberately limited: it will go stale until regenerated, covers one public source only, and creates a link/index rather than a useful World or For me experience. Its purpose is to give Cloudflare a **working, cheap comparator**, not become Medium by momentum.
 
+## B candidate now implemented, not deployed
+
+The isolated [Cloudflare probe](./cloudflare-probe/README.md) contains a read-only Worker using the **new Workers Caching** mechanism (`cache.enabled` and HTTP `Cache-Control`), not the programmatic Cache API which would invalidate a `workers.dev` cache experiment. It reads GitHub `main` HEAD and then pins the document to that commit, exposes HTML/JSON, and supports explicit `?ref=<commit>` for comparing stable source revisions across requests. Worker name, repository branch and **root directory** must all match the dedicated experimental path; the Owner's initial Cloudflare screen targets the wrong default repository root and is NOT safe to deploy unchanged.
+
+**Execution evidence:** [GitHub Actions #38016163626](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38016163626), exact branch head `b173295a7a2a29dde3211cd2546dd878873b9d66`, Node 22 **18/18 PASS**, including A/B matching content digests and all 52 headings on the real checked-out Medium source with simulated GitHub transport. `wrangler@4.129.0 deploy --dry-run` bundled the probe (6.93 KiB; no upload). Later documentation may advance branch HEAD; this pinned run does not qualify unrun modifications. **No real Cloudflare deployment, source-cache HIT or independent agent lift is established**.
+
 ## Next real decision: does Cloudflare earn a role?
 
 Run a bounded A/B for the same real source change:
