@@ -21,4 +21,4 @@ jobs:
       - name: Generate both source views from one read
         run: node experiments/observation-boundary-falsifier-2026-10-10/native-baseline.mjs /tmp/swm-source-navigation
       - name: Simulate actual Cloudflare root-directory deploy without publishing
-        run: npx --yes wrangler@4.129.0 deploy --dry-run
+        run: npx --yes wrangler@4.149.0 deploy --dry-run
