@@ -47,7 +47,7 @@ test("latest views do not claim atomicity; HTTP cache policy is observable",asyn
   assert.equal(response.headers.get("X-SWM-Cache-Policy"),"workers-caching-http");
   assert.equal(response.headers.get("X-SWM-Cache"),null);
   assert.equal(origin.calls.length,2);
-  const pinned=await handler(req("/project.json?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
+  const pinned=await handler(req("/project.json?ref="+COMMIT),pinnedEnv);
   assert.equal(pinned.headers.get("Cache-Control"),"public, max-age=3600");
 });
 
@@ -122,7 +122,7 @@ test("valid pinned URL only works with explicitly configured approved ref",async
   const handler=createHandler({requestFn:origin.requestFn,now:clock});
   assert.equal((await handler(req("/project.json?ref="+COMMIT),{})).status,400);
   assert.equal(origin.calls.length,0);
-  const allowed=await handler(req("/project.json?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
+  const allowed=await handler(req("/project.json?ref="+COMMIT),pinnedEnv);
   assert.equal(allowed.status,200);
   assert.equal(origin.calls.length,1);
 });
