@@ -2,9 +2,21 @@
 
 **Status:** Quiet Presence ecological field incubating (draft PR #5); separate public visual Library/source-use candidate in draft PR #17; broader Library work under Issue #7; MP-1 dormant; reconnaissance frozen
 
-**Last material update:** 2026-10-09
+**Last material update:** 2026-10-10
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
+
+## Browser work continuity — 2026-10-10 (Owner-authorized)
+
+**Active object:** Shared Work Medium itself, **not** whichever donor repo or tool was read most recently. **Owner objective:** make longer Browser-led runs genuinely self-directed within this project, increasing actual joint perception/action/continuity while decreasing the need for repeated Owner `kontynuuj`, log delivery and context restoration. Codex and Work are currently out of this run. This note is a **short recoverable operating checkpoint**, not a new project constitution, architecture or scheduled background job.
+
+**Current pressure:** prove a *differential* benefit of Medium over the native GitHub/Slack/Files routes for a real workstream, or identify the smallest missing environmental affordance exposed by that comparison. Current native-source recovery already works without the Library; posted donor information is not automatically used by its receiving agent. The five-card Library (#17) and Quiet Presence (#5) remain separate **unmerged drafts**. No Owner product PASS. Historical [Open Substrate real-work admission / Owner walk](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/tree/campaign/open-substrate-2026-10-04/campaigns/open-substrate-2026-10-04) proves narrower representation/traversal mechanics, **not** spontaneous adoption. The dormant Cloudflare gateway is a possible *later* source-budget/observation donor; source parser drift and HTML/JSON cache fan-out remain unqualified for deployment.
+
+**Execution rule for brief Owner continuations:** recover this purpose, verify only live sources material to the chosen active pressure, choose a bounded legitimate action, execute → check consequence → correct → move to the next useful step *within the same turn*. Do not terminate merely because one commit/comment/test finished. Prefer several connected reversible steps over scattered multi-project scouting. No automatic session or background continuation is promised; tools/host may terminate runs, so preserve a checkpoint after material progress and recover it on the next turn. Do not substitute random other projects when this pressure is blocked.
+
+**Evidence threshold:** for cross-project transfer, require receiver-native use and a plausible comparator; a message delivered or PR activity after delivery does not establish causality. For UI/product value, require actual Owner judgement. For a source/runtime fix, bind code, exact revision, execution surface and check type; CI green is narrower than Owner success. If a live recipient is not available, continue with a relevant bounded Medium experiment or a verified real source/truth defect; do **not** manufacture adoption.
+
+**Stop/attention economy:** keep the rich history linked, not recopied; avoid new ledgers, routine Slack pings, repetitive comments, uncontrolled Cloudflare deployment and scope-creeping features. Return to Owner only for consequential authorization, actual feel/vision or meaningful unexpected findings. This section is a **current run pointer**; supersede/remove it when the frontier changes instead of accumulating dated run charters.
 
 ## Owner-observed product boundary — 2026-10-10 recovery
 
