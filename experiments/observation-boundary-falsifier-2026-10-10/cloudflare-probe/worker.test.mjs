@@ -46,7 +46,8 @@ test("latest views do not claim atomicity; HTTP cache policy is observable",asyn
   assert.equal(response.headers.get("Cache-Control"),"public, max-age=300");
   assert.equal(response.headers.get("X-SWM-Cache-Policy"),"workers-caching-http");
   assert.equal(response.headers.get("X-SWM-Cache"),null);
-  assert.equal(origin.calls.length,2);
+  assert.equal(origin.calls.length,1);
+  assert.match(origin.calls[0].url,/raw\.githubusercontent\.com\/Jozzpoly\/Shared-Work-Medium-Lab\/main\//);
   const pinned=await handler(req("/project.json?ref="+COMMIT),pinnedEnv);
   assert.equal(pinned.headers.get("Cache-Control"),"public, max-age=3600");
 });
@@ -90,13 +91,21 @@ test("health indicates runtime, not source freshness",async()=>{
 test("optional token never enters response",async()=>{
   const origin=fakeOrigin();const secret="test-secret";
   const data=await sampleObservation({GITHUB_TOKEN:secret},{requestFn:origin.requestFn,now:clock});
-  assert.equal(origin.calls[0].headers.get("Authorization"),"Bearer "+secret);
+  assert.match(origin.calls[0].url,/raw\.githubusercontent\.com\/Jozzpoly\/Shared-Work-Medium-Lab\/main\//);
+  assert.equal(origin.calls[0].headers.Authorization,undefined);
   assert.ok(!JSON.stringify(data).includes(secret));
 });
 
-test("GitHub cannot silently provide an invalid commit id",async()=>{
+test("moving main content does not manufacture an immutable source revision",async()=>{
   const origin=fakeOrigin({commit:"invalid"});
-  await assert.rejects(sampleObservation({}, {requestFn:origin.requestFn,now:clock}),/cannot verify source commit/);
+  const data=await sampleObservation({}, {requestFn:origin.requestFn,now:clock});
+  assert.equal(data.source.commit_sha,null);
+  assert.equal(data.source.blob_sha,null);
+  assert.equal(data.source.git_ref_pinned,false);
+  assert.equal(data.source.source_version_verified,false);
+  assert.equal(data.source.source_channel,"github-raw-moving-main");
+  assert.equal(data.source.url,"https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md");
+  assert.equal(origin.calls.length,1);
 });
 
 test("adversarial query variants cannot cause GitHub source calls",async()=>{
@@ -156,4 +165,14 @@ test("pinned source digest corruption is rejected, not silently accepted",async(
   assert.equal(result.status,503);
   assert.equal(body.status,"source-unknown");
   assert.match(body.detail,/digest mismatch/);
+});
+
+test("moving main can change without providing a dishonest fixed commit",async()=>{
+  let reads=0;
+  const requestFn=async()=>new Response(text+"\nchange "+(++reads));
+  const first=await sampleObservation({}, {requestFn,now:clock});
+  const second=await sampleObservation({}, {requestFn,now:clock});
+  assert.notEqual(first.observation_id,second.observation_id);
+  assert.equal(first.source.commit_sha,null);
+  assert.equal(second.source.git_ref_pinned,false);
 });

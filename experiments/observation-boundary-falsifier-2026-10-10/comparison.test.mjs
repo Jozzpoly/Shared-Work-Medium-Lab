@@ -18,6 +18,7 @@ const fakeGithub=async url=>{
     sha:blob,encoding:"base64",
     content:Buffer.from(markdown,"utf8").toString("base64")
   };
+  if(url.includes("raw.githubusercontent.com"))return new Response(markdown);
   return Response.json(url.endsWith("/commits/main")?{sha:commit}:contents);
 };
 
@@ -29,8 +30,9 @@ test("real Medium source: A and B agree on content digest and every heading",asy
   assert.equal(a.source.content_sha256,b.source.content_sha256);
   assert.deepEqual(a.headings,b.headings);
   assert.ok(a.headings.length>=40);
-  assert.equal(requests.length,2);
-  assert.ok(requests[1].endsWith("?ref="+commit));
+  assert.equal(requests.length,1);
+  assert.match(requests[0],/raw\.githubusercontent\.com\/Jozzpoly\/Shared-Work-Medium-Lab\/main\//);
+  assert.equal(b.source.git_ref_pinned,false);
 });
 
 test("real Medium source: neither A nor B invents accepted product status",async()=>{

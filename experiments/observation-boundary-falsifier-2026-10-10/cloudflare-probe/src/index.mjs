@@ -6,32 +6,10 @@
  */
 const REPO = "Jozzpoly/Shared-Work-Medium-Lab";
 const DOC_PATH = "docs/RESEARCH_STATE.md";
-const API = "https://api.github.com/repos/" + REPO;
 const SCHEMA = "swm.source-navigation-observation.v0";
 const COMMIT_RE = /^[a-f0-9]{40}$/;
 function sourceError(message,status=503) {
   const e=new Error(message);e.status=status;return e;
-}
-function apiHeaders(env) {
-  const h=new Headers({
-    "Accept":"application/vnd.github+json",
-    "User-Agent":"swm-medium-observation-probe",
-    "X-GitHub-Api-Version":"2026-03-10"
-  });
-  if (env.GITHUB_TOKEN) h.set("Authorization","Bearer "+env.GITHUB_TOKEN);
-  return h;
-}
-async function readJson(requestFn,url,env) {
-  const response=await requestFn(url,{headers:apiHeaders(env)});
-  if (!response.ok) throw sourceError("GitHub unavailable: HTTP "+response.status);
-  try{return await response.json();}
-  catch{throw sourceError("GitHub returned invalid JSON");}
-}
-function decodeBase64(value) {
-  try {
-    const bytes=Uint8Array.from(atob(value.replace(/\s/g,"")),c=>c.charCodeAt(0));
-    return new TextDecoder("utf-8",{fatal:true}).decode(bytes);
-  } catch { throw sourceError("invalid source encoding"); }
 }
 function headings(markdown) {
   let fence=null;
@@ -74,17 +52,17 @@ export async function sampleObservation(env,{requestFn=fetch,now=()=>new Date().
     blobSha=env.PINNED_SOURCE_BLOB_SHA;
     channel="github-raw-verified-content-digest";
   }else{
-    commit=(await readJson(requestFn,API+"/commits/main",env))?.sha;
-    if(!COMMIT_RE.test(commit||""))throw sourceError("cannot verify source commit");
-    const file=await readJson(requestFn,API+"/contents/"+DOC_PATH+"?ref="+commit,env);
-    if(file?.encoding!=="base64"||typeof file.content!=="string"||!COMMIT_RE.test(file.sha||"")) {
-      throw sourceError("cannot verify source document");
-    }
-    if(file.content.length>800000)throw sourceError("source exceeds sample size");
-    text=decodeBase64(file.content);
+    // Moving ref: current contents can be observed without inventing a commit SHA.
+    // The raw branch URL can be stale at its CDN and is NOT an immutable revision.
+    commit=null;
+    const url="https://raw.githubusercontent.com/"+REPO+"/main/"+DOC_PATH;
+    const response=await requestFn(url,{headers:{"User-Agent":"swm-medium-observation-probe"}});
+    if(!response.ok)throw sourceError("moving raw source unavailable: HTTP "+response.status);
+    text=await response.text();
+    if(text.length>500000)throw sourceError("moving raw source exceeds sample size");
     hash=await digest(text);
-    blobSha=file.sha;
-    channel="github-rest-pinned-read";
+    blobSha=null;
+    channel="github-raw-moving-main";
   }
   const observedAt=now();
   if(Number.isNaN(Date.parse(observedAt)))throw sourceError("invalid clock",500);
@@ -94,9 +72,9 @@ export async function sampleObservation(env,{requestFn=fetch,now=()=>new Date().
     observed_at:observedAt,
     claims_about_current_product:[],
     source:{
-      url:"https://github.com/"+REPO+"/blob/"+commit+"/"+DOC_PATH,
+      url:"https://github.com/"+REPO+"/blob/"+(commit??"main")+"/"+DOC_PATH,
       repository:REPO,commit_sha:commit,blob_sha:blobSha,
-      content_sha256:hash,git_ref_pinned:true,source_channel:channel,
+      content_sha256:hash,git_ref_pinned:commit!==null,source_version_verified:commit!==null,source_channel:channel,
       observed_as_readable_at:observedAt
     },
     headings:headings(text)
