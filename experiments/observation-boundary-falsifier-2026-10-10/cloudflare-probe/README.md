@@ -27,41 +27,28 @@ The programmatic `caches.default` Cache API is **not a trustworthy workers.dev e
 
 Docs: https://developers.cloudflare.com/workers/cache/ and https://developers.cloudflare.com/workers/cache/configuration/ .
 
-## Exact Git-linked deployment parameters — NOT YET USER-APPROVED TO DEPLOY
+## Actual Owner Cloudflare interface — corrected 2026-10-10
 
-On the user's screenshot, defaults select the **wrong root** (`Shared-Work-Medium-Lab/main` has no root Wrangler config). Clicking Deploy with the defaults can trigger Cloudflare autoconfiguration PR instead of deploying this probe.
+The Owner's video **directly shows** that `swm-medium-observation-probe` already exists and is connected to `Jozzpoly/Shared-Work-Medium-Lab`. The Builds panel has **Root directory `/`**, build command `None`, deploy command `npx wrangler deploy`. The experiment branch is visible as the selected Production branch, but the screen also displays **Unsaved changes** throughout the capture; this recording alone does not prove that the branch was saved. The latest Cloudflare build in the capture had **failed**, with no exact build logs inspected.
 
-When the experiment is actually authorized for live deployment:
+**Engineering resolution:** add `wrangler.jsonc` at **repository root on the isolated experiment branch only**. It names the existing Worker `swm-medium-observation-probe` and points `main` to `experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/src/index.mjs`. Its other settings match the nested experimental config. No Cloudflare Root directory change, new Worker, new repository, or new project name is needed. `main` has no new root config and must remain unmodified.
 
-| Setting | Required value |
+**Exact existing settings accommodated:**
+
+| Cloudflare setting | Existing value / requirement |
 | --- | --- |
-| Repository | `Jozzpoly/Shared-Work-Medium-Lab` |
-| Worker/project name | `swm-medium-observation-probe` (MUST match `wrangler.jsonc`) |
-| Production branch | `experiment/observation-boundary-falsifier-2026-10-10` |
-| Root directory | `experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe` |
-| Build command | empty |
-| Deploy command | `npx wrangler deploy` |
-| Preview command | `npx wrangler preview` (default; branch-isolated Preview, unlike `versions upload`) |
-| Runtime secrets | none required for public-scope initial test; optional `GITHUB_TOKEN` stays server-side |
-| Public ref allowlist | `PINNED_SOURCE_COMMIT=cff9839c1ac33189c23d93a399f17b44e8f219a0` via tracked `wrangler.jsonc` vars |
+| Worker | `swm-medium-observation-probe` — already exists |
+| Git repository | `Jozzpoly/Shared-Work-Medium-Lab` — connected |
+| Branch | `experiment/observation-boundary-falsifier-2026-10-10` — selected on screen; save status unverified |
+| Root directory | `/` — **keep unchanged** |
+| Build command | `None` — **keep unchanged** |
+| Deploy command | `npx wrangler deploy` — **keep unchanged** |
+| Code entry | root `wrangler.jsonc` on the experiment branch, pointing into the probe folder |
+| Approved pinned source | `cff9839c1ac33189c23d93a399f17b44e8f219a0` |
 
-In an existing Worker, Cloudflare docs locate branch selection at **Settings > Build > Branch control** and root directory at **Settings > Build > Build Configuration**. If the creation flow does NOT let the Owner select both **before creating/deploying**, STOP; use a separate, controlled repo or a connection workflow that allows both, rather than accepting autoconfiguration on `main`.
+**Verification:** CI must run `node --test` and `npx wrangler deploy --dry-run` from the **repository root**, not `--config` in the nested folder. [Run #38017731891](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38017731891) proved 27/27 tests and a successful root dry-run at commit `642f03cb678775771b0ceaee4e878bd252a58413`. This is not proof of real Cloudflare deployment.
 
-The screenshot's `shared-work-medium-lab` project name must not be reused for this Worker unless the configuration is consciously renamed consistently.
-
-Useful docs: https://developers.cloudflare.com/workers/ci-cd/builds/configuration/ and https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/.
-
-## Safer Cloudflare dashboard path if the current importer cannot select branch + root
-
-Cloudflare supports connecting a GitHub repository **to an existing Worker** ([official Workers Builds instructions](https://developers.cloudflare.com/workers/ci-cd/builds/#connect-an-existing-worker)). This avoids importing this repository's unconfigured `main` root:
-
-1. Abandon the current prefilled **Import repository > Deploy** screen without deploying it.
-2. Under **Workers & Pages > Create application**, create an independent basic/Hello World Worker named exactly `swm-medium-observation-probe`. Its placeholder initial code is not our experiment.
-3. Open that Worker: **Settings > Builds > Connect**; connect `Jozzpoly/Shared-Work-Medium-Lab`.
-4. In build settings, choose production branch `experiment/observation-boundary-falsifier-2026-10-10`, root directory `experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe`, empty build command, deploy `npx wrangler deploy` and Preview `npx wrangler preview`. Require exact project name match to the nested `wrangler.jsonc`.
-5. Only once the settings are confirmed, trigger the first controlled build (a push to the isolated experimental branch, or an explicit build command in Cloudflare). Verify the actual build and published URL before claiming success.
-
-This is **one possible setup path**, not an instruction to create the Worker without Owner acknowledgement. A standalone Cloudflare project is a separate deployment target; it does not imply Medium `main` is ready for Cloudflare. If the account UI differs from these documented steps, pause instead of guessing/clicking Deploy on the wrong repo root.
+**Important restraint:** no further Owner navigation through speculative settings. If the UI still says `Unsaved changes` for the already chosen production branch, the only potentially needed manual action is **Save** in that existing Builds screen. Do not press Deploy in the old repository-import wizard or change the root directory. An account-side build/deploy must be verified from its actual run logs and the real generated Worker URL, which are not accessible from these GitHub-only tests.
 
 ## Boundaries and evidence
 
