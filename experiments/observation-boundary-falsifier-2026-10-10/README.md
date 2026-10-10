@@ -42,6 +42,19 @@ Using the connected GitHub tools against pinned main `cff9839`, a directed retri
 
 **Scope:** this shows GitHub-native retrieval is adequate for one small, prompted orientation task. It is NOT a clean independent agent run, a latency/token experiment, a matched A/B against the gateway, or evidence that Cloudflare is unnecessary for more complex shared observations. In particular, the PR list is a moving response while the file reads were pinned; **they are not a single atomic snapshot**.
 
+## Executable A candidate: no Cloudflare
+
+`native-baseline.mjs` makes **one local source read**, then emits semantic navigation in `index.html` and `observation.json` from the same byte-digested observation. It does not infer current project claims, certify source freshness or host itself. The source URL remains moving (`main`) and its Git revision is **explicitly unverified**; the SHA-256 is only a content digest.
+
+From the root of a full checkout:
+
+- `node --test experiments/observation-boundary-falsifier-2026-10-10/*.test.mjs`
+- `node experiments/observation-boundary-falsifier-2026-10-10/native-baseline.mjs <output-directory>`
+
+**Execution evidence:** a stand-in local copy on Node 22 generated both representations and passed eight smoke/negative-control tests against a deliberately small synthetic `RESEARCH_STATE.md` fixture. Four historical-parser checks were also independently evaluated against the pinned real source using the connected GitHub reader. The exact remotely committed Node files have **not** been run in a complete checkout; no deployment, GitHub Actions workflow, real-browser or agent utility test exists yet.
+
+This candidate is deliberately limited: it will go stale until regenerated, covers one public source only, and creates a link/index rather than a useful World or For me experience. Its purpose is to give Cloudflare a **working, cheap comparator**, not become Medium by momentum.
+
 ## Next real decision: does Cloudflare earn a role?
 
 Run a bounded A/B for the same real source change:
