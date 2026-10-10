@@ -27,3 +27,7 @@ jobs:
         timeout-minutes: 2
         run: node experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/live-qualification.mjs https://swm-medium-observation-probe.jozzpoly.workers.dev/
 
+      - name: Qualify moving main source identity without inventing a Git revision (non-gating)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: node experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/moving-qualification.mjs https://swm-medium-observation-probe.jozzpoly.workers.dev/
