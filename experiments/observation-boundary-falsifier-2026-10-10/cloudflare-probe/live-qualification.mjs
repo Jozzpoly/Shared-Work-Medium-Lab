@@ -40,14 +40,24 @@ export async function qualify(origin,{fetchFn=fetch}={}){
   const failures=[];
   if(raw.status!==200)failures.push("immutable GitHub source not retrievable");
   if(first.status!==200||second.status!==200||html.status!==200)failures.push("read-only projections unavailable");
-  if(doc?.source?.commit_sha!==PIN)failures.push("source version mismatch");
+  if(doc?.schema!=="swm.source-navigation-observation.v0"||doc?.kind!=="navigation-only")
+    failures.push("unexpected observation schema or interpretation class");
+  if(doc?.source?.commit_sha!==PIN || doc?.source?.url!==
+    "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/"+PIN+"/docs/RESEARCH_STATE.md")
+    failures.push("source version or first-party link mismatch");
+  for(const title of ["Owner-observed product boundary", "Frontier topology refresh"]){
+    if(!Array.isArray(doc?.headings)||!doc.headings.some(h=>h.title.startsWith(title)))
+      failures.push("missing source navigation landmark: "+title);
+  }
   if(doc?.source?.content_sha256!==digest)failures.push("source bytes mismatch");
   if(doc?.observation_id!=="sha256:"+digest||first.id!==doc?.observation_id||html.id!==doc?.observation_id)
     failures.push("representation identity mismatch");
   if(!html.body.includes(doc?.observation_id||"UNAVAILABLE"))failures.push("HTML receipt missing");
   if(doc?.claims_about_current_product?.length!==0)failures.push("unapproved interpretation supplied");
-  if(health.status!==200)failures.push("health endpoint failed");
-  else if(JSON.parse(health.body).source_health!=="not checked")failures.push("health falsely certifies GitHub");
+  let healthBody=null;
+  try{healthBody=JSON.parse(health.body);}catch{}
+  if(health.status!==200||!healthBody)failures.push("health endpoint failed");
+  else if(healthBody.source_health!=="not checked")failures.push("health falsely certifies GitHub");
   if(badNonce.status!==400||badRef.status!==400)failures.push("unbounded query surface");
   const statuses=[first.cf_cache_status,second.cf_cache_status,html.cf_cache_status];
   return {
