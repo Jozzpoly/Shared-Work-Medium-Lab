@@ -15,7 +15,7 @@ try{
 const branch='experiment/library-field-shelf-2026-10-09';
 // Deliberate exact fixture: branch URLs have been observed returning OLD body,
 // even with cache:no-store. Never silently qualify an unknown served revision.
-const sourceSha='58b235cd7e9e7a0ae6f9b20f24e4256cee7a88a8';
+const sourceSha='95838b840fa7a746bf180b49c9f44aff36e97a3c';
 const origin='https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/';
 const relative='/experiments/library-field-shelf-2026-10-09/index.html';
 const res=await fetch(origin+sourceSha+relative,{cache:'no-store'});
@@ -75,6 +75,20 @@ change('reflex');
 check(cards.filter(x=>!x.hidden).length===1 && !cards[2].hidden,'search finds ReflexBrain without collapsing other source identities');
 change('spc');
 check(cards.filter(x=>!x.hidden).length===1&&!cards[4].hidden,'source-driven project search discovers SPC');
+const multiWordQueries=[
+ ['codex medium',0],
+ ['kontakt ruch',1],
+ ['spc mira',4],
+ ['mira spc',4],
+ ['reflexbrain pamięć',2],
+ ['   kontakt   ruch   ',1]
+];
+for(const [query,index] of multiWordQueries){
+ change(query);
+ check(cards.filter(x=>!x.hidden).length===1&&!cards[index].hidden,'unordered multiword query '+query.trim()+' resolves only intended source card');
+}
+change('hamowanie');
+check(cards.filter(x=>!x.hidden).length===1&&!cards[1].hidden,'single-term query preserved');
 change('NEVER_EXISTS_PROJECT_123');
 check(cards.every(x=>x.hidden)&&!none.hidden,'uncovered subject reports missing in five-card selection, not global absence');
 change('');
