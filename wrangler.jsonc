@@ -1,0 +1,18 @@
+// Branch-only Cloudflare Workers Builds entry point.
+// The Owner's existing Worker already uses repository root "/" + "npx wrangler deploy".
+// This file is intentionally NOT on main; never merge before separate approval.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "swm-medium-observation-probe",
+  "main": "experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/src/index.mjs",
+  "compatibility_date": "2026-10-10",
+  "observability": {
+    "enabled": true
+  },
+  "cache": {
+    "enabled": true
+  },
+  "vars": {
+    "PINNED_SOURCE_COMMIT": "cff9839c1ac33189c23d93a399f17b44e8f219a0"
+  }
+}
