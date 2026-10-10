@@ -10,7 +10,6 @@
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { createHash } from "node:crypto";
 import test from "node:test";
 
 const stateText = readFileSync(
@@ -45,14 +44,6 @@ function legacyDeclaredState(markdown) {
   return { status, frontier: stripLightMarkdown(frontier) || "unknown" };
 }
 
-function sourceReceipt(markdown, sourceRef, observedAt) {
-  return {
-    source_ref: sourceRef,
-    observed_at: observedAt,
-    content_sha256: createHash("sha256").update(markdown, "utf8").digest("hex")
-  };
-}
-
 test("negative control: v0 misses the current frontier in today's canonical layout", () => {
   assert.match(stateText, /^## Frontier topology refresh\b/m);
   assert.equal(legacyDeclaredState(stateText).frontier, "unknown");
@@ -63,22 +54,15 @@ test("negative control: v0 headline status omits explicit Owner product FAIL", (
   assert.doesNotMatch(legacyDeclaredState(stateText).status, /Owner-observed FAIL/i);
 });
 
-test("a source receipt must change when source bytes change", () => {
-  const first = sourceReceipt(stateText, "commit-A", "2026-10-10T00:00:00Z");
-  const changed = sourceReceipt(stateText + "\n", "commit-B", "2026-10-10T00:00:01Z");
-  assert.notEqual(first.content_sha256, changed.content_sha256);
+test("negative control: v0 loses source-native PR entry links along with the frontier", () => {
+  assert.match(stateText, /\[PR #5 — Quiet Presence ecological campaign\]\(https:\/\/github\.com\//);
+  assert.equal(legacyDeclaredState(stateText).frontier, "unknown");
 });
 
-test("HTML and JSON must be projections of ONE sampled receipt, not independent reads", () => {
-  const once = sourceReceipt(stateText, "one-pinned-source", "2026-10-10T00:00:00Z");
-  const htmlProjection = { representation: "html", source: once };
-  const jsonProjection = { representation: "json", source: once };
-  assert.deepEqual(htmlProjection.source, jsonProjection.source);
-  assert.equal(htmlProjection.source.content_sha256, jsonProjection.source.content_sha256);
-});
-
-test("source content SHA-256 is NOT a Git commit or Git blob SHA", () => {
-  const receipt = sourceReceipt(stateText, "unverified", "2026-10-10T00:00:00Z");
-  assert.equal(receipt.content_sha256.length, 64);
-  assert.equal(receipt.source_ref, "unverified");
+test("negative control: a later historical heading can be misread as today's frontier", () => {
+  const misleading = stateText + "\n## Current frontier\nRetired history is the current plan.\n";
+  assert.equal(
+    legacyDeclaredState(misleading).frontier,
+    "Retired history is the current plan."
+  );
 });
