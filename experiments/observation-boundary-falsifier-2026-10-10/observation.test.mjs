@@ -41,7 +41,13 @@ function legacyDeclaredState(markdown) {
     .slice(0, 5)
     .join(" ");
 
-  return { status, frontier: stripLightMarkdown(frontier) || "unknown" };
+  const links = [...frontierBlock.matchAll(/\[[^\]]+\]\((https?:\/\/[^)]+)\)/g)]
+    .map(match => match[1]);
+  return {
+    status,
+    frontier: stripLightMarkdown(frontier) || "unknown",
+    frontier_links: links
+  };
 }
 
 test("negative control: v0 misses the current frontier in today's canonical layout", () => {
@@ -56,7 +62,7 @@ test("negative control: v0 headline status omits explicit Owner product FAIL", (
 
 test("negative control: v0 loses source-native PR entry links along with the frontier", () => {
   assert.match(stateText, /\[PR #5 — Quiet Presence ecological campaign\]\(https:\/\/github\.com\//);
-  assert.equal(legacyDeclaredState(stateText).frontier, "unknown");
+  assert.deepEqual(legacyDeclaredState(stateText).frontier_links, []);
 });
 
 test("negative control: a later historical heading can be misread as today's frontier", () => {
