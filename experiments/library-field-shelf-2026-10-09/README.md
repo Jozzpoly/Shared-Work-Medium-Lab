@@ -69,6 +69,8 @@ A real cross-project task investigated whether Combat Lab's new body-origin mate
 
 **Negative result matters:** the direct native GitHub baseline supplied the relevant current research; the Medium shelf did not show incremental discovery in this task. The next meaningful test needs a separate receiving agent with an actual decision, a native-source comparator and source-attributed downstream use. Do not generate adoption by prompting participants to click a Medium link.
 
+**Second retrieval negative (same session):** the connected GitHub `get_users_recent_prs_in_repo` listed active draft SPC #152 and Combat #4, and `get_pr_info` retrieved both. In contrast, `search_issues` returned **zero** for these known-open PRs under `repo:...` queries and also under explicit repository-selector queries (`is:pr`, `is:open is:pr`, `material`). All returned normally without an explicit error. The reason is **unknown** (indexing, connector scoping, query execution or another cause); do not infer GitHub itself lacks these PRs or universally broken search. This is a falsifier for any Medium rule that upgrades empty query results into absence or automatically hides a candidate. Exact PR URLs and direct listings take precedence for existence.
+
 ## Qualification deliberately missing
 
 Neither a developer's screenshots nor automated PASSes prove that the Owner wants to stay here, finds the art direction satisfying, learns independently, or gains a new workflow. A later **reader other than the maker** is required for external-use evidence; a controlled no-Library comparator is required before claiming incremental agent discovery/capability.
