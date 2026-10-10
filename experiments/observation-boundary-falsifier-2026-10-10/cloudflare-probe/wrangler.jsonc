@@ -10,6 +10,8 @@
     "enabled": true
   },
   "vars": {
-    "PINNED_SOURCE_COMMIT": "cff9839c1ac33189c23d93a399f17b44e8f219a0"
+    "PINNED_SOURCE_COMMIT": "cff9839c1ac33189c23d93a399f17b44e8f219a0",
+    "PINNED_SOURCE_SHA256": "c12c04a6fc23b47caf750beae97ae7dad139bf021f2deca17997ee411ce6573e",
+    "PINNED_SOURCE_BLOB_SHA": "ee457f2951d9014f05e0f9fb944d93ab574cebc8"
   }
 }
