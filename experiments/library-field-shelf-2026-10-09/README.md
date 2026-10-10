@@ -58,6 +58,17 @@ Real-browser E2E now includes a deliberately hostile **source-outline** fixture.
 
 **Narrow evidence:** executed the exact [source JavaScript @ `95838b84`](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/95838b840fa7a746bf180b49c9f44aff36e97a3c/experiments/library-field-shelf-2026-10-09/index.html) against a browser-element mock reconstructed from the same HTML. **9/9** cases passed: four named multiword regressions, reversed word order, irregular spacing, single term, empty query (all five), and unknown term (none plus coverage warning). This is a *logic/DOM simulation PASS*, **not** a live click, Owner benefit, improved full-corpus recall, or ecological discovery proof. A follow-up browser E2E fixture targets the pinned HTML revision for eventual connected-browser replay.
 
+## Live frontier pressure — native GitHub baseline, 2026-10-10
+
+A real cross-project task investigated whether Combat Lab's new body-origin material-force experiments could provide a useful novel donor to SPC's concurrent pre-Luna material-contact/route experiments.
+
+- **Native discovery found the current source without Medium:** [Combat draft PR #4](https://github.com/Jozzpoly/Combat-Lab/pull/4) and [SPC draft PR #152](https://github.com/Jozzpoly/Llm-Live-NPC/pull/152) were directly found by the already-connected GitHub PR listing, and their source-native tests/limitations were inspected. This is **not** a causal Medium transfer, new agent capability or ecological discovery.
+- **They are related, not interchangeable:** Combat exercises Rapier bodies/appendages exerting finite reciprocal forces on physical matter; SPC's opt-in World validates occupancy, pickup/place, contact-triggered detours and authorized run continuity. Both explicitly disclaim self-originating agency/Owner-quality world feel. No code transplant, false architecture convergence, or unsolicited receiving-project write is warranted from this comparison alone.
+- **Observed Medium weakness:** the hand-authored SPC card links R6 PR #148 but does not route to newer parallel PR #152; the Combat card features an older experimental branch rather than the newly active X0 #4. A card's selected historical source is **not** complete frontier coverage.
+- **Small no-index mitigation:** added two optional GitHub-native `/pulls` links next to those cards. Their first-party PR list reflects the source platform's active open PRs without a Medium-managed index or stored claim that "latest PR = project authority." The test fixture pins the card HTML and asserts both destinations; **real user navigation and Owner usefulness remain unqualified**, especially while Opera is unavailable.
+
+**Negative result matters:** the direct native GitHub baseline supplied the relevant current research; the Medium shelf did not show incremental discovery in this task. The next meaningful test needs a separate receiving agent with an actual decision, a native-source comparator and source-attributed downstream use. Do not generate adoption by prompting participants to click a Medium link.
+
 ## Qualification deliberately missing
 
 Neither a developer's screenshots nor automated PASSes prove that the Owner wants to stay here, finds the art direction satisfying, learns independently, or gains a new workflow. A later **reader other than the maker** is required for external-use evidence; a controlled no-Library comparator is required before claiming incremental agent discovery/capability.
