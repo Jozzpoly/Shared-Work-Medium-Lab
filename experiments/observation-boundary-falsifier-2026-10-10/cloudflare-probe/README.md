@@ -11,7 +11,7 @@ Cloudflare Worker serves:
 
 The Worker first identifies the current `main` Git commit using GitHub API, then fetches **this exact commit** of `docs/RESEARCH_STATE.md`. A response contains an immutable commit URL, Git blob SHA, SHA-256 of observed bytes and a sample time. It NEVER infers project status, accepted Owner verdict, active tasks or agent liveness. A failure is explicit `source-unknown` (503), with HTTP `no-store`.
 
-Use `?ref=<40 lowercase hex commit>` on either representation to fetch an exact commit without querying the moving `main` head. For two separate HTML/JSON requests **only pinned ref makes the source revision identical by contract**. Default moving-`main` responses are NOT atomic across requests.
+Use `?ref=cff9839c1ac33189c23d93a399f17b44e8f219a0` on either representation to fetch the **one explicitly approved** exact commit without querying the moving `main` head. All other refs, unknown query parameters, or duplicate parameters are rejected before GitHub access. For two separate HTML/JSON requests **only pinned ref makes the source revision identical by contract**. Default moving-`main` responses are NOT atomic across requests.
 
 ## Why Workers Caching, not Cache API
 
@@ -41,8 +41,9 @@ When the experiment is actually authorized for live deployment:
 | Root directory | `experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe` |
 | Build command | empty |
 | Deploy command | `npx wrangler deploy` |
-| Preview command | `npx wrangler versions upload` |
+| Preview command | `npx wrangler preview` (default; branch-isolated Preview, unlike `versions upload`) |
 | Runtime secrets | none required for public-scope initial test; optional `GITHUB_TOKEN` stays server-side |
+| Public ref allowlist | `PINNED_SOURCE_COMMIT=cff9839c1ac33189c23d93a399f17b44e8f219a0` via tracked `wrangler.jsonc` vars |
 
 In an existing Worker, Cloudflare docs locate branch selection at **Settings > Build > Branch control** and root directory at **Settings > Build > Build Configuration**. If the creation flow does NOT let the Owner select both **before creating/deploying**, STOP; use a separate, controlled repo or a connection workflow that allows both, rather than accepting autoconfiguration on `main`.
 
@@ -56,6 +57,14 @@ Useful docs: https://developers.cloudflare.com/workers/ci-cd/builds/configuratio
 - GitHub unauthenticated public REST limit is shared and finite. Workers Caching should reduce duplicate source calls, but the actual rate, cache hits and costs **must** be observed on real deployment; may still fail with concurrent misses or edge variation.
 - Tests simulate the GitHub source and validate pinned ref, failure transparency, HTML escaping and no invented product interpretation. CI also runs `wrangler deploy --dry-run`; neither simulates Cloudflare's actual Workers Cache network.
 - No claim of MCP, cross-chat memory, autonomous agent wakeups, shared agent persistence or Cloudflare vendor selection.
+
+## Deployment readiness checkpoint
+
+**SOURCE-TEST PASS, LIVE DEPLOY NOT DONE.** The Worker is ready for a *controlled* read-only deployment after production branch and root directory are confirmed. The repository root selected in the Owner's initial screenshot is still not a valid target. Public route key-space is now bounded: no arbitrary `ref`, duplicated parameters or cache-busting `nonce` can trigger source I/O.
+
+**After deployment:** run `node experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe/live-qualification.mjs https://swm-medium-observation-probe.<account-subdomain>.workers.dev/` from a checkout. This conducts **seven bounded HTTP GETs** and separates mechanical provenance PASS/FAIL from actual `Cf-Cache-Status: HIT` evidence. The command is for an agent or CI runner; the Owner need not execute it manually. It is NOT run automatically and cannot run until the real URL exists.
+
+**Current evidence:** [21/21 security+mechanism PASS at run #38016748354](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38016748354); [25/25 including synthetic live-qualifier tests at run #38016892935](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38016892935). More recent commits must be requalified on their own GitHub Actions run. `wrangler deploy --dry-run` checks bundling, not cloud availability, real cache hits or Owner value.
 
 ## Real B qualification (after explicit deployment)
 
