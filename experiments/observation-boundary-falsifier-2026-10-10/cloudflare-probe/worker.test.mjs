@@ -20,8 +20,8 @@ function fakeOrigin({status=200,commit=COMMIT}={}){
 test("HTML + JSON from identical pinned commit match in identity and source",async()=>{
   const origin=fakeOrigin();
   const handler=createHandler({requestFn:origin.requestFn,now:clock});
-  const html=await handler(req("/project?ref="+COMMIT),{});
-  const json=await handler(req("/project.json?ref="+COMMIT),{});
+  const html=await handler(req("/project?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
+  const json=await handler(req("/project.json?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
   const data=await json.json();
   assert.equal(html.status,200);
   assert.equal(json.status,200);
@@ -42,7 +42,7 @@ test("latest views do not claim atomicity; HTTP cache policy is observable",asyn
   assert.equal(response.headers.get("X-SWM-Cache-Policy"),"workers-caching-http");
   assert.equal(response.headers.get("X-SWM-Cache"),null);
   assert.equal(origin.calls.length,2);
-  const pinned=await handler(req("/project.json?ref="+COMMIT),{});
+  const pinned=await handler(req("/project.json?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
   assert.equal(pinned.headers.get("Cache-Control"),"public, max-age=3600");
 });
 
@@ -92,4 +92,40 @@ test("optional token never enters response",async()=>{
 test("GitHub cannot silently provide an invalid commit id",async()=>{
   const origin=fakeOrigin({commit:"invalid"});
   await assert.rejects(sampleObservation({}, {requestFn:origin.requestFn,now:clock}),/cannot verify source commit/);
+});
+
+test("adversarial query variants cannot cause GitHub source calls",async()=>{
+  const origin=fakeOrigin();
+  const handler=createHandler({requestFn:origin.requestFn,now:clock});
+  const probes=[
+    "/project.json?nonce=attacker",
+    "/project.json?ref="+COMMIT+"&nonce=attacker",
+    "/project?ref="+COMMIT+"&ref="+COMMIT,
+    "/project.json?ref="+"b".repeat(40),
+    "/project.json?ref="+COMMIT
+  ];
+  for(const path of probes){
+    const r=await handler(req(path),{PINNED_SOURCE_COMMIT:"c".repeat(40)});
+    assert.equal(r.status,400,path);
+    assert.equal(r.headers.get("Cache-Control"),"no-store");
+  }
+  assert.equal(origin.calls.length,0);
+});
+
+test("valid pinned URL only works with explicitly configured approved ref",async()=>{
+  const origin=fakeOrigin();
+  const handler=createHandler({requestFn:origin.requestFn,now:clock});
+  assert.equal((await handler(req("/project.json?ref="+COMMIT),{})).status,400);
+  assert.equal(origin.calls.length,0);
+  const allowed=await handler(req("/project.json?ref="+COMMIT),{PINNED_SOURCE_COMMIT:COMMIT});
+  assert.equal(allowed.status,200);
+  assert.equal(origin.calls.length,1);
+});
+
+test("health endpoint rejects arbitrary query keys before source I/O",async()=>{
+  const origin=fakeOrigin();
+  const handler=createHandler({requestFn:origin.requestFn,now:clock});
+  const r=await handler(req("/health?nonce=1"),{});
+  assert.equal(r.status,400);
+  assert.equal(origin.calls.length,0);
 });
