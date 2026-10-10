@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import html
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
@@ -258,6 +259,25 @@ def main():
             target = (page.parent / parsed.path).resolve() if parsed.path else page.resolve()
             if not target.is_relative_to(SITE.resolve()) or not target.is_file():
                 failures.append(f"{page.relative_to(SITE)}: unresolved internal link {href}")
+
+    # Published preview truth guard: static preview documents live at ROOT, not
+    # under generated SITE. A renderer PASS cannot validate stale committed previews.
+    # These must agree with local place metadata; preserved exact-SHA history is exempt.
+    preview_root = ROOT / "field-surface.html"
+    if preview_root.is_file():
+        preview_root_text = preview_root.read_text(encoding="utf-8")
+        for place_id, place in places.items():
+            preview_place = ROOT / f"field-place-{place_id}.html"
+            if not preview_place.is_file():
+                failures.append(f"preview place missing: {place_id}")
+                continue
+            preview_place_text = preview_place.read_text(encoding="utf-8")
+            for field in ("title", "description", "current_question"):
+                expected = html.escape(str(place[field]))
+                if expected not in preview_root_text:
+                    failures.append(f"preview root stale vs {place_id}.{field}")
+                if expected not in preview_place_text:
+                    failures.append(f"preview place stale vs {place_id}.{field}")
 
     # Root must remain informationally quiet.
     root_text = (SITE / "index.html").read_text(encoding="utf-8")
