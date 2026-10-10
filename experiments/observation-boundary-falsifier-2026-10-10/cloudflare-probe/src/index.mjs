@@ -1,7 +1,7 @@
 /**
  * Cloudflare Workers Caching (2026) experiment. Read-only, public and replaceable.
  * GET /project and /project.json show source-navigation only, never project truth.
- * Pinned ?ref=<40-hex-commit> permits exact comparison of both representations.
+ * Pinned ?ref=<approved commit> only. Unknown query keys are rejected before source I/O.
  * Standard HTTP cache headers + cache.enabled in Wrangler own caching, not Cache API.
  */
 const REPO = "Jozzpoly/Shared-Work-Medium-Lab";
@@ -96,6 +96,13 @@ export function createHandler({requestFn=fetch,now=()=>new Date().toISOString()}
   return async(request,env={})=>{
     const url=new URL(request.url);
     if(request.method!=="GET")return new Response("Method not allowed",{status:405,headers:{Allow:"GET"}});
+    const params=[...url.searchParams.entries()];
+    if(params.length>1 || (params.length===1 && params[0][0]!=="ref")){
+      return new Response("Unsupported query",{status:400,headers:{"Cache-Control":"no-store"}});
+    }
+    if(url.pathname==="/health" && params.length){
+      return new Response("Health does not accept query parameters",{status:400,headers:{"Cache-Control":"no-store"}});
+    }
     if(url.pathname==="/health")return Response.json({
       status:"runtime-only",source_health:"not checked",scope:"experimental"
     },{headers:{"Cache-Control":"no-store"}});
@@ -104,6 +111,11 @@ export function createHandler({requestFn=fetch,now=()=>new Date().toISOString()}
     }
     const asJson=url.pathname==="/project.json";
     const ref=url.searchParams.get("ref");
+    // A public unbounded ?ref accepts infinitely many cache keys and can drain the upstream budget.
+    // Only one explicitly configured commit is allowed for this controlled A/B specimen.
+    if(ref!==null && (!COMMIT_RE.test(ref) || !COMMIT_RE.test(env.PINNED_SOURCE_COMMIT||"") || ref!==env.PINNED_SOURCE_COMMIT)){
+      return new Response("Pinned source revision is not approved",{status:400,headers:{"Cache-Control":"no-store"}});
+    }
     try{
       const o=await sampleObservation(env,{requestFn,now,ref});
       const ttl=ref?3600:300; // pinned commit immutable; main sample may be stale
