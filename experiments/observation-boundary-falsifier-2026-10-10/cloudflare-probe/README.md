@@ -51,6 +51,18 @@ The screenshot's `shared-work-medium-lab` project name must not be reused for th
 
 Useful docs: https://developers.cloudflare.com/workers/ci-cd/builds/configuration/ and https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/.
 
+## Safer Cloudflare dashboard path if the current importer cannot select branch + root
+
+Cloudflare supports connecting a GitHub repository **to an existing Worker** ([official Workers Builds instructions](https://developers.cloudflare.com/workers/ci-cd/builds/#connect-an-existing-worker)). This avoids importing this repository's unconfigured `main` root:
+
+1. Abandon the current prefilled **Import repository > Deploy** screen without deploying it.
+2. Under **Workers & Pages > Create application**, create an independent basic/Hello World Worker named exactly `swm-medium-observation-probe`. Its placeholder initial code is not our experiment.
+3. Open that Worker: **Settings > Builds > Connect**; connect `Jozzpoly/Shared-Work-Medium-Lab`.
+4. In build settings, choose production branch `experiment/observation-boundary-falsifier-2026-10-10`, root directory `experiments/observation-boundary-falsifier-2026-10-10/cloudflare-probe`, empty build command, deploy `npx wrangler deploy` and Preview `npx wrangler preview`. Require exact project name match to the nested `wrangler.jsonc`.
+5. Only once the settings are confirmed, trigger the first controlled build (a push to the isolated experimental branch, or an explicit build command in Cloudflare). Verify the actual build and published URL before claiming success.
+
+This is **one possible setup path**, not an instruction to create the Worker without Owner acknowledgement. A standalone Cloudflare project is a separate deployment target; it does not imply Medium `main` is ready for Cloudflare. If the account UI differs from these documented steps, pause instead of guessing/clicking Deploy on the wrong repo root.
+
 ## Boundaries and evidence
 
 - Only one public source; no private conversations, personal data, API model calls or writes.
