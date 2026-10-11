@@ -34,6 +34,9 @@ try{
     await page.locator('#enter-atelier').click();
     await page.waitForFunction(()=>document.querySelector('#left-state')?.textContent?.startsWith('ODCZYTANO')&&document.querySelector('#right-state')?.textContent?.startsWith('ODCZYTANO'),{timeout:25000});
     assert.equal(await page.locator('.source-results').count(),2);
+    await page.locator('#trace').fill('__unlikely_no_hit_test_294841_XYZ__');
+    assert.equal(await page.locator('#left-results button').count(),0);
+    assert.equal(await page.locator('#left-pin').isDisabled(),true);
     await page.locator('#trace').fill('world');
     assert.ok(await page.locator('#left-results button').count()>0);
     assert.ok(await page.locator('#right-results button').count()>0);
@@ -80,4 +83,19 @@ try{
     console.log('PASS real browser '+viewport.width+'px: navigable World + free cross-world pairing + search/capture/export + controlled raw reads');
     await page.close();
   }
+  // Adversarial proof: failed GitHub access must not be reported as completed evidence.
+  const failure=await browser.newPage({viewport:{width:1100,height:800}});
+  await failure.route('https://raw.githubusercontent.com/Jozzpoly/Combat-Lab/**',route=>route.fulfill({status:403,body:'rate limit'}));
+  await failure.goto('file://'+source,{waitUntil:'load'});
+  await failure.locator('[data-view="material"]').click();
+  await failure.locator('#enter-atelier').click();
+  await failure.waitForFunction(()=>document.querySelector('#left-state')?.dataset?.error==='true'&&document.querySelector('#right-state')?.textContent?.startsWith('ODCZYTANO'),{timeout:25000});
+  assert.equal(await failure.locator('#left-pin').isDisabled(),true);
+  await failure.locator('#make-note').click();
+  const negative=await failure.locator('#export-text').inputValue();
+  assert.match(negative,/A BRAK \/ B POTWIERDZONY/);
+  assert.match(await failure.locator('#left-state').innerText(),/HTTP 403/);
+  assert.equal(await failure.locator('.clip').count(),0);
+  console.log('PASS negative control: 403 refuses false evidence and report says A BRAK');
+  await failure.close();
 } finally {await browser.close();}
