@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {fileURLToPath} from 'node:url';
+import {mkdir} from 'node:fs/promises';
 
 const source=fileURLToPath(new URL('./index.html',import.meta.url));
 const base='https://api.github.com/repos/Jozzpoly/';
@@ -57,6 +58,8 @@ try{
  assert.ok(note.includes(reflexSha));
  assert.ok(note.includes('B1_PHYSICAL_ENVELOPE'));
  assert.ok(note.includes('RB-F3A_RESULT'));
+ await mkdir('/tmp/medium-world',{recursive:true});
+ await page.screenshot({path:'/tmp/medium-world/frontier-controlled-receipt.png',fullPage:true});
  assert.equal(calls.length,6,'two public GitHub calls per PR selection plus one listing');
  assert.deepEqual(errors,[]);
  console.log('PASS pinned frontier route: two PR-head-verified changing-doc snapshots, source excerpts and full SHA handoff (fixture API, real raw docs)');

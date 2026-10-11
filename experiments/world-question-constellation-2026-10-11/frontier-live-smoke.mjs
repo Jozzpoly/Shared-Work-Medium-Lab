@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
+import {mkdir} from 'node:fs/promises';
 const base='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/17f660376e8bee97e83d999f7561ea77931e0b7e/'+
   'experiments/world-question-constellation-2026-10-11/index.html';
 const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
@@ -40,6 +41,8 @@ try{
  assert.match(note,/B1_PHYSICAL_ENVELOPE/);
  assert.match(note,/RB-F3A_RESULT/);
  assert.equal(api.length,6);
+ await mkdir('/tmp/medium-world',{recursive:true});
+ await page.screenshot({path:'/tmp/medium-world/frontier-live-public-receipt.png',fullPage:true});
  assert.ok(api.every(x=>x.status===200));
  assert.deepEqual(errs,[]);
  result.qualified=true;result.api=api.map(a=>({status:a.status,path:new URL(a.url).pathname}));
