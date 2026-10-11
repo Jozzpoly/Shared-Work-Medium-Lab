@@ -1,0 +1,42 @@
+name: World question constellation smoke
+on:
+  push:
+    branches: [experiment/world-question-constellation-2026-10-11]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static source and no-network contract
+        run: node --test experiments/world-question-constellation-2026-10-11/*.test.mjs
+      - name: Install bounded browser test dependency
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Real Chrome interactions at desktop and mobile widths
+        run: node experiments/world-question-constellation-2026-10-11/browser-smoke.mjs
+      - name: Frontier source qualification with verified PR head and failure controls
+        timeout-minutes: 3
+        run: node experiments/world-question-constellation-2026-10-11/frontier-smoke.mjs
+      - name: Public HTMLPreview experience through Chrome
+        timeout-minutes: 2
+        run: node experiments/world-question-constellation-2026-10-11/public-preview-smoke.mjs
+      - name: Direct public GitHub A baseline for same known B1/F3A sources (diagnostic)
+        timeout-minutes: 2
+        continue-on-error: true
+        run: node experiments/world-question-constellation-2026-10-11/native-frontier-baseline.mjs
+      - name: Independent real public GitHub PR read through HTMLPreview (diagnostic, non-gating)
+        timeout-minutes: 3
+        continue-on-error: true
+        run: node experiments/world-question-constellation-2026-10-11/frontier-live-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: world-constellation-screens
+          path: /tmp/medium-world/*.png
+          retention-days: 7
