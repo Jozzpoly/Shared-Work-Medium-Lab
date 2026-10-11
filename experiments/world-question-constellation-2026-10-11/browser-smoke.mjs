@@ -18,12 +18,12 @@ try{
     assert.match(await page.locator('#name').innerText(),/fizycznych/i);
     assert.equal(await page.locator('#source-links a').count(),2);
     assert.match(page.url(),/view=material/);
-    await page.locator('[data-lens="limits"]').click();
+    await page.locator('button[data-lens="limits"]').click();
     assert.match(page.url(),/lens=limits/);
     assert.match(await page.locator('#detail').innerText(),/nie ma|nie udowodniono|nie jest/i);
     await page.reload();
     assert.equal(await page.locator('[data-view="material"]').getAttribute('aria-pressed'),'true');
-    assert.equal(await page.locator('[data-lens="limits"]').getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
     await page.locator('[data-view="reflex"]').click();
     assert.match(await page.locator('#source-links a').last().getAttribute('href'),/research\/pre-o0-foundations-campaign/);
     assert.equal(await page.locator('.node[aria-pressed="true"]').count(),1);
