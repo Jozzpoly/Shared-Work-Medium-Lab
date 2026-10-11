@@ -89,6 +89,8 @@ test("legitimate signed event yields one event and durable cursor API shape", as
   const batch = await f.get("/events?after=0&limit=50");
   assert.equal(batch.status, 200);
   assert.equal(batch.body.count, 1);
+  assert.equal(batch.body.coverage, "verified_webhooks_received_only");
+  assert.equal(batch.body.upstream_delivery_completeness, "unverified");
   assert.equal(batch.body.next_cursor, 1);
   assert.equal(batch.body.events[0].target_url, "https://github.com/" + project);
   const empty = await f.get("/events?after=1");
@@ -134,6 +136,18 @@ test("oversized webhook envelope is rejected before signature verification", asy
   const r = await f.deliver({ ...f.good, note: "X".repeat(131073) }, "delivery-big");
   assert.equal(r.status, 413);
   assert.equal(f.sql.rows.length, 0);
+});
+
+test("empty or nonempty log never claims globally complete GitHub history", async () => {
+  const f = fixture();
+  const before = await f.get("/status");
+  assert.equal(before.body.stored_events, 0);
+  assert.equal(before.body.upstream_delivery_completeness, "unverified");
+  await f.deliver(f.good);
+  const after = await f.get("/status");
+  assert.equal(after.body.stored_events, 1);
+  assert.equal(after.body.coverage, "verified_webhooks_received_only");
+  assert.equal(after.body.upstream_delivery_completeness, "unverified");
 });
 
 test("cursor log still exists after re-instantiation with the same mock SQL", async () => {
