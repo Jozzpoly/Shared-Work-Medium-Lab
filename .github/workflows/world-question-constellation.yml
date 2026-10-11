@@ -26,6 +26,10 @@ jobs:
       - name: Public HTMLPreview experience through Chrome
         timeout-minutes: 2
         run: node experiments/world-question-constellation-2026-10-11/public-preview-smoke.mjs
+      - name: Independent real public GitHub PR read through HTMLPreview (diagnostic, non-gating)
+        timeout-minutes: 3
+        continue-on-error: true
+        run: node experiments/world-question-constellation-2026-10-11/frontier-live-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
