@@ -44,13 +44,15 @@ try{
     assert.equal(await page.locator('.clip').count(),2);
     await page.locator('#own-note').fill('Testowana analogia, nie potwierdzona integracja.');
     await page.locator('#make-note').click();
+    await mkdir('/tmp/medium-world',{recursive:true});
+    await page.screenshot({path:'/tmp/medium-world/'+viewport.width+'-atelier.png',fullPage:true});
     const report=await page.locator('#export-text').inputValue();
     assert.match(report,/Combat Lab/);assert.match(report,/FrameMatter/);
     assert.match(report,/github.com\/Jozzpoly\/Combat-Lab\/blob\//);
     assert.match(report,/github.com\/Jozzpoly\/FrameMatter-Lab\/blob\//);
     assert.ok(!/undefined|null/.test(report));
     await page.locator('#left-fresh').click();
-    await page.waitForFunction(()=>/ZGODNE BAJTOWO|RÓŻNE DOKUMENTY|BRAK ODCZYTU/.test(document.querySelector('#left-fresh-state')?.textContent||''),{timeout:25000});
+    await page.waitForFunction(()=>/ZGODNA TREŚĆ|RÓŻNE DOKUMENTY|BRAK ODCZYTU/.test(document.querySelector('#left-fresh-state')?.textContent||''),{timeout:25000});
     assert.notEqual((await page.locator('#left-fresh-state').innerText()).length,0);
     assert.equal(outgoing.length,3);
     assert.ok(outgoing.every(u=>u.startsWith('https://raw.githubusercontent.com/Jozzpoly/')));
