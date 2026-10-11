@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
-const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/dbde6d85334c1692f036ed5d17df3193234a68db/experiments/world-question-constellation-2026-10-11/index.html';
+const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/17f660376e8bee97e83d999f7561ea77931e0b7e/experiments/world-question-constellation-2026-10-11/index.html';
 const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
 try{
  const page=await b.newPage({viewport:{width:1280,height:900}});
@@ -45,6 +45,9 @@ try{
  assert.equal(await page.locator('.radar-item').count(),5);
  assert.match(await page.locator('#radar-status').innerText(),/5\/5 odczytanych dokumentów/);
  await page.locator('#leave-atelier').click();
+ await page.locator('[data-view="body"]').click();
+ assert.equal(await page.locator('#source-links a').count(),3);
+ assert.match(await page.locator('#source-links a').last().getAttribute('href'),/RESEARCH_CASE_LIVE_CONTACT_2026-10-11\.md$/);
  await page.locator('button[data-lens="limits"]').click();
  assert.equal(await page.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
  // HTMLPreview injects the app into its own context: the browser's outer URL
