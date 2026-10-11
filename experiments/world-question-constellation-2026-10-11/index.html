@@ -19,7 +19,7 @@ button,a{touch-action:manipulation}a{color:#c1e9db;text-underline-offset:4px}a:h
 @media(prefers-reduced-motion:no-preference){.node i,.seam,.lens button{transition:box-shadow .2s,border-color .2s,background .2s}}
 
 /* Source atelier — actual evidence inspection, not another list of descriptions */
-.wrap[data-mode="world"] .atelier{display:none}.wrap[data-mode="atelier"] .experience,.wrap[data-mode="atelier"] .notes,.wrap[data-mode="atelier"] .toolbar{display:none}
+.wrap[data-mode="world"] .atelier{display:none}.wrap[data-mode="atelier"] .intro{display:none}.wrap[data-mode="atelier"] .experience,.wrap[data-mode="atelier"] .notes,.wrap[data-mode="atelier"] .toolbar{display:none}
 .atelier{margin:16px 0 44px;padding:27px;border:1px solid #4c737a;border-radius:19px;background:radial-gradient(ellipse 70% 50% at 10% 0%,#23404d7a,transparent),#0b1825}
 .atelier-header{display:flex;align-items:start;justify-content:space-between;gap:20px;border-bottom:1px solid #ffffff28;padding-bottom:20px;margin-bottom:20px}.atelier-header h2{font:450 clamp(31px,3.5vw,51px)/1.14 Georgia,serif;letter-spacing:-.04em;margin:8px 0}.atelier-header p{color:#b7cbd2;max-width:800px;font-size:13px}.atelier button{cursor:pointer;font:inherit;color:#e2f0ec;background:#18313d;border:1px solid #658c90;border-radius:9px;padding:9px 12px}.atelier button:hover{background:#29515b}.atelier button:disabled{opacity:.45;cursor:default}
 #enter-atelier{display:block;width:100%;padding:13px;margin:15px 0 5px;background:#c5dfd3;color:#122c2c;border:0;border-radius:10px;text-align:left;font:700 13px "Segoe UI",sans-serif;cursor:pointer}
@@ -127,6 +127,7 @@ async function sourceRead(side,entry,generation){
   p.lines=content.replace(/\r\n?/g,'\n').split('\n');
   p.state.textContent='ODCZYTANO · '+entry.sha.slice(0,10)+' · '+p.lines.length+' linii';
   document.getElementById(side+'-fresh').disabled=false;
+  document.getElementById(side+'-fresh-state').textContent='Możesz ręcznie sprawdzić, czy ruchome main zwraca inny tekst.';
   resultsFor(side);
  }catch(error){
   if(generation!==loadSequence)return;
@@ -159,7 +160,7 @@ function pinExcerpt(side){
 function exportObservation(){
  const edge=customPair?{name:model[activePair.left].name+' ↔ '+model[activePair.right].name,summary:'Uczestnik zestawił źródła samodzielnie. Nie przypisano im uprzednio relacji ani wspólnej architektury.'}:model[activeRelation],note=document.getElementById('own-note').value.trim().slice(0,1200);
  const out=['# Medium World — roboczy zapis badania','','Pytanie: '+edge.name,'','Hipoteza Medium (nie zweryfikowany fakt): '+edge.summary,'',
-  'Odczytano źródła dla dwóch niezależnych projektów; odnośniki wskazują przypięte rewizje.','','## Ślady'];
+  'Odczyt aktualnie wybranej pary: A '+(panels.left.lines?'POTWIERDZONY':'BRAK')+' / B '+(panels.right.lines?'POTWIERDZONY':'BRAK')+'. Ślady zawierają tylko fragmenty rzeczywiście odczytanych dokumentów; odnośniki wskazują przypięte rewizje.','','## Ślady'];
  if(!clips.length)out.push('Nie wybrano żadnych śladów; nic nie zostało dowiedzione.');
  for(const c of clips){
   out.push('', '**'+c.name+'** / '+c.repo+' @ '+c.sha+' / [L'+c.line+']('+pinnedLink(c,c.line)+')','');
