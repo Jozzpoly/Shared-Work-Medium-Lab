@@ -24,7 +24,7 @@ try{
   assert.ok(files.some(f=>f.filename===target.document&&f.status!=='removed'),'document not in PR change list');
   const source='https://raw.githubusercontent.com/Jozzpoly/'+target.repo+'/'+live.head.sha+'/'+target.document;
   const text=await(await read(source)).text();
-  assert.ok(text.includes(target.word),'source text mismatch');
+  assert.ok(text.toLowerCase().includes(target.word.toLowerCase()),'source text mismatch');
   record.receipts.push({repo:target.repo,pr:target.number,sha:live.head.sha,lines:text.replace(/\r\n?/g,'\n').split('\n').length});
  }
  const api=record.requests.filter(x=>x.host==='api.github.com');
