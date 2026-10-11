@@ -320,4 +320,112 @@ document.getElementById('radar-form').addEventListener('submit',async event=>{
  }
 });
 
+
+/* Frontier is a live PR observation, never a source-of-truth replacement.
+   Only public GitHub GET is allowed; a selected changed Markdown file is
+   always re-read by immutable PR head SHA through the existing source reader. */
+const frontierHeaders={Accept:'application/vnd.github+json'};
+function frontierRepo(e){
+ const repos=new Set(Object.values(model).filter(x=>x.kind==='world').map(x=>x.repo));
+ if(!e||!repos.has(e.repo))throw Error('Niedozwolony obcy projekt');
+ return e.repo;
+}
+async function githubPublicJson(url){
+ if(!/^https:\/\/api\.github\.com\/repos\/Jozzpoly\/[A-Za-z0-9-]+\/pulls(?:\?|\/[0-9]+(?:\/files\?per_page=100)?)$/.test(url))
+   throw Error('GitHub API poza dopuszczonym zakresem');
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+ try{
+  const response=await fetch(url,{headers:frontierHeaders,signal:controller.signal,cache:'no-store'});
+  if(!response.ok)throw Error('GitHub HTTP '+response.status);
+  return await response.json();
+ }finally{clearTimeout(timer);}
+}
+function renderFrontierStatus(side,value,error=false){
+ const e=document.getElementById(side+'-frontier-status');e.textContent=value;e.dataset.error=String(error);
+}
+async function scanFrontier(side){
+ const p=panels[side],view=p.entry;
+ if(!view)return;
+ const repo=frontierRepo(view),token=++p.frontierTicket;
+ const host=document.getElementById(side+'-frontier-list');host.replaceChildren();
+ renderFrontierStatus(side,'Odczytuję publiczne otwarte PR-y; obserwacja na żądanie…');
+ try{
+  const items=await githubPublicJson('https://api.github.com/repos/Jozzpoly/'+repo+'/pulls?state=open&per_page=15');
+  if(token!==p.frontierTicket||frontierRepo(p.entry)!==repo)return;
+  if(!Array.isArray(items))throw Error('Nieoczekiwana odpowiedź GitHub');
+  const candidates=items.filter(x=>Number.isInteger(x.number)&&/^[a-f0-9]{40}$/.test(x.head?.sha||'')&&typeof x.title==='string').slice(0,8);
+  p.frontierRepo=repo;
+  renderFrontierStatus(side,'Odczyt '+new Date().toLocaleTimeString('pl-PL')+
+    ' · pierwsze '+candidates.length+' z '+items.length+' zwróconych otwartych PR · limity i paginacja mogą ukrywać inne.');
+  if(!candidates.length){host.textContent='Brak zakwalifikowanych otwartych PR w tej odpowiedzi; nie oznacza braku bieżącej pracy.';return;}
+  for(const item of candidates){
+   const card=document.createElement('div');card.className='frontier-item';
+   const title=document.createElement('strong');title.textContent='#'+item.number+' '+item.title.slice(0,160);
+   const meta=document.createElement('code');meta.textContent='HEAD @'+item.head.sha.slice(0,10)+(item.draft?' · draft':'')+' · aktualizacja '+String(item.updated_at||'nieznana').slice(0,16);
+   const choose=document.createElement('button');choose.type='button';choose.textContent='Sprawdź dokumenty tego PR ↘';
+   choose.addEventListener('click',()=>openFrontierDocuments(side,repo,item,card));
+   const native=document.createElement('a');native.href='https://github.com/Jozzpoly/'+repo+'/pull/'+item.number;
+   native.rel='noopener noreferrer';native.target='_blank';native.textContent='Otwórz PR na GitHub ↗';
+   card.append(title,meta,choose,document.createTextNode(' '),native);host.append(card);
+  }
+ }catch(e){
+  if(token!==p.frontierTicket)return;
+  renderFrontierStatus(side,'NIEZWERYFIKOWANE · '+(e.name==='AbortError'?'limit czasu':e.message)+'. Otwórz PR-y bezpośrednio na GitHub.',true);
+  const link=document.createElement('a');link.href='https://github.com/Jozzpoly/'+repo+'/pulls';
+  link.rel='noopener noreferrer';link.target='_blank';link.textContent='Natywna lista PR ↗';host.replaceChildren(link);
+ }
+}
+async function openFrontierDocuments(side,repo,item,card){
+ const p=panels[side],token=++p.frontierTicket;
+ const old=card.querySelector('.frontier-files');if(old)old.remove();
+ const area=document.createElement('div');area.className='frontier-files';
+ area.textContent='Weryfikuję HEAD i pliki zmienione w PR…';card.append(area);
+ try{
+  if(frontierRepo(p.entry)!==repo)throw Error('Projekt zmieniony podczas odczytu');
+  const prefix='https://api.github.com/repos/Jozzpoly/'+repo+'/pulls/'+item.number;
+  const [live,changed]=await Promise.all([githubPublicJson(prefix),githubPublicJson(prefix+'/files?per_page=100')]);
+  if(token!==p.frontierTicket||frontierRepo(p.entry)!==repo)return;
+  if(live.head?.sha!==item.head.sha)throw Error('HEAD PR uległ zmianie — odśwież listę przed wyborem');
+  if(!Array.isArray(changed))throw Error('Nieoczekiwana lista plików');
+  area.replaceChildren();
+  const files=changed.filter(f=>typeof f.filename==='string'&&
+    /^(?:README\.md|docs\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.md)$/.test(f.filename)&&
+    f.status!=='removed').slice(0,12);
+  const note=document.createElement('code');note.textContent='PR #'+item.number+' · zweryfikowany @'+item.head.sha.slice(0,10)+
+    ' · '+files.length+' plików Markdown ze zwróconego wykazu (maks. 100 plików)';
+  area.append(note);
+  if(!files.length){
+   const x=document.createElement('p');x.textContent='Brak zmienionych dokumentów Markdown w tym wykazie. PR może zawierać ważną pracę w kodzie; otwórz go w GitHub.';area.append(x);return;
+  }
+  for(const file of files){
+   const choose=document.createElement('button');choose.className='frontier-file';choose.type='button';
+   choose.textContent='Odczytaj @'+item.head.sha.slice(0,9)+' / '+file.filename;
+   choose.addEventListener('click',()=>{
+    if(frontierRepo(p.entry)!==repo){renderFrontierStatus(side,'Zmieniono projekt; odśwież listę.',true);return;}
+    const name=Object.values(model).find(x=>x.kind==='world'&&x.repo===repo)?.name||repo;
+    sourceRead(side,{name:name+' · PR #'+item.number,repo,sha:item.head.sha,path:file.filename,kind:'pr-file'},loadSequence);
+    renderFrontierStatus(side,'Wybrano źródło PR #'+item.number+' @'+item.head.sha.slice(0,10)+
+      ' · dokładna wersja pliku, nie obietnica aktualności całej gałęzi.');
+   });
+   area.append(choose);
+  }
+ }catch(e){
+  if(token!==p.frontierTicket)return;
+  area.textContent='Nie można zakwalifikować dokumentów: '+e.message+
+    '. Nie wybieramy niezweryfikowanej wersji.';
+ }
+}
+for(const side of ['left','right']){
+ document.getElementById(side+'-frontier-load').addEventListener('click',()=>scanFrontier(side));
+ document.getElementById(side+'-frontier-reset').addEventListener('click',()=>{
+  const p=panels[side],repo=p.entry?.repo;
+  const orig=Object.values(model).find(x=>x.kind==='world'&&x.repo===repo);
+  if(!orig)return;
+  ++p.frontierTicket;
+  document.getElementById(side+'-frontier-list').replaceChildren();
+  renderFrontierStatus(side,'Przywracam bazowy snapshot · '+orig.sha.slice(0,10));
+  sourceRead(side,orig,loadSequence);
+ });
+}
+
 })();</script></body></html>
