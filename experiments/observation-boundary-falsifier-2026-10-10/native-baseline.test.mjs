@@ -35,3 +35,31 @@ test("source headings are escaped and cross-origin sources rejected",()=>{
   assert.ok(html.includes("&lt;img"));
   assert.throws(()=>createObservation(document,{observedAt,sourceUrl:"https://evil.invalid/"}));
 });
+
+test("fenced-code near-closers cannot create fake headings or hide later ones", () => {
+  const tick = String.fromCharCode(96);
+  const lines = [
+    "## Before",
+    tick.repeat(3) + "js",
+    "literal command",
+    tick.repeat(3) + "not-a-closing-fence",
+    "## FALSE inside code",
+    tick.repeat(3),
+    "## After",
+    "~~~markdown",
+    "## Inside tilde",
+    tick.repeat(3),
+    "## STILL INSIDE tilde",
+    "~~~~ ",
+    "## After tilde",
+    tick.repeat(4),
+    tick.repeat(3),
+    "## STILL INSIDE length-4",
+    tick.repeat(4) + " ",
+    "## Last"
+  ];
+  const result = createObservation(lines.join("\n"), { observedAt });
+  assert.deepEqual(result.headings.map(h => [h.line, h.title]), [
+    [1, "Before"], [7, "After"], [13, "After tilde"], [18, "Last"]
+  ]);
+});

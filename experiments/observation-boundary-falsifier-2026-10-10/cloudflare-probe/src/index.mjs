@@ -12,18 +12,24 @@ function sourceError(message,status=503) {
   const e=new Error(message);e.status=status;return e;
 }
 function headings(markdown) {
-  let fence=null;
-  return markdown.split(/\r?\n/).flatMap((line,index)=>{
-    const m=line.match(/^\s*(\x60{3,}|~{3,})/);
-    if(m){
-      const t=m[1][0];
-      if(!fence)fence={type:t,length:m[1].length};
-      else if(fence.type===t&&m[1].length>=fence.length)fence=null;
+  let fence = null;
+  return markdown.split(/\r?\n/).flatMap((line, index) => {
+    if (fence) {
+      // CommonMark: a closer may have at most 3 leading spaces, must
+      // use the opening marker, be at least as long, and end with whitespace.
+      const close = line.match(/^ {0,3}(`{3,}|~{3,})[ \t]*$/);
+      if (close && close[1][0] === fence.type && close[1].length >= fence.length) {
+        fence = null;
+      }
       return [];
     }
-    if(fence)return [];
-    const h=line.match(/^(#{2,3})\s+(.+?)\s*#*\s*$/);
-    return h?[{level:h[1].length,title:h[2],line:index+1}]:[];
+    const open = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+    if (open && !(open[1][0] === "`" && open[2].includes("`"))) {
+      fence = { type: open[1][0], length: open[1].length };
+      return [];
+    }
+    const h = line.match(/^(#{2,3})\s+(.+?)\s*#*\s*$/);
+    return h ? [{ level: h[1].length, title: h[2], line: index + 1 }] : [];
   });
 }
 async function digest(s) {

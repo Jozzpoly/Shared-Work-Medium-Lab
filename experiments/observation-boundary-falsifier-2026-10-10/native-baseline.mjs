@@ -12,16 +12,22 @@ const SOURCE_URL = "https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main
 function headings(markdown) {
   let fence = null;
   return markdown.split(/\r?\n/).flatMap((line, index) => {
-    const marker = line.match(/^\s*(\x60{3,}|~{3,})/);
-    if (marker) {
-      const type = marker[1][0];
-      if (!fence) fence = { type, length: marker[1].length };
-      else if (fence.type === type && marker[1].length >= fence.length) fence = null;
+    if (fence) {
+      // CommonMark: a closer may have at most 3 leading spaces, must
+      // use the opening marker, be at least as long, and end with whitespace.
+      const close = line.match(/^ {0,3}(`{3,}|~{3,})[ \t]*$/);
+      if (close && close[1][0] === fence.type && close[1].length >= fence.length) {
+        fence = null;
+      }
       return [];
     }
-    if (fence) return [];
+    const open = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+    if (open && !(open[1][0] === "`" && open[2].includes("`"))) {
+      fence = { type: open[1][0], length: open[1].length };
+      return [];
+    }
     const h = line.match(/^(#{2,3})\s+(.+?)\s*#*\s*$/);
-    return h ? [{level:h[1].length,title:h[2],line:index+1}] : [];
+    return h ? [{ level: h[1].length, title: h[2], line: index + 1 }] : [];
   });
 }
 export function createObservation(markdown, {observedAt, sourceUrl=SOURCE_URL}={}) {

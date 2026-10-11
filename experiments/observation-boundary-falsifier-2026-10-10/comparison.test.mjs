@@ -44,3 +44,22 @@ test("real Medium source: neither A nor B invents accepted product status",async
   assert.equal(a.kind,"navigation-only");
   assert.equal(b.kind,"navigation-only");
 });
+
+test("A/B stay aligned on adversarial fenced-code navigation", async () => {
+  const tick = String.fromCharCode(96);
+  const sample = [
+    "## First",
+    tick.repeat(4) + "js",
+    tick.repeat(3),
+    "## FALSE",
+    tick.repeat(4),
+    "## Second"
+  ].join("\n");
+  const a = nativeObservation(sample, { observedAt: now() });
+  const b = await workerObservation({}, {
+    requestFn: async () => new Response(sample),
+    now
+  });
+  assert.deepEqual(a.headings, b.headings);
+  assert.deepEqual(a.headings.map(h => h.title), ["First", "Second"]);
+});

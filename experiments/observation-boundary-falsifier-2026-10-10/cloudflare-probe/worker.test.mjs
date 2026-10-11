@@ -190,3 +190,27 @@ test("moving link projections expose revision and line-anchor uncertainty",async
   assert.equal(pinned.source.line_anchors_stable,true);
   assert.match(renderObservationHtml(pinned),/Przypięta rewizja Git/);
 });
+
+test("Worker parser excludes false fence headings and preserves later sections", async () => {
+  const tick = String.fromCharCode(96);
+  const sample = [
+    "## Before",
+    tick.repeat(3) + "js",
+    tick.repeat(3) + "not-a-closer",
+    "## FALSE inside",
+    tick.repeat(3),
+    "## After",
+    "~~~~",
+    tick.repeat(3),
+    "## FALSE tilde",
+    "~~~~",
+    "## Last"
+  ].join("\n");
+  const o = await sampleObservation({}, {
+    requestFn: async () => new Response(sample, { status: 200 }),
+    now: clock
+  });
+  assert.deepEqual(o.headings.map(h => [h.line, h.title]), [
+    [1, "Before"], [6, "After"], [11, "Last"]
+  ]);
+});
