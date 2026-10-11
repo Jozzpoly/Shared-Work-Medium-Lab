@@ -149,6 +149,8 @@ export class ProjectEventLog extends DurableObject {
 
     return {
       project: PROJECT_NAME,
+      coverage: "verified_webhooks_received_only",
+      upstream_delivery_completeness: "unverified",
       after: safeAfter,
       count: rows.length,
       events: rows,
@@ -165,6 +167,8 @@ export class ProjectEventLog extends DurableObject {
 
     return {
       project: PROJECT_NAME,
+      coverage: "verified_webhooks_received_only",
+      upstream_delivery_completeness: "unverified",
       stored_events: Number(row.count ?? 0),
       latest_cursor: Number(row.latest_cursor ?? 0)
     };
