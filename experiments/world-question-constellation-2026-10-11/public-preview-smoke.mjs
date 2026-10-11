@@ -18,17 +18,10 @@ try{
  assert.match(await page.locator('#name').innerText(),/ograniczonego|przez mieszkańca|aktora|Percepcja/i);
  assert.equal(await page.locator('#source-links a').count(),2);
  await page.locator('button[data-lens="limits"]').click();
- const portableView=page.url();
- assert.match(portableView,/#view=perception&lens=limits/);
- await page.reload({waitUntil:'domcontentloaded'});
- await page.locator('.node').first().waitFor({timeout:18000});
- assert.equal(await page.locator('[data-view="perception"]').getAttribute('aria-pressed'),'true');
  assert.equal(await page.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
- const second=await b.newPage({viewport:{width:1100,height:820}});
- await second.goto(portableView,{waitUntil:'domcontentloaded'});
- await second.locator('.node').first().waitFor({timeout:18000});
- assert.equal(await second.locator('[data-view="perception"]').getAttribute('aria-pressed'),'true');
- assert.equal(await second.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
- await second.close();
- console.log('PASS PUBLIC HTMLPREVIEW: correct World, relation control, cross-page hash viewpoint survives reload and new tab');
+ // HTMLPreview injects the app into its own context: the browser's outer URL
+ // remains unchanged and therefore cannot carry this perspective to another reader.
+ assert.equal(page.url(),url);
+ console.log('PUBLIC PREVIEW LIMIT VERIFIED: lens works but outer URL is unchanged; no shareable viewpoint contract');
+ console.log('PASS PUBLIC HTMLPREVIEW: correct World and functional controls; no shareable viewpoint claimed');
 }finally{await b.close();}

@@ -7,7 +7,7 @@ The source-native question: can a person or agent voluntarily explore project �
 ## Why this is separate from Library draft PR #17
 
 - Five sovereign public worlds in a spatial field, plus five deliberately editorial connections. Connections are **questions**, not asserted dependencies, compatible implementation or certified donors.
-- Three reversible lenses: Światy / Połączenia / Granice. Selected view is staged in a read-only URL fragment (view + lens), not a source snapshot, permission, agent wakeup, or execution request.
+- Three reversible lenses: Światy / Połączenia / Granice. When this file is hosted directly, selected view state can be staged in a read-only URL fragment, not a source snapshot, permission or execution request. **On current HTMLPreview, that fragment does not enter the browser's shareable outer URL (observed public Chromium FAIL). Do not claim a transferable viewport through HTMLPreview.**
 - Exact source snapshot and current moving source routes are distinguished. ReflexBrain main is explicitly historical and its live branch has a separate entrypoint.
 - Single static HTML: no fetch, storage, cookies, network fonts, external images, backend, user data, event broker, credentials, tracking or automatic updates.
 - Layout and inspector are semantic HTML buttons/links, not an uninspectable canvas. Source links remain reachable without JavaScript via footer.
@@ -26,6 +26,6 @@ Relations are agent/editorial interpretations, not proven cross-project integrat
 
 ## Qualification and stop
 
-Static Node assertions and real Chromium desktop/mobile smoke are on the isolated branch workflow. A passing browser test checks only interaction and technical integrity; it does **not** prove pleasure, discovery, independent agent lift, or Owner acceptance. The HTMLPreview wrapper may rewrite local fragments; URL viewpoint portability there is an UNQUALIFIED host behavior.
+Static Node assertions and real Chromium desktop/mobile smoke are on the isolated branch workflow. A passing browser test checks only interaction and technical integrity; it does **not** prove pleasure, discovery, independent agent lift, or Owner acceptance. The HTMLPreview wrapper **does not update the outer address when a view or lens is selected** (real Chromium test 2026-10-11). The public interactive view works, but copy/paste of the outer URL cannot preserve the selected viewpoint. Directly hosted HTML can use its own hash; that does not qualify the HTMLPreview route.
 
 Do not merge into main or alter Quiet Presence PR #5, Library PR #17, Cloudflare PR #22 or Event substrate PR #23 automatically. If the Owner sees only a decorative catalog, preserve that negative result and reconsider the shape instead of polishing by inertia.
