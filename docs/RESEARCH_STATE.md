@@ -1,8 +1,10 @@
 # Research State
 
-**Status:** Owner human-facing FAIL remains; Quiet Presence (#5), visual Library (#17), Cloudflare source observation (#22), and archival event-cursor requalification (#23) are separate unmerged experiments; Issue #7 is the broader live campaign; MP-1 dormant
+**Status:** Owner product FAIL remains; Quiet Presence (#5), visual Library (#17), Cloudflare source observation (#22), archival event-cursor (#23) and spatial World (#24) are distinct unmerged experiments; Issue #7 is the broader live campaign; MP-1 dormant
 
 **Last material update:** 2026-10-11 (frontier-source routing only; no Owner product acceptance)
+**Owner direction 2026-10-11:** Cloudflare **Agents** is worth a **future isolated experiment** in durable, independently waking agent execution; preserve this prospect, but **do not start/deploy it now**, connect credentials, or promote Cloudflare to Medium foundation. This is distinct from archived webhook cursor [draft #23](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/23); [Issue #7](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-6104402145) preserves the technical investigation. Owner's current impression of the separate visual [World draft #24](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/24#issuecomment-6104456865) is **“wizualna wydmuszka”** (visually hollow); its engineering quality was explicitly **not assessed**. Keep the direction in view without polishing it by inertia or treating browser PASS as Owner value. The active Browser lane remains **meaningful source change → accurate recognition → later receiver use**, compared against native GitHub, with no fabricated ecological adoption.
+
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
 
