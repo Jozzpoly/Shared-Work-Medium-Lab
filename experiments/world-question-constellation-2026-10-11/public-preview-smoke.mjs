@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
-const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/cae100311f0b5d3aa700d768b8058a6734b3cc61/experiments/world-question-constellation-2026-10-11/index.html';
+const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/dbde6d85334c1692f036ed5d17df3193234a68db/experiments/world-question-constellation-2026-10-11/index.html';
 const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
 try{
  const page=await b.newPage({viewport:{width:1280,height:900}});
@@ -38,6 +38,12 @@ try{
  assert.equal(await page.locator('.clip').count(),2);
  await page.locator('#make-note').click();
  assert.match(await page.locator('#export-text').inputValue(),/Medium ↔ Combat Lab/);
+ await page.locator('#radar summary').click();
+ await page.locator('#radar-query').fill('world');
+ await page.locator('#radar-form button[type="submit"]').click();
+ await page.waitForFunction(()=>document.querySelector('#radar-status')?.textContent?.includes('Zakończono próbę'),{timeout:25000});
+ assert.equal(await page.locator('.radar-item').count(),5);
+ assert.match(await page.locator('#radar-status').innerText(),/5\/5 odczytanych dokumentów/);
  await page.locator('#leave-atelier').click();
  await page.locator('button[data-lens="limits"]').click();
  assert.equal(await page.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
@@ -45,5 +51,5 @@ try{
  // remains unchanged and therefore cannot carry this perspective to another reader.
  assert.equal(page.url(),url);
  console.log('PUBLIC PREVIEW LIMIT VERIFIED: lens works but outer URL is unchanged; no shareable viewpoint contract');
- console.log('PASS PUBLIC HTMLPREVIEW: World, source capture, drift observation and unauthored pair; outer URL nonportable');
+ console.log('PASS PUBLIC HTMLPREVIEW: World, real source atelier, drift check, free pair and 5-world source radar; outer URL nonportable');
 }finally{await b.close();}
