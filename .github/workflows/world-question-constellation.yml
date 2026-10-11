@@ -20,6 +20,9 @@ jobs:
         run: npm install --no-save --no-package-lock playwright@1.56.1
       - name: Real Chrome interactions at desktop and mobile widths
         run: node experiments/world-question-constellation-2026-10-11/browser-smoke.mjs
+      - name: Public HTMLPreview experience through Chrome
+        timeout-minutes: 2
+        run: node experiments/world-question-constellation-2026-10-11/public-preview-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
