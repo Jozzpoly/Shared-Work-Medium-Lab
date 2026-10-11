@@ -107,14 +107,15 @@ export class ProjectEventLog extends DurableObject {
     );
 
     const row = this.sql.exec(
-      "SELECT seq FROM events WHERE delivery_id = ?",
+      "SELECT seq, payload_sha256 FROM events WHERE delivery_id = ?",
       event.delivery_id
     ).one();
 
-    return {
-      accepted: true,
-      cursor: row.seq
-    };
+    if (row.payload_sha256 !== event.payload_sha256) {
+      return { accepted: false, conflict: true, cursor: row.seq };
+    }
+
+    return { accepted: true, cursor: row.seq };
   }
 
   eventsAfter(after = 0, limit = 50) {
@@ -148,6 +149,8 @@ export class ProjectEventLog extends DurableObject {
 
     return {
       project: PROJECT_NAME,
+      coverage: "verified_webhooks_received_only",
+      upstream_delivery_completeness: "unverified",
       after: safeAfter,
       count: rows.length,
       events: rows,
@@ -164,6 +167,8 @@ export class ProjectEventLog extends DurableObject {
 
     return {
       project: PROJECT_NAME,
+      coverage: "verified_webhooks_received_only",
+      upstream_delivery_completeness: "unverified",
       stored_events: Number(row.count ?? 0),
       latest_cursor: Number(row.latest_cursor ?? 0)
     };
@@ -191,8 +196,13 @@ export default {
       const deliveryId = request.headers.get("X-GitHub-Delivery");
       const eventType = request.headers.get("X-GitHub-Event");
 
-      if (!deliveryId || !eventType) {
+      if (!deliveryId || !eventType || deliveryId.length > 128 || !/^[a-z_]{1,64}$/.test(eventType)) {
         return json({ error: "missing GitHub delivery metadata" }, { status: 400 });
+      }
+
+      // Bounded post-read envelope check; streaming limits remain a future deployment gate.
+      if (new TextEncoder().encode(rawBody).byteLength > 131072) {
+        return json({ error: "webhook payload exceeds research envelope" }, { status: 413 });
       }
 
       const valid = await verifyGithubSignature(
@@ -212,6 +222,10 @@ export default {
         return json({ error: "invalid JSON payload" }, { status: 400 });
       }
 
+      if (payload?.repository?.full_name !== PROJECT_NAME) {
+        return json({ error: "webhook repository outside declared project scope" }, { status: 403 });
+      }
+
       const payloadDigest = await sha256Hex(rawBody);
       const event = normalizeWebhook({
         deliveryId,
@@ -221,6 +235,9 @@ export default {
       });
 
       const result = await stub.record(event);
+      if (!result.accepted) {
+        return json({ error: "delivery ID reused with different payload" }, { status: 409 });
+      }
 
       return json({
         ok: true,
