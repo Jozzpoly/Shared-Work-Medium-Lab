@@ -42,3 +42,22 @@ This is a concrete investigator-produced output from the question "can an actor 
 | Change either donor runtime or wake a separate participant | **NO**; no such action authorized or performed |
 
 **Next gate:** a genuine receiving agent uses World *without being directed to test World* and changes its own investigation for a justified, source-grounded reason. This document does not meet that gate. Maintain independent donor truths and Owner FAIL until separately observed behavior changes the assessment.
+
+
+## Later reader: body ownership and action-type falsifiers — 2026-10-11
+
+A distinct Browser session, continuing Medium research through **native GitHub**, subsequently found this workpiece and independently inspected both donor source files. Its [specific PR #24 review](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/24#issuecomment-6104729428) identified a missing *mechanical adapter*, not a functioning cross-project reflex. The shared Owner account does not authenticate individual AI identities; the source-write → later source-review chronology is observable, independent project adoption is not.
+
+- [Combat B1 source L39–63](https://github.com/Jozzpoly/Combat-Lab/blob/24bd930fb1bb83425ea43168660a9c9c75d5b7d6/src/b1-world.js#L39-L63) represents one logical actor as **root + two wing colliders**. [B1 L141–149](https://github.com/Jozzpoly/Combat-Lab/blob/24bd930fb1bb83425ea43168660a9c9c75d5b7d6/src/b1-world.js#L141-L149) deliberately enumerates all parts for host-side contact instrumentation.
+- [ReflexBrain F3A source L70–91](https://github.com/Jozzpoly/ReflexBrain-Lab/blob/25b4fe148e9949ef5be7049cfbb656ca3960411a/src/f3a-action-touch-relation.ts#L70-L91) samples **one actor collider** and projects signed collision normals to body-local X. In B1, a root-only sensor *could* miss an obstructed wing, but this has **not been run as a real physics specimen**.
+- The part-union adapter needs actor-owned limb membership, filtering of internal body contact versus external material interaction, and per-part directional information. Naively summing signed normals can cancel opposed wing contacts. Neither project demonstrates this adapter.
+- **Second mismatch beyond the reviewer:** F3A's source-defined action relation is driven by a *linear candidate motor command*, whereas B1's folding and unfolding use **paired angular torque impulses on physically hinged limbs**. Copying the F3A scalar directly into a hinged morph controller has no demonstrated meaning; even a plausible contact-point effort mapping must be physically evaluated, not declared equivalent.
+- The least-cost falsifier is one bounded B1 Rapier experiment: log root-only, each-wing and actor-union external contacts; include an isolated wing obstruction (if physically attainable), internal contact only, opposed simultaneous wing contact, and unsensed gate changes. Compare hold, cheap local clearance, naive sensor and any limb-aware relation against actual afterstate before considering a donor. These remain proposed tests, **not executed evidence**.
+
+**Collaboration result:** material source write → later unprompted source-native review → a justified, more precise counterexample. **Not demonstrated:** agent reached this through World UI, receiver-native implementation change, multi-collider sensing PASS, Owner acceptance, or any improvement over native GitHub. Retain the earlier authored hypothesis above as history; this later source correction narrows it.
+
+## Native route comparison: task-specific network cost
+
+Task: find the open Combat B1 and ReflexBrain F3A changed reports and collect exact-line receipts. A native-source route can use two open-PR listings, two exact-PR/HEAD reads, two changed-file lists and two pinned Markdown reads — eight source requests, given these known project targets. World currently loads historical base documents when entering the atelier and again when the pair changes, **before** reading the live PR documents. The latest public Chromium smoke records its observed GitHub REST and raw-Markdown requests. Compare these as network *mechanics*, not a human time, intelligence, token or product-quality metric. Raw CDN reads are not GitHub REST rate-limit tokens.
+
+**Stop condition:** if the World route does not create a better consequential decision than native GitHub, preserve the negative and stop enlarging the interface.

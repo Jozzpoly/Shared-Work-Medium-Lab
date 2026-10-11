@@ -59,3 +59,10 @@ The PR list is a capped public API sample (up to 15 retrieved, 8 displayed), **n
 The lab now tests whether an environment can make research across independently selected projects *actionable* in place, and whether source-grounded keyword overlap can seed useful unplanned investigation. A keyword count is not meaning or importance. Next meaningful evidence is an unprompted participant finding a useful connection and carrying a source-grounded result into genuine project work. A forced smoke scenario is not ecological adoption.
 
 **Do not merge or redirect `main` based on CI.** If direct use still feels like a hollow source browser, examine the absence of actual agents/world consequences and radically reconsider, instead of polishing the map or adding another surface for its own sake. Other draft PRs (#5, #17, #22, #23) remain independent.
+
+
+### Source-medium feedback loop, not World UI lift
+
+A later Browser session found the B1 × F3A workpiece through native GitHub and made a more precise code-level objection: the single-collider F3A contact transducer cannot be assumed to observe B1's three-part body, and its linear drive signal does not directly describe hinged torque actuation. The revised field case captures exact source evidence and the cheapest physics falsifiers, but no donor physics was run. This is an asynchronous **source collaboration** result, **not World UI ecological adoption**. The public Chromium probe now measures source request fan-out on a known exact same-target investigation; results are narrow network mechanics, not model competence.
+
+Connected Cloudflare builds presently attempt unrelated World branch commits and commonly fail; this has separately been noted in PR #22. Do not treat that as a failed production Worker deployment or change account settings through this World draft.

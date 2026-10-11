@@ -9,8 +9,9 @@ try{
  const page=await b.newPage({viewport:{width:1440,height:920}});
  const errs=[];
  page.on('pageerror',e=>errs.push(e.message));
- const api=[];
+ const api=[],rawDocs=[];
  page.on('response',r=>{if(r.url().startsWith('https://api.github.com/repos/Jozzpoly/'))api.push({url:r.url(),status:r.status()});});
+ page.on('request',r=>{if(r.url().startsWith('https://raw.githubusercontent.com/Jozzpoly/')&&/\.md(?:\?|$)/.test(r.url()))rawDocs.push(r.url());});
  await page.goto(base,{waitUntil:'domcontentloaded',timeout:30000});
  await page.locator('.node').first().waitFor({timeout:20000});
  await page.locator('#enter-atelier').click();
@@ -46,6 +47,9 @@ try{
  assert.ok(api.every(x=>x.status===200));
  assert.deepEqual(errs,[]);
  result.qualified=true;result.api=api.map(a=>({status:a.status,path:new URL(a.url).pathname}));
+ result.document_requests=rawDocs.map(u=>new URL(u).pathname);
+ result.request_accounting={public_github_api_reads:api.length,public_markdown_reads:rawDocs.length,total_observed_requests:api.length+rawDocs.length};
+ console.log('NETWORK_ACCOUNTING',JSON.stringify(result.request_accounting));
  console.log('PASS live public GitHub PR frontier → exact B1/F3A source receipts');
 }catch(e){result.failure=String(e.message||e);}
 finally{
