@@ -20,10 +20,11 @@ test('five source-qualified worlds and five bounded questions',()=>{
 });
 test('read-only runtime and bounded immutable public source reads',()=>{
  assert.match(html,/Content-Security-Policy/);assert.match(html,/default-src 'none'/);
- assert.equal((html.match(/\bfetch\s*\(/g)||[]).length,1);
+ assert.equal((html.match(/\bfetch\s*\(/g)||[]).length,2);
  assert.match(html,/connect-src https:\/\/raw\.githubusercontent\.com/);
  assert.match(html,/function rawLink\(e\)/);
  assert.match(html,/function exportObservation\(\)/);
+ assert.match(html,/function sampleMovingMain\(side\)/);
  assert.ok(!/\blocalStorage\b|\bsessionStorage\b|\bXMLHttpRequest\b|\bsendBeacon\b/.test(html));
  assert.ok(!/<img\b/.test(html));
  assert.equal((html.match(/data-view="/g)||[]).length,10);

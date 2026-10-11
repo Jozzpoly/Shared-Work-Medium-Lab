@@ -49,8 +49,12 @@ try{
     assert.match(report,/github.com\/Jozzpoly\/Combat-Lab\/blob\//);
     assert.match(report,/github.com\/Jozzpoly\/FrameMatter-Lab\/blob\//);
     assert.ok(!/undefined|null/.test(report));
-    assert.equal(outgoing.length,2);
+    await page.locator('#left-fresh').click();
+    await page.waitForFunction(()=>/ZGODNE BAJTOWO|RÓŻNE DOKUMENTY|BRAK ODCZYTU/.test(document.querySelector('#left-fresh-state')?.textContent||''),{timeout:25000});
+    assert.notEqual((await page.locator('#left-fresh-state').innerText()).length,0);
+    assert.equal(outgoing.length,3);
     assert.ok(outgoing.every(u=>u.startsWith('https://raw.githubusercontent.com/Jozzpoly/')));
+    assert.ok(outgoing.some(u=>u.includes('/Combat-Lab/main/docs/RESEARCH_STATE.md')));
     await page.locator('#leave-atelier').click();
     assert.equal(await page.locator('.node:visible').count(),5);
     assert.deepEqual(failures,[]);
