@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - research/event-substrate-provenance-2026-10-11
+  pull_request:
+    branches:
+      - experiment/semantic-medium-v0
   workflow_dispatch:
 
 permissions:
