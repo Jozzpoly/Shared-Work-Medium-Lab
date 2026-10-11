@@ -57,12 +57,27 @@ try{
     assert.equal(outgoing.length,3);
     assert.ok(outgoing.every(u=>u.startsWith('https://raw.githubusercontent.com/Jozzpoly/')));
     assert.ok(outgoing.some(u=>u.includes('/Combat-Lab/main/docs/RESEARCH_STATE.md')));
+    await page.locator('#pair-right').selectOption('npc');
+    await page.locator('#apply-pair').click();
+    await page.waitForFunction(()=>document.querySelector('#right-state')?.textContent?.startsWith('ODCZYTANO'),{timeout:25000});
+    assert.match(await page.locator('#atelier-title').innerText(),/Combat Lab.*LLM Live NPC/);
+    assert.equal(await page.locator('#right-name').innerText(),'LLM Live NPC');
+    assert.equal(await page.locator('.clip').count(),2);
+    await page.locator('#right-pin').click();
+    await page.locator('#make-note').click();
+    const custom=await page.locator('#export-text').inputValue();
+    assert.match(custom,/Combat Lab ↔ LLM Live NPC/);
+    assert.match(custom,/LLM Live NPC/);
+    assert.ok(!custom.includes('Uczestnik zestawił źródła samodzielnie. Nie przypisano im uprzednio relacji ani wspólnej architektury.\n\n## Ślady\nNie wybrano'));
+    assert.equal(outgoing.length,5);
+    assert.ok(outgoing.every(u=>u.startsWith('https://raw.githubusercontent.com/Jozzpoly/')));
+    await page.screenshot({path:'/tmp/medium-world/'+viewport.width+'-custom-pair.png',fullPage:true});
     await page.locator('#leave-atelier').click();
     assert.equal(await page.locator('.node:visible').count(),5);
     assert.deepEqual(failures,[]);
     await mkdir('/tmp/medium-world',{recursive:true});
     await page.screenshot({path:'/tmp/medium-world/'+viewport.width+'.png',fullPage:true});
-    console.log('PASS real browser '+viewport.width+'px: navigable World + two real pinned sources + search/capture/export + controlled outbound reads');
+    console.log('PASS real browser '+viewport.width+'px: navigable World + free cross-world pairing + search/capture/export + controlled raw reads');
     await page.close();
   }
 } finally {await browser.close();}
