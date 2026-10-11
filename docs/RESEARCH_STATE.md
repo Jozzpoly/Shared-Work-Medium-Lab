@@ -22,7 +22,7 @@
 
 **Existing Medium human experience: Owner-observed FAIL / not accepted.** The Owner judged the previous Medium stale, unintuitive, unattractive and insufficiently self-maintaining, with no natural reason for other projects/agents to keep it current. He explicitly corrected the misleading old Feniks/First Hearth framing and said Feniks is being reborn rather than represented by that old SPC experiment.
 
-A more visually ambitious library concept from **Claude** was received positively **as an exploratory direction/prototype**, with strong emphasis on art direction, composition, color, detail and pleasurable navigation. **That positive reaction is not a verdict on Browser's separate draft PR #17**, nor a ratification of a Library architecture.
+A more visually ambitious Library/Kataster exploration from **Claude** was received positively **as a promising visual direction**, especially its hierarchy, art direction, composition, color, detail and pleasurable navigation. The Owner also **explicitly judged that prototype too rudimentary for the intended living, interactive, multidimensional project world**; initial enthusiasm must not erase this later product correction. Neither reaction accepts the prototype, ratifies a Library architecture, or qualifies Browser's separate draft PR #17.
 
 Narrow technical source/browser PASSes remain valid only for their tested SHA, reader route, network state and body. They **do not overturn** Owner-observed failure of the earlier product, prove PR #17 usability or prove that Medium increased independent agent capability. Neither draft #5 nor #17 is Owner-accepted or merged.
 
