@@ -331,7 +331,7 @@ function frontierRepo(e){
  return e.repo;
 }
 async function githubPublicJson(url){
- if(!/^https:\/\/api\.github\.com\/repos\/Jozzpoly\/[A-Za-z0-9-]+\/pulls(?:\?|\/[0-9]+(?:\/files\?per_page=100)?)$/.test(url))
+ if(!/^https:\/\/api\.github\.com\/repos\/Jozzpoly\/[A-Za-z0-9-]+\/pulls(?:\?state=open&per_page=15|\/[0-9]+(?:\/files\?per_page=100)?)$/.test(url))
    throw Error('GitHub API poza dopuszczonym zakresem');
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
  try{
