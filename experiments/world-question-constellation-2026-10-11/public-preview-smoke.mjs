@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
-const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/a9d64644ad35ba5487aee2c72933faeadcee2d5a/experiments/world-question-constellation-2026-10-11/index.html';
+const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/ef95019e4b13ab025bee9e6fef7c45b264e14dbc/experiments/world-question-constellation-2026-10-11/index.html';
 const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
 try{
  const page=await b.newPage({viewport:{width:1280,height:900}});
