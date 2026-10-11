@@ -69,7 +69,7 @@ function pinnedLink(e,line){
 }
 function headingLocations(lines){
  const result=[];let fence=null;
- const tick=String.fromCharCode(96),tickFence=new RegExp('^ {0,3}('+tick+'{3,})(.*)</script></body></html>);
+ const tick=String.fromCharCode(96),tickFence=new RegExp('^ {0,3}('+tick+'{3,})(.*)$');
  lines.forEach((l,i)=>{
   const m=l.match(/^ {0,3}(~{3,})(.*)$/)||l.match(tickFence);
   if(m){
