@@ -18,9 +18,12 @@ test('five source-qualified worlds and five bounded questions',()=>{
  }
  for(const [id,x] of seams){assert.equal(model[x.from]?.kind,'world');assert.equal(model[x.to]?.kind,'world');assert.notEqual(x.from,x.to);}
 });
-test('read-only runtime surface',()=>{
+test('read-only runtime and bounded immutable public source reads',()=>{
  assert.match(html,/Content-Security-Policy/);assert.match(html,/default-src 'none'/);
- assert.ok(!/\bfetch\s*\(/.test(html));
+ assert.equal((html.match(/\bfetch\s*\(/g)||[]).length,1);
+ assert.match(html,/connect-src https:\/\/raw\.githubusercontent\.com/);
+ assert.match(html,/function rawLink\(e\)/);
+ assert.match(html,/function exportObservation\(\)/);
  assert.ok(!/\blocalStorage\b|\bsessionStorage\b|\bXMLHttpRequest\b|\bsendBeacon\b/.test(html));
  assert.ok(!/<img\b/.test(html));
  assert.equal((html.match(/data-view="/g)||[]).length,10);

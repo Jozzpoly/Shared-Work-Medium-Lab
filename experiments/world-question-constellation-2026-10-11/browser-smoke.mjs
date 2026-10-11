@@ -30,9 +30,33 @@ try{
     const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
     assert.equal(overflow,false,viewport.width+'px horizontal overflow');
     assert.deepEqual(failures,[]);assert.deepEqual(outgoing,[]);
+    await page.locator('[data-view="material"]').click();
+    await page.locator('#enter-atelier').click();
+    await page.waitForFunction(()=>document.querySelector('#left-state')?.textContent?.startsWith('ODCZYTANO')&&document.querySelector('#right-state')?.textContent?.startsWith('ODCZYTANO'),{timeout:25000});
+    assert.equal(await page.locator('.source-results').count(),2);
+    await page.locator('#trace').fill('world');
+    assert.ok(await page.locator('#left-results button').count()>0);
+    assert.ok(await page.locator('#right-results button').count()>0);
+    await page.locator('#left-results button').first().click();
+    await page.locator('#left-pin').click();
+    await page.locator('#right-results button').first().click();
+    await page.locator('#right-pin').click();
+    assert.equal(await page.locator('.clip').count(),2);
+    await page.locator('#own-note').fill('Testowana analogia, nie potwierdzona integracja.');
+    await page.locator('#make-note').click();
+    const report=await page.locator('#export-text').inputValue();
+    assert.match(report,/Combat Lab/);assert.match(report,/FrameMatter/);
+    assert.match(report,/github.com\/Jozzpoly\/Combat-Lab\/blob\//);
+    assert.match(report,/github.com\/Jozzpoly\/FrameMatter-Lab\/blob\//);
+    assert.ok(!/undefined|null/.test(report));
+    assert.equal(outgoing.length,2);
+    assert.ok(outgoing.every(u=>u.startsWith('https://raw.githubusercontent.com/Jozzpoly/')));
+    await page.locator('#leave-atelier').click();
+    assert.equal(await page.locator('.node:visible').count(),5);
+    assert.deepEqual(failures,[]);
     await mkdir('/tmp/medium-world',{recursive:true});
     await page.screenshot({path:'/tmp/medium-world/'+viewport.width+'.png',fullPage:true});
-    console.log('PASS real browser '+viewport.width+'px: navigation, relation, provenance, restored viewpoint, no overflow/no external calls');
+    console.log('PASS real browser '+viewport.width+'px: navigable World + two real pinned sources + search/capture/export + controlled outbound reads');
     await page.close();
   }
 } finally {await browser.close();}

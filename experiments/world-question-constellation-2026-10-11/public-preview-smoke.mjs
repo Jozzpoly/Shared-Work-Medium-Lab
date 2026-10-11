@@ -17,11 +17,21 @@ try{
  await page.locator('[data-view="perception"]').click();
  assert.match(await page.locator('#name').innerText(),/ograniczonego|przez mieszkańca|aktora|Percepcja/i);
  assert.equal(await page.locator('#source-links a').count(),2);
+ await page.locator('#enter-atelier').click();
+ await page.waitForFunction(()=>document.querySelector('#left-state')?.textContent?.startsWith('ODCZYTANO')&&document.querySelector('#right-state')?.textContent?.startsWith('ODCZYTANO'),{timeout:25000});
+ assert.ok(await page.locator('#left-results button').count()>0);
+ assert.ok(await page.locator('#right-results button').count()>0);
+ await page.locator('#left-pin').click();
+ await page.locator('#right-pin').click();
+ await page.locator('#make-note').click();
+ assert.equal(await page.locator('.clip').count(),2);
+ assert.match(await page.locator('#export-text').inputValue(),/Jozzpoly\/ReflexBrain-Lab\/blob/);
+ await page.locator('#leave-atelier').click();
  await page.locator('button[data-lens="limits"]').click();
  assert.equal(await page.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
  // HTMLPreview injects the app into its own context: the browser's outer URL
  // remains unchanged and therefore cannot carry this perspective to another reader.
  assert.equal(page.url(),url);
  console.log('PUBLIC PREVIEW LIMIT VERIFIED: lens works but outer URL is unchanged; no shareable viewpoint contract');
- console.log('PASS PUBLIC HTMLPREVIEW: correct World and functional controls; no shareable viewpoint claimed');
+ console.log('PASS PUBLIC HTMLPREVIEW: World, two actual source reads and evidence export; outer URL nonportable as documented');
 }finally{await b.close();}
