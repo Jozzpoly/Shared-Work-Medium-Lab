@@ -1,8 +1,8 @@
 # Research State
 
-**Status:** Quiet Presence ecological field incubating (draft PR #5); separate public visual Library/source-use candidate in draft PR #17; broader Library work under Issue #7; MP-1 dormant; reconnaissance frozen
+**Status:** Owner human-facing FAIL remains; Quiet Presence (#5), visual Library (#17), Cloudflare source observation (#22), and archival event-cursor requalification (#23) are separate unmerged experiments; Issue #7 is the broader live campaign; MP-1 dormant
 
-**Last material update:** 2026-10-10
+**Last material update:** 2026-10-11 (frontier-source routing only; no Owner product acceptance)
 **Historical/context handoff (2026-10-04; verify live frontier above first):** [HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md](HANDOFF_2026-10-04_QUIET_PRESENCE_CODEX_COLLAB.md)
 
 
@@ -44,6 +44,9 @@ Current open draft research frontiers:
 
 - **[PR #22 — GitHub-native vs Cloudflare source-observation comparator](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/22)**  
   **Unmerged, read-only Cloudflare donor experiment; not an accepted Medium product or mandatory architecture.** The public [experimental Worker](https://swm-medium-observation-probe.jozzpoly.workers.dev/) serves a navigation-only projection for one source document. Its allowlisted immutable revision is content-SHA verified (52 headings in the live initial run); current `main` is read through public GitHub Raw because unauthenticated GitHub REST from Cloudflare produced **HTTP 403**. The moving read openly reports an **unknown Git commit/blob identity**, not a fictitious pinned revision. On 2026-10-10, [exact HEAD CI #38019376415](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38019376415) at `5659f24d36a2987656de343104024b3a754df14d` passed **35/35 bounded checks** and live qualifiers: pinned projection/source agreement, **CF-Cache-Status HIT**, and a separate current `main` read matching an independent GitHub Raw content digest (**SAME_BYTES** at observation time). This is a narrow **source/network mechanism PASS**; it does **not** establish atomic freshness, sustained source-budget savings, independent agent capability lift, Owner UX acceptance, or that Cloudflare outperforms native GitHub. Cached or moving views can lag. Treat the current PR #22 HEAD as the live experiment source; do not silently promote it into `main`.
+
+- **[PR #23 — archival Cloudflare event-cursor provenance](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/23)**  
+  Separate unmerged **draft against the historical `experiment/semantic-medium-v0` branch, not `main` or PR #22**. Requalified an existing GitHub-HMAC → SQLite Durable Object cursor prototype: [8/8 Node/fake-SQL tests](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38102632001) after scope, conflicting-delivery and envelope fixes. No live webhook, DO restart, independent receiver, actual agent continuation or Medium incremental benefit proven. GitHub failed webhook deliveries are not automatically redelivered; an ordered local cursor is **not proof of complete upstream events**. The proper next decision gate is a public-source, disconnected-receiver comparison against the *full available native GitHub issue/PR/history route*, with missed-delivery handling and no coerced adoption. **Do not deploy or merge based on the mock PASS.** Consult the live draft and [Issue #7 result](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-6104293662) before pursuing this branch.
 
 - **[Issue #7 — broader Library / Atlas collaboration](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7)**  
   Active joint research with Claude/Browser/other participants, separate from the PR #17 implementer's specimen. The initial private-inclusive Kataster prototype was valuable visual exploration but had known silent coverage omissions, source-authority errors and private-public boundaries. Its snapshot is **not** a complete/current estate index or approved product; do not copy/publish it to this public repository. Preserve voluntary World exploration *and* source-bound agent utility as distinct questions.
