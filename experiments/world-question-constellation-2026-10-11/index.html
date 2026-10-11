@@ -97,7 +97,7 @@ function excerptAt(side){
 function resultsFor(side){
  const p=panels[side];p.results.replaceChildren();if(!p.lines)return;
  const matches=searchLocations(p.lines,p.search.value);
- if(!matches.length){const node=document.createElement('p');node.textContent='Brak trafień w odczytanym dokumencie.';p.results.append(node);return;}
+ if(!matches.length){const node=document.createElement('p');node.textContent='Brak trafień w odczytanym dokumencie.';p.results.append(node);p.excerpt.textContent='Nie znaleziono wskazanego tropu. Żaden nowy fragment nie został wybrany.';p.pin.disabled=true;return;}
  if(!matches.includes(p.line))p.line=matches[0];
  for(const i of matches){
   const btn=document.createElement('button');btn.type='button';
@@ -222,8 +222,8 @@ async function sampleMovingMain(side){
   const current=text.replace(/\r\n?/g,'\n').split('\n');
   const old=p.lines;
   if(current.join('\n')===old.join('\n')){
-    status.textContent='ZGODNE BAJTOWO · obserwacja ruchomego main ('+new Date().toLocaleTimeString('pl-PL')+') · rewizja Git nieznana';
-    detail.textContent='Zbieżność pliku nie gwarantuje, że to najnowszy HEAD ani że jest to aktywna gałąź projektu.';
+    status.textContent='ZGODNA TREŚĆ PO NORMALIZACJI KOŃCÓW LINII · odczyt main ('+new Date().toLocaleTimeString('pl-PL')+') · rewizja Git nieznana';
+    detail.textContent='Zbieżność tekstu po normalizacji końców linii nie gwarantuje identycznych bajtów, najnowszego HEAD ani aktywnej gałęzi badań.';
   }else{
     const oldSet=new Set(old);
     const additions=current.filter(line=>line.trim()&&!oldSet.has(line));
