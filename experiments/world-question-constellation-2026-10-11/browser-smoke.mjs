@@ -83,6 +83,23 @@ try{
     console.log('PASS real browser '+viewport.width+'px: navigable World + free cross-world pairing + search/capture/export + controlled raw reads');
     await page.close();
   }
+  // Cross-world discovery, not restricted to curated relation labels.
+  const discovery=await browser.newPage({viewport:{width:1180,height:840}});
+  await discovery.goto('file://'+source,{waitUntil:'load'});
+  await discovery.locator('#enter-atelier').click();
+  await discovery.locator('#radar summary').click();
+  await discovery.locator('#radar-query').fill('world');
+  await discovery.locator('#radar-form button[type="submit"]').click();
+  await discovery.waitForFunction(()=>document.querySelector('#radar-status')?.textContent?.includes('Zakończono próbę'),{timeout:25000});
+  assert.equal(await discovery.locator('.radar-item').count(),5);
+  assert.match(await discovery.locator('#radar-status').innerText(),/5\/5 odczytanych dokumentów/);
+  assert.ok((await discovery.locator('.radar-item').first().innerText()).includes('trafień'));
+  await discovery.locator('.radar-item').first().getByRole('button',{name:'Wybierz jako A'}).click();
+  assert.notEqual(await discovery.locator('#pair-left').inputValue(),'');
+  await discovery.locator('.radar-item').last().getByRole('button',{name:'Wybierz jako B'}).click();
+  assert.notEqual(await discovery.locator('#pair-right').inputValue(),'');
+  console.log('PASS source-driven radar: 5 true public documents, lexical trail and composable pair choices');
+  await discovery.close();
   // Adversarial proof: failed GitHub access must not be reported as completed evidence.
   const failure=await browser.newPage({viewport:{width:1100,height:800}});
   await failure.route('https://raw.githubusercontent.com/Jozzpoly/Combat-Lab/**',route=>route.fulfill({status:403,body:'rate limit'}));
