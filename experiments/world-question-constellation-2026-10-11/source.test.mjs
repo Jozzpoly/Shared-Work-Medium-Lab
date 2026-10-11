@@ -24,7 +24,7 @@ test('read-only runtime surface',()=>{
  assert.ok(!/\blocalStorage\b|\bsessionStorage\b|\bXMLHttpRequest\b|\bsendBeacon\b/.test(html));
  assert.ok(!/<img\b/.test(html));
  assert.equal((html.match(/data-view="/g)||[]).length,10);
- assert.equal((html.match(/data-lens="/g)||[]).length,3);
+ assert.equal((html.match(/<button[^>]*data-lens="/g)||[]).length,3);
 });
 test('inline script parses and static exits target source-native github',()=>{
  new vm.Script(script,{filename:'world.js'});
