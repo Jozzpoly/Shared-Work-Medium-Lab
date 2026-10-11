@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
-const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/ef95019e4b13ab025bee9e6fef7c45b264e14dbc/experiments/world-question-constellation-2026-10-11/index.html';
+const url='https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/413c41d86d4aa06694b50270fa0b42ebaafe4da9/experiments/world-question-constellation-2026-10-11/index.html';
 const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
 try{
  const page=await b.newPage({viewport:{width:1280,height:900}});
@@ -25,6 +25,10 @@ try{
  await page.locator('#right-pin').click();
  await page.locator('#make-note').click();
  assert.equal(await page.locator('.clip').count(),2);
+ assert.equal(await page.locator('#left-fresh').isEnabled(),true);
+ await page.locator('#left-fresh').click();
+ await page.waitForFunction(()=>/ZGODNA TREŚĆ|RÓŻNE DOKUMENTY|BRAK ODCZYTU/.test(document.querySelector('#left-fresh-state')?.textContent||''),{timeout:25000});
+ assert.match(await page.locator('#left-fresh-link').getAttribute('href'),/ReflexBrain-Lab\/blob\/main\/README.md/);
  assert.match(await page.locator('#export-text').inputValue(),/Jozzpoly\/ReflexBrain-Lab\/blob/);
  await page.locator('#leave-atelier').click();
  await page.locator('button[data-lens="limits"]').click();
@@ -33,5 +37,5 @@ try{
  // remains unchanged and therefore cannot carry this perspective to another reader.
  assert.equal(page.url(),url);
  console.log('PUBLIC PREVIEW LIMIT VERIFIED: lens works but outer URL is unchanged; no shareable viewpoint contract');
- console.log('PASS PUBLIC HTMLPREVIEW: World, two actual source reads and evidence export; outer URL nonportable as documented');
+ console.log('PASS PUBLIC HTMLPREVIEW: World, two real source reads, evidence export, moving-main probe; outer URL nonportable');
 }finally{await b.close();}
