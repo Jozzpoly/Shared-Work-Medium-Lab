@@ -1,0 +1,28 @@
+name: World question constellation smoke
+on:
+  push:
+    branches: [experiment/world-question-constellation-2026-10-11]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static source and no-network contract
+        run: node --test experiments/world-question-constellation-2026-10-11/*.test.mjs
+      - name: Install bounded browser test dependency
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Real Chrome interactions at desktop and mobile widths
+        run: node experiments/world-question-constellation-2026-10-11/browser-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: world-constellation-screens
+          path: /tmp/medium-world/*.png
+          retention-days: 7
