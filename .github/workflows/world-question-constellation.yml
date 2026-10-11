@@ -36,6 +36,10 @@ jobs:
         run: node experiments/world-question-constellation-2026-10-11/frontier-live-smoke.mjs
       - name: Install exact Combat B1 physics donor dependency (isolated)
         run: npm install --no-save --no-package-lock @dimforge/rapier2d-deterministic@0.21.0
+      - name: Inspect exact Rapier distribution resolution
+        run: |
+          cat node_modules/@dimforge/rapier2d-deterministic/package.json
+          find node_modules/@dimforge/rapier2d-deterministic -maxdepth 1 -type f -printf '%f\n' | sort
       - name: Actual B1 three-part physics contact falsifier
         timeout-minutes: 2
         run: node experiments/world-question-constellation-2026-10-11/contact-adapter-physics.mjs
