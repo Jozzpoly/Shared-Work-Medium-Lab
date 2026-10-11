@@ -17,5 +17,18 @@ try{
  await page.locator('[data-view="perception"]').click();
  assert.match(await page.locator('#name').innerText(),/ograniczonego|przez mieszkańca|aktora|Percepcja/i);
  assert.equal(await page.locator('#source-links a').count(),2);
- console.log('PASS PUBLIC HTMLPREVIEW: displayed correct Medium World and working relation controls');
+ await page.locator('button[data-lens="limits"]').click();
+ const portableView=page.url();
+ assert.match(portableView,/#view=perception&lens=limits/);
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.locator('.node').first().waitFor({timeout:18000});
+ assert.equal(await page.locator('[data-view="perception"]').getAttribute('aria-pressed'),'true');
+ assert.equal(await page.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
+ const second=await b.newPage({viewport:{width:1100,height:820}});
+ await second.goto(portableView,{waitUntil:'domcontentloaded'});
+ await second.locator('.node').first().waitFor({timeout:18000});
+ assert.equal(await second.locator('[data-view="perception"]').getAttribute('aria-pressed'),'true');
+ assert.equal(await second.locator('button[data-lens="limits"]').getAttribute('aria-pressed'),'true');
+ await second.close();
+ console.log('PASS PUBLIC HTMLPREVIEW: correct World, relation control, cross-page hash viewpoint survives reload and new tab');
 }finally{await b.close();}
