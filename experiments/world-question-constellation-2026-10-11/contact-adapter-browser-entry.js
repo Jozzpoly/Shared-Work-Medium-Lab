@@ -44,6 +44,12 @@ function one(name,obstacles,{selfContact=true,fold=0,steps=110}={}){
 }
 try{
  if(typeof RAPIER.init==='function')await RAPIER.init();
+ // No donor code: distinguish a Vite/Rapier WASM bridge failure from B1 physics.
+ const bareWorld=new RAPIER.World({x:0,y:0});
+ const bareBody=bareWorld.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0,0));
+ const barePose=bareBody.translation();
+ if(!Number.isFinite(barePose.x)||!Number.isFinite(barePose.y))throw Error('bare Rapier body position is nonfinite');
+ bareWorld.free();
  const cases=[
   one('clear',[]),
   one('negative-wing-contact',[{x:10.65,y:12.15,hx:.30,hy:.24}]),
