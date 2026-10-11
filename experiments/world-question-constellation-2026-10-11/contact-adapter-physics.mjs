@@ -18,10 +18,20 @@ for(const file of ['m0-world.js','b1-world.js']){
  if(!response.ok)throw Error('Donor source read '+file+' HTTP '+response.status);
  const content=await response.text();
  assert.ok(content.length>3000&&content.length<25000);
- await writeFile(resolve(out,'src',file),content);
+ const imported='import RAPIER from "@dimforge/rapier2d-deterministic";';
+ assert.ok(content.includes(imported),'unexpected donor dependency import');
+ // Node does not honor the NPM package's module entry (rapier.js), and the
+ // distribution has no index.js. Rewrite ONLY the ESM import to a local shim;
+ // preserve and hash the original exact-SHA donor source independently.
+ const nodeImport=content.replace(imported,'import RAPIER from "./rapier-node-entry.mjs";');
+ await writeFile(resolve(out,'src',file),nodeImport);
  sources.push({file,sha256:createHash('sha256').update(content).digest('hex'),bytes:content.length});
 }
 await writeFile(resolve(out,'package.json'),JSON.stringify({type:'module'}));
+await writeFile(resolve(out,'src','rapier-node-entry.mjs'),
+  'import * as RAPIER from "@dimforge/rapier2d-deterministic/rapier.js";\n'+
+  'if(typeof RAPIER.init==="function") await RAPIER.init();\n'+
+  'export default RAPIER;\n');
 const {EnvelopeField}=await import(pathToFileURL(resolve(out,'src/b1-world.js')).href);
 const partLabels=['root','upper-wing','lower-wing'];
 function reportContacts(field){
@@ -72,7 +82,7 @@ const cases=[
  run('upper-wing-no-self-contact',[{x:10.65,y:12.15,hx:.30,hy:.24}],{selfContact:false})
 ];
 const verdict={
- source:SHA,rapier:'0.21.0 deterministic',sources,
+ source:SHA,rapier:'0.21.0 deterministic; Node ESM package-module entry adaptation ONLY',sources,
  preregistered_measure:'wing-external-solver-impulse>1e-6 && root-external-solver-impulse<=1e-6 in same frame',
  results:cases.map(x=>({
    case:x.name,frames:x.wingExternalRootClearFrames,
