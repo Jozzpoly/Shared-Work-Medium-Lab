@@ -14,6 +14,9 @@ try{
     assert.match(await page.locator('#name').innerText(),/Combat Lab/);
     assert.equal(await page.locator('.node').count(),5);
     assert.equal(await page.locator('.seam').count(),5);
+    await page.locator('[data-view="body"]').click();
+    assert.equal(await page.locator('#source-links a').count(),3);
+    assert.match(await page.locator('#source-links a').last().getAttribute('href'),/RESEARCH_CASE_LIVE_CONTACT_2026-10-11\.md$/);
     await page.locator('[data-view="material"]').click();
     assert.match(await page.locator('#name').innerText(),/fizycznych/i);
     assert.equal(await page.locator('#source-links a').count(),2);
