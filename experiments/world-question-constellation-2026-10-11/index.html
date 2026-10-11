@@ -1,0 +1,431 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="description" content="Medium World: autorska przestrzeń odkrywania pytań pomiędzy pięcioma publicznymi laboratoriami."><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://raw.githubusercontent.com https://api.github.com; img-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'"><title>Medium World — pole możliwości</title><style>
+:root{color-scheme:dark;--white:#eff4f3;--muted:#b3c3c9;--edge:#526576;--green:#b3ddd2}
+*{box-sizing:border-box}body{margin:0;color:var(--white);font:15px/1.6 "Segoe UI",system-ui,sans-serif;background:radial-gradient(ellipse 70% 65% at 12% 0%,#1e3845aa,transparent),radial-gradient(ellipse 70% 70% at 100% 10%,#332a46bb,transparent),#090e19}
+button,a{touch-action:manipulation}a{color:#c1e9db;text-underline-offset:4px}a:hover{color:white}button{cursor:pointer;font:inherit}a:focus-visible,button:focus-visible{outline:2px solid #f2eeb5;outline-offset:4px}
+.wrap{max-width:1560px;width:calc(100% - 64px);margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff2b;padding:23px 0;gap:20px}.identity{font-size:11px;font-weight:750;letter-spacing:.2em;text-transform:uppercase;color:#e2efeb;text-decoration:none}.identity b{display:inline-grid;place-items:center;border:1px solid #a9cfc7;border-radius:50%;width:34px;height:34px;font-size:23px;font-weight:400;margin-right:13px}.micro{font:11px/1.5 Consolas,monospace;letter-spacing:.04em;color:#a9b8c4;text-align:right}
+.intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);gap:34px;align-items:end;padding:44px 0 32px}.label{font:600 11px/1.4 Consolas,monospace;letter-spacing:.15em;text-transform:uppercase;color:#b3ddd2}.intro h1{font-size:clamp(43px,5.2vw,85px);font-weight:550;letter-spacing:-.06em;line-height:1.04;margin:12px 0 20px}.intro h1 em{font-family:Georgia,serif;font-weight:400;color:#b8d6d1}.intro p{max-width:730px;color:#ccd3da;line-height:1.7;font-size:16px;margin:0}.intro aside{border-left:1px solid #557e83;padding-left:20px;color:#afbfc9;font-size:13px}.intro aside strong{display:block;color:#edf4f0;font-size:15px;margin-bottom:8px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:16px 0;border-top:1px solid #ffffff24}.toolbar label{font:11px Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:#a9bfc4}.lens{display:flex;gap:5px;border:1px solid #415465;background:#10202c;border-radius:25px;padding:4px}.lens button{border:0;border-radius:23px;padding:8px 14px;color:#bad1d4;background:transparent;font-size:12px}.lens button[aria-pressed=true]{color:#102c30;background:#d9eee5;font-weight:700}
+.experience{display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,360px);gap:15px}.map{height:620px;min-width:0;border:1px solid #384e62;border-radius:21px;overflow:hidden;position:relative;isolation:isolate;background:radial-gradient(ellipse 55% 48% at 48% 45%,#25374a9e,transparent),radial-gradient(circle at 75% 70%,#42525b55,transparent),#0c1422}
+.map:before{content:"";position:absolute;inset:0;background:linear-gradient(#60789114 1px,transparent 1px),linear-gradient(90deg,#60789114 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 65% 75% at 50% 45%,#000,transparent)}.map:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 120px 35px #090d1b;pointer-events:none}
+.orbits{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.orbits circle{stroke:#92acbd;stroke-width:.7;stroke-dasharray:2 9;opacity:.22;fill:none}.orbits path{stroke:#a9cbc6;stroke-width:1.25;stroke-dasharray:4 8;fill:none;opacity:.36}.map[data-lens=bridges] .orbits path{opacity:.85;stroke-width:2}.map[data-lens=limits] .orbits path{stroke:#e6b09e;opacity:.66}
+.upper{position:absolute;top:18px;left:23px;font:11px Consolas,monospace;color:#a8c4c5;letter-spacing:.08em;z-index:3;text-transform:uppercase}
+.node{--tone:#b3ddd2;position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);width:137px;background:transparent;color:#eef4f4;border:0;border-radius:20px;padding:11px 4px 8px;text-align:center;z-index:5}.node i{width:77px;height:77px;display:grid;place-items:center;border-radius:50%;font:italic 36px Georgia,serif;color:var(--tone);margin:0 auto 11px;font-style:italic;border:1px solid color-mix(in srgb,var(--tone) 60%,transparent);box-shadow:0 0 0 9px #b3ddd20b,0 0 45px color-mix(in srgb,var(--tone) 18%,transparent),inset 0 0 20px #080f1c;background:radial-gradient(circle at 30% 20%,#30475b,#11202c 70%);position:relative}.node i:after{content:"";position:absolute;inset:-17px;border:1px dashed color-mix(in srgb,var(--tone) 32%,transparent);border-radius:50%}.node strong{display:block;font-size:14px;text-shadow:0 2px 12px #08111b}.node small{display:block;color:#acbacb;font:10px/1.5 Consolas,monospace}.node[aria-pressed=true] i{box-shadow:0 0 0 11px color-mix(in srgb,var(--tone) 14%,transparent),0 0 70px color-mix(in srgb,var(--tone) 47%,transparent)}.node:hover{background:#5f829a16}
+.seam{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);z-index:4;border:1px solid #71929f87;color:#d4ebe7;background:#182c3af0;border-radius:16px;padding:5px 10px;font:11px Consolas,monospace;white-space:nowrap}.seam:hover,.seam[aria-pressed=true]{border-color:#def6e8;background:#27534c}
+.field-foot{position:absolute;bottom:18px;left:24px;right:24px;z-index:3;display:flex;justify-content:space-between;color:#96aab9;font:10px/1.5 Consolas,monospace}
+.panel{background:linear-gradient(155deg,#1a2b39,#111c2c 55%,#111827);border:1px solid #395266;border-radius:21px;padding:27px 24px;display:flex;flex-direction:column;min-height:620px}.panel h2{font-size:clamp(27px,2.6vw,37px);line-height:1.08;letter-spacing:-.045em;font-weight:550;margin:17px 0}.panel .small{font:11px/1.4 Consolas,monospace;color:#9cb9bf;letter-spacing:.03em;margin-bottom:18px}.panel .summary{color:#dde5e6;font-size:14px;line-height:1.75}.panel .detail-label{font:650 10px Consolas,monospace;letter-spacing:.12em;color:#a7dacc;text-transform:uppercase;margin:9px 0}.panel .detail{color:#b5c5d1;line-height:1.75;font-size:13px}.panel .risk{color:#dfcbc3;border-left:2px solid #d3a38e;padding-left:13px;margin:20px 0;line-height:1.65;font-size:12px}.sourcebox{margin-top:auto;border-top:1px solid #ffffff27;padding-top:18px}.sourcebox a{display:flex;align-items:center;justify-content:space-between;margin:9px 0;padding:10px 12px;border-radius:9px;border:1px solid #577a8380;background:#1c3641;text-decoration:none;color:#e1f1ee;font-size:12px}.sourcebox a:after{content:"↗";font-size:17px}.sourcebox a:hover{border-color:#c6eddf}.sourcebox p{font:11px/1.65 Consolas,monospace;color:#a0b2c4}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:20px 0 35px}.notes article{border:1px solid #30485a;border-radius:13px;padding:20px 22px;background:#101a29}.notes h3{margin:10px 0;font-size:17px;font-weight:550}.notes p{font-size:13px;line-height:1.7;color:#adbdc9;margin:0}.notes .label{font-size:10px}.footer{display:flex;justify-content:space-between;align-items:start;border-top:1px solid #ffffff30;padding:25px 0 42px;gap:40px}.footer p{margin:5px 0 0;font:11px/1.65 Consolas,monospace;color:#97acb9;max-width:680px}.footer nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px;font-size:11px}
+@media(max-width:1050px){.experience{grid-template-columns:1fr}.map{height:600px}.panel{min-height:360px}.intro{grid-template-columns:1fr;gap:19px}.notes{grid-template-columns:1fr 1fr}.notes article:first-child{grid-column:1/-1}}
+@media(max-width:620px){.wrap{width:calc(100% - 24px)}.top{padding:15px 0}.identity{font-size:10px}.micro{font-size:9px}.intro{padding:27px 4px}.intro h1{font-size:46px}.intro p{font-size:14px}.map{height:590px}.node{width:100px}.node i{width:55px;height:55px;font-size:26px}.node i:after{inset:-11px}.node strong{font-size:12px}.node small{font-size:9px}.seam{font-size:9px;padding:5px;white-space:normal;max-width:94px}.field-foot{font-size:9px;left:14px;right:14px}.panel{padding:22px 18px}.notes{grid-template-columns:1fr}.notes article:first-child{grid-column:auto}.footer{display:block}.footer nav{justify-content:flex-start;margin-top:16px}}
+@media(prefers-reduced-motion:no-preference){.node i,.seam,.lens button{transition:box-shadow .2s,border-color .2s,background .2s}}
+
+/* Source atelier — actual evidence inspection, not another list of descriptions */
+.wrap[data-mode="world"] .atelier{display:none}.wrap[data-mode="atelier"] .intro{display:none}.wrap[data-mode="atelier"] .experience,.wrap[data-mode="atelier"] .notes,.wrap[data-mode="atelier"] .toolbar{display:none}
+.atelier{margin:16px 0 44px;padding:27px;border:1px solid #4c737a;border-radius:19px;background:radial-gradient(ellipse 70% 50% at 10% 0%,#23404d7a,transparent),#0b1825}
+.atelier-header{display:flex;align-items:start;justify-content:space-between;gap:20px;border-bottom:1px solid #ffffff28;padding-bottom:20px;margin-bottom:20px}.atelier-header h2{font:450 clamp(31px,3.5vw,51px)/1.14 Georgia,serif;letter-spacing:-.04em;margin:8px 0}.atelier-header p{color:#b7cbd2;max-width:800px;font-size:13px}.atelier button{cursor:pointer;font:inherit;color:#e2f0ec;background:#18313d;border:1px solid #658c90;border-radius:9px;padding:9px 12px}.atelier button:hover{background:#29515b}.atelier button:disabled{opacity:.45;cursor:default}
+#enter-atelier{display:block;width:100%;padding:13px;margin:15px 0 5px;background:#c5dfd3;color:#122c2c;border:0;border-radius:10px;text-align:left;font:700 13px "Segoe UI",sans-serif;cursor:pointer}
+#enter-atelier:hover{background:#e6f4e8}
+.atelier input,.atelier textarea{width:100%;color:#e7f3f0;background:#081624;border:1px solid #537383;border-radius:8px;padding:10px;font:inherit}.atelier textarea{resize:vertical}.atelier input:focus-visible,.atelier textarea:focus-visible{outline:2px solid #d5eabf;outline-offset:2px}
+.atelier-tool{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;margin-bottom:19px}.atelier-tool label{display:block;color:#b1c8c7;font:11px Consolas,monospace;margin-bottom:7px}.atelier-tool span{font:11px/1.5 Consolas,monospace;color:#9eb5be}
+.source-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.source-panel{min-width:0;padding:17px;border:1px solid #49687a;background:#0d1c2b;border-radius:13px}.source-panel h3{font-size:21px;margin:5px 0 5px}.source-state{min-height:37px;color:#b7d7cd;font:11px/1.6 Consolas,monospace;overflow-wrap:anywhere}.source-state[data-error=true]{color:#e9b9a7}.source-panel label{font:11px Consolas,monospace;color:#b0c9cd}.source-results{min-height:120px;max-height:185px;overflow-y:auto;border:1px solid #38576a;border-radius:8px;background:#0a1623;margin:10px 0}.source-results button{width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid #2c4556;border-radius:0;padding:8px 10px;font:12px/1.45 Consolas,monospace;overflow-wrap:anywhere}.source-results button[aria-pressed=true],.source-results button:hover{background:#244757}.source-results p{color:#acbcc8;font-size:12px;padding:11px}.excerpt{height:248px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#07121d;border:1px solid #35505f;padding:13px;border-radius:9px;color:#d1e2e9;font:12px/1.65 Consolas,monospace}.source-actions{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.source-actions a{font-size:12px}
+.journal{border:1px solid #53737a;border-radius:14px;background:#142735;padding:21px;margin-top:17px;display:grid;grid-template-columns:1fr 1fr;gap:24px}.journal h3{font:450 27px Georgia,serif;margin:7px 0}.journal p{font-size:12px;color:#b3c5cd}.journal label{font:11px Consolas,monospace;color:#c0dcd2}.journal textarea{min-height:110px;font-size:12px}.journal textarea#export-text{height:138px;margin-top:12px;font:11px/1.55 Consolas,monospace}.journal button{font-size:12px;margin:10px 7px 0 0}.journal .clip-list{max-height:310px;overflow:auto}.journal .clip{padding:10px 12px;margin:8px 0;background:#0d202c;border-left:3px solid #b5d7c8;border-radius:4px}.journal .clip strong{font-size:12px}.journal .clip p{white-space:pre-wrap;font:12px/1.55 Consolas,monospace;color:#d4e4e4}.journal .clip button{padding:4px 8px;font-size:11px;margin:0}.atelier-foot{border-top:1px solid #ffffff20;margin-top:18px;padding-top:15px;font:11px/1.6 Consolas,monospace;color:#acc3c9}
+@media(max-width:980px){.source-duo,.journal{grid-template-columns:1fr}.atelier-tool{grid-template-columns:1fr}}@media(max-width:620px){.atelier{padding:14px}.atelier-header{display:block}.atelier-header button{margin-top:12px}.source-panel{padding:12px}.journal{padding:13px}.excerpt{height:195px}}
+.freshness{border:1px solid #3b5e68;border-radius:9px;background:#102630;padding:11px;margin:13px 0 11px}.freshness button{font-size:12px;padding:8px 10px}.freshness p{font:11px/1.55 Consolas,monospace;color:#bfd1d1;margin:8px 0 0}.freshness pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:105px;overflow:auto;font:11px/1.6 Consolas,monospace;color:#e1e8cf}.freshness a{font-size:11px}.pair-picker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:12px;align-items:end;border:1px solid #345e69;border-radius:11px;background:#10222f;padding:13px 15px;margin-bottom:20px}.pair-picker label{font:11px Consolas,monospace;color:#bad4d4;display:block;margin-bottom:6px}.pair-picker select{color:#e7f3f0;background:#071924;border:1px solid #5b7c85;border-radius:7px;padding:9px 10px;width:100%;font:13px "Segoe UI",sans-serif}.pair-picker p{grid-column:1/-1;font:11px/1.5 Consolas,monospace;color:#aabdc6;margin:0}.pair-picker select:focus-visible{outline:2px solid #d5eabf;outline-offset:2px}@media(max-width:700px){.pair-picker{grid-template-columns:1fr}.pair-picker p{grid-column:auto}}.radar{margin:0 0 18px;border:1px solid #395f66;border-radius:11px;background:#102632;padding:13px}.radar summary{cursor:pointer;color:#d5eee3;font-size:13px;font-weight:670}.radar summary:hover{color:white}.radar p{font:11px/1.6 Consolas,monospace;color:#a8c0c5;margin:8px 0}.radar form{display:flex;gap:9px;align-items:center;margin:13px 0}.radar input{flex:1}.radar .radar-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:12px}.radar-item{border:1px solid #4b7177;background:#0b1d29;border-radius:9px;padding:12px;min-width:0}.radar-item strong{font-size:13px}.radar-item code{display:block;margin:7px 0;color:#aac9d0;font:11px/1.45 Consolas,monospace;overflow-wrap:anywhere}.radar-item button{font-size:11px;padding:6px 8px;margin:5px 5px 0 0}@media(max-width:620px){.radar form{display:block}.radar form button{margin-top:8px;width:100%}}
+.frontier{margin:10px 0 13px;padding:11px 12px;border:1px solid #577384;border-radius:10px;background:#122633}.frontier summary{font-size:13px;color:#daeee8;font-weight:670;cursor:pointer}.frontier p{font:11px/1.6 Consolas,monospace;color:#aac2c8;margin:8px 0}.frontier button{font-size:11px;text-align:left;padding:7px 9px}.frontier-list{max-height:230px;overflow:auto;margin:9px 0}.frontier-item{border-top:1px solid #365263;padding:10px 0}.frontier-item strong{display:block;font-size:12px;line-height:1.5}.frontier-item code{display:block;color:#a6c9cb;font:11px/1.5 Consolas,monospace;overflow-wrap:anywhere}.frontier-file{width:100%;margin:4px 0;overflow-wrap:anywhere}.frontier-status[data-error=true]{color:#e3af99}
+</style></head><body><div class="wrap" data-mode="world"><header class="top"><a class="identity" href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab" rel="noopener noreferrer" target="_blank"><b>◌</b> Medium / World</a><div class="micro">EXPERIMENT 01 · 11.10.2026<br>PUBLICZNE ŹRÓDŁA · BEZ RANKINGU</div></header><section class="intro"><div><div class="label">Pole pytań pomiędzy światami</div><h1>Nie lista projektów.<br><em>Pole możliwości.</em></h1><p>Każdy świat bada coś własnego. Czasem pytania zaczynają rezonować. Wybierz miejsce albo relację, zmień perspektywę i przejdź do oryginalnych źródeł.</p></div><aside><strong>Mapa nie jest terytorium.</strong>To interpretacja pięciu publicznych projektów, nie indeks całego ekosystemu ani stan na żywo. Relacje są pytaniami do sprawdzenia, nie zaakceptowanymi integracjami.</aside></section><div class="toolbar"><label>Perspektywa pola ↘</label><div class="lens" role="group" aria-label="Perspektywa świata"><button data-lens="worlds" aria-pressed="true" type="button">Światy</button><button data-lens="bridges" aria-pressed="false" type="button">Połączenia</button><button data-lens="limits" aria-pressed="false" type="button">Granice</button></div></div><main class="experience"><section class="map" id="map" data-lens="worlds" aria-label="Pięć laboratoriów i pięć relacji. Wybierz przycisk, by zbadać źródła."><div class="upper">Rozpoznawanie pola / bez automatycznego feedu</div><svg class="orbits" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true"><circle cx="500" cy="330" r="260"/><circle cx="500" cy="330" r="215"/><circle cx="500" cy="330" r="170"/><ellipse cx="500" cy="345" rx="420" ry="210" stroke="#829aaf" fill="none" opacity=".2" stroke-dasharray="3 12"/><path d="M490 117.8 Q340 186.8 190 303.8"/><path d="M490 117.8 Q630 174.4 770 279"/><path d="M190 303.8 Q480 267.4 770 279"/><path d="M190 303.8 Q235 375.9 280 496"/><path d="M280 496 Q530 472 780 496"/><path d="M770 279 Q775 363.5 780 496"/></svg><button class="node" type="button" data-view="medium" aria-pressed="false" style="--tone:#b3ddd2;--x:49%;--y:19%" aria-label="Wejdź w Medium"><i aria-hidden="true">◌</i><strong>Medium</strong><small>Wspólna uwaga</small></button>
+<button class="node" type="button" data-view="combat" aria-pressed="true" style="--tone:#e6b893;--x:19%;--y:49%" aria-label="Wejdź w Combat Lab"><i aria-hidden="true">✶</i><strong>Combat Lab</strong><small>Ciało i nacisk</small></button>
+<button class="node" type="button" data-view="matter" aria-pressed="false" style="--tone:#ded8a4;--x:77%;--y:45%" aria-label="Wejdź w FrameMatter"><i aria-hidden="true">◇</i><strong>FrameMatter</strong><small>Materia i rama</small></button>
+<button class="node" type="button" data-view="reflex" aria-pressed="false" style="--tone:#c9b9ee;--x:28%;--y:80%" aria-label="Wejdź w ReflexBrain"><i aria-hidden="true">∿</i><strong>ReflexBrain</strong><small>Doświadczenie aktora</small></button>
+<button class="node" type="button" data-view="npc" aria-pressed="false" style="--tone:#b3ccee;--x:78%;--y:80%" aria-label="Wejdź w LLM Live NPC"><i aria-hidden="true">∴</i><strong>LLM Live NPC</strong><small>Mieszkaniec świata</small></button><button class="seam" type="button" data-view="material" aria-pressed="false" style="--x:50%;--y:50%" aria-label="Zbadaj połączenie Materialność">Materialność ↗</button>
+<button class="seam" type="button" data-view="body" aria-pressed="false" style="--x:22%;--y:64%" aria-label="Zbadaj połączenie Opór">Opór ↗</button>
+<button class="seam" type="button" data-view="perception" aria-pressed="false" style="--x:53%;--y:80%" aria-label="Zbadaj połączenie Percepcja">Percepcja ↗</button>
+<button class="seam" type="button" data-view="attention" aria-pressed="false" style="--x:63%;--y:29%" aria-label="Zbadaj połączenie Widoczność">Widoczność ↗</button>
+<button class="seam" type="button" data-view="truth" aria-pressed="false" style="--x:73%;--y:62%" aria-label="Zbadaj połączenie Prawda aktora">Prawda aktora ↗</button><div class="field-foot"><span>Wybierz miejsce albo relację<br>W tym podglądzie kadr pozostaje lokalny</span><span>Nie jest to topologia kodu<br>Nie jest to aktualny stan</span></div></section><aside class="panel" id="inspector" aria-live="polite" aria-atomic="true"><div class="label" id="kind">Miejsce / oryginalne źródło</div><h2 id="name">Combat Lab</h2><p class="small" id="meta"></p><p class="summary" id="summary"></p><p class="detail-label" id="frame-label"></p><p class="detail" id="detail"></p><p class="risk" id="risk"></p><div class="sourcebox"><div class="detail-label">Dalej, do rzeczywistości projektu</div><div id="source-links"></div><button id="enter-atelier" type="button">Wejdź do źródeł i zbadaj pytanie →</button><p id="source-note"></p></div></aside></main><section class="atelier" id="atelier" aria-label="Atelier prawdziwych dokumentów">
+<header class="atelier-header"><div><div class="label">Atelier źródeł / rzeczywiste badanie</div><h2 id="atelier-title">Przejście między światami</h2><p id="atelier-premise"></p></div><button id="leave-atelier" type="button">↖ Powrót do pola</button></header>
+<div class="pair-picker" role="group" aria-label="Własne zestawienie niezależnych laboratoriów"><div><label for="pair-left">Wybierz świat A</label><select id="pair-left"></select></div><div><label for="pair-right">Wybierz świat B</label><select id="pair-right"></select></div><button id="apply-pair" type="button">Zestaw wybrane ↗</button><p id="pair-feedback" role="status">Możesz porównać dowolne dwa z pięciu publicznych źródeł, także poza narysowanymi połączeniami.</p></div><details class="radar" id="radar"><summary>Odkryj własne połączenie — przeszukaj pięć rzeczywistych światów</summary><p>To dosłowne wyszukiwanie tekstowe w pięciu przypiętych publicznych dokumentach. Zbieżne słowa nie dowodzą pokrewieństwa mechanizmów ani aktualności badań.</p><form id="radar-form"><input type="search" id="radar-query" minlength="2" maxlength="80" placeholder="np. actor, matter, memory, world…" aria-label="Szukany trop"><button type="submit">Szukaj w pięciu źródłach</button></form><p id="radar-status" role="status">Nie przeprowadzono odczytu.</p><div class="radar-list" id="radar-results"></div></details><div class="atelier-tool"><div><label for="trace">Poszukaj wspólnego tropu w obu dokumentach</label><input id="trace" type="search" placeholder="np. actor, matter, contact, perception…" autocomplete="off"></div><span>ODCZYT NA ŻĄDANIE · PRZYPIĘTE SHA<br>BRAK AUTOMATYCZNYCH TWIERDZEŃ O „TERAZ”</span></div>
+<div class="source-duo">
+<article class="source-panel" data-side="left"><div class="label">Źródło A · własna prawda</div><h3 id="left-name"></h3><p id="left-state" class="source-state" role="status">Oczekiwanie</p><details class="frontier" id="left-frontier"><summary>Odkryj aktywne drafty i ich dokumenty ↗</summary><p>Odczyt GitHub API tylko na żądanie. Wersja otwartego PR nie jest automatycznie zweryfikowanym aktualnym stanem całego projektu.</p><button type="button" id="left-frontier-load">Pokaż publiczny frontier PR</button><button type="button" id="left-frontier-reset">Wróć do źródła bazowego</button><p class="frontier-status" id="left-frontier-status" role="status">Nie odczytano.</p><div class="frontier-list" id="left-frontier-list"></div></details><label for="left-search">Wyszukaj w oryginale</label><input id="left-search" type="search"><div id="left-results" class="source-results"></div><pre class="excerpt" tabindex="0" id="left-excerpt">Dokument jeszcze nieodczytany.</pre><div class="freshness"><button type="button" id="left-fresh" disabled>Sprawdź zmiany w ruchomej gałęzi main ↻</button><p id="left-fresh-state" role="status">Najpierw odczytaj przypięty dokument.</p><pre id="left-fresh-detail"></pre><a id="left-fresh-link" href="#" target="_blank" rel="noopener noreferrer">Otwórz ruchome main ↗</a></div><div class="source-actions"><button id="left-pin" type="button" disabled>Przypnij fragment +</button><a id="left-link" href="#" target="_blank" rel="noopener noreferrer">Otwórz źródło ↗</a></div></article>
+<article class="source-panel" data-side="right"><div class="label">Źródło B · własna prawda</div><h3 id="right-name"></h3><p id="right-state" class="source-state" role="status">Oczekiwanie</p><details class="frontier" id="right-frontier"><summary>Odkryj aktywne drafty i ich dokumenty ↗</summary><p>Odczyt GitHub API tylko na żądanie. Wersja otwartego PR nie jest automatycznie zweryfikowanym aktualnym stanem całego projektu.</p><button type="button" id="right-frontier-load">Pokaż publiczny frontier PR</button><button type="button" id="right-frontier-reset">Wróć do źródła bazowego</button><p class="frontier-status" id="right-frontier-status" role="status">Nie odczytano.</p><div class="frontier-list" id="right-frontier-list"></div></details><label for="right-search">Wyszukaj w oryginale</label><input id="right-search" type="search"><div id="right-results" class="source-results"></div><pre class="excerpt" tabindex="0" id="right-excerpt">Dokument jeszcze nieodczytany.</pre><div class="freshness"><button type="button" id="right-fresh" disabled>Sprawdź zmiany w ruchomej gałęzi main ↻</button><p id="right-fresh-state" role="status">Najpierw odczytaj przypięty dokument.</p><pre id="right-fresh-detail"></pre><a id="right-fresh-link" href="#" target="_blank" rel="noopener noreferrer">Otwórz ruchome main ↗</a></div><div class="source-actions"><button id="right-pin" type="button" disabled>Przypnij fragment +</button><a id="right-link" href="#" target="_blank" rel="noopener noreferrer">Otwórz źródło ↗</a></div></article>
+</div>
+<section class="journal" aria-label="Roboczy notatnik badawczy"><div><div class="label">Zebrane ślady</div><h3>Co udało się znaleźć?</h3><p>Wybierz fragmenty prawdziwych źródeł, nie wygenerowane streszczenia.</p><div id="clip-list" class="clip-list" aria-live="polite"><p>Na razie niczego nie przypięto.</p></div></div>
+<div><label for="own-note">Twoja hipoteza lub pytanie</label><textarea id="own-note" placeholder="Co może połączyć te dwa źródła — i jak moglibyśmy to obalić?"></textarea><button id="make-note" type="button">Zbuduj zapis badania</button><button id="copy-note" type="button">Kopiuj</button><textarea id="export-text" readonly aria-label="Zapis do przeniesienia do rozmowy z agentem" placeholder="Tutaj pojawi się notatka z prawdziwymi odnośnikami do fragmentów."></textarea><p id="note-status" role="status">Nic nie jest publikowane ani wysyłane.</p></div></section>
+<p class="atelier-foot">Stan tej sesji jest ulotny: brak konta, sekretów, automatycznego zapisu i backendu. Jeżeli odczyt źródła nie zadziała, masz jego natywny link. Brak odczytu nie oznacza braku dokumentu. Zapis nie jest decyzją projektową ani dowodem potwierdzonej integracji.</p>
+</section><section class="notes"><article><div class="label">01 / eksploracja</div><h3>Połączenie jest pytaniem</h3><p>Pokrewna idea nie oznacza zgodnego kodu ani donora. Sprawdź dwa źródła, zanim przeniesiesz wniosek.</p></article><article><div class="label">02 / dwa zegary</div><h3>Odczyt ≠ teraz</h3><p>Snapshot wskazuje konkretną wersję; ruchomy link wymaga ponownej weryfikacji. Żaden nie nadaje produktowego PASS.</p></article><article><div class="label">03 / suwerenność uwagi</div><h3>Możesz wyjść</h3><p>Bez licznika powiadomień, rankingu i obowiązkowej nawigacji. Świat ma pomagać wtedy, gdy rzeczywiście jest potrzebny.</p></article></section><footer class="footer"><div><strong>Eksperyment World / pole możliwości</strong><p>Scena kuratorska, pięć publicznych źródeł. Brak fetch, logowania, zapisów, sekretów i automatycznej synchronizacji. Nie jest to zatwierdzona wizja artystyczna ani produkt.</p></div><nav aria-label="Natywne wejścia do laboratoriów"><a href="https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/main/docs/RESEARCH_STATE.md" rel="noopener noreferrer" target="_blank">Medium</a><a href="https://github.com/Jozzpoly/Combat-Lab/blob/main/docs/RESEARCH_STATE.md" rel="noopener noreferrer" target="_blank">Combat Lab</a><a href="https://github.com/Jozzpoly/FrameMatter-Lab/blob/main/README.md" rel="noopener noreferrer" target="_blank">FrameMatter</a><a href="https://github.com/Jozzpoly/ReflexBrain-Lab/blob/main/README.md" rel="noopener noreferrer" target="_blank">ReflexBrain</a><a href="https://github.com/Jozzpoly/Llm-Live-NPC/blob/main/docs/PROJECT_STATE.md" rel="noopener noreferrer" target="_blank">LLM Live NPC</a></nav></footer><noscript>Interaktywna scena wymaga JavaScript. Powyższe natywne odnośniki do źródeł działają bez niego.</noscript></div><script>(()=>{'use strict';const model={"medium":{"name":"Medium","meta":"Wspólna uwaga","summary":"Nie kolejny menedżer pracy, lecz środowisko, w którym różne umysły odkrywają i wykorzystują nowe możliwości.","worlds":"Źródłowa różnorodność jest ważniejsza niż jeden globalny model stanu.","bridges":"Źródłowa różnorodność jest ważniejsza niż jeden globalny model stanu.","limits":"Wcześniejsza ludzka wersja Medium otrzymała Owner FAIL; techniczne sukcesy nie oznaczają jego odwołania.","risk":"Wcześniejsza ludzka wersja Medium otrzymała Owner FAIL; techniczne sukcesy nie oznaczają jego odwołania.","repo":"Shared-Work-Medium-Lab","path":"docs/RESEARCH_STATE.md","sha":"77fef7dd2bd7d2c58d26de0bb738f042fe12eb72","kind":"world"},"combat":{"name":"Combat Lab","meta":"Ciało i nacisk","summary":"Jak sprawić, żeby fizyczne spotkania i zmiany materii otwierały nowe działania, zamiast być tylko animowanym pokazem?","worlds":"P0 wykazał materialną zmianę przejazdu przez bramę po wcześniejszej interwencji aktora.","bridges":"P0 wykazał materialną zmianę przejazdu przez bramę po wcześniejszej interwencji aktora.","limits":"Prosty otwieracz osiągnął ten sam wynik: nie udowodniono przewagi złożonej anatomii ani Owner PASS.","risk":"Prosty otwieracz osiągnął ten sam wynik: nie udowodniono przewagi złożonej anatomii ani Owner PASS.","repo":"Combat-Lab","path":"docs/RESEARCH_STATE.md","sha":"c96c7535b35de62d410899713522c869dd0c3ac4","kind":"world"},"matter":{"name":"FrameMatter","meta":"Materia i rama","summary":"Czy logiczna materia może przechodzić między światem statycznym i ruchomym, zachowując własną tożsamość?","worlds":"Udowodniono ograniczone przejścia reprezentacji i edycję materii podczas ruchu.","bridges":"Udowodniono ograniczone przejścia reprezentacji i edycję materii podczas ruchu.","limits":"Pierwszy test Ownera ujawnił duży opór interakcji; P0.5 nie jest produktowym PASS.","risk":"Pierwszy test Ownera ujawnił duży opór interakcji; P0.5 nie jest produktowym PASS.","repo":"FrameMatter-Lab","path":"README.md","sha":"34e5a290c0e2315999ec76403ab731df196299db","kind":"world"},"reflex":{"name":"ReflexBrain","meta":"Doświadczenie aktora","summary":"Czy tani, lokalny organ nauczy się użytecznego znaczenia z prywatnego doświadczenia trwającego aktora?","worlds":"Percepcja aktora nie jest wszechwiedzącą prawdą świata ani gotowym sterownikiem.","bridges":"Percepcja aktora nie jest wszechwiedzącą prawdą świata ani gotowym sterownikiem.","limits":"Główne repo na main jest historyczną bazą R0; bieżąca kampania żyje na osobnej gałęzi.","risk":"Główne repo na main jest historyczną bazą R0; bieżąca kampania żyje na osobnej gałęzi.","repo":"ReflexBrain-Lab","path":"README.md","sha":"75b95725292fb73d9c8e322bce05bd285aeec237","kind":"world"},"npc":{"name":"LLM Live NPC","meta":"Mieszkaniec świata","summary":"Czy agent z ograniczoną percepcją może naprawdę żyć w świecie i działać wyłącznie przez jego możliwości?","worlds":"Transport modeli i infrastruktura P0 są kwalifikowane, a własny świat P1 pozostaje odrębnym krokiem.","bridges":"Transport modeli i infrastruktura P0 są kwalifikowane, a własny świat P1 pozostaje odrębnym krokiem.","limits":"Kwalifikacja API/modelu nie jest dowodem wiarygodnego mieszkańca ani dobrego gameplayu.","risk":"Kwalifikacja API/modelu nie jest dowodem wiarygodnego mieszkańca ani dobrego gameplayu.","repo":"Llm-Live-NPC","path":"docs/PROJECT_STATE.md","sha":"f207419ee87c03979544d2d579e624f043300bbc","kind":"world"},"material":{"name":"Zmiana fizycznych możliwości","meta":"combat × matter / hipoteza","summary":"Combat bada bramę zmienianą działaniem wcześniejszego aktora; FrameMatter broni tożsamości materii mimo zmiany jej reprezentacji.","worlds":"Combat bada bramę zmienianą działaniem wcześniejszego aktora; FrameMatter broni tożsamości materii mimo zmiany jej reprezentacji.","bridges":"Potencjalna droga: Combat bada bramę zmienianą działaniem wcześniejszego aktora; FrameMatter broni tożsamości materii mimo zmiany jej reprezentacji.","limits":"Nie ma potwierdzonej kompatybilności ich kodu ani unikalnej przewagi skomplikowanego ciała.","risk":"Nie ma potwierdzonej kompatybilności ich kodu ani unikalnej przewagi skomplikowanego ciała.","from":"combat","to":"matter","kind":"seam"},"body":{"name":"Fizyka kontra wiedza aktora","meta":"combat × reflex / hipoteza","summary":"Żądany ruch, kontakt i rzeczywiste przesunięcie są innymi obserwacjami niż subiektywna interpretacja zatrzymania przez organ.","worlds":"Żądany ruch, kontakt i rzeczywiste przesunięcie są innymi obserwacjami niż subiektywna interpretacja zatrzymania przez organ.","bridges":"Potencjalna droga: Żądany ruch, kontakt i rzeczywiste przesunięcie są innymi obserwacjami niż subiektywna interpretacja zatrzymania przez organ.","limits":"Mechaniczne zatrzymanie nie dowodzi, co aktor wiedział o przyczynie.","risk":"Mechaniczne zatrzymanie nie dowodzi, co aktor wiedział o przyczynie.","from":"combat","to":"reflex","kind":"seam"},"perception":{"name":"Świat widziany przez mieszkańca","meta":"reflex × npc / hipoteza","summary":"Oba laboratoria badają ograniczone poznanie ciągłego aktora, ale innymi mechanizmami i na odrębnych podłożach.","worlds":"Oba laboratoria badają ograniczone poznanie ciągłego aktora, ale innymi mechanizmami i na odrębnych podłożach.","bridges":"Potencjalna droga: Oba laboratoria badają ograniczone poznanie ciągłego aktora, ale innymi mechanizmami i na odrębnych podłożach.","limits":"Wspólny problem nie oznacza wybranego wspólnego mózgu.","risk":"Wspólny problem nie oznacza wybranego wspólnego mózgu.","from":"reflex","to":"npc","kind":"seam"},"attention":{"name":"To, co system potrafi, i to, co widać","meta":"medium × matter / hipoteza","summary":"FrameMatter zbudował prawdziwy mechanizm, którego pierwsze doświadczenie było ograniczone przez kamerę i interakcję. Medium bada drogę do odkrywania możliwości.","worlds":"FrameMatter zbudował prawdziwy mechanizm, którego pierwsze doświadczenie było ograniczone przez kamerę i interakcję. Medium bada drogę do odkrywania możliwości.","bridges":"Potencjalna droga: FrameMatter zbudował prawdziwy mechanizm, którego pierwsze doświadczenie było ograniczone przez kamerę i interakcję. Medium bada drogę do odkrywania możliwości.","limits":"Lepszy interfejs nie dowodzi lepszej fizyki ani zaakceptowanego produktu.","risk":"Lepszy interfejs nie dowodzi lepszej fizyki ani zaakceptowanego produktu.","from":"medium","to":"matter","kind":"seam"},"truth":{"name":"Zależność od niezależnego świata","meta":"matter × npc / hipoteza","summary":"Logiczna tożsamość materii oraz wiedza NPC wymagają rozdzielenia prawdy środowiska od reprezentacji aktora.","worlds":"Logiczna tożsamość materii oraz wiedza NPC wymagają rozdzielenia prawdy środowiska od reprezentacji aktora.","bridges":"Potencjalna droga: Logiczna tożsamość materii oraz wiedza NPC wymagają rozdzielenia prawdy środowiska od reprezentacji aktora.","limits":"To pytanie badawcze, nie gotowa integracja FrameMatter × LLM Live NPC.","risk":"To pytanie badawcze, nie gotowa integracja FrameMatter × LLM Live NPC.","from":"matter","to":"npc","kind":"seam"}};const lenses={worlds:'Co jest tu możliwe?',bridges:'Co można odkryć pomiędzy?',limits:'Czego nie wolno uprościć?'};const ids=Object.keys(model);const d={kind:document.getElementById('kind'),name:document.getElementById('name'),meta:document.getElementById('meta'),summary:document.getElementById('summary'),label:document.getElementById('frame-label'),detail:document.getElementById('detail'),risk:document.getElementById('risk'),links:document.getElementById('source-links'),note:document.getElementById('source-note')};let state={view:'combat',lens:'worlds'};function anchor(name,url){const a=document.createElement('a');a.textContent=name;a.href=url;a.rel='noopener noreferrer';a.target='_blank';return a;}function href(id,pinned){const x=model[id];return 'https://github.com/Jozzpoly/'+x.repo+'/blob/'+(pinned?x.sha:'main')+'/'+x.path;}function render(){const x=model[state.view];d.kind.textContent=x.kind==='world'?'Miejsce / suwerenne źródło':'Przejście / niepotwierdzona analogia';d.name.textContent=x.name;d.meta.textContent=x.meta+' · obserwacja 11.10.2026';d.summary.textContent=x.summary;d.label.textContent=lenses[state.lens];d.detail.textContent=x[state.lens];d.risk.textContent=x.risk;d.links.replaceChildren();if(x.kind==='world'){d.links.append(anchor('Snapshot źródła · '+x.sha.slice(0,9),href(state.view,true)),anchor('Ruchome wejście · sprawdź stan',state.view==='reflex'?'https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/pre-o0-foundations-campaign/docs/CONTINUE_HERE.md':href(state.view,false)));d.note.textContent='Wersja odczytana nie musi być aktualna. Ruchome źródło nie jest niezmiennym dowodem.';}else{d.links.append(anchor(model[x.from].name+' · snapshot',href(x.from,true)),anchor(model[x.to].name+' · snapshot',href(x.to,true)));if(state.view==='body'){d.links.append(anchor('Zapis nowego badania: Combat × ReflexBrain (hipoteza)',"https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/76e96713861f9bb4effcd3067815e341edab09a8/experiments/world-question-constellation-2026-10-11/RESEARCH_CASE_LIVE_CONTACT_2026-10-11.md"));}d.note.textContent='Dwa niezależne źródła. Relacja jest hipotezą autora sceny, nie zaakceptowaną integracją.';}document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===state.view)));document.querySelectorAll('[data-lens]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lens===state.lens)));document.getElementById('map').dataset.lens=state.lens;}function choose(next){state={...state,...next};render();const hash='#view='+encodeURIComponent(state.view)+'&lens='+encodeURIComponent(state.lens);if(location.hash!==hash)history.replaceState(null,'',hash);}function restore(){const p=new URLSearchParams(location.hash.slice(1));state.view=ids.includes(p.get('view'))?p.get('view'):'combat';state.lens=Object.hasOwn(lenses,p.get('lens'))?p.get('lens'):'worlds';render();}document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>choose({view:b.dataset.view})));document.querySelectorAll('[data-lens]').forEach(b=>b.addEventListener('click',()=>choose({lens:b.dataset.lens})));addEventListener('hashchange',restore);restore();
+
+/* Real-source Atelier: an investigation, not a static description of one. */
+const worldRoot=document.querySelector('.wrap'),clips=[],panels={};
+let activeRelation='material',loadSequence=0,customPair=false;let activePair={left:'combat',right:'matter'};
+for(const side of ['left','right']){
+ panels[side]={
+  name:document.getElementById(side+'-name'),state:document.getElementById(side+'-state'),
+  search:document.getElementById(side+'-search'),results:document.getElementById(side+'-results'),
+  excerpt:document.getElementById(side+'-excerpt'),pin:document.getElementById(side+'-pin'),
+  link:document.getElementById(side+'-link'),entry:null,lines:null,line:0,readTicket:0,frontierTicket:0,baseEntry:null
+ };
+}
+function rawLink(e){
+ if(!/^[a-f0-9]{40}$/.test(e.sha)||!/^[A-Za-z0-9-]+$/.test(e.repo)||!/^(?:README\.md|docs\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.md)$/.test(e.path))throw Error('Niezweryfikowane źródło');
+ return 'https://raw.githubusercontent.com/Jozzpoly/'+e.repo+'/'+e.sha+'/'+e.path;
+}
+function pinnedLink(e,line){
+ return 'https://github.com/Jozzpoly/'+e.repo+'/blob/'+e.sha+'/'+e.path+(line?'#L'+line:'');
+}
+function headingLocations(lines){
+ const result=[];let fence=null;
+ const tick=String.fromCharCode(96),tickFence=new RegExp('^ {0,3}('+tick+'{3,})(.*)$');
+ lines.forEach((l,i)=>{
+  const m=l.match(/^ {0,3}(~{3,})(.*)$/)||l.match(tickFence);
+  if(m){
+   if(fence){if(m[1][0]===fence[0]&&m[1].length>=fence[1]&&!m[2].trim())fence=null;}
+   else if(!(m[1][0]===tick&&m[2].includes(tick)))fence=[m[1][0],m[1].length];
+   return;
+  }
+  if(!fence&&/^#{1,3}\s+\S/.test(l))result.push(i);
+ });
+ return result;
+}
+function searchLocations(lines,phrase){
+ const q=phrase.trim().toLocaleLowerCase();
+ if(!q)return headingLocations(lines).slice(0,35);
+ const found=[];
+ for(let i=0;i<lines.length&&found.length<35;i++)if(lines[i].toLocaleLowerCase().includes(q))found.push(i);
+ return found;
+}
+function excerptAt(side){
+ const p=panels[side];if(!p.lines)return;
+ const start=Math.max(0,p.line-2),end=Math.min(p.lines.length,p.line+16);
+ p.excerpt.textContent=p.lines.slice(start,end).map((s,i)=>String(start+i+1).padStart(4,' ')+' │ '+s).join('\n');
+ p.pin.disabled=false;p.link.href=pinnedLink(p.entry,p.line+1);p.link.textContent='Oryginał · L'+(p.line+1)+' ↗';
+}
+function resultsFor(side){
+ const p=panels[side];p.results.replaceChildren();if(!p.lines)return;
+ const matches=searchLocations(p.lines,p.search.value);
+ if(!matches.length){const node=document.createElement('p');node.textContent='Brak trafień w odczytanym dokumencie.';p.results.append(node);p.excerpt.textContent='Nie znaleziono wskazanego tropu. Żaden nowy fragment nie został wybrany.';p.pin.disabled=true;return;}
+ if(!matches.includes(p.line))p.line=matches[0];
+ for(const i of matches){
+  const btn=document.createElement('button');btn.type='button';
+  btn.textContent='L'+(i+1)+' · '+(p.lines[i].trim().slice(0,140)||'[pusta linia]');
+  btn.setAttribute('aria-pressed',String(p.line===i));
+  btn.addEventListener('click',()=>{p.line=i;resultsFor(side);excerptAt(side);});
+  p.results.append(btn);
+ }
+ excerptAt(side);
+}
+async function sourceRead(side,entry,generation){
+ const p=panels[side];const ticket=++p.readTicket;p.entry=entry;p.lines=null;p.line=0;p.name.textContent=entry.name;
+ p.state.dataset.error='false';p.state.textContent='Pobieranie @'+entry.sha.slice(0,10)+'…';p.pin.disabled=true;
+ p.search.value='';p.results.replaceChildren();p.excerpt.textContent='Czekam na oryginalny dokument…';
+ p.link.href=pinnedLink(entry);p.link.textContent='Otwórz oryginał ↗';
+ document.getElementById(side+'-fresh-link').href='https://github.com/Jozzpoly/'+entry.repo+'/blob/main/'+entry.path;
+ document.getElementById(side+'-fresh').disabled=true;
+ document.getElementById(side+'-fresh-state').textContent='Najpierw odczytaj przypięty dokument.';
+ document.getElementById(side+'-fresh-detail').textContent='';
+ const controller=new AbortController(),clock=setTimeout(()=>controller.abort(),15000);
+ try{
+  const r=await fetch(rawLink(entry),{signal:controller.signal,cache:'no-store'});
+  if(!r.ok)throw Error('HTTP '+r.status);
+  const content=await r.text();
+  if(content.length>350000)throw Error('Dokument przekracza limit 350 kB');
+  if(generation!==loadSequence||ticket!==p.readTicket)return;
+  p.lines=content.replace(/\r\n?/g,'\n').split('\n');
+  p.state.textContent='ODCZYTANO · '+entry.sha.slice(0,10)+' · '+p.lines.length+' linii';
+  document.getElementById(side+'-fresh').disabled=false;
+  document.getElementById(side+'-fresh-state').textContent='Możesz ręcznie sprawdzić, czy ruchome main zwraca inny tekst.';
+  resultsFor(side);
+ }catch(error){
+  if(generation!==loadSequence||ticket!==p.readTicket)return;
+  p.state.dataset.error='true';
+  p.state.textContent='BRAK ODCZYTU · '+(error.name==='AbortError'?'limit 15 s':error.message);
+  p.excerpt.textContent='Nie można pracować na niepobranym źródle. Zachowano odnośnik do oryginału. Brak odpowiedzi nie oznacza braku danych.';
+ }finally{clearTimeout(clock);}
+}
+function renderClips(){
+ const host=document.getElementById('clip-list');host.replaceChildren();
+ if(!clips.length){const p=document.createElement('p');p.textContent='Na razie niczego nie przypięto.';host.append(p);return;}
+ clips.forEach((c,i)=>{
+  const card=document.createElement('div');card.className='clip';
+  const label=document.createElement('strong');label.textContent=c.name+' · L'+c.line+' · @'+c.sha.slice(0,9);
+  const body=document.createElement('p');body.textContent=c.excerpt.slice(0,280);
+  const remove=document.createElement('button');remove.type='button';remove.textContent='Usuń';
+  remove.addEventListener('click',()=>{clips.splice(i,1);renderClips();});
+  card.append(label,body,remove);host.append(card);
+ });
+}
+function pinExcerpt(side){
+ const p=panels[side];if(!p.lines)return;
+ const key=p.entry.repo+':'+p.entry.sha+':'+p.line;
+ if(clips.some(x=>x.key===key))return;
+ clips.push({key,name:p.entry.name,repo:p.entry.repo,sha:p.entry.sha,path:p.entry.path,line:p.line+1,
+  excerpt:p.lines.slice(p.line,p.line+5).join('\n').slice(0,1000)});
+ if(clips.length>10)clips.shift();
+ renderClips();
+}
+function exportObservation(){
+ const edge=customPair?{name:model[activePair.left].name+' ↔ '+model[activePair.right].name,summary:'Uczestnik zestawił źródła samodzielnie. Nie przypisano im uprzednio relacji ani wspólnej architektury.'}:model[activeRelation],note=document.getElementById('own-note').value.trim().slice(0,1200);
+ const out=['# Medium World — roboczy zapis badania','','Pytanie: '+edge.name,'','Hipoteza Medium (nie zweryfikowany fakt): '+edge.summary,'',
+  'Odczyt aktualnie wybranej pary: A '+(panels.left.lines?'POTWIERDZONY':'BRAK')+' / B '+(panels.right.lines?'POTWIERDZONY':'BRAK')+'. Ślady zawierają tylko fragmenty rzeczywiście odczytanych dokumentów; odnośniki wskazują przypięte rewizje.','','## Ślady'];
+ if(!clips.length)out.push('Nie wybrano żadnych śladów; nic nie zostało dowiedzione.');
+ for(const c of clips){
+  out.push('', '**'+c.name+'** / '+c.repo+' @ '+c.sha+' / [L'+c.line+']('+pinnedLink(c,c.line)+')','');
+  out.push(c.excerpt.split('\n').map(x=>'> '+x.slice(0,240)).join('\n'));
+ }
+ out.push('','## Hipoteza albo pytanie uczestnika',note||'Brak.','','## Granice','Zebrane ślady są fragmentami określonych wersji dokumentów. Mogą być historyczne. Relacja i jej użyteczność nie są zatwierdzone. Żadne repozytorium ani usługa nie zostały zmienione.');
+ const result=out.join('\n');
+ document.getElementById('export-text').value=result;
+ document.getElementById('note-status').textContent='Przygotowano lokalny zapis · '+clips.length+' fragmentów; nic nie wysłano.';
+ return result;
+}
+function enterAtelier(){
+ const here=model[state.view],rel=here.kind==='seam'?state.view:Object.keys(model).find(id=>model[id].kind==='seam'&&(model[id].from===state.view||model[id].to===state.view));
+ if(!rel)return;
+ activeRelation=rel;customPair=false;const edge=model[rel];activePair={left:edge.from,right:edge.to};document.getElementById('pair-left').value=edge.from;document.getElementById('pair-right').value=edge.to;document.getElementById('pair-feedback').textContent='Początkowa relacja jest hipotezą autora mapy; możesz wybrać własną parę.';worldRoot.dataset.mode='atelier';
+ document.getElementById('atelier-title').textContent=edge.name;
+ document.getElementById('atelier-premise').textContent=edge.summary;
+ clips.splice(0);renderClips();
+ document.getElementById('trace').value='';document.getElementById('export-text').value='';
+ document.getElementById('note-status').textContent='Dokumenty odczytywane na żądanie. Brak automatycznego zapisu.';
+ const gen=++loadSequence;
+ Promise.all([sourceRead('left',model[edge.from],gen),sourceRead('right',model[edge.to],gen)]);
+ document.getElementById('atelier').scrollIntoView({block:'start',behavior:'instant'});
+}
+document.getElementById('enter-atelier').addEventListener('click',enterAtelier);
+document.getElementById('leave-atelier').addEventListener('click',()=>{
+ loadSequence++;worldRoot.dataset.mode='world';document.querySelector('.experience').scrollIntoView({block:'start',behavior:'instant'});
+});
+for(const side of ['left','right']){
+ const p=panels[side];p.search.addEventListener('input',()=>resultsFor(side));p.pin.addEventListener('click',()=>pinExcerpt(side));
+}
+document.getElementById('trace').addEventListener('input',e=>{
+ for(const side of ['left','right']){panels[side].search.value=e.target.value;resultsFor(side);}
+});
+document.getElementById('make-note').addEventListener('click',exportObservation);
+document.getElementById('copy-note').addEventListener('click',async()=>{
+ const result=exportObservation();
+ try{await navigator.clipboard.writeText(result);document.getElementById('note-status').textContent='Skopiowano — możesz przekazać zapis wybranemu agentowi.';}
+ catch{const input=document.getElementById('export-text');input.focus();input.select();document.getElementById('note-status').textContent='Schowek niedostępny — zaznaczono tekst do ręcznego skopiowania.';}
+});
+
+
+/* On-demand source drift observation; moving main is NOT a versioned truth receipt. */
+async function sampleMovingMain(side){
+ const p=panels[side];if(!p.lines)return;
+ const status=document.getElementById(side+'-fresh-state');
+ const detail=document.getElementById(side+'-fresh-detail');
+ const button=document.getElementById(side+'-fresh');
+ const generation=loadSequence;
+ const entry=p.entry;
+ button.disabled=true;status.textContent='Sprawdzam ruchome main…';detail.textContent='';
+ const controller=new AbortController(),clock=setTimeout(()=>controller.abort(),12000);
+ try{
+  const url='https://raw.githubusercontent.com/Jozzpoly/'+entry.repo+'/main/'+entry.path;
+  const response=await fetch(url,{cache:'no-store',signal:controller.signal});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const text=await response.text();
+  if(text.length>350000)throw Error('Przekroczono limit pliku');
+  if(generation!==loadSequence)return;
+  const current=text.replace(/\r\n?/g,'\n').split('\n');
+  const old=p.lines;
+  if(current.join('\n')===old.join('\n')){
+    status.textContent='ZGODNA TREŚĆ PO NORMALIZACJI KOŃCÓW LINII · odczyt main ('+new Date().toLocaleTimeString('pl-PL')+') · rewizja Git nieznana';
+    detail.textContent='Zbieżność tekstu po normalizacji końców linii nie gwarantuje identycznych bajtów, najnowszego HEAD ani aktywnej gałęzi badań.';
+  }else{
+    const oldSet=new Set(old);
+    const additions=current.filter(line=>line.trim()&&!oldSet.has(line));
+    const newPreview=additions.slice(0,4);
+    status.textContent='RÓŻNE DOKUMENTY · main może być późniejszy lub wcześniej zcacheowany · rewizja Git nieznana';
+    detail.textContent='Przykładowe linie obecne w odczycie main, nieobecne w przypiętym dokumencie:\n'+
+      (newPreview.length?newPreview.map(s=>'• '+s.slice(0,160)).join('\n'):'Nie znaleziono nowych unikalnych linii; różnią się np. powtórzenia, usunięcia albo kolejność.')+
+      '\nTo nie jest kompletny diff ani dowód aktualności.';
+  }
+ }catch(error){
+  if(generation!==loadSequence)return;
+  status.textContent='BRAK ODCZYTU moving main · '+(error.name==='AbortError'?'limit 12 s':error.message);
+  detail.textContent='Nie wyciągamy wniosku o stanie repozytorium z nieudanego odczytu.';
+ }finally{clearTimeout(clock);if(generation===loadSequence)button.disabled=false;}
+}
+for(const side of ['left','right']){
+ document.getElementById(side+'-fresh').addEventListener('click',()=>sampleMovingMain(side));
+}
+
+
+/* Free composition: source pairing is no longer limited to the five authored graph edges. */
+for(const side of ['left','right']){
+ const field=document.getElementById('pair-'+side);
+ for(const [id,entry] of Object.entries(model)){
+  if(entry.kind!=='world')continue;
+  const option=document.createElement('option');option.value=id;option.textContent=entry.name;field.append(option);
+ }
+}
+document.getElementById('apply-pair').addEventListener('click',()=>{
+ const a=document.getElementById('pair-left').value,b=document.getElementById('pair-right').value;
+ const feedback=document.getElementById('pair-feedback');
+ if(a===b){feedback.textContent='Wybierz dwa różne laboratoria; oba dokumenty nie mogą być tym samym źródłem.';return;}
+ if(model[a]?.kind!=='world'||model[b]?.kind!=='world'){feedback.textContent='Nieznany projekt. Niczego nie pobrano.';return;}
+ customPair=true;activePair={left:a,right:b};
+ document.getElementById('atelier-title').textContent=model[a].name+' ↔ '+model[b].name;
+ document.getElementById('atelier-premise').textContent='To Twoje własne zestawienie. Medium nie przypisuje mu gotowej interpretacji. Szukaj w prawdziwych źródłach i sam zdecyduj, czy istnieje interesująca relacja.';
+ feedback.textContent='Własne zestawienie · dotychczasowe przypięte ślady pozostają w notatniku.';
+ const gen=++loadSequence;
+ Promise.all([sourceRead('left',model[a],gen),sourceRead('right',model[b],gen)]);
+});
+
+
+/* Opt-in lexical radar: public exact-revision documents, no semantic synthesis or automatic polling. */
+const radarCache=new Map();let radarEpoch=0;
+document.getElementById('radar-form').addEventListener('submit',async event=>{
+ event.preventDefault();
+ const phrase=document.getElementById('radar-query').value.trim().toLocaleLowerCase().slice(0,80);
+ const status=document.getElementById('radar-status'),host=document.getElementById('radar-results');
+ if(phrase.length<2){status.textContent='Podaj przynajmniej dwa znaki; niczego nie pobrano.';return;}
+ const token=++radarEpoch;host.replaceChildren();status.textContent='Przeszukuję pięć przypiętych publicznych dokumentów…';
+ const worlds=Object.entries(model).filter(([,entry])=>entry.kind==='world');
+ let missing=0,total=0;
+ await Promise.all(worlds.map(async([id,entry])=>{
+  try{
+   let lines=radarCache.get(id);
+   if(!lines){
+    const controller=new AbortController(),clock=setTimeout(()=>controller.abort(),12000);
+    try{
+     const response=await fetch(rawLink(entry),{cache:'no-store',signal:controller.signal});
+     if(!response.ok)throw Error('HTTP '+response.status);
+     const content=await response.text();
+     if(content.length>350000)throw Error('zbyt duży plik');
+     lines=content.replace(/\r\n?/g,'\n').split('\n');
+     radarCache.set(id,lines);
+    }finally{clearTimeout(clock);}
+   }
+   if(token!==radarEpoch)return;
+   const hits=lines.flatMap((l,i)=>l.toLocaleLowerCase().includes(phrase)?[{line:i+1,text:l.trim().slice(0,175)}]:[]);
+   total+=hits.length;
+   const card=document.createElement('div');card.className='radar-item';
+   const title=document.createElement('strong');title.textContent=entry.name+' · '+hits.length+' trafień';
+   card.append(title);
+   if(hits.length){
+    const detail=document.createElement('code');detail.textContent='L'+hits[0].line+' · '+hits[0].text;card.append(detail);
+   }else{
+    const detail=document.createElement('code');detail.textContent='Brak dosłownego trafienia w tym dokumencie.';card.append(detail);
+   }
+   for(const side of ['left','right']){
+    const pick=document.createElement('button');pick.type='button';pick.textContent='Wybierz jako '+(side==='left'?'A':'B');
+    pick.addEventListener('click',()=>{
+     document.getElementById('pair-'+side).value=id;
+     document.getElementById('pair-feedback').textContent='Wybrano '+entry.name+' jako '+(side==='left'?'A':'B')+'. Użyj „Zestaw wybrane”, aby otworzyć te dokumenty.';
+    });
+    card.append(pick);
+   }
+   host.append(card);
+  }catch(e){missing++;if(token===radarEpoch){const card=document.createElement('div');card.className='radar-item';card.textContent=entry.name+': NIE ODCZYTANO ('+e.message+'). Brak wyniku nie oznacza braku danych.';host.append(card);}}
+ }));
+ if(token===radarEpoch){
+  status.textContent='Zakończono próbę: '+(5-missing)+'/5 odczytanych dokumentów, '+total+' dosłownych trafień. Trafienia nie są rankingiem wartości ani dowodem wspólnej architektury.';
+ }
+});
+
+
+/* Frontier is a live PR observation, never a source-of-truth replacement.
+   Only public GitHub GET is allowed; a selected changed Markdown file is
+   always re-read by immutable PR head SHA through the existing source reader. */
+const frontierHeaders={Accept:'application/vnd.github+json'};
+function frontierRepo(e){
+ const repos=new Set(Object.values(model).filter(x=>x.kind==='world').map(x=>x.repo));
+ if(!e||!repos.has(e.repo))throw Error('Niedozwolony obcy projekt');
+ return e.repo;
+}
+async function githubPublicJson(url){
+ if(!/^https:\/\/api\.github\.com\/repos\/Jozzpoly\/[A-Za-z0-9-]+\/pulls(?:\?state=open&per_page=15|\/[0-9]+(?:\/files\?per_page=100)?)$/.test(url))
+   throw Error('GitHub API poza dopuszczonym zakresem');
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+ try{
+  const response=await fetch(url,{headers:frontierHeaders,signal:controller.signal,cache:'no-store'});
+  if(!response.ok)throw Error('GitHub HTTP '+response.status);
+  return await response.json();
+ }finally{clearTimeout(timer);}
+}
+function renderFrontierStatus(side,value,error=false){
+ const e=document.getElementById(side+'-frontier-status');e.textContent=value;e.dataset.error=String(error);
+}
+async function scanFrontier(side){
+ const p=panels[side],view=p.entry;
+ if(!view)return;
+ const repo=frontierRepo(view),token=++p.frontierTicket;
+ const host=document.getElementById(side+'-frontier-list');host.replaceChildren();
+ renderFrontierStatus(side,'Odczytuję publiczne otwarte PR-y; obserwacja na żądanie…');
+ try{
+  const items=await githubPublicJson('https://api.github.com/repos/Jozzpoly/'+repo+'/pulls?state=open&per_page=15');
+  if(token!==p.frontierTicket||frontierRepo(p.entry)!==repo)return;
+  if(!Array.isArray(items))throw Error('Nieoczekiwana odpowiedź GitHub');
+  const candidates=items.filter(x=>Number.isInteger(x.number)&&/^[a-f0-9]{40}$/.test(x.head?.sha||'')&&typeof x.title==='string').slice(0,8);
+  p.frontierRepo=repo;
+  renderFrontierStatus(side,'Odczyt '+new Date().toLocaleTimeString('pl-PL')+
+    ' · pierwsze '+candidates.length+' z '+items.length+' zwróconych otwartych PR · limity i paginacja mogą ukrywać inne.');
+  if(!candidates.length){host.textContent='Brak zakwalifikowanych otwartych PR w tej odpowiedzi; nie oznacza braku bieżącej pracy.';return;}
+  for(const item of candidates){
+   const card=document.createElement('div');card.className='frontier-item';
+   const title=document.createElement('strong');title.textContent='#'+item.number+' '+item.title.slice(0,160);
+   const meta=document.createElement('code');meta.textContent='HEAD @'+item.head.sha.slice(0,10)+(item.draft?' · draft':'')+' · aktualizacja '+String(item.updated_at||'nieznana').slice(0,16);
+   const choose=document.createElement('button');choose.type='button';choose.textContent='Sprawdź dokumenty tego PR ↘';
+   choose.addEventListener('click',()=>openFrontierDocuments(side,repo,item,card));
+   const native=document.createElement('a');native.href='https://github.com/Jozzpoly/'+repo+'/pull/'+item.number;
+   native.rel='noopener noreferrer';native.target='_blank';native.textContent='Otwórz PR na GitHub ↗';
+   card.append(title,meta,choose,document.createTextNode(' '),native);host.append(card);
+  }
+ }catch(e){
+  if(token!==p.frontierTicket)return;
+  renderFrontierStatus(side,'NIEZWERYFIKOWANE · '+(e.name==='AbortError'?'limit czasu':e.message)+'. Otwórz PR-y bezpośrednio na GitHub.',true);
+  const link=document.createElement('a');link.href='https://github.com/Jozzpoly/'+repo+'/pulls';
+  link.rel='noopener noreferrer';link.target='_blank';link.textContent='Natywna lista PR ↗';host.replaceChildren(link);
+ }
+}
+async function openFrontierDocuments(side,repo,item,card){
+ const p=panels[side],token=++p.frontierTicket;
+ const old=card.querySelector('.frontier-files');if(old)old.remove();
+ const area=document.createElement('div');area.className='frontier-files';
+ area.textContent='Weryfikuję HEAD i pliki zmienione w PR…';card.append(area);
+ try{
+  if(frontierRepo(p.entry)!==repo)throw Error('Projekt zmieniony podczas odczytu');
+  const prefix='https://api.github.com/repos/Jozzpoly/'+repo+'/pulls/'+item.number;
+  const [live,changed]=await Promise.all([githubPublicJson(prefix),githubPublicJson(prefix+'/files?per_page=100')]);
+  if(token!==p.frontierTicket||frontierRepo(p.entry)!==repo)return;
+  if(live.head?.sha!==item.head.sha)throw Error('HEAD PR uległ zmianie — odśwież listę przed wyborem');
+  if(!Array.isArray(changed))throw Error('Nieoczekiwana lista plików');
+  area.replaceChildren();
+  const files=changed.filter(f=>typeof f.filename==='string'&&
+    /^(?:README\.md|docs\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.md)$/.test(f.filename)&&
+    f.status!=='removed').slice(0,12);
+  const note=document.createElement('code');note.textContent='PR #'+item.number+' · zweryfikowany @'+item.head.sha.slice(0,10)+
+    ' · '+files.length+' plików Markdown ze zwróconego wykazu (maks. 100 plików)';
+  area.append(note);
+  if(!files.length){
+   const x=document.createElement('p');x.textContent='Brak zmienionych dokumentów Markdown w tym wykazie. PR może zawierać ważną pracę w kodzie; otwórz go w GitHub.';area.append(x);return;
+  }
+  for(const file of files){
+   const choose=document.createElement('button');choose.className='frontier-file';choose.type='button';
+   choose.textContent='Odczytaj @'+item.head.sha.slice(0,9)+' / '+file.filename;
+   choose.addEventListener('click',()=>{
+    if(frontierRepo(p.entry)!==repo){renderFrontierStatus(side,'Zmieniono projekt; odśwież listę.',true);return;}
+    const name=Object.values(model).find(x=>x.kind==='world'&&x.repo===repo)?.name||repo;
+    sourceRead(side,{name:name+' · PR #'+item.number,repo,sha:item.head.sha,path:file.filename,kind:'pr-file'},loadSequence);
+    renderFrontierStatus(side,'Wybrano źródło PR #'+item.number+' @'+item.head.sha.slice(0,10)+
+      ' · dokładna wersja pliku, nie obietnica aktualności całej gałęzi.');
+   });
+   area.append(choose);
+  }
+ }catch(e){
+  if(token!==p.frontierTicket)return;
+  area.textContent='Nie można zakwalifikować dokumentów: '+e.message+
+    '. Nie wybieramy niezweryfikowanej wersji.';
+ }
+}
+for(const side of ['left','right']){
+ document.getElementById(side+'-frontier-load').addEventListener('click',()=>scanFrontier(side));
+ document.getElementById(side+'-frontier-reset').addEventListener('click',()=>{
+  const p=panels[side],repo=p.entry?.repo;
+  const orig=Object.values(model).find(x=>x.kind==='world'&&x.repo===repo);
+  if(!orig)return;
+  ++p.frontierTicket;
+  document.getElementById(side+'-frontier-list').replaceChildren();
+  renderFrontierStatus(side,'Przywracam bazowy snapshot · '+orig.sha.slice(0,10));
+  sourceRead(side,orig,loadSequence);
+ });
+}
+
+})();</script></body></html>
