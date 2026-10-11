@@ -1,0 +1,10 @@
+{
+  "id": "first-hearth-current-state-pr123",
+  "title": "First Hearth — current state on PR #123",
+  "kind": "source document",
+  "authority": "Jozzpoly/Llm-Live-NPC repository source",
+  "description": "Current implementation status, evidence boundaries and re-entry guidance for the First Hearth continuity scene.",
+  "revision": "b6f00b63dad65a8053fb72ef4c894bcb6ef205d6",
+  "href": "https://github.com/Jozzpoly/Llm-Live-NPC/blob/b6f00b63dad65a8053fb72ef4c894bcb6ef205d6/docs/FIRST_PRESENCE_CURRENT_STATE.md",
+  "related_pr": "https://github.com/Jozzpoly/Llm-Live-NPC/pull/123"
+}

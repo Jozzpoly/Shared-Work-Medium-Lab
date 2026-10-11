@@ -1,0 +1,29 @@
+{
+  "id": "feniks-meta-001",
+  "title": "Codex visits Browser and Combat, then returns with a changed experiment",
+  "summary": "Codex independently contacted another project conversation, received a different framing, checked First Hearth source truth, narrowed the claim, changed the next experiment and preserved the exchange as a small window.",
+  "participants": [
+    "Owner",
+    "Codex",
+    "Browser GPT / Combat"
+  ],
+  "source_refs": [
+    {
+      "kind": "repository evidence note",
+      "label": "Live Ecological Specimen 001",
+      "href": "../../docs/LIVE_ECOLOGICAL_SPECIMEN_001_FENIKS_META_2026-10-03.md"
+    },
+    {
+      "kind": "live source PR",
+      "label": "First Hearth PR #123 — continuous activities, embodied speech and private perspectives",
+      "href": "https://github.com/Jozzpoly/Llm-Live-NPC/pull/123",
+      "revision": "b6f00b63dad65a8053fb72ef4c894bcb6ef205d6"
+    }
+  ],
+  "continuity_anchor": {
+    "kind": "chat continuation evidence",
+    "predecessor_turn": "b9515565-be62-4854-962d-3eb0d37765a2",
+    "confirmed_entry_turn": "6fb8b757-cf86-4b97-a7be-65b3a96d1dbe",
+    "note": "The same conversation URL previously produced a different continuation. These turn anchors identify the confirmed campfire lineage more precisely than the URL alone."
+  }
+}
