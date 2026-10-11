@@ -9,7 +9,7 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 const SHA='24bd930fb1bb83425ea43168660a9c9c75d5b7d6';
-const out=resolve('/tmp/swm-physics-donor');
+const out=resolve('.swm-donor-fixture');
 await mkdir(resolve(out,'src'),{recursive:true});
 const sources=[];
 for(const file of ['m0-world.js','b1-world.js']){
@@ -86,7 +86,7 @@ const verdict={
 };
 assert.ok(verdict.allFinite,'nonfinite physics load');
 assert.equal(cases[0].maxExternalImpulseByPart.every(n=>n<1e-6),true,'clear control has external impulses');
-const path=resolve('/tmp/swm-physics-donor/result.json');
+const path=resolve('/tmp/swm-physics-contact-result.json');
 await writeFile(path,JSON.stringify({verdict,cases},null,2));
 console.log('SWM_ACTUAL_PHYSICS',JSON.stringify(verdict));
 console.log('FALSIFIER_STATUS',verdict.criterionMet?'PART_OBSTRUCTED_ROOT_CLEAR_OBSERVED':'NOT_DEMONSTRATED_IN_TESTED_SCENES');
