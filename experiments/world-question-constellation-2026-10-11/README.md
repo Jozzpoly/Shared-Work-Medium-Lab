@@ -19,6 +19,24 @@ The subsequent change is **not yet Owner-tested**. It attempts a different inter
 
 The initial spatial world and three lenses remain, but are now an entrypoint into a real operation rather than the entire experience.
 
+## Live PR frontier — not equivalent to a global current index
+
+The original World used five main-branch snapshots and could miss the actual research frontier completely (e.g. Combat B1 PR #10 and ReflexBrain F3A PR #56; both research documents are absent from their old main snapshots).
+
+**New interaction:** open two source panels → expand `Odkryj aktywne drafty i ich dokumenty` → deliberately request a bounded open-PR list from GitHub REST → choose PR → recheck its exact HEAD SHA → inspect its changed Markdown document list → load the document **by immutable PR HEAD SHA** in the same evidence reader. A file or HEAD that fails qualification is not silently used. Source documents may be nested beneath `docs/`; traversal and foreign-domain paths are refused.
+
+The PR list is a capped public API sample (up to 15 retrieved, 8 displayed), **not** a guaranteed full project frontier, a cross-branch truth resolver or a private repository index. User-facing errors distinguish HTTP 403/unavailable source from no relevant work. The selected HEAD can become historical immediately after observation.
+
+**[Exact live public Chromium and controlled negatives CI #38106089253](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38106089253)**, at `4a0ca91fa2bb8a1ebaa69669862927c643b2c2a8`:
+- actual HTMLPreview → unauthenticated public GitHub PR list+metadata+changed-file requests → pinned Combat B1 and ReflexBrain F3A reports, six HTTP 200 responses;
+- controlled fixture route with **real pinned source bodies** independently qualified source selection/export;
+- separate HEAD-moved negative and 403 / native fallback negative; static 3/3, desktop and mobile Chrome PASS;
+- screenshots archived as workflow artifact, including `frontier-live-public-receipt.png`.
+
+**First persistent question object:** [Combat B1 × ReflexBrain F3A research case](./RESEARCH_CASE_LIVE_CONTACT_2026-10-11.md) contains exact source receipts, cheap rival hypotheses and a falsifier involving contact ambiguity and future movement. It is visible from the **Opór** relationship in the spatial World. This was **authored using native GitHub connector research**, not produced by a freely adopting downstream agent: the native baseline has already shown access to the same evidence without Medium. Accordingly **no relative agent-capability benefit has been established**.
+
+**Product boundary after visual review:** the research atelier is still text-heavy and extremely long on mobile. It is now a *working document instrument*, not a demonstrated attractive living World. Do not claim an experiential victory from the screenshot or mechanical PASS.
+
 ## Hard boundaries
 
 - Curated subset of **five public projects and five editorial questions**. Not a whole-estate census and not a proven integrated world.
