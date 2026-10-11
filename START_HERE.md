@@ -22,6 +22,8 @@ The compact North Star is in [docs/NORTH_STAR.md](docs/NORTH_STAR.md).
 
 Read [docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md), beginning with its **current routing and research lanes**. Follow the relevant live work object before reading dated checkpoint history; historical next-step wording is not today's work order.
 
+**Freshness boundary (observed 2026-10-11):** this canonical routing document is a maintained *orientation*, not an exhaustive atomic view of work in flight. When an actual decision depends on the newest frontier, cross-check the relevant repository's [live open PRs](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pulls) or issues and the receiving project's own active branch/continuation source before treating an unlisted draft as nonexistent or a generic `main` link as current work. Do this selectively for the task, not as a compulsory estate crawl or notification feed. A branch/draft is not an accepted product simply because it is newer; preserve its scope and Owner judgement.
+
 For ordinary collaboration, recover one relevant source, choose an action available in your current body, and verify its effect. If a route fails, expose the failure and use another available route; do not make the Owner carry transcripts or technical setup between participants.
 
 Do not hardcode a work object from an older handoff. Recover the active frontier from `docs/RESEARCH_STATE.md`, then inspect only the issues, draft pull requests, experiments or field surfaces relevant to your actual goal.
