@@ -1,0 +1,21 @@
+name: Medium event substrate — provenance falsifiers
+
+on:
+  push:
+    branches:
+      - research/event-substrate-provenance-2026-10-11
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Node runtime
+        run: node --version
+      - name: Verify adversarial event envelope and cursor (mock SQL, no Cloudflare deployment)
+        run: node --test experiments/semantic-medium-v0/cloudflare-event-substrate/event-envelope.test.mjs
