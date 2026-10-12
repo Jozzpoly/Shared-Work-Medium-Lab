@@ -52,7 +52,7 @@ function fit(force=false){
   const scale=Math.min(1,Math.max(.001,width/fixedW));
   const shown=fixedW*scale;
   const inset=Math.max(0,(width-shown)/2);
-  frame.style.transform='translateX('+inset+'px) scale('+scale+')';
+  frame.style.transform='none'; frame.style.left=inset+'px'; frame.style.zoom=String(scale);
   surface.style.height=Math.max(1,Math.ceil(fixedH*scale))+'px';
  }
 }
