@@ -25,7 +25,7 @@ try{
  assert.ok(a&&b,'two real child worlds must be present');
  await a.waitForFunction(()=>Number(document.querySelector('#food')?.textContent)>0);
  await b.waitForFunction(()=>Number(document.querySelector('#food')?.textContent)>0);
- const dims=()=>Promise.all([a,b].map(f=>f.evaluate(()=>({w:innerWidth,h:innerHeight,canvasW:document.querySelector('canvas').getBoundingClientRect().width,canvasH:document.querySelector('canvas').getBoundingClientRect().height}))));
+ const dims=()=>Promise.all([a,b].map(f=>f.evaluate(()=>({w:innerWidth,h:innerHeight,canvasW:document.querySelector('canvas').getBoundingClientRect().width,canvasH:document.querySelector('canvas').getBoundingClientRect().height,bitmapW:document.querySelector('canvas').width,bitmapH:document.querySelector('canvas').height}))));
  async function visualClick(frame, selector, id){
   const fr=await page.locator(id).boundingBox();
   const child=await frame.evaluate(sel=>{
@@ -50,7 +50,7 @@ try{
  const first=await dims();
  mkdirSync('/tmp/medium-real-gloop',{recursive:true});
  await page.screenshot({path:'/tmp/medium-real-gloop/pre-dims.png',fullPage:true});
- assert.deepEqual(first,[{w:1210,h:700,canvasW:900,canvasH:700},{w:1210,h:700,canvasW:900,canvasH:700}]);
+ assert.deepEqual(first,[{w:1210,h:700,canvasW:900,canvasH:700,bitmapW:900,bitmapH:700},{w:1210,h:700,canvasW:900,canvasH:700,bitmapW:900,bitmapH:700}]);
  mkdirSync('/tmp/medium-real-gloop',{recursive:true});
  await page.screenshot({path:'/tmp/medium-real-gloop/pre-interaction.png',fullPage:true});
  const positions={

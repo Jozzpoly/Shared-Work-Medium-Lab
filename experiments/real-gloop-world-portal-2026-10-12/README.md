@@ -36,3 +36,15 @@ Keep as an **isolated donor** unless a later human/agent uses it in genuine expl
 - Fixed intrinsic iframe under an independently transformed outer mount at `67ea23b54214f6adccaa22962c27066389d552e7`: [Chromium CI #38197271086](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38197271086) **PASS**. Both canvases visibly show organisms/food in the downloaded screenshot. Fixed canvas 900×700 and iframe 1210×700 persisted across host resize/focus; both real buttons accepted physical coordinate-mapped pointer events; world A got +50 food while paused B remained unchanged; no page exceptions; host DOM access to sandboxed frame denied.
 - Playwright's default inner-frame `.boundingBox()` / `.click()` initially ignored the parent's CSS scaling and misclassified visible buttons as outside viewport. The passing smoke deliberately translates genuine browser pointer coordinates via the outer iframe rectangle and in-frame element rectangle. This is a browser automation geometry gap, not proof that human click events were broken.
 - External HTMLPreview and Owner human experience are **not yet proven**. CI runs the public-URL check as a separate non-gating diagnostic only; do not promote a local-file PASS to hosted-product PASS.
+
+## Cold-start race discovery and correction (2026-10-12)
+
+Earlier browser tests only checked CSS canvas rect (900×700), but intermittent neon fullscreen remained. Real Chromium demonstrated canvas **bitmap 1×1** on some starts, stretched by CSS to 900×700 in the color of the last painted organism. Earlier CI PASS was not visual reliability qualification.
+
+Local repeated cold starts with the *same unchanged Gloop donor*:
+- Old eager parent source injection: **3/24 FAIL** with tested software renderer.
+- New injection after two host requestAnimationFrame layout commits: **0/24 FAIL** on the same environment.
+- CI now asserts HTMLCanvasElement.width/height **and** CSS rect; an additional test checks 16 independent new pages (32 canvases).
+- No guarantee of zero future failures or Owner acceptance is claimed. Only parent loading chronology changes; Gloop donor bytes and source repository remain untouched.
+
+External HTMLPreview at preceding exact branch 3102c68f initialized both worlds but emitted an extra SyntaxError during HTMLPreview script appendChild; despite main workflow green, the diagnostic is **not CLEAN PASS**. Use the independent self-contained HTML as primary playable artifact; public preview remains unqualified.

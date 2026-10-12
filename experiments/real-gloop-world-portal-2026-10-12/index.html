@@ -41,7 +41,7 @@ const source=new TextDecoder().decode(donorBytes);
 const lab=document.getElementById('lab');
 const panes=[...document.querySelectorAll('.pane')],viewButtons=[...document.querySelectorAll('[data-view-control]')];
 const fixedW=1210,fixedH=700;
-for(const frame of document.querySelectorAll('iframe.world'))frame.srcdoc=source;
+// Preserve donor bytes; wait for a committed host layout before child boot.
 const widths=new WeakMap();
 function fit(force=false){
  for(const pane of panes){
@@ -67,4 +67,7 @@ const observer=new ResizeObserver(()=>fit());
 for(const pane of panes)observer.observe(pane);
 addEventListener('resize',()=>fit());
 setView('both');
+requestAnimationFrame(()=>requestAnimationFrame(()=>{
+ for(const frame of document.querySelectorAll('iframe.world'))frame.srcdoc=source;
+}));
 </script></body></html>
