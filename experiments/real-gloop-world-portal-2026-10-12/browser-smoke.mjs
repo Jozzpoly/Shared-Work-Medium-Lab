@@ -26,6 +26,27 @@ try{
  await a.waitForFunction(()=>Number(document.querySelector('#food')?.textContent)>0);
  await b.waitForFunction(()=>Number(document.querySelector('#food')?.textContent)>0);
  const dims=()=>Promise.all([a,b].map(f=>f.evaluate(()=>({w:innerWidth,h:innerHeight,canvasW:document.querySelector('canvas').getBoundingClientRect().width,canvasH:document.querySelector('canvas').getBoundingClientRect().height}))));
+ async function visualClick(frame, selector, id){
+  const fr=await page.locator(id).boundingBox();
+  const child=await frame.evaluate(sel=>{
+   const target=document.querySelector(sel);
+   const r=target.getBoundingClientRect();
+   return {x:r.x+r.width/2,y:r.y+r.height/2,width:r.width,height:r.height};
+  },selector);
+  const point={x:fr.x+child.x*fr.width/1210,y:fr.y+child.y*fr.height/700};
+  console.log('POINTER_MAP '+JSON.stringify({selector,id,point,frame:fr,child}));
+  await page.mouse.click(point.x,point.y);
+ }
+ async function visualSnapshot(frame){
+  return frame.evaluate(()=>{
+   const c=document.querySelector('#world'),ctx=c.getContext('2d');
+   const points=[[20,20],[450,350],[880,680]];
+   return {style:getComputedStyle(c).backgroundColor,internal:[innerWidth,innerHeight],
+    pix:points.map(([x,y])=>Array.from(ctx.getImageData(x,y,1,1).data)),
+    t:document.querySelector('#age').textContent,seed:document.querySelector('#seed').textContent};
+  });
+ }
+ console.log('CANVAS_BEFORE '+JSON.stringify({a:await visualSnapshot(a),b:await visualSnapshot(b)}));
  const first=await dims();
  assert.deepEqual(first,[{w:1210,h:700,canvasW:900,canvasH:700},{w:1210,h:700,canvasW:900,canvasH:700}]);
  mkdirSync('/tmp/medium-real-gloop',{recursive:true});
@@ -39,9 +60,14 @@ try{
   surfaceA:await page.locator('.pane[data-which=a] .surface').boundingBox()
  };
  console.log('GEOMETRY_DEBUG '+JSON.stringify(positions));
- await a.locator('#pause').evaluate(el=>el.click());await b.locator('#pause').evaluate(el=>el.click());
+ await visualClick(a,'#pause','#world-a');
+ assert.equal(await a.locator('#pause').innerText(),'Wznów','true screen click must activate left pause');
+ await visualClick(b,'#pause','#world-b');
+ assert.equal(await b.locator('#pause').innerText(),'Wznów','true screen click must activate right pause');
  const beforeA=Number(await a.locator('#food').innerText()),beforeB=Number(await b.locator('#food').innerText());
- await a.locator('#burst').click();
+ await visualClick(a,'#burst','#world-a');
+ console.log('CANVAS_AFTER_ACTION '+JSON.stringify({a:await visualSnapshot(a),b:await visualSnapshot(b),
+  afterFoodA:await a.locator('#food').innerText(),beforeA,beforeB}));
  await a.waitForFunction(n=>Number(document.querySelector('#food').textContent)===n+50,beforeA);
  assert.equal(Number(await b.locator('#food').innerText()),beforeB,'world B must not receive A burst');
  await page.setViewportSize({width:1120,height:900});
