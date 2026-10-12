@@ -17,9 +17,16 @@ jobs:
       - run: npm install --no-save --no-package-lock playwright@1.56.1
       - name: Real source dual-world physical action and isolated geometry
         run: node experiments/real-gloop-world-portal-2026-10-12/browser-smoke.mjs
+      - name: External HTMLPreview running-world check (diagnostic, not product gate)
+        timeout-minutes: 2
+        continue-on-error: true
+        run: node experiments/real-gloop-world-portal-2026-10-12/public-preview.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: two-real-gloop-worlds
-          path: /tmp/medium-real-gloop/*.png
+          path: |
+            /tmp/medium-real-gloop/*.png
+            experiments/real-gloop-world-portal-2026-10-12/index.html
+            experiments/real-gloop-world-portal-2026-10-12/README.md
           retention-days: 5

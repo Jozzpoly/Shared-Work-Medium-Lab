@@ -29,3 +29,10 @@ The scoped CI uses **real Chromium / upstream unmodified donor code**, verifies 
 
 ## Adoption decision
 Keep as an **isolated donor** unless a later human/agent uses it in genuine exploration or demonstrates a capability missing from native Gloop / Jaskinia. Do not automatically import it into Claude's Jaskinia or change Gloop M3.
+## First real Chromium results (2026-10-12)
+
+- Earlier transformed-iframe runs produced intermittent solid-color canvas in the **composited screenshot** while `canvas.getImageData` and computed CSS background reported transparent pixels/dark background. Do not attribute this to Gloop's biology or ignore as cosmetic. Direct iframe-transform variant is retained in branch history as a visual negative.
+- An attempted `zoom` replacement changed the inner canvas from exact 900×700 to approximately 900.02×699.25, rejected because presentation must not alter world geometry.
+- Fixed intrinsic iframe under an independently transformed outer mount at `67ea23b54214f6adccaa22962c27066389d552e7`: [Chromium CI #38197271086](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38197271086) **PASS**. Both canvases visibly show organisms/food in the downloaded screenshot. Fixed canvas 900×700 and iframe 1210×700 persisted across host resize/focus; both real buttons accepted physical coordinate-mapped pointer events; world A got +50 food while paused B remained unchanged; no page exceptions; host DOM access to sandboxed frame denied.
+- Playwright's default inner-frame `.boundingBox()` / `.click()` initially ignored the parent's CSS scaling and misclassified visible buttons as outside viewport. The passing smoke deliberately translates genuine browser pointer coordinates via the outer iframe rectangle and in-frame element rectangle. This is a browser automation geometry gap, not proof that human click events were broken.
+- External HTMLPreview and Owner human experience are **not yet proven**. CI runs the public-URL check as a separate non-gating diagnostic only; do not promote a local-file PASS to hosted-product PASS.
