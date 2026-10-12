@@ -1,0 +1,26 @@
+name: World frontier authority-scoped proof
+on:
+  push:
+    branches: [research/world-frontier-truth-2026-10-12]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test experiments/world-question-constellation-2026-10-11/*.test.mjs
+      - run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Real Chrome page-2 authority, moved-head, HTTP403 and cap controls
+        run: node experiments/world-question-constellation-2026-10-11/frontier-authority-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: frontier-authority-failure
+          path: /tmp/world-frontier-authority-first-fail.png
+          retention-days: 2
