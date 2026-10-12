@@ -86,6 +86,22 @@ try{
  await page.setViewportSize({width:1660,height:980});
  await page.waitForTimeout(250);
  await page.screenshot({path:'/tmp/medium-real-gloop/two-real-worlds.png',fullPage:true});
+ const earlierB=parseInt(await b.locator('#age').innerText());
+ await visualClick(a,'#pause','#world-a');await visualClick(b,'#pause','#world-b');
+ await page.locator('[data-view-control=a]').click();
+ assert.deepEqual(await page.locator('.pane').evaluate_all(ns=>ns.map(n=>n.inert)),[false,true]);
+ await page.waitForTimeout(2400);
+ const laterB=parseInt(await b.locator('#age').innerText());
+ assert.ok(laterB>=earlierB+1,'invisible but nearby B must still live while A is focused');
+ const earlierA=parseInt(await a.locator('#age').innerText());
+ await page.locator('[data-view-control=b]').click();
+ assert.deepEqual(await page.locator('.pane').evaluate_all(ns=>ns.map(n=>n.inert)),[true,false]);
+ await page.waitForTimeout(2400);
+ const laterA=parseInt(await a.locator('#age').innerText());
+ assert.ok(laterA>=earlierA+1,'invisible A must still live while B is focused');
+ await page.locator('[data-view-control=both]').click();
+ console.log('FOCUS_LIFECYCLE '+JSON.stringify({hiddenB:[earlierB,laterB],hiddenA:[earlierA,laterA],accessibleOnlyVisible:true}));
+
  assert.deepEqual(errors,[],'no JS/console errors in real embedded worlds');
  console.log(JSON.stringify({result:'PASS',actualDonor:'bd8bfab5079bb1d1f596f9621d98ac522571b75a',donorBytes:Buffer.byteLength(decoded),snapshots:{first,after:await dims()},food:{worldABefore:beforeA,worldAAfter:beforeA+50,worldBBefore:beforeB,worldBAfter:Number(await b.locator('#food').innerText())},sandboxBlocked:true}));
 }finally{await browser.close()}
