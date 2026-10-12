@@ -27,7 +27,9 @@ async function runCase(kind){
   await page.goto('file://'+html);
   await page.locator('#enter-atelier').click();
   await page.locator('#pair-left').selectOption('matter');
+  await page.locator('#pair-right').selectOption('reflex');
   await page.locator('#apply-pair').click();
+  assert.match(await page.locator('#pair-feedback').innerText(),/Własne zestawienie/);
   await page.locator('#left-frontier summary').click();
   await page.locator('#left-frontier-load').click();
   try{await page.locator('#left-frontier-list .frontier-item').first().waitFor({timeout:10000});}
