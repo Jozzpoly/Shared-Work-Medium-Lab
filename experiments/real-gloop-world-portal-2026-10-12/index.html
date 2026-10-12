@@ -18,7 +18,7 @@ aside.note{max-width:300px;color:#9cb4c0;font-size:12px;line-height:1.55}
 .pane h2{margin:1px 2px 9px;font-size:13px;font-weight:650;letter-spacing:.02em}
 .pane h2 small{font-size:11px;font-weight:400;color:#a4b4c0;margin-left:7px}
 .surface{width:100%;position:relative;overflow:hidden;border:1px solid #2b414b;background:#0b0d10;border-radius:8px}
-.world{display:block;position:absolute;top:0;left:0;width:1210px;height:700px;border:0;transform-origin:top left}
+.mount{display:block;position:absolute;top:0;left:0;width:1210px;height:700px;transform-origin:top left}.world{display:block;position:absolute;top:0;left:0;width:1210px;height:700px;border:0}
 .bottom{padding:17px 0;color:#9bb6bb;font:12px/1.7 ui-monospace,monospace}
 .bottom strong{color:#d8ede4;font-weight:650}
 footer{border-top:1px solid #ffffff24;margin-top:19px;padding-top:13px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#a1b4c0;font:11px/1.6 ui-monospace,monospace}
@@ -29,8 +29,8 @@ footer{border-top:1px solid #ffffff24;margin-top:19px;padding-top:13px;display:f
 <aside class="note">To oddzielny donor badawczy, nie nowe wydanie Gloopipelago i nie zaakceptowany Medium World. Źródło obu instancji jest identyczne, ale ich losowe seedy i przebiegi nie są zsynchronizowane.</aside></header>
 <div class="controls" role="group" aria-label="Układ instrumentów"><button type="button" data-view-control="both" aria-pressed="true">Oba światy</button><button type="button" data-view-control="a" aria-pressed="false">Skup lewy</button><button type="button" data-view-control="b" aria-pressed="false">Skup prawy</button></div>
 <main id="lab" class="lab" data-view="both">
-<section class="pane" data-which="a" aria-label="Lewy, niezależny świat"><h2>Świat A <small>niezależna instancja</small></h2><div class="surface"><iframe class="world" id="world-a" name="gloop-a" title="Gloopipelago, świat A" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div></section>
-<section class="pane" data-which="b" aria-label="Prawy, niezależny świat"><h2>Świat B <small>niezależna instancja</small></h2><div class="surface"><iframe class="world" id="world-b" name="gloop-b" title="Gloopipelago, świat B" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div></section>
+<section class="pane" data-which="a" aria-label="Lewy, niezależny świat"><h2>Świat A <small>niezależna instancja</small></h2><div class="surface"><div class="mount"><iframe class="world" id="world-a" name="gloop-a" title="Gloopipelago, świat A" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div></div></section>
+<section class="pane" data-which="b" aria-label="Prawy, niezależny świat"><h2>Świat B <small>niezależna instancja</small></h2><div class="surface"><div class="mount"><iframe class="world" id="world-b" name="gloop-b" title="Gloopipelago, świat B" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div></div></section>
 </main>
 <div class="bottom"><strong>Ważna granica mechaniczna:</strong> zmiana wielkości okna Medium skaluje wyłącznie prezentację. Wewnętrzna scena ma stale 900×700 px, a panel 310 px. Ukryty świat nadal biegnie; zatrzymaj go przyciskiem „Pauza” wewnątrz jego ramki. Brak wspólnego inputu i brak agentowego API.</div>
 <footer><div>Gloopipelago, cztery źródła z <a href="https://github.com/Jozzpoly/Gloopipelago/tree/bd8bfab5079bb1d1f596f9621d98ac522571b75a" target="_blank" rel="noopener noreferrer">oryginalnego commit bd8bfab507</a>.</div>
@@ -45,14 +45,14 @@ for(const frame of document.querySelectorAll('iframe.world'))frame.srcdoc=source
 const widths=new WeakMap();
 function fit(force=false){
  for(const pane of panes){
-  const surface=pane.querySelector('.surface'),frame=pane.querySelector('iframe.world');
+  const surface=pane.querySelector('.surface'),mount=pane.querySelector('.mount');
   const width=surface.clientWidth;
   if(!force&&widths.get(surface)===width)continue;
   widths.set(surface,width);
   const scale=Math.min(1,Math.max(.001,width/fixedW));
   const shown=fixedW*scale;
   const inset=Math.max(0,(width-shown)/2);
-  frame.style.transform='none'; frame.style.left=inset+'px'; frame.style.zoom=String(scale);
+  mount.style.transform='translateX('+inset+'px) scale('+scale+')';
   surface.style.height=Math.max(1,Math.ceil(fixedH*scale))+'px';
  }
 }

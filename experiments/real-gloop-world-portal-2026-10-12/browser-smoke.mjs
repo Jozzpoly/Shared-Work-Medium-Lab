@@ -48,6 +48,8 @@ try{
  }
  console.log('CANVAS_BEFORE '+JSON.stringify({a:await visualSnapshot(a),b:await visualSnapshot(b)}));
  const first=await dims();
+ mkdirSync('/tmp/medium-real-gloop',{recursive:true});
+ await page.screenshot({path:'/tmp/medium-real-gloop/pre-dims.png',fullPage:true});
  assert.deepEqual(first,[{w:1210,h:700,canvasW:900,canvasH:700},{w:1210,h:700,canvasW:900,canvasH:700}]);
  mkdirSync('/tmp/medium-real-gloop',{recursive:true});
  await page.screenshot({path:'/tmp/medium-real-gloop/pre-interaction.png',fullPage:true});
