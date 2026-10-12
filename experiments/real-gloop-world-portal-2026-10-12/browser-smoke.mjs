@@ -89,13 +89,13 @@ try{
  const earlierB=parseInt(await b.locator('#age').innerText());
  await visualClick(a,'#pause','#world-a');await visualClick(b,'#pause','#world-b');
  await page.locator('[data-view-control=a]').click();
- assert.deepEqual(await page.locator('.pane').evaluate_all(ns=>ns.map(n=>n.inert)),[false,true]);
+ assert.deepEqual(await page.locator('.pane').evaluateAll(ns=>ns.map(n=>n.inert)),[false,true]);
  await page.waitForTimeout(2400);
  const laterB=parseInt(await b.locator('#age').innerText());
  assert.ok(laterB>=earlierB+1,'invisible but nearby B must still live while A is focused');
  const earlierA=parseInt(await a.locator('#age').innerText());
  await page.locator('[data-view-control=b]').click();
- assert.deepEqual(await page.locator('.pane').evaluate_all(ns=>ns.map(n=>n.inert)),[true,false]);
+ assert.deepEqual(await page.locator('.pane').evaluateAll(ns=>ns.map(n=>n.inert)),[true,false]);
  await page.waitForTimeout(2400);
  const laterA=parseInt(await a.locator('#age').innerText());
  assert.ok(laterA>=earlierA+1,'invisible A must still live while B is focused');
