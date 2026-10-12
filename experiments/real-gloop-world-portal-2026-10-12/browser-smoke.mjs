@@ -28,7 +28,18 @@ try{
  const dims=()=>Promise.all([a,b].map(f=>f.evaluate(()=>({w:innerWidth,h:innerHeight,canvasW:document.querySelector('canvas').getBoundingClientRect().width,canvasH:document.querySelector('canvas').getBoundingClientRect().height}))));
  const first=await dims();
  assert.deepEqual(first,[{w:1210,h:700,canvasW:900,canvasH:700},{w:1210,h:700,canvasW:900,canvasH:700}]);
- await a.locator('#pause').click();await b.locator('#pause').click();
+ mkdirSync('/tmp/medium-real-gloop',{recursive:true});
+ await page.screenshot({path:'/tmp/medium-real-gloop/pre-interaction.png',fullPage:true});
+ const positions={
+  viewport:page.viewportSize(),
+  parentA:await page.locator('#world-a').boundingBox(),
+  parentB:await page.locator('#world-b').boundingBox(),
+  pauseA:await a.locator('#pause').boundingBox(),
+  pauseB:await b.locator('#pause').boundingBox(),
+  surfaceA:await page.locator('.pane[data-which=a] .surface').boundingBox()
+ };
+ console.log('GEOMETRY_DEBUG '+JSON.stringify(positions));
+ await a.locator('#pause').evaluate(el=>el.click());await b.locator('#pause').evaluate(el=>el.click());
  const beforeA=Number(await a.locator('#food').innerText()),beforeB=Number(await b.locator('#food').innerText());
  await a.locator('#burst').click();
  await a.waitForFunction(n=>Number(document.querySelector('#food').textContent)===n+50,beforeA);
