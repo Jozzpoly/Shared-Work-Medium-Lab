@@ -1,0 +1,25 @@
+name: Medium real living-world instrument
+on:
+  push:
+    branches: [research/real-gloop-world-portal-2026-10-12]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Real source dual-world physical action and isolated geometry
+        run: node experiments/real-gloop-world-portal-2026-10-12/browser-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: two-real-gloop-worlds
+          path: /tmp/medium-real-gloop/*.png
+          retention-days: 5
