@@ -1,5 +1,13 @@
 # Two real Gloopipelago instrument instances — Medium research donor (2026-10-12)
 
+## Latest independently verified checkpoint (2026-10-12, 15:58 UTC)
+
+- **Exact executable host:** `415f3bbd98d6513e22ba869a31b1d22809d01f45`.
+- [Open the public runnable two-world HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/415f3bbd98d6513e22ba869a31b1d22809d01f45/experiments/real-gloop-world-portal-2026-10-12/index.html).
+- [Qualified Chromium + GitHub Actions run #38274053295](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/actions/runs/38274053295): 16 independent cold boots/32 correct bitmap dimensions, two live independent sandboxed source-exact Gloop worlds, A-only food action, exact retained internal geometry on layout changes, both hidden instantiations kept ticking while tab foreground, and **clean public HTMLPreview PASS without the earlier injection error**.
+- Reader caution: all statuses lower in this document describe *earlier exact commits and failed/partial phases*. They must **not** replace the latest scoped qualification above. In particular, old blanket wording `HTMLPreview unqualified` is superseded **for the pinned executable only**.
+- **Owner experiential acceptance, natural second-participant adoption and incremental Medium-over-native-Gloop lift remain NOT PROVEN**. No action was taken in Claude's Jaskinia, Gloopipelago, or Medium `main`. The one-file host is a quarantined research donor; no site backend, global agent, network effect or durable game-state saving.
+
 This is a **single self-contained HTML file** embedding the unchanged maintained Gloopipelago browser build in *two* isolated iframe contexts. No Gloop source repository or current Jaskinia environment is edited. The host itself carries no external dependencies, login, writes, cookies or data broker.
 
 ## Exact source
@@ -16,7 +24,7 @@ This is a **single self-contained HTML file** embedding the unchanged maintained
 ## Specific capability and gap
 Original Gloop `src/browser/app.mjs` binds visual canvas width/height directly to `Simulation.setSize(W,H)`. Its native M3 design specifically flags viewport-induced ecology shifts. In a resizable host, merely dragging a window could change the simulation's world geometry.
 
-Our host sets *constant inner iframe dimensions* **1210×700** (canvas **900×700** plus 310px sidebar) and scales the whole iframe **as presentation only** via CSS. Each iframe is opaque-origin sandboxed (`sandbox="allow-scripts"`; no `allow-same-origin`). Focus/hide never destroys iframe nodes; invisible simulation continues running. Its own Pause button remains the only honest pause.
+Our host sets *constant inner iframe dimensions* **1210×700** (canvas **900×700** plus 310px sidebar) and scales the whole iframe **as presentation only** via CSS. Each iframe is opaque-origin sandboxed (`sandbox="allow-scripts"`; no `allow-same-origin`). Focus/hide never destroys iframe nodes; an opacity-hidden instrument remains running **while the hosting browser tab is foregrounded**, as checked in exact CI. Browsers may throttle any tab in background. Its own Pause button remains the only user-controlled pause.
 
 What this allows: play two actual live independently evolving populations; alter one physically through its native `burst` button; rearrange observation view without altering its inner world geometry.
 
