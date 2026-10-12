@@ -62,8 +62,9 @@ for(const side of ['left','right']){
   link:document.getElementById(side+'-link'),entry:null,lines:null,line:0,readTicket:0,frontierTicket:0,baseEntry:null
  };
 }
+function qualifiedSourcePath(path){return typeof path==='string'&&path.length<=220&&/^(?:README\.md|(?:docs|quality)\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:md|json))$/.test(path);}
 function rawLink(e){
- if(!/^[a-f0-9]{40}$/.test(e.sha)||!/^[A-Za-z0-9-]+$/.test(e.repo)||!/^(?:README\.md|docs\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.md)$/.test(e.path))throw Error('Niezweryfikowane źródło');
+ if(!/^[a-f0-9]{40}$/.test(e.sha)||!/^[A-Za-z0-9-]+$/.test(e.repo)||!qualifiedSourcePath(e.path))throw Error('Niezweryfikowane źródło');
  return 'https://raw.githubusercontent.com/Jozzpoly/'+e.repo+'/'+e.sha+'/'+e.path;
 }
 function pinnedLink(e,line){
@@ -331,7 +332,7 @@ function frontierRepo(e){
  return e.repo;
 }
 async function githubPublicJson(url){
- if(!/^https:\/\/api\.github\.com\/repos\/Jozzpoly\/[A-Za-z0-9-]+\/pulls(?:\?state=open&per_page=15|\/[0-9]+(?:\/files\?per_page=100)?)$/.test(url))
+ if(!/^https:\/\/api\.github\.com\/repos\/Jozzpoly\/[A-Za-z0-9-]+\/pulls(?:\?state=open&per_page=15|\/[0-9]+(?:\/files\?per_page=100&page=[1-3])?)$/.test(url))
    throw Error('GitHub API poza dopuszczonym zakresem');
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
  try{
@@ -375,46 +376,68 @@ async function scanFrontier(side){
   link.rel='noopener noreferrer';link.target='_blank';link.textContent='Natywna lista PR ↗';host.replaceChildren(link);
  }
 }
+async function scopedPrFiles(prefix){
+ const all=[];
+ for(let page=1;page<=3;page++){
+  const part=await githubPublicJson(prefix+'/files?per_page=100&page='+page);
+  if(!Array.isArray(part))throw Error('Nieoczekiwana strona plików');
+  all.push(...part);
+  if(part.length<100)return {items:all,pages:page,complete:true};
+ }
+ return {items:all,pages:3,complete:false};
+}
 async function openFrontierDocuments(side,repo,item,card){
  const p=panels[side],token=++p.frontierTicket;
- const old=card.querySelector('.frontier-files');if(old)old.remove();
+ card.querySelector('.frontier-files')?.remove();
  const area=document.createElement('div');area.className='frontier-files';
- area.textContent='Weryfikuję HEAD i pliki zmienione w PR…';card.append(area);
+ area.textContent='Weryfikuję HEAD i strony plików…';card.append(area);
  try{
-  if(frontierRepo(p.entry)!==repo)throw Error('Projekt zmieniony podczas odczytu');
+  if(frontierRepo(p.entry)!==repo)throw Error('Projekt zmieniony');
   const prefix='https://api.github.com/repos/Jozzpoly/'+repo+'/pulls/'+item.number;
-  const [live,changed]=await Promise.all([githubPublicJson(prefix),githubPublicJson(prefix+'/files?per_page=100')]);
+  const survey=await scopedPrFiles(prefix),live=await githubPublicJson(prefix);
   if(token!==p.frontierTicket||frontierRepo(p.entry)!==repo)return;
-  if(live.head?.sha!==item.head.sha)throw Error('HEAD PR uległ zmianie — odśwież listę przed wyborem');
-  if(!Array.isArray(changed))throw Error('Nieoczekiwana lista plików');
+  if(live.head?.sha!==item.head.sha)throw Error('HEAD PR uległ zmianie — odśwież listę');
+  const files=survey.items.filter(f=>qualifiedSourcePath(f.filename)&&f.status!=='removed');
   area.replaceChildren();
-  const files=changed.filter(f=>typeof f.filename==='string'&&
-    /^(?:README\.md|docs\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.md)$/.test(f.filename)&&
-    f.status!=='removed').slice(0,12);
-  const note=document.createElement('code');note.textContent='PR #'+item.number+' · zweryfikowany @'+item.head.sha.slice(0,10)+
-    ' · '+files.length+' plików Markdown ze zwróconego wykazu (maks. 100 plików)';
-  area.append(note);
-  if(!files.length){
-   const x=document.createElement('p');x.textContent='Brak zmienionych dokumentów Markdown w tym wykazie. PR może zawierać ważną pracę w kodzie; otwórz go w GitHub.';area.append(x);return;
+  const note=document.createElement('code');
+  note.textContent='PR #'+item.number+' @'+item.head.sha.slice(0,10)+' · '+survey.items.length+
+   ' plików / '+survey.pages+' stron · '+(survey.complete?'stronicowanie zakończone':'NIEPEŁNE: limit 300 plików');
+  const native=document.createElement('a');
+  native.href='https://github.com/Jozzpoly/'+repo+'/pull/'+item.number+'/files';
+  native.target='_blank';native.rel='noopener noreferrer';native.textContent='Wszystkie pliki na GitHub ↗';
+  area.append(note,native);
+  if(!files.length){const msg=document.createElement('p');msg.textContent='Brak kwalifikowanych dokumentów w odczytanym zakresie; inne mogą istnieć.';area.append(msg);return;}
+  const filter=document.createElement('input');filter.type='search';
+  filter.placeholder='Znajdź ścieżkę, np. readiness';
+  filter.setAttribute('aria-label','Filtruj odczytane ścieżki plików PR');
+  const count=document.createElement('code'),list=document.createElement('div');
+  area.append(filter,count,list);
+  function display(){
+   const q=filter.value.trim().toLocaleLowerCase(),found=files.filter(f=>f.filename.toLocaleLowerCase().includes(q));
+   const shown=found.slice(0,18);list.replaceChildren();
+   count.textContent='Znaleziono '+found.length+'/'+files.length+' · widoczne '+shown.length+
+    (survey.complete?'':' · niepełne pokrycie');
+   if(!shown.length){const no=document.createElement('p');no.textContent='Brak trafień w odczytanym zakresie, nie dowód nieistnienia.';list.append(no);}
+   for(const file of shown){
+    const button=document.createElement('button');button.className='frontier-file';button.type='button';
+    button.textContent='Odczytaj @'+item.head.sha.slice(0,9)+' / '+file.filename;
+    button.addEventListener('click',()=>{
+     if(frontierRepo(p.entry)!==repo){renderFrontierStatus(side,'Projekt zmieniony; odśwież.',true);return;}
+     const name=Object.values(model).find(x=>x.kind==='world'&&x.repo===repo)?.name||repo;
+     sourceRead(side,{name:name+' · PR #'+item.number,repo,sha:item.head.sha,path:file.filename,kind:'pr-file'},loadSequence);
+     renderFrontierStatus(side,'Wybrano przypięty dokument PR #'+item.number+' @'+item.head.sha.slice(0,10)+'; nie jest to globalny werdykt.');
+    });
+    list.append(button);
+   }
   }
-  for(const file of files){
-   const choose=document.createElement('button');choose.className='frontier-file';choose.type='button';
-   choose.textContent='Odczytaj @'+item.head.sha.slice(0,9)+' / '+file.filename;
-   choose.addEventListener('click',()=>{
-    if(frontierRepo(p.entry)!==repo){renderFrontierStatus(side,'Zmieniono projekt; odśwież listę.',true);return;}
-    const name=Object.values(model).find(x=>x.kind==='world'&&x.repo===repo)?.name||repo;
-    sourceRead(side,{name:name+' · PR #'+item.number,repo,sha:item.head.sha,path:file.filename,kind:'pr-file'},loadSequence);
-    renderFrontierStatus(side,'Wybrano źródło PR #'+item.number+' @'+item.head.sha.slice(0,10)+
-      ' · dokładna wersja pliku, nie obietnica aktualności całej gałęzi.');
-   });
-   area.append(choose);
-  }
+  filter.addEventListener('input',display);display();
  }catch(e){
   if(token!==p.frontierTicket)return;
-  area.textContent='Nie można zakwalifikować dokumentów: '+e.message+
-    '. Nie wybieramy niezweryfikowanej wersji.';
+  area.textContent='NIEZWERYFIKOWANE · '+(e.name==='AbortError'?'limit czasu':e.message)+
+   '. Brak pełnego wykazu nie oznacza braku dokumentu.';
  }
 }
+
 for(const side of ['left','right']){
  document.getElementById(side+'-frontier-load').addEventListener('click',()=>scanFrontier(side));
  document.getElementById(side+'-frontier-reset').addEventListener('click',()=>{
