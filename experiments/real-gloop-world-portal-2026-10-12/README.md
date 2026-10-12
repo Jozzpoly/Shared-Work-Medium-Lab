@@ -48,3 +48,7 @@ Local repeated cold starts with the *same unchanged Gloop donor*:
 - No guarantee of zero future failures or Owner acceptance is claimed. Only parent loading chronology changes; Gloop donor bytes and source repository remain untouched.
 
 External HTMLPreview at preceding exact branch 3102c68f initialized both worlds but emitted an extra SyntaxError during HTMLPreview script appendChild; despite main workflow green, the diagnostic is **not CLEAN PASS**. Use the independent self-contained HTML as primary playable artifact; public preview remains unqualified.
+
+## HTMLPreview parse-container separation (2026-10-12)
+
+The public HTMLPreview diagnostic had two real Gloop worlds yet reported `SyntaxError: Failed to execute 'appendChild' on 'Node': Invalid or unexpected token`. One falsifiable possibility is that HTMLPreview reinserts and executes a large non-JavaScript `<script type="application/octet-stream">` data node. The unchanged encoded donor payload is now stored inside a hidden `<textarea>`, not a script element. A local Chromium `page.set_content` readout qualified both 900×700 real-world bitmaps and no page errors for the new container on two fresh documents. The **actual external HTMLPreview result must be rechecked** before claiming this hypothesis confirmed.
