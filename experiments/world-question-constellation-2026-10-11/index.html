@@ -86,7 +86,7 @@ function headingLocations(lines){
 }
 function searchLocations(lines,phrase){
  const q=phrase.trim().toLocaleLowerCase();
- if(!q)return headingLocations(lines).slice(0,35);
+ if(!q){const headings=headingLocations(lines).slice(0,35);return headings.length?headings:(lines.length?[0]:[]);}
  const found=[];
  for(let i=0;i<lines.length&&found.length<35;i++)if(lines[i].toLocaleLowerCase().includes(q))found.push(i);
  return found;

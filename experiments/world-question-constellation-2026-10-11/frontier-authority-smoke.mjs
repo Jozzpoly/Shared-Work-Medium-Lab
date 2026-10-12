@@ -30,7 +30,18 @@ async function runCase(kind){
   await page.locator('#apply-pair').click();
   await page.locator('#left-frontier summary').click();
   await page.locator('#left-frontier-load').click();
-  await page.locator('#left-frontier-list .frontier-item').first().waitFor();
+  try{await page.locator('#left-frontier-list .frontier-item').first().waitFor({timeout:10000});}
+  catch(error){
+   await page.screenshot({path:'/tmp/world-frontier-authority-first-fail.png',fullPage:true});
+   throw new Error('PR card absent: '+JSON.stringify({
+    case:kind,
+    requests:calls,
+    selected:await page.locator('#pair-left').inputValue(),
+    reader:await page.locator('#left-name').innerText(),
+    frontier:await page.locator('#left-frontier-status').innerText(),
+    list:await page.locator('#left-frontier-list').innerText()
+   })+'; '+error.message);
+  }
   await page.locator('#left-frontier-list .frontier-item button').first().click();
   await page.waitForFunction(()=>document.querySelector('#left-frontier-list .frontier-files')?.textContent?.includes('PR #1')||
     document.querySelector('#left-frontier-list .frontier-files')?.textContent?.includes('NIEZWERYFIKOWANE'));
