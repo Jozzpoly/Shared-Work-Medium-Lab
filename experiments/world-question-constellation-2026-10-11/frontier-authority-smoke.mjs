@@ -8,7 +8,7 @@ async function runCase(kind){
  const page=await b.newPage({viewport:{width:1280,height:900}}),calls=[];
  const file=(p,n=0)=>({filename:p,status:'added',changes:2});
  const files1=Array.from({length:100},(_,i)=>file(i<5?'docs/report'+i+'.md':'src/source'+i+'.js'));
- const files2=Array.from({length:97},(_,i)=>file(i===29?gate:'src/page2-'+i+'.js'));
+ const files2=Array.from({length:kind==='cap'?100:97},(_,i)=>file(i===29?gate:'src/page2-'+i+'.js'));
  const files3=Array.from({length:100},(_,i)=>file('src/page3-'+i+'.js'));
  await page.route('https://raw.githubusercontent.com/**',route=>route.fulfill({status:200,contentType:'text/plain',body:route.request().url().endsWith(gate)?'{\n "status": "BLOCKED",\n "promotion_authorized": false\n}\n':'# Source fixture\nLine 2\n'}));
  await page.route('https://api.github.com/**',route=>{
