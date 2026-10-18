@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CIENIONOŚNE — cień jest mostem</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1420;--gold:#e5b66b;--mint:#85dbca;--muted:#a2b2bd}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 50% 0%,#263044 0,#0c1420 68%);color:#e9e4d5;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{display:flex;flex-direction:column;align-items:center;gap:12px;padding:clamp(12px,2.5vh,24px) 12px 24px}
+header{width:min(960px,100%);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font-size:clamp(20px,3.5vw,32px);letter-spacing:.15em;margin:0;color:#f2d6a0;font-weight:850;line-height:1.15}header small{display:block;letter-spacing:.19em;font-size:10px;color:#b9c4c4;margin-bottom:4px}
+.pill{border:1px solid #60777b;color:#a9d8d1;border-radius:30px;padding:6px 10px;font-size:11px;letter-spacing:.07em;white-space:nowrap}
+main{width:min(960px,100%);display:flex;flex-direction:column;align-items:center;gap:11px}
+.frame{width:100%;aspect-ratio:3/2;border:1px solid #556a73;border-radius:13px;overflow:hidden;background:#172b39;box-shadow:0 20px 60px #0008,0 0 0 5px #ffffff06;position:relative}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;user-select:none}canvas.drag{cursor:grabbing}
+.info{width:100%;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;min-height:44px}
+#status{font-size:13px;color:#d8e3df;line-height:1.45;flex:1;min-width:190px}#status strong{color:var(--mint)}
+button{background:#233746;border:1px solid #637781;color:#f2e4c9;border-radius:9px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700;touch-action:manipulation}button:hover,button:focus-visible{background:#314e5c;outline:2px solid #c7ad74;outline-offset:2px}
+footer{width:min(960px,100%);font-size:12px;color:#a9b5bd;line-height:1.5}footer b{color:#f0d59b}
+@media(orientation:portrait){body{padding:8px 10px 16px;gap:8px}header{align-items:center}h1{font-size:22px}.pill{font-size:9px}.frame{width:min(100%,calc((100dvh - 230px)*2/3));aspect-ratio:2/3;max-height:calc(100dvh - 230px)}main{gap:8px}.info{align-items:flex-start}#status{font-size:12px}button{padding:9px 13px}footer{font-size:11px}}
+@media(max-height:650px) and (orientation:landscape){body{padding:6px 12px;gap:5px}header small{display:none}h1{font-size:18px}.frame{width:min(100%,calc((100dvh - 130px)*3/2));max-height:calc(100dvh - 130px)}footer{display:none}}
+</style>
+</head>
+<body>
+<header><div><small>OBCE PRAWA / EKSPERYMENT 01</small><h1>CIENIONOŚNE</h1></div><div class="pill">CIEŃ = GRUNT</div></header>
+<main>
+<div class="frame"><canvas id="world" aria-label="Przeciągnij kamień, aby rzucić cień nad przepaścią. Wędrowiec porusza się sam."></canvas></div>
+<div class="info"><div id="status" role="status" aria-live="polite">Przesuń <strong>kamień</strong> w oś lampy. W cieniu powstaje most.</div><button id="reset" type="button">↻ Od początku</button></div>
+</main>
+<footer><b>Dotyk / mysz:</b> chwyć kamień i przeciągnij. Wędrowiec sam szuka drogi do zielonego światła. Jeśli cień zniknie pod nim nad przepaścią, spadnie. Możesz przestawiać kamień podczas marszu.</footer>
+<script>
+(()=>{'use strict';
+const canvas=document.querySelector('#world'),status=document.querySelector('#status'),reset=document.querySelector('#reset');
+const C=canvas.getContext('2d',{alpha:false});
+const W=900,H=600,L={x:68,y:300},G={x:785,y:300},water={x1:365,x2:642,y1:168,y2:432};
+let portrait=false,block={x:225,y:112,w:46,h:76},walker={x:283,y:300,r:10},path=[],drag=null,mode='waiting',last=0,repath=0,fallAt=0,completedAt=0,time=0,particles=[];
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function setStatus(s){if(status.dataset.mode===s)return;status.dataset.mode=s;status.innerHTML={waiting:'<strong>Brak przejścia.</strong> Przesuń kamień na wysokość lampy.',walking:'<strong>Cień stał się gruntem.</strong> Wędrowiec znalazł drogę.',falling:'<strong>Grunt zniknął.</strong> Wędrowiec spadł w światło.',won:'<strong>Dotarł!</strong> To nie most z desek. To brak światła.'}[s]||s}
+function resize(){const p=matchMedia('(orientation: portrait)').matches;portrait=p;const d=Math.min(devicePixelRatio||1,2);canvas.width=(p?600:900)*d;canvas.height=(p?900:600)*d;C.setTransform(d,0,0,d,0,0);}
+function resetGame(resetBlock=true){if(resetBlock)block={x:225,y:112,w:46,h:76};walker={x:283,y:300,r:10};path=[];drag=null;mode='waiting';fallAt=0;completedAt=0;repath=0;particles=[];setStatus('waiting')}
+function lineHitsBox(x,y,pad=0){const minX=block.x-block.w/2-pad,maxX=block.x+block.w/2+pad,minY=block.y-block.h/2-pad,maxY=block.y+block.h/2+pad;
+ let tmin=0,tmax=1,dx=x-L.x,dy=y-L.y;
+ for(const [o,d,lo,hi] of [[L.x,dx,minX,maxX],[L.y,dy,minY,maxY]]){if(Math.abs(d)<1e-8){if(o<lo||o>hi)return false;}else{let a=(lo-o)/d,b=(hi-o)/d;if(a>b)[a,b]=[b,a];tmin=Math.max(tmin,a);tmax=Math.min(tmax,b);if(tmin>tmax)return false;}}
+ return tmin<.999&&tmax>0&&x>block.x+block.w*.30;
+}
+function onBox(x,y,pad=0){return Math.abs(x-block.x)<block.w/2+pad&&Math.abs(y-block.y)<block.h/2+pad}
+function shadow(x,y){return lineHitsBox(x,y,0)}
+function onWater(x,y){return x>water.x1&&x<water.x2&&y>water.y1&&y<water.y2}
+function pass(x,y){if(x<26||x>866||y<185||y>415||onBox(x,y,13))return false; if(onWater(x,y)&&!shadow(x,y))return false;return true}
+const S=12,NX=Math.ceil(W/S),NY=Math.ceil(H/S),dirs=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+function findPath(){const blocked=new Uint8Array(NX*NY);for(let j=0;j<NY;j++)for(let i=0;i<NX;i++)blocked[j*NX+i]=pass(i*S+S/2,j*S+S/2)?0:1;
+ const startX=clamp(Math.floor(walker.x/S),0,NX-1),startY=clamp(Math.floor(walker.y/S),0,NY-1),endX=Math.floor(G.x/S),endY=Math.floor(G.y/S),start=startY*NX+startX,end=endY*NX+endX;
+ if(blocked[start]||blocked[end])return [];
+ const prev=new Int32Array(NX*NY).fill(-1),q=new Int32Array(NX*NY);let a=0,z=0;q[z++]=start;prev[start]=start;
+ while(a<z){const cur=q[a++];if(cur===end)break;const x=cur%NX,y=(cur/NX)|0;for(const [dx,dy] of dirs){const xx=x+dx,yy=y+dy;if(xx<0||xx>=NX||yy<0||yy>=NY)continue;const id=yy*NX+xx;if(prev[id]!==-1||blocked[id])continue;if(dx&&dy&&(blocked[y*NX+xx]||blocked[yy*NX+x]))continue;prev[id]=cur;q[z++]=id;}}
+ if(prev[end]===-1)return [];
+ const out=[];let at=end;while(at!==start){out.push({x:(at%NX)*S+S/2,y:((at/NX)|0)*S+S/2});at=prev[at]}out.reverse();return out;
+}
+function update(dt){time+=dt;if(mode==='falling'){if(time-fallAt>1.25)resetGame(false);return}if(mode==='won')return;
+ repath-=dt;if(repath<=0){path=findPath();repath=.24;if(mode==='waiting'&&path.length){mode='walking';setStatus('walking')}if(mode==='walking'&&!path.length){mode='waiting';setStatus('waiting')}}
+ if(onWater(walker.x,walker.y)&&!shadow(walker.x,walker.y)){mode='falling';fallAt=time;setStatus('falling');for(let k=0;k<25;k++)particles.push({x:walker.x,y:walker.y,vx:(Math.random()-.5)*120,vy:(Math.random()-.5)*120,t:1});return}
+ if(mode==='walking'&&path.length){let target=path[0];if(Math.hypot(target.x-walker.x,target.y-walker.y)<8&&path.length>1)target=path[1];const dx=target.x-walker.x,dy=target.y-walker.y,dist=Math.hypot(dx,dy);if(dist>0){const step=Math.min(92*dt,dist),nx=walker.x+dx/dist*step,ny=walker.y+dy/dist*step;if(pass(nx,ny)){walker.x=nx;walker.y=ny;}else{path=[];repath=0;}}
+ if(Math.hypot(walker.x-G.x,walker.y-G.y)<17){mode='won';completedAt=time;setStatus('won');for(let k=0;k<55;k++)particles.push({x:G.x,y:G.y,vx:(Math.random()-.5)*240,vy:(Math.random()-.5)*240,t:1+Math.random()});}}
+ for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.98;p.vy*=.98;p.t-=dt*.8}particles=particles.filter(p=>p.t>0);
+}
+function shadowPoly(){const corners=[{x:block.x-block.w/2,y:block.y-block.h/2},{x:block.x+block.w/2,y:block.y-block.h/2},{x:block.x+block.w/2,y:block.y+block.h/2},{x:block.x-block.w/2,y:block.y+block.h/2}];let top=corners[0],bot=corners[0],min=Infinity,max=-Infinity;for(const p of corners){const a=Math.atan2(p.y-L.y,p.x-L.x);if(a<min){min=a;top=p}if(a>max){max=a;bot=p}}const extend=p=>({x:L.x+(p.x-L.x)*8,y:L.y+(p.y-L.y)*8});return [top,extend(top),extend(bot),bot]}
+function fillPoly(points,color){C.fillStyle=color;C.beginPath();C.moveTo(points[0].x,points[0].y);for(let i=1;i<points.length;i++)C.lineTo(points[i].x,points[i].y);C.closePath();C.fill()}
+function draw(){C.save();if(portrait){C.translate(600,0);C.rotate(Math.PI/2)}
+ const bg=C.createLinearGradient(0,0,900,600);bg.addColorStop(0,'#293844');bg.addColorStop(.55,'#172f3c');bg.addColorStop(1,'#142734');C.fillStyle=bg;C.fillRect(0,0,W,H);
+ // Dark earth above and below the narrow navigable strip.
+ C.fillStyle='#10212b';C.fillRect(0,0,900,167);C.fillRect(0,433,900,167);
+ for(let i=0;i<72;i++){let x=(i*127.19)%900,y=(i*83.73)%600;C.fillStyle=i%3?'#a6b9a40c':'#efdcaf13';C.fillRect(x,y,2+(i%3),2)}
+ // Stone banks and a continuous abyss across the playable strip.
+ C.fillStyle='#465354';C.fillRect(0,170,900,260);C.fillStyle='#4b5b5b';for(let x=0;x<900;x+=29){C.fillRect(x,174,21,2);C.fillRect(x+12,424,12,2)}
+ C.fillStyle='#102d3c';C.fillRect(water.x1,168,water.x2-water.x1,264);
+ for(let k=0;k<34;k++){let x=water.x1+((k*41+time*13)%277),y=177+(k*53)%245;C.fillStyle=k%2?'#468b9750':'#4ca4ad38';C.fillRect(x,y,13+(k%4)*7,1.5)}
+ // Warm light across the void; absence of light will solidify the shadow.
+ const glow=C.createRadialGradient(L.x,L.y,12,L.x,L.y,950);glow.addColorStop(0,'#ffe3a7b8');glow.addColorStop(.3,'#d5a56861');glow.addColorStop(.75,'#a8843e36');glow.addColorStop(1,'#c9a3590b');C.fillStyle=glow;C.fillRect(0,165,900,269);
+ // Shadow wedge, strictly derived from the blocker geometry.
+ C.save();C.beginPath();C.rect(0,170,900,260);C.clip();fillPoly(shadowPoly(),'#0a2531d8');C.restore();
+ // The bridge has collision, not merely a painted shadow.
+ C.save();C.beginPath();C.rect(water.x1,170,water.x2-water.x1,260);C.clip();for(let x=water.x1;x<water.x2;x+=10)for(let y=176;y<424;y+=10){if(shadow(x+5,y+5)){C.fillStyle=((x+y)/10)%3<1?'#2e827f':'#246f72';C.fillRect(x+.5,y+.5,9,9);if((Math.floor(x/10)+Math.floor(y/10))%7===0){C.fillStyle='#7ed3c247';C.fillRect(x+3,y+3,2,2)}}}C.restore();
+ // Water rim.
+ C.fillStyle='#98b3a04a';C.fillRect(water.x1-3,169,3,262);C.fillRect(water.x2,169,3,262);
+ // Goal and lantern are not draggable.
+ const pulse=.5+.5*Math.sin(time*3);C.fillStyle='#79edb61c';C.beginPath();C.arc(G.x,G.y,30+pulse*8,0,Math.PI*2);C.fill();C.strokeStyle='#a3ffce';C.lineWidth=2;C.beginPath();C.arc(G.x,G.y,19,0,Math.PI*2);C.stroke();C.fillStyle='#c9ffde';C.fillRect(G.x-4,G.y-8,8,16);C.fillRect(G.x-8,G.y-4,16,8);
+ C.fillStyle='#f7e2a748';C.beginPath();C.arc(L.x,L.y,29+Math.sin(time*2)*3,0,Math.PI*2);C.fill();C.fillStyle='#ffe1a0';C.beginPath();C.arc(L.x,L.y,13,0,Math.PI*2);C.fill();C.fillStyle='#fff6d4';C.beginPath();C.arc(L.x,L.y,5,0,Math.PI*2);C.fill();
+ // Moveable occluder, drawn above the projected geometry.
+ C.save();C.translate(block.x,block.y);C.fillStyle='#0718219c';C.fillRect(-block.w/2+5,-block.h/2+7,block.w,block.h);C.fillStyle=drag?'#b99c73':'#9d917d';C.fillRect(-block.w/2,-block.h/2,block.w,block.h);C.fillStyle='#cbb899';C.fillRect(-block.w/2,-block.h/2,block.w-5,8);C.fillStyle='#6d726d';C.fillRect(block.w/2-8,-block.h/2+8,8,block.h-8);C.fillStyle='#e4cda7';C.fillRect(-10,-10,5,5);C.fillRect(8,10,4,7);C.strokeStyle='#f7e0ad';C.lineWidth=2;C.setLineDash([4,5]);C.strokeRect(-block.w/2-6,-block.h/2-6,block.w+12,block.h+12);C.setLineDash([]);C.restore();
+ // Wanderer: small, animated, embodied actor.
+ if(mode!=='falling'){const bob=Math.sin(time*13)*1.8;C.fillStyle='#081c26a8';C.beginPath();C.ellipse(walker.x,walker.y+11,12,5,0,0,Math.PI*2);C.fill();C.fillStyle='#d3eee0';C.beginPath();C.arc(walker.x,walker.y+bob,10,0,Math.PI*2);C.fill();C.fillStyle='#203e48';C.beginPath();C.arc(walker.x+3,walker.y-2+bob,3,0,Math.PI*2);C.fill();C.fillStyle='#85cfc3';C.fillRect(walker.x-8,walker.y+7+bob,5,4);C.fillRect(walker.x+5,walker.y+7-bob,5,4)}
+ for(const p of particles){C.fillStyle=mode==='won'?'#b4ffcd':'#9cd0e4';C.globalAlpha=Math.max(0,Math.min(1,p.t));C.fillRect(p.x,p.y,3,3)}C.globalAlpha=1;
+ // Compact unobtrusive glyphs that work after rotation.
+ C.strokeStyle='#d2e5d34a';C.lineWidth=1;C.strokeRect(18,182,848,236);
+ C.restore();}
+function pos(e){const r=canvas.getBoundingClientRect(),xx=(e.clientX-r.left)/r.width,yy=(e.clientY-r.top)/r.height;return portrait?{x:yy*900,y:(1-xx)*600}:{x:xx*900,y:yy*600}}
+canvas.addEventListener('pointerdown',e=>{const p=pos(e);if(Math.abs(p.x-block.x)<block.w/2+32&&Math.abs(p.y-block.y)<block.h/2+32){drag={id:e.pointerId,dx:p.x-block.x,dy:p.y-block.y};canvas.setPointerCapture(e.pointerId);canvas.classList.add('drag');e.preventDefault()}});
+canvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const p=pos(e);block.x=clamp(p.x-drag.dx,160,340);block.y=clamp(p.y-drag.dy,95,505);repath=0;e.preventDefault()});
+function release(e){if(drag&&drag.id===e.pointerId){drag=null;canvas.classList.remove('drag')}}canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
+reset.addEventListener('click',()=>resetGame(true));window.addEventListener('resize',resize);resize();resetGame();
+function frame(ms){if(!last)last=ms;const dt=Math.min((ms-last)/1000,.045);last=ms;update(dt);draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+// Read-only diagnostic for automated, non-Owner browser experiments.
+Object.defineProperty(window,'__obcyProbe',{value:()=>({mode,block:{x:block.x,y:block.y},walker:{x:walker.x,y:walker.y},bridgeMid:shadow(500,300),bridgeUpper:shadow(500,210),pathNodes:path.length,portrait})});
+})();
+</script>
+</body></html>
