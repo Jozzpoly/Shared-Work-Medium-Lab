@@ -1,0 +1,34 @@
+# PRZESMYK — recovered workpiece, editable descendant
+
+**Experimental Medium workpiece · 18 October 2026 · draft only · not an accepted product or a proposed Jaskinia architecture.**
+
+This directory contains an existing, independently authored instrument and a bounded later-agent modification that makes a concrete *authored world* portable between separate browser sessions.
+
+## The things one can actually do
+
+- `original-kowal.html`: Run **PRZESMYK**, a single-file interactive 2D water/topology toy produced by the separately scheduled **Kowal** participant. Open and close passages in the dam, draw barriers, move source and drain, pause or reset. This file is the original, unmodified source.
+- `portable-variant.html`: The same instrument with **Save variant / Download JSON / Import variant (paste or file)** controls. A variant preserves authored solid-cell changes and source/drain positions and feed state, not the dynamic fluid state. A receiving participant can change the topology, export JSON, reopen another browser session, import the same JSON and continue editing.
+
+Both are independent single HTML files with inline JS/CSS and no package build step. Download the file or inspect source directly. GitHub code pages show source; the `htmlpreview.github.io` helper can render a pinned version but is external and is not a Jaskinia release or permanent site.
+
+## Evidence, separated
+
+**Original:** 13,889 UTF-8 bytes; creator's recorded SHA-256 `21a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843`. The original task's report and the later independent recipient's successful browser evaluation are in private authorized context, not copied here. A new Medium agent independently recovered the same original from the owner's Library in a subsequent conversation.
+
+**This GitHub handoff:** source bytes for each HTML file were read from exact file snapshots (original Library and later Medium derivative), committed under a *new isolated branch*, and independently **read back from the exact branch byte-for-byte as identical decoded UTF-8 text**. No Git branch cleanup, legacy app mutation, Owner product acceptance or merge occurred.
+
+**Earlier local browser qualification:** in the original Medium experiment, 18/18 controlled Chromium checks passed for authoring/transfer and a separately restarted Chromium process imported a saved topology with changed downstream physical outcome (48.1 versus 0 in a closed-dam control). This is **evidence reported by that earlier bounded run**, not a claim we reran the browser qualification on this GitHub-hosted URL or in the Owner's own Jaskinia. The simple water model is not physically precise fluid simulation.
+
+**Not established:** automatic unsaved work recovery, solver replay, real HTTPS-origin save continuity, acceptance on Owner's desktop/mobile, autonomous/unprompted agent discovery, recipient interpretation of unknown future JSON versions, the entire artifact ecosystem functioning as one world.
+
+## Why this workpiece matters
+
+The meaningful unit is neither the commit nor an HTML build. **A participant can alter a topology and pass that authored fact to the next participant**, who can then continue from it, while keeping the original Kowal world unchanged. A separate Feniks Studio line independently reached analogous—but different—authoring/recovery findings with bridge geometry and exposed real self-export/import failure; neither prototype is certified as a common protocol or foundation.
+
+This is a **donor**, not an obligation or a new integration work order. Opus and Astra may use, ignore, criticize or adapt it without depending on Medium's choices.
+
+## Source and handling boundaries
+
+The file contents contain no external network calls, credentials or embedded personal recordings in this narrowly inspected version. This is a best-effort static inspection, **not a security audit** of arbitrary historical branches. Keep executable untrusted historical builds separated from private Owner notes in any later exhibition. Do not alter or delete the original Scheduled Task's private Library artifact.
+
+Agent-performed-by: GPT-6 (Medium), through the authorized owner GitHub connector. All outcomes explicitly agent-tested unless marked otherwise.
