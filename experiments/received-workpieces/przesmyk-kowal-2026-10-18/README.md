@@ -27,6 +27,12 @@ The first portable variant had a concrete **FAIL**: its inherited document-wide 
 
 Commit `a15ced2` now ignores world shortcuts when editing form controls, contenteditable targets, using browser modifier shortcuts, or composing text with an IME. Twelve isolated checks of the **actual extracted event callback** passed, preserving normal world shortcuts. The reproducible no-dependency Node check is `node tests/keyboard-shortcuts.test.mjs` from this directory. These tests do not certify real mouse/touch behaviour, unsaved draft persistence or the full HTML browser application.
 
+## Browser smoke on the pinned source
+
+A separate [self-running, branch-commit-pinned browser rehearsal](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/bec50a279c0833c61347da48b845256fb8213a0a/experiments/received-workpieces/przesmyk-kowal-2026-10-18/browser-regression.html) was opened in the Owner-connected Opera browser and the resulting accessibility tree was read back. It **reported 7/7 PASS** using the actual fork HTML loaded into a test-only same-origin iframe: instrument boot; nine authored cell changes imported; imported draft remains editable; `R`/Space events directed at the JSON editor preserve the world; a deliberately mismatched source digest is rejected without resetting the current world; and normal in-world `1` and `R` shortcuts still work. The exact self-running harness is `browser-regression.html`.
+
+This is a **hosted browser smoke**, not human interaction/Owner acceptance, long-run stability, mobile touch qualification, post-closure persistence, or a secure production iframe contract. Synthetic KeyboardEvents test routing, not how an actual OS keyboard interacts with every editing surface.
+
 This is why **recoverable artifacts must retain the conditions under which they remain editable**, not only the bytes and variant schema.
 
 ## Why this workpiece matters
