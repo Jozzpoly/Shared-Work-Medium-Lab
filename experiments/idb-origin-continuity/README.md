@@ -22,6 +22,7 @@ Material source content hash, place-document reference and **storage location/av
 
 - On the live HTTPS page, IndexedDB operations completed and the probe displayed an existing disposable marker.
 - A **new distinct Opera tab**, running the exact pinned source at the **same HTTPS origin** with `#read`, reported **ODZYSKANO ZAPIS** with the **same marker**. Environment: Windows desktop, Opera/Chromium build shown by the probe. This is browser UI/DOM-read evidence in the Owner-connected Opera, not an external-host database attestation.
+- A **third new Opera tab** opened an exact **byte-identical HTML copy at a DIFFERENT URL PATH** within the same `htmlpreview.github.io` origin: [`identical-copy.html#read`](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/f7092211c32c22b4889d68d2c7dbdfb69f22d1e2/experiments/idb-origin-continuity/identical-copy.html#read). The independently fetched GitHub file had the **same blob SHA** as `index.html`, and the distinct-path page recovered the **same marker**. This is a real HTTP(S) same-origin path control, NOT a moved `file://` test.
 - Reported `navigator.storage.persisted() === false`; this **does not mean that current data were lost**, only that durable-storage permission was not currently granted.
 - **NOT tested**: complete browser exit and next-day return, a moved/renamed `file://` file, another browser profile, private/incognito mode, quota eviction, database corruption and restoration of imported GLB dependencies.
 
