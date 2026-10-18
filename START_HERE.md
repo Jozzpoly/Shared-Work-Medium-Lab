@@ -4,12 +4,27 @@ This is the canonical entry point for a fresh human or agent entering Shared Wor
 
 Do **not** assume the latest chat, summary, or implementation idea is authoritative. Recover the current state from this repository and linked sources.
 
-**Current next-session checkpoint (18 October):** [Medium field closure — decisions, verified sources, unresolved regressions and stop conditions](docs/NEXT_DAY_FIELD_CLOSURE_2026-10-18.md). Read this **brief bounded checkpoint** before the older dated research. It is not an approved architecture, a new task queue or a command to resume a stale plan.
+## CURRENT REPOSITORY LIFECYCLE — 18 Oct 2026 (verify live GitHub before acting)
+
+**Owner-authorized maintenance was actually performed, not merely proposed.** Historical research PRs **#5, #17, #23, #24, #25, #28 are CLOSED UNMERGED**. Historical Issues **#1, #2** are closed; their source, discussion and branch history were retained. Closing a research PR means **no merge is pending**, not that its tests failed, the idea is banned, or its evidence may be erased. Open GitHub PRs and Issues are the live authority for their own lifecycle; this note is a dated entry point.
+
+**Only three Medium PRs remain open at this checkpoint:**
+- [#26 — Kowal/PRZESMYK recoverable original and portable derivative](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/26): live, unmerged donor; exact upstream source and editable topology.
+- [#27 — one-click playable descendants, two instruments, detached lens, ŚLAD](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/27): live, unmerged, **stacked on #26**. Its inherited R/Space authoring regression was **fixed at 9570e852**, not an outstanding blocker at that revision. Recompare moving HEADs before reuse. Owner's fluid-feel judgement is not product acceptance.
+- [#22 — Cloudflare source-observation probe](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/22): **open on purpose**, because it documents a previously deployed external Worker and the unresolved operational/deployment boundary. Do not assume an open PR means a requested merge; do not revive failed automatic previews or add infrastructure without a receiving task.
+
+[Issue #7](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7) remains the broad active **field research** thread, not a project-manager inbox or a requirement to post updates. [Jaskinia's own compass](https://github.com/Jozzpoly/Jozz-Cave-Workbench/issues/5) and [Opus's Jaskinia v6/v6.1 PR #4](https://github.com/Jozzpoly/Jozz-Cave-Workbench/pull/4) govern that separate product; do not treat the older v5-only descriptions below as current Jaskinia implementation. A/B Jaskinia GPT PR #3 was also closed **unmerged** as a preserved donor, without changing Opus's branch.
+
+**Research/product boundaries:** the historical Medium World/Library experience has **Owner FAIL**; no subsequent machine PASS promotes it. Keep an actual tested feature, an active experiment, a closed specimen, a deployed external service and an Owner-accepted product distinct. Dates and PR HEADs move; recheck them when a decision depends on freshness. No automatic cleanup, deletion or scheduled monitor was installed.
+
+---
+
+**Dated next-session checkpoint (18 October; historical orientation, not today's task):** [Medium field closure — decisions, verified sources, unresolved regressions and stop conditions](docs/NEXT_DAY_FIELD_CLOSURE_2026-10-18.md). Read this **brief bounded checkpoint** before the older dated research. It is not an approved architecture, a new task queue or a command to resume a stale plan.
 
 
 **Current Owner product verdict (2026-10-10):** The existing Medium human-facing experience was **not accepted (Owner FAIL)**. Quiet Presence PR #5 and the separate five-card Library PR #17 are unmerged experiments, not a working or Owner-approved Medium. Claude's broader visual Library exploration was received positively *as a direction*, not as product acceptance. Before describing Feniks or any project's present state, verify the receiving project's own live sources; First Hearth is historical SPC/LLM Live NPC evidence, **not current Feniks**. See the [canonical Owner-observed boundary](docs/RESEARCH_STATE.md#owner-observed-product-boundary--2026-10-10-recovery).
 
-## New field orientation — 2026-10-18 (verify live sources)
+## Dated field orientation — 2026-10-18 (historical; verify live sources)
 
 This is a **short correction to dated October 10–11 research below**, not a new architecture, required workflow, Owner product acceptance, or replacement for the underlying sources.
 

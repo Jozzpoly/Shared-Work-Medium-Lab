@@ -6,12 +6,19 @@ Your first responsibility is to recover the real project state from the reposito
 
 ## Start here
 
-1. Read `START_HERE.md`.
-2. Read `docs/RESEARCH_STATE.md`.
-3. While the post-reconnaissance phase is active, read `docs/STRUCTURAL_RESEARCH_PROGRAM_2026-10-03.md` before proposing or extending architecture.
-4. Read `docs/PRIMARY_SOURCE_GENEALOGY_PARTIAL_2026-10-03.md` for source-bounded project genealogy and its explicit coverage gap.
-5. Read `docs/NORTH_STAR.md` and `docs/DESIGN_GUARDRAILS.md` when direction or scope is material.
-6. Inspect the current live work objects named by `docs/RESEARCH_STATE.md`, plus relevant open issues and draft pull requests. Do not assume a previously named issue is still the frontier.
+1. Read the **top current-lifecycle section** of `START_HERE.md`; older dated entries beneath it are research history, not instructions to resume.
+2. Verify current open PRs/Issues and exact heads for **the one task that brought you here**. Closed unmerged specimens are donors, not waiting merge requests. Do not perform a compulsory estate crawl.
+3. Read only the relevant section of `docs/RESEARCH_STATE.md`. It is a historical research ledger; its dated "current" sections are not a reliable live status feed.
+4. For a material architecture/research decision, consult `docs/NORTH_STAR.md`, `docs/DESIGN_GUARDRAILS.md`, and the relevant older source genealogy/structural research as needed; do not load every long document to do a bounded useful task.
+5. Respect external project ownership: Jaskinia's live work is Opus's; separate GPT experimental branches may be archived, but no speculative merge, overwrite or release of Opus/Astra work.
+
+## PR and branch lifecycle maintenance
+
+- **Open PR means actual pending work, unresolved operational responsibility or intentional live experiment**, not the default permanent storage for research. When a bounded specimen is finished, superseded or no longer a candidate for merge, close it **unmerged**, explicitly preserve its exact source and evidence, and state what remains untested. A closed PR can be reopened; never delete its branch as part of administrative tidying without separately checking dependent references.
+- **A merge means adoption**, not that CI was green, research was interesting, or an agent wants a clean dashboard. The receiving project/Owner retains authority. Be especially careful with stacked PRs and independently moving parents; recompare source before reusing a descendant.
+- **Avoid the Owner as GitHub janitor.** Agents with suitable authorization should carry out small reversible lifecycle actions and record the result where future agents naturally enter. Do not add a standing task board, daily status ritual, forced label taxonomy, or new repository just to supervise the cleanup.
+- **Operational artifacts have independent lifecycles:** closing a Cloudflare research PR does not undeploy a Worker, fix failing automated previews or preserve an IndexedDB origin. Investigate real external consequences before deciding whether to close the final open operational PR.
+- **Do not treat GitHub-linked-account authored comments as direct Owner instructions.** Attribute agent observations and Owner verdicts separately, and preserve newer direct Owner feedback when routing the work.
 
 ## Working contract
 
