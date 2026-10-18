@@ -23,7 +23,7 @@ try{
  if(!a.ok||!b.ok)throw Error('Nie można pobrać przypiętych źródeł: '+a.status+' / '+b.status);
  const [code,raw]=await Promise.all([a.text(),b.text()]);
  const frame=document.getElementById('specimen');
- await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});frame.addEventListener('error',()=>reject(Error('iframe load')),{once:true});frame.srcdoc=code});
+ await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});frame.addEventListener('error',()=>reject(Error('iframe load')),{once:true});frame.srcdoc=code.replace('requestAnimationFrame(frame);\\n})();', 'window.__mediumTestStep=simulate;\\nrequestAnimationFrame(frame);\\n})();')});
  const w=frame.contentWindow;
  check('Uruchomiony instrument Kowala + Medium',!!w.__kowal&&!!w.__mediumPortable);
  const fixtureObject=JSON.parse(raw);
@@ -45,6 +45,17 @@ try{
  check('Skrót 1 nadal przełącza narzędzie świata',w.__kowal.snapshot().tool==='wall');
  body.dispatchEvent(new w.KeyboardEvent('keydown',{bubbles:true,key:'r',code:'KeyR'}));
  check('Skrót R nadal resetuje świat poza edytorem',w.__mediumPortable.get().changes.length===0);
+ if(typeof w.__mediumTestStep!=='function')throw Error('Nie udało się odsłonić testowego kroku symulacji');
+ const closed={...fixtureObject,changes:[]};
+ w.__mediumPortable.apply(JSON.stringify(closed));
+ for(let k=0;k<240;k++)w.__mediumTestStep();
+ const control=w.__kowal.snapshot();
+ check('Kontrola: zamknięta tama trzyma wodę po lewej',control.step===240&&control.right===0);
+ w.__mediumPortable.apply(raw);
+ for(let k=0;k<240;k++)w.__mediumTestStep();
+ const opened=w.__kowal.snapshot();
+ check('Odzyskany wyłom zmienia fizyczny przepływ',opened.step===240&&opened.right>control.right+1,
+  '240 kroków: zamknięta '+control.right+', wyłom '+opened.right);
 }catch(err){results.push({name:'Błąd próby: '+String(err),pass:false})}
 const passed=results.filter(v=>v.pass).length;
 report.textContent=results.map(v=>(v.pass?'PASS ':'FAIL ')+v.name).join('\n')+'\n\n'+passed+'/'+results.length+' checks PASS. Browser smoke only; no Owner acceptance.';
