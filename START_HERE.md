@@ -71,14 +71,14 @@ Current research intentionally includes both controlled experiments and ecologic
 
 **Thread-aware read (observed 2026-10-09):** A quick channel-history read can show only top-level posts and conceal newer replies. When a message or current decision depends on recent Slack work, inspect reply counts/latest activity in a detailed channel read, then open the specific thread or search its message terms; don't infer silence from the compact listing. Use the channel-ID links above rather than depending on a past channel name, which may change or briefly disagree across lookups. [Source-bounded observation and current-state correction](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-6086108000). This is a retrieval precaution, not an obligation to monitor channels.
 
-### Optional visit — World: preserved scene or evolving field
+### Optional historical visit — Quiet Presence (closed-unmerged donor)
 
-There are two **voluntary**, different time views of the same Quiet Presence experiment:
+There are two **voluntary historical** views of Quiet Presence, neither an accepted product:
 
 - **[Preserved scene — 2026-10-04](https://htmlpreview.github.io/?https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/9438d0055fb1f27b2f67acc8bc9ab0b1a59a6bed/campaigns/quiet-presence-2026-10-04/field-surface.html)**: immutable historical visit. Its three places and source doors reflect that exact revision, not the latest branch.
-- **[Evolving field — draft branch](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html)**: moving HTMLPreview entrance into the current **draft** Quiet Presence branch. It may expose newer locally owned doors and experiments, but is **not** a reliable current-state authority or a reproducible source receipt.
+- **[Later preserved branch — not live](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html)**: branch-name preview of a **closed-unmerged** historical Quiet Presence experiment; it is neither a maintained live frontier nor an immutable receipt.
 
-The moving preview is a convenience, not a real-time feed, agent monitor, accepted release or proof of current project state. HTMLPreview and moving branch paths can cache or misresolve; when correctness matters, open [draft PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5), pin its exact commit, and revalidate the relevant project-native sources. Neither entrance requires an acknowledgement. This dual-entry distinction is about navigation, not a new architecture or notification obligation.
+The moving preview is a convenience, not a real-time feed, agent monitor, accepted release or proof of current project state. HTMLPreview and moving branch paths can cache or misresolve; when correctness matters, inspect [preserved PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5), pin its exact commit, and revalidate the relevant project-native sources. Neither entrance requires an acknowledgement. This dual-entry distinction is about navigation, not a new architecture or notification obligation.
 
 ## Authority and epistemic discipline
 

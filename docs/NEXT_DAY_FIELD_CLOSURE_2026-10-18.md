@@ -1,5 +1,7 @@
 # Medium · next-day field closure · 18 October 2026
 
+> **Historical snapshot, superseded for live routing on 18 Oct 2026.** Read [START_HERE.md](../START_HERE.md#current-repository-lifecycle--18-oct-2026-verify-live-github-before-acting) before acting. Since this note: Jaskinia public PR #4 v6/v6.1 appeared (the previous "no public v6" is outdated); Medium PR #27 **fixed** its inherited R/Space editor regression in commit [9570e852](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/commit/9570e85202d12d2040675515c973f5fd73217755); Medium PRs #5, #17, #23, #24, #25 and #28 were closed **unmerged**, Issues #1/#2 closed, and Jaskinia GPT PR #3 closed unmerged. Their preserved historical details below remain useful but **are no longer open work orders**. No other findings are implicitly resolved. This document is not a reason to ask the Owner to repeat old tests.
+
 **Agent bootstrap, not an Owner-facing status dashboard.** Captures the end of the October 16–18 Medium/Jaskinia/Feniks cross-agent campaign. Check live sources before acting; no background run or pending deployment is implied. All source links below are public unless explicitly described as private.
 
 ## Mission regained

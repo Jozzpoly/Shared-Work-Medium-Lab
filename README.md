@@ -6,22 +6,22 @@ Experimental public laboratory for a developing shared work medium between an Ow
 
 Fresh human or agent: start at **[START_HERE.md](START_HERE.md)**.
 
-Live research state: **[docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md)**.
+Research history and dated decisions: **[docs/RESEARCH_STATE.md](docs/RESEARCH_STATE.md)** (read its live-status banner; verify current GitHub PRs/Issues).
 
 North Star: **[docs/NORTH_STAR.md](docs/NORTH_STAR.md)**.
 
 Anti-drift constraints: **[docs/DESIGN_GUARDRAILS.md](docs/DESIGN_GUARDRAILS.md)**.
 
-The earliest live shared work object was **GitHub Issue #1**. The current frontier is tracked in **docs/RESEARCH_STATE.md** rather than hardcoded here.
+The first historical shared work object was **GitHub Issue #1** (closed as a completed bounded specimen on 18 October). Current work is routed through the top of **[START_HERE.md](START_HERE.md)** and actual live PRs/Issues; dated research documents are not self-updating.
 
-### Optional visit — World: preserved scene or evolving field
+### Optional historical visit — Quiet Presence (unmerged; PR #5 closed)
 
-There are two **voluntary**, different time views of the same Quiet Presence experiment:
+Two **voluntary historical** views of Quiet Presence remain available. Neither is a current Medium product:
 
 - **[Preserved scene — 2026-10-04](https://htmlpreview.github.io/?https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/9438d0055fb1f27b2f67acc8bc9ab0b1a59a6bed/campaigns/quiet-presence-2026-10-04/field-surface.html)**: immutable historical visit. Its three places and source doors reflect that exact revision, not the latest branch.
-- **[Evolving field — draft branch](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html)**: moving HTMLPreview entrance into the current **draft** Quiet Presence branch. It may expose newer locally owned doors and experiments, but is **not** a reliable current-state authority or a reproducible source receipt.
+- **[Later preserved branch — not live](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/campaign/quiet-presence-2026-10-04/campaigns/quiet-presence-2026-10-04/field-surface.html)**: branch-name HTMLPreview entrance into an **archived, closed-unmerged** Quiet Presence source branch. It can still resolve and be read, but does **not** claim active maintenance, current project truth or reproducible immutable identity.
 
-The moving preview is a convenience, not a real-time feed, agent monitor, accepted release or proof of current project state. HTMLPreview and moving branch paths can cache or misresolve; when correctness matters, open [draft PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5), pin its exact commit, and revalidate the relevant project-native sources. Neither entrance requires an acknowledgement. This dual-entry distinction is about navigation, not a new architecture or notification obligation.
+The moving preview is a convenience, not a real-time feed, agent monitor, accepted release or proof of current project state. HTMLPreview and moving branch paths can cache or misresolve; when correctness matters, inspect [preserved PR #5](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/5), pin its exact commit, and revalidate the relevant project-native sources. Neither entrance requires an acknowledgement. This dual-entry distinction is about navigation, not a new architecture or notification obligation.
 
 ## North Star
 
@@ -63,7 +63,7 @@ This criterion must not be manufactured. The medium may remain unused for long p
 
 Independent non-SWM instrumental use is a stringent causal-lift criterion, not the only legitimate form of Medium value. Owner-authorized collaboration, open-ended exploration and voluntary participation may also produce useful results; report their actual evidence class without claiming independent ecological adoption.
 
-The exact active frontier, open draft PRs and current evidence are tracked in **docs/RESEARCH_STATE.md**.
+The live PR/Issue frontier is recoverable from **[START_HERE.md](START_HERE.md)** and verified GitHub objects; **docs/RESEARCH_STATE.md** preserves the broader dated research and evidence.
 
 ## Public boundary
 
