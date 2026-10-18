@@ -92,7 +92,14 @@ function choose(v){tool=v;document.querySelectorAll('[data-tool]').forEach(b=>b.
 document.querySelectorAll('[data-tool]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.tool)));
 $('feed').addEventListener('click',()=>{feeding=!feeding;$('feed').textContent='DOPŁYW: '+(feeding?'WŁ.':'WYŁ.');$('feed').setAttribute('aria-pressed',String(feeding))});
 $('pause').addEventListener('click',()=>{paused=!paused;$('pause').textContent=paused?'▶ WZNÓW':'PAUZA';$('pause').setAttribute('aria-pressed',String(paused))});$('reset').addEventListener('click',initial);
-document.addEventListener('keydown',e=>{if(e.target.tagName==='BUTTON'&&e.code==='Space')return;if(e.key==='1')choose('wall');if(e.key==='2')choose('erase');if(e.key.toLowerCase()==='r')initial();if(e.code==='Space'){e.preventDefault();$('pause').click()}});
+// The original global world shortcuts must not fire while editing an authored variant.
+document.addEventListener('keydown',e=>{
+ if(e.defaultPrevented||e.isComposing||e.ctrlKey||e.altKey||e.metaKey||e.target?.closest?.('input, textarea, select, button, [contenteditable], [role="textbox"]'))return;
+ if(e.key==='1')choose('wall');
+ if(e.key==='2')choose('erase');
+ if(e.key.toLowerCase()==='r')initial();
+ if(e.code==='Space'){e.preventDefault();$('pause').click()}
+});
 function frame(now){const dt=Math.min(.075,(now-last)/1000||0);last=now;clock+=dt;if(!paused){accum+=dt;let loops=0;while(accum>=1/30&&loops++<3){simulate();accum-=1/30}}draw();requestAnimationFrame(frame)}
 // Read-only test interface: a browser can verify input→world causality without screenshots.
 window.__kowal={sample:(x,y)=>({solid:solid[index(x,y)],mass:mass[index(x,y)]}),snapshot:()=>{let left=0,right=0,solids=0;for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const i=index(x,y);if(solid[i])solids++;if(x<55)left+=mass[i];if(x>57)right+=mass[i]}return{step,paused,tool,feeding,source:{...source},drain:{...drain},left:+left.toFixed(2),right:+right.toFixed(2),escaped:+escaped.toFixed(2),solids,damSolid:solid[index(56,50)]===1}}};
