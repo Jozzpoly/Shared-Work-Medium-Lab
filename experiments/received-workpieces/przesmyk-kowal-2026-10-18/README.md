@@ -21,6 +21,14 @@ Both are independent single HTML files with inline JS/CSS and no package build s
 
 **Not established:** automatic unsaved work recovery, solver replay, real HTTPS-origin save continuity, acceptance on Owner's desktop/mobile, autonomous/unprompted agent discovery, recipient interpretation of unknown future JSON versions, the entire artifact ecosystem functioning as one world.
 
+## Keyboard focus and unintentional work loss
+
+The first portable variant had a concrete **FAIL**: its inherited document-wide `R` shortcut reset the running world even while the recipient was typing `r` into the new JSON textarea; the inherited Space shortcut intercepted spaces inside the same editor. This was not a bug in the original Kowal instrument (which had no such textarea): it arose at the boundary when one agent added a new authoring affordance to another agent's work.
+
+Commit `a15ced2` now ignores world shortcuts when editing form controls, contenteditable targets, using browser modifier shortcuts, or composing text with an IME. Twelve isolated checks of the **actual extracted event callback** passed, preserving normal world shortcuts. The reproducible no-dependency Node check is `node tests/keyboard-shortcuts.test.mjs` from this directory. These tests do not certify real mouse/touch behaviour, unsaved draft persistence or the full HTML browser application.
+
+This is why **recoverable artifacts must retain the conditions under which they remain editable**, not only the bytes and variant schema.
+
 ## Why this workpiece matters
 
 The meaningful unit is neither the commit nor an HTML build. **A participant can alter a topology and pass that authored fact to the next participant**, who can then continue from it, while keeping the original Kowal world unchanged. A separate Feniks Studio line independently reached analogous—but different—authoring/recovery findings with bridge geometry and exposed real self-export/import failure; neither prototype is certified as a common protocol or foundation.
