@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GRZYBNIA — mokry szlak</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#0b1517;color:#e8e4cc;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{display:flex;flex-direction:column;align-items:center;gap:10px;padding:clamp(10px,2vh,22px) 12px 18px;background:radial-gradient(ellipse at 50% 0%,#243b38 0%,#0b1517 70%)}
+header,.controls,footer{width:min(980px,100%)}header{display:flex;justify-content:space-between;align-items:center;gap:10px}header small{display:block;color:#9bb8a9;letter-spacing:.22em;font-size:10px;margin-bottom:3px}h1{font-size:clamp(22px,4vw,33px);line-height:1.1;margin:0;letter-spacing:.13em;color:#e5d7a2}.badge{border:1px solid #627e72;border-radius:20px;padding:7px 10px;color:#b7d8bf;font-size:11px;letter-spacing:.08em;white-space:nowrap}
+.frame{width:min(980px,100%);aspect-ratio:8/5;border:1px solid #5d7668;border-radius:14px;overflow:hidden;box-shadow:0 20px 70px #0009,0 0 0 5px #d6f5b306;position:relative;background:#142525}
+canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair;user-select:none}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:42px}#status{font-size:13px;line-height:1.5;color:#c9d9cd;flex:1}#status strong{color:#e8d796}button{font-size:13px;font-weight:700;padding:10px 15px;border:1px solid #708f7d;border-radius:10px;background:#263e38;color:#f4e8be;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:2px solid #e3d398;outline-offset:2px}footer{font-size:12px;color:#a7b9ae;line-height:1.5}footer b{color:#eadca9}
+@media(max-height:690px) and (orientation:landscape){body{gap:5px;padding:5px 12px}header small,footer{display:none}h1{font-size:19px}.frame{width:min(980px,calc((100dvh - 105px)*8/5));max-height:calc(100dvh - 105px)}.controls{min-height:34px}button{padding:7px 12px}}
+@media(orientation:portrait){body{padding:8px 9px;gap:7px}.badge{font-size:9px}h1{font-size:21px}.frame{width:min(100%,calc((100dvh - 205px)*5/8));aspect-ratio:5/8;max-height:calc(100dvh - 205px)}#status{font-size:12px}footer{font-size:11px}}
+</style>
+</head>
+<body>
+<header><div><small>ŻYWE PODŁOŻE / EKSPERYMENT 01</small><h1>GRZYBNIA</h1></div><span class="badge">WILGOĆ → WZROST</span></header>
+<div class="frame"><canvas id="field" aria-label="Przeciągaj chmurę wilgoci po ziemi. Poprowadź żywą grzybnię od bursztynowego korzenia do niebieskiego owocnika, omijając skałę."></canvas></div>
+<div class="controls"><div id="status" role="status" aria-live="polite">Prowadź <strong>deszcz</strong> przed rosnącą grzybnią. Skała nie przepuszcza strzępek.</div><button id="reset" type="button">↻ Od nowa</button></div>
+<footer><b>Dotyk / mysz:</b> dotknij i przeciągnij w dowolnym miejscu planszy — przesuwasz obłok wilgoci. Grzybnia rośnie od złotego korzenia tylko tam, gdzie dociera deszcz. Nie przejdzie przez skałę; wyschnięte odnogi stopniowo zanikają. Spróbuj doprowadzić żywe połączenie do niebieskiego owocnika.</footer>
+<script>
+(()=>{'use strict';
+const canvas=document.querySelector('#field'),ctx=canvas.getContext('2d',{alpha:false}),status=document.querySelector('#status');
+const W=960,H=600,COLS=48,ROWS=30,S=18,OX=48,OY=30,N=COLS*ROWS,ROOT={x:5,y:14},GOAL={x:43,y:14},RAIN_R=130;
+const idx=(x,y)=>y*COLS+x,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rock=new Uint8Array(N),life=new Float32Array(N),powered=new Uint8Array(N),neighbors=[[-1,0],[1,0],[0,-1],[0,1]];
+let rain={x:OX+(ROOT.x+2)*S,y:OY+ROOT.y*S},pointer=null,portrait=false,elapsed=0,ticks=0,growthAcc=0,connected=false,connectedTime=0,lit=0,last=0,frameNo=0;
+const cellPos=(x,y)=>({x:OX+(x+.5)*S,y:OY+(y+.5)*S});
+for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++)if(x>=22&&x<=25&&y<=20)rock[idx(x,y)]=1;
+const rootId=idx(ROOT.x,ROOT.y),goalId=idx(GOAL.x,GOAL.y);
+function reset(){life.fill(0);powered.fill(0);life[rootId]=1;rain=cellPos(ROOT.x+2,ROOT.y);elapsed=0;ticks=0;growthAcc=0;connected=false;connectedTime=0;lit=0;updateStatus()}
+function wet(x,y){const p=cellPos(x,y),d=Math.hypot(p.x-rain.x,p.y-rain.y);return clamp((RAIN_R-d)/55,0,1)}
+function updatePower(){powered.fill(0);const q=new Int32Array(N);let a=0,b=0;q[b++]=rootId;powered[rootId]=1;while(a<b){const k=q[a++],x=k%COLS,y=(k/COLS)|0;for(const [dx,dy] of neighbors){const xx=x+dx,yy=y+dy;if(xx<0||xx>=COLS||yy<0||yy>=ROWS)continue;const j=idx(xx,yy);if(powered[j]||life[j]<=.08||rock[j])continue;powered[j]=1;q[b++]=j}}connected=!!powered[goalId]}
+function grow(){let best=-1,bestScore=-1e9;for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
+ const k=idx(x,y);if(life[k]>.08||rock[k])continue;const moisture=wet(x,y);if(moisture<.22)continue;
+ let contact=false;for(const [dx,dy] of neighbors){const xx=x+dx,yy=y+dy;if(xx>=0&&xx<COLS&&yy>=0&&yy<ROWS&&powered[idx(xx,yy)]){contact=true;break}}if(!contact)continue;
+ // The leading wet edge wins. A tiny deterministic texture breaks grid ties.
+ const dist=Math.hypot(x-ROOT.x,y-ROOT.y),hash=((x*71+y*131+ticks*17)%43)/43;
+ const score=moisture*5+dist*.028+hash*.32;
+ if(score>bestScore){bestScore=score;best=k}
+ }if(best>=0)life[best]=.87;
+}
+function update(dt){dt=Math.min(dt,.09);elapsed+=dt;growthAcc+=dt;for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
+ const k=idx(x,y);if(k===rootId||life[k]<=0)continue;const moisture=wet(x,y);life[k]=clamp(life[k]+dt*(moisture*.31-.024),0,1);
+ }updatePower();while(growthAcc>.037){growthAcc-=.037;grow();ticks++;if(ticks%5===0)updatePower()}updatePower();if(connected){connectedTime+=dt;lit=Math.min(1,lit+dt*1.8)}else{connectedTime=0;lit=Math.max(0,lit-dt*2)}updateStatus()}
+function updateStatus(){const alive=life.reduce((n,v)=>n+(v>.08?1:0),0);let text;if(connected){text='<strong>POŁĄCZENIE ŻYJE.</strong> Owocnik świeci od '+connectedTime.toFixed(1)+' s. Przenieś deszcz i obserwuj, czy szlak przetrwa.'}else if(alive>55){text='<strong>'+alive+' żywych pól.</strong> Skała wymusza obejście od dołu. Prowadź deszcz przy końcu strzępek.'}else{text='Prowadź <strong>deszcz</strong> przed rosnącą grzybnią. Skała nie przepuszcza strzępek.'}if(status.innerHTML!==text)status.innerHTML=text}
+function pathLine(a,b,col,w){ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
+function draw(){frameNo++;ctx.save();if(portrait){ctx.translate(600,0);ctx.rotate(Math.PI/2)}ctx.fillStyle='#152b2a';ctx.fillRect(0,0,W,H);
+ // Soil strata and faint roots are visual only.
+ for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const k=idx(x,y),p=cellPos(x,y),hash=(x*31+y*83)%13;
+ ctx.fillStyle=hash<4?'#1b3430':'#1a302e';ctx.fillRect(p.x-S/2+.6,p.y-S/2+.6,S-1.2,S-1.2);
+ if(hash===2){ctx.fillStyle='#567e5a35';ctx.fillRect(p.x-2,p.y+3,2,2)}
+ if(rock[k]){ctx.fillStyle=((x+y)%3===0)?'#4c5b55':'#44534e';ctx.fillRect(p.x-S/2,p.y-S/2,S,S);ctx.fillStyle='#81918455';ctx.fillRect(p.x-S/2+1,p.y-S/2+1,S-3,2);ctx.fillStyle='#1a2725';ctx.fillRect(p.x+S/2-3,p.y-S/2+3,3,S-3)}
+ }
+ // Living network. Connections are material, not decorative: same adjacency as energy BFS.
+ for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const k=idx(x,y);if(life[k]<=.08)continue;const p=cellPos(x,y),v=life[k],on=!!powered[k],alpha=Math.min(1,v);
+ for(const [dx,dy] of [[1,0],[0,1]]){const xx=x+dx,yy=y+dy;if(xx>=COLS||yy>=ROWS)continue;const j=idx(xx,yy);if(life[j]<=.08)continue;const q=cellPos(xx,yy);pathLine(p,q,on&&powered[j]?`rgba(177,225,150,${.23+.53*alpha})`:`rgba(107,126,108,${.1+.24*alpha})`,on?4:2)}
+ ctx.fillStyle=on?`rgba(170,229,145,${.2+.68*alpha})`:`rgba(102,120,104,${.18+.3*alpha})`;ctx.beginPath();ctx.arc(p.x,p.y,2.5+2.2*alpha,0,Math.PI*2);ctx.fill();if(on&&((x*17+y*31)%9===0)){ctx.fillStyle='#e9df9b';ctx.fillRect(p.x-1,p.y-1,2,2)}
+ }
+ // Rain halo reveals the exact growth zone.
+ const glow=ctx.createRadialGradient(rain.x,rain.y,5,rain.x,rain.y,RAIN_R);glow.addColorStop(0,'#91d6d843');glow.addColorStop(.55,'#70bdb829');glow.addColorStop(1,'#5b9b9700');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(rain.x,rain.y,RAIN_R,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#a3d8d866';ctx.lineWidth=1.3;ctx.setLineDash([3,9]);ctx.beginPath();ctx.arc(rain.x,rain.y,RAIN_R-13,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+ for(let i=0;i<38;i++){const a=i*2.399+Math.sin(elapsed*.5+i)*.3,r=17+((i*59+elapsed*17)%103),x=rain.x+Math.cos(a)*r,y=rain.y+Math.sin(a)*r;ctx.fillStyle=i%3?'#a2dad388':'#d4ece2a0';ctx.fillRect(x,y,1.5,5)}
+ // Root and fruiting body.
+ const rp=cellPos(ROOT.x,ROOT.y),gp=cellPos(GOAL.x,GOAL.y),pulse=.5+.5*Math.sin(elapsed*3);
+ ctx.fillStyle='#e5c56e29';ctx.beginPath();ctx.arc(rp.x,rp.y,28+pulse*3,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f3d887';ctx.beginPath();ctx.arc(rp.x,rp.y,12,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff1bb';ctx.beginPath();ctx.arc(rp.x,rp.y,4,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle=connected?'#90ffdd':'#5b9c9d';ctx.beginPath();ctx.arc(gp.x,gp.y,12+lit*3,0,Math.PI*2);ctx.fill();ctx.fillStyle='#c6fff0';ctx.fillRect(gp.x-3,gp.y-17,6,22);ctx.fillRect(gp.x-12,gp.y-13,24,6);
+ if(lit>0){const halo=ctx.createRadialGradient(gp.x,gp.y,2,gp.x,gp.y,75);halo.addColorStop(0,`rgba(142,255,210,${.5*lit})`);halo.addColorStop(1,'#80e5b800');ctx.fillStyle=halo;ctx.beginPath();ctx.arc(gp.x,gp.y,75,0,Math.PI*2);ctx.fill()}
+ ctx.fillStyle='#d4d6bcaa';ctx.font='bold 12px system-ui';ctx.textAlign='center';if(portrait){for(const [p,label] of [[rp,'KORZEŃ'],[gp,'OWOCNIK']]){ctx.save();ctx.translate(p.x,p.y-32);ctx.rotate(-Math.PI/2);ctx.fillText(label,0,0);ctx.restore()}}else{ctx.fillText('KORZEŃ',rp.x,rp.y-30);ctx.fillText('OWOCNIK',gp.x,gp.y-30)}
+ ctx.strokeStyle='#6d8e7a99';ctx.strokeRect(OX,OY,COLS*S,ROWS*S);ctx.restore();
+}
+function resize(){portrait=matchMedia('(orientation:portrait)').matches;const d=Math.min(devicePixelRatio||1,2),w=portrait?600:960,h=portrait?960:600;canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0)}
+function position(e){const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;return portrait?{x:y*W,y:(1-x)*H}:{x:x*W,y:y*H}}
+function moveRain(e){const p=position(e);rain.x=clamp(p.x,OX+12,OX+COLS*S-12);rain.y=clamp(p.y,OY+12,OY+ROWS*S-12)}
+canvas.addEventListener('pointerdown',e=>{if(pointer!==null)return;pointer=e.pointerId;canvas.setPointerCapture(e.pointerId);moveRain(e);e.preventDefault()});canvas.addEventListener('pointermove',e=>{if(pointer===e.pointerId){moveRain(e);e.preventDefault()}});function release(e){if(pointer===e.pointerId)pointer=null}canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
+document.querySelector('#reset').addEventListener('click',reset);window.addEventListener('resize',resize);resize();reset();
+function frame(t){if(!last)last=t;const dt=Math.min((t-last)/1000,.05);last=t;update(dt);draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+Object.defineProperty(window,'__grzybniaProbe',{value:()=>({connected,connectedTime:+connectedTime.toFixed(2),alive:life.reduce((n,v)=>n+(v>.08?1:0),0),powered:powered.reduce((n,v)=>n+v,0),rain:{x:+rain.x.toFixed(1),y:+rain.y.toFixed(1)},portrait,rootAlive:life[rootId],goalAlive:+life[goalId].toFixed(2),elapsed:+elapsed.toFixed(2)})});
+Object.defineProperty(window,'__grzybniaTest',{value:Object.freeze({step:(seconds)=>{for(let t=0;t<seconds;t+=.025)update(Math.min(.025,seconds-t));draw()},rainCell:(x,y)=>{rain=cellPos(x,y)}})});
+})();
+</script>
+</body></html>
