@@ -15,3 +15,7 @@ Nie wykonano testu fizycznego telefonu, Owner acceptance ani jakości zabawy. Me
 
 ## Następna hipoteza
 Czy zmiana cienia **w trakcie marszu** może być twórczą manipulacją, a nie tylko prostym przełącznikiem „most jest / nie ma”? Testować bez dodawania drugiego poziomu i sztucznego tutorialu.
+## Zdalna trwałość
+- `workpiece.html` zapisany na wyłącznie eksperymentalnej gałęzi: commit `638d352b5c054c3ff1562b249e077cd2332f95a1`, blob SHA `0903e94056d6a39ef386513b5c7d5a0b19657440`.
+- **Niezależny GitHub readback PASS:** zdalny blob SHA jest identyczny z lokalnym `git hash-object` testowanego pliku. To dowodzi identycznych bajtów, nie zdalnego browser-playtestu.
+- Opcjonalny podgląd raw.githack nie został tu zweryfikowany runtime; preferować źródło GitHub, dopóki użytkownik lub browser nie potwierdzi uruchomienia.
