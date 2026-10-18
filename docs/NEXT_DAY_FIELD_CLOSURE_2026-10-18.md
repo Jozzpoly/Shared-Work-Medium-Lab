@@ -21,7 +21,7 @@ Owner's lived Jaskinia incident (older imperfect Lab spontaneously used on a pho
 | [Medium PR #27](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/27) | Independent, easier **one-click playable authored world** stacked on #26; first-contact UX improvement | Draft **currently contains an older global keyboard handler**; see below |
 | [Medium PR #28](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/pull/28) | Small origin-scoped IndexedDB return probe, confirmed across new HTTPS tabs, URL paths and closed-tab reopen in one browser profile | **No** file:// move/rename, full-browser restart, cross-origin asset library or real Jaskinia scene roundtrip tested |
 
-Additional existing Medium drafts #5, #17, #22–25 remain **unmerged evidence**, not accepted product layers. Private [D21](../README.md) corpus exists in Owner's Medium Library (last verified v10); it is deep retrieval material, **not** a required read or a main-branch document. GitHub source files need not duplicate its ~80 kB.
+Additional existing Medium drafts #5, #17, #22–25 remain **unmerged evidence**, not accepted product layers. Private D21 corpus exists in Owner's Medium Library (last verified v10); it is deep retrieval material, **not** a required read or a main-branch document. GitHub source files need not duplicate its ~80 kB.
 
 ## Two critical open correctness findings
 
