@@ -17,6 +17,7 @@ const file="https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/a1
 const fixture="https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/a5c0f5f150705bdd3da4da9e94457e09b86fb688/experiments/received-workpieces/przesmyk-kowal-2026-10-18/example-authored-breach.json";
 const report=document.getElementById('report');
 const results=[];
+let measuredFlow='';
 function check(name,yes,detail=''){results.push({name,pass:!!yes});report.textContent=results.map(v=>(v.pass?'PASS ':'FAIL ')+v.name).join('\n')+(detail?'\n'+detail:'')}
 try{
  const [a,b]=await Promise.all([fetch(file),fetch(fixture)]);
@@ -54,11 +55,12 @@ try{
  w.__mediumPortable.apply(raw);
  for(let k=0;k<240;k++)w.__mediumTestStep();
  const opened=w.__kowal.snapshot();
+ measuredFlow='240 kroków · zamknięta tama: '+control.right+' · wyłom: '+opened.right;
  check('Odzyskany wyłom zmienia fizyczny przepływ',opened.step===240&&opened.right>control.right+1,
   '240 kroków: zamknięta '+control.right+', wyłom '+opened.right);
 }catch(err){results.push({name:'Błąd próby: '+String(err),pass:false})}
 const passed=results.filter(v=>v.pass).length;
-report.textContent=results.map(v=>(v.pass?'PASS ':'FAIL ')+v.name).join('\n')+'\n\n'+passed+'/'+results.length+' checks PASS. Browser smoke only; no Owner acceptance.';
+report.textContent=results.map(v=>(v.pass?'PASS ':'FAIL ')+v.name).join('\n')+'\n\n'+measuredFlow+'\n'+passed+'/'+results.length+' checks PASS. Browser smoke only; no Owner acceptance.';
 document.title='PRZESMYK / '+passed+'/'+results.length+' PASS';
 })();
 </script></body></html>
