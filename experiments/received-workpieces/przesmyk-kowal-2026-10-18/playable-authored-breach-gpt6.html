@@ -14,11 +14,21 @@ main{width:min(100%,1100px)}.frame{position:relative;border:1px solid #3c6570;bo
 .exchange label.file-pick input{position:absolute;opacity:0;width:1px;height:1px}.exchange textarea{width:100%;min-height:65px;max-height:145px;resize:vertical;border:1px solid #34515a;border-radius:6px;background:#091720;color:#bbdde3;font:11px ui-monospace,SFMono-Regular,Consolas,monospace;padding:9px;outline-offset:3px}
 .exchange .meta{font-size:11px;color:#91acb4;line-height:1.55}.exchange .statusline{min-height:16px;font-size:11px;color:#bed5d9}.exchange .statusline.error{color:#ffb6a3}
 @media(max-width:650px){.exchange{padding:10px}.exchange header{display:block}.exchange header p{margin-top:4px}}
+
+/* One living world first. Keep authoring portability available but subordinate to direct play. */
+.portable-details{margin:10px auto 0;max-width:1100px;padding:0 14px}
+.portable-details>summary{cursor:pointer;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-weight:650;color:var(--text);list-style-position:inside}
+.portable-details[open]>summary{border-bottom-left-radius:0;border-bottom-right-radius:0}
+.portable-details .exchange{margin:0;border-top:0;border-top-left-radius:0;border-top-right-radius:0}
+#pause[aria-pressed="true"]{border-color:#65dce7;background:#133944;color:#ecfdff;box-shadow:0 0 0 1px rgba(101,220,231,.13) inset}
+#pause[aria-pressed="true"]:focus-visible,.portable-details>summary:focus-visible{outline:2px solid #65dce7;outline-offset:2px}
+
 </style></head><body>
 <header><div class="identity"><div class="sigil" aria-hidden="true"><span>⌁</span></div><div><h1>PRZESMYK</h1><p>ŻYWA TOPOLOGIA / EKSPERYMENT 01</p></div></div><div class="status"><div class="readout"><b id="volume">—</b><small>WODA W ŚWIECIE</small></div><div class="readout"><b id="escaped">0</b><small>ODPŁYNĘŁO</small></div></div></header>
 <main><div class="frame"><canvas id="world" width="896" height="544" aria-label="Symulacja przepływu wody. Rysuj ściany, wycinaj przejścia i przeciągaj źródło lub odpływ."></canvas><div id="hint" class="hint">Tama dzieli świat. <strong>Wybierz DŁUTO i zrób wyłom.</strong><br>Przeciągnij żółte źródło lub fioletowy odpływ.</div></div></main>
 <div class="bottom"><div class="tools" role="group" aria-label="Narzędzia"><button class="tool" data-tool="wall" aria-pressed="false"><span class="key">1</span> MUR</button><button class="tool" data-tool="erase" aria-pressed="true"><span class="key">2</span> DŁUTO</button></div><div class="utility"><button id="feed" class="minor" aria-pressed="true">DOPŁYW: WŁ.</button><button id="pause" class="minor" aria-pressed="false">PAUZA</button><button id="reset" class="minor">↺ OD NOWA</button></div></div>
 
+<details class="portable-details"><summary>Moje dzieło · zapisz / otwórz wariant</summary>
 <section class="exchange" aria-label="Przenieś autorski wariant do innej sesji">
 <header><h2>PRZENOŚNY WARIANT</h2><p>Twoje ściany, przejścia, źródło i odpływ — nie nagranie fizyki.</p></header>
 <div class="actions">
@@ -31,6 +41,7 @@ main{width:min(100%,1100px)}.frame{position:relative;border:1px solid #3c6570;bo
 <div id="variant-status" class="statusline" role="status" aria-live="polite">Oryginał Kowala jest zachowany. Eksperyment Medium dodaje tylko wymianę geometrii.</div>
 <div class="meta">Wariant zachowuje zmienioną topologię oraz położenie źródła i odpływu. Nie zachowuje bieżącej objętości wody, klatek symulacji ani pełnej historii. Nowe okno uruchamia ten sam oryginalny model z odzyskaną konstrukcją.</div>
 </section>
+</details>
 <div class="footer"><span><strong>Eksperyment:</strong> zbuduj zbiornik, zatkaj kanał, przebij tamę pod naporem wody. <span class="pulse">Nie ma poziomów ani zwycięstwa.</span></span><span>Dwa palce mogą działać jednocześnie · R: restart · Spacja: pauza</span></div>
 <script>
 (()=>{'use strict';
