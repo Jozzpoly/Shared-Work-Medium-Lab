@@ -23,7 +23,7 @@ try{
  if(!a.ok||!b.ok)throw Error('Nie można pobrać przypiętych źródeł: '+a.status+' / '+b.status);
  const [code,raw]=await Promise.all([a.text(),b.text()]);
  const frame=document.getElementById('specimen');
- await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});frame.addEventListener('error',()=>reject(Error('iframe load')),{once:true});frame.srcdoc=code.replace('requestAnimationFrame(frame);\\n})();', 'window.__mediumTestStep=simulate;\\nrequestAnimationFrame(frame);\\n})();')});
+ await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});frame.addEventListener('error',()=>reject(Error('iframe load')),{once:true});frame.srcdoc=code.replace('requestAnimationFrame(frame);\n})();', 'window.__mediumTestStep=simulate;\nrequestAnimationFrame(frame);\n})();')});
  const w=frame.contentWindow;
  check('Uruchomiony instrument Kowala + Medium',!!w.__kowal&&!!w.__mediumPortable);
  const fixtureObject=JSON.parse(raw);
