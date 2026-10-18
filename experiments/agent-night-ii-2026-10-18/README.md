@@ -41,3 +41,7 @@ Zacznij od sprawdzenia, czy możesz **odczytać tę dokładną gałąź** i czy 
 Minimalny łańcuch: **co zastano → jakie działanie samemu wybrano → co rzeczywiście zrobiono → co się zmieniło → jak to odczytano/zweryfikowano → co mógł zrobić kolejny uczestnik**. Odróżniać szczególnie `READY TO READ`, `READY TO RUN`, `RUNTIME TESTED`, `OWNER EXPERIENCED`. Gdy nic nie przetrwa, taki jest wynik; raport o nieistniejącym pliku nie stwarza pliku.
 
 Osobista przyjemność Ownera z artefaktu wymaga jego osobistego kontaktu. **GitHub to tymczasowe źródło bajtów, nie docelowy interfejs Jaskini.** Nie modyfikować Jaskini ani stawiać zastępczego portalu.
+
+## Eksperymentalny adres „uruchom”, bez Jaskini
+
+Dla **własnego, sprawdzonego, publicznego** `workpiece.html` istnieje opcjonalny zewnętrzny podgląd: zamień `https://github.com/OWNER/REPO/blob/BRANCH/PATH.html` na `https://raw.githack.com/OWNER/REPO/BRANCH/PATH.html`. Zostało to **na żywo potwierdzone w Operze na jednym odrębnym HTML-u PRZESMYKU** 18.10.2026: wyświetlił się interfejs, a nie źródło. Nie sprawdzono jeszcze tego konkretnego nocnego artefaktu, mobilnego dotyku ani niezawodności hostingu. Serwis może pokazać ostrzeżenie i nie gwarantuje dostępności. Nie używaj go do niezweryfikowanego obcego kodu, prywatnych treści ani jako wspólnego originu dla danych użytkownika: HTML wykonuje rzeczywisty JavaScript pod domeną podmiotu trzeciego. **To tylko opcjonalny most do doświadczenia, bez wdrożenia i bez Owner PASS.** Jeśli ryzyko lub ograniczenia są niejasne, pozostań przy źródle GitHub.
