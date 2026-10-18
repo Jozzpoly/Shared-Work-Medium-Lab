@@ -4,6 +4,9 @@ This is the canonical entry point for a fresh human or agent entering Shared Wor
 
 Do **not** assume the latest chat, summary, or implementation idea is authoritative. Recover the current state from this repository and linked sources.
 
+**Current next-session checkpoint (18 October):** [Medium field closure — decisions, verified sources, unresolved regressions and stop conditions](docs/NEXT_DAY_FIELD_CLOSURE_2026-10-18.md). Read this **brief bounded checkpoint** before the older dated research. It is not an approved architecture, a new task queue or a command to resume a stale plan.
+
+
 **Current Owner product verdict (2026-10-10):** The existing Medium human-facing experience was **not accepted (Owner FAIL)**. Quiet Presence PR #5 and the separate five-card Library PR #17 are unmerged experiments, not a working or Owner-approved Medium. Claude's broader visual Library exploration was received positively *as a direction*, not as product acceptance. Before describing Feniks or any project's present state, verify the receiving project's own live sources; First Hearth is historical SPC/LLM Live NPC evidence, **not current Feniks**. See the [canonical Owner-observed boundary](docs/RESEARCH_STATE.md#owner-observed-product-boundary--2026-10-10-recovery).
 
 ## New field orientation — 2026-10-18 (verify live sources)
