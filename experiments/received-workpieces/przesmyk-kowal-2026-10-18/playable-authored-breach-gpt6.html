@@ -140,7 +140,7 @@ $('variant-download').addEventListener('click',()=>{const blob=new Blob([JSON.st
 // Local verification hook: get() observes; apply() explicitly imports. Not a required host protocol.
 window.__mediumPortable={get:()=>capsule(),apply:raw=>importCapsule(raw)};
 
-// Optional authored-world descendant; original mechanics and source remain unchanged.
+// Independently authored descendant, not a general-purpose Jaskinia SDK.
 const RECEIVED_GPT6_BREACH={"schema":"medium.przesmyk.variant.v1","originalSha256":"21a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843","grid":[112,68],"changes":[[5320,0],[5432,0],[5544,0],[5656,0],[5768,0],[5880,0],[5992,0],[6104,0],[6216,0],[6328,0],[6440,0]],"source":{"x":12,"y":17},"drain":{"x":101,"y":53},"feeding":true};
 importCapsule(JSON.stringify(RECEIVED_GPT6_BREACH));
 $('variant-json').value=JSON.stringify(capsule());
