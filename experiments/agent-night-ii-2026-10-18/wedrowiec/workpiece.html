@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1720"><title>ŚCIEŻKA — pamięć udanych przejść</title>
+<style>
+:root{color-scheme:dark;--ink:#e3f3ee;--muted:#8faeaf;--edge:#33525a;--accent:#81e8c0;--gold:#ffc77a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0,#173039 0,#0b1720 70%);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);padding:16px;min-height:100dvh;display:flex;justify-content:center}main{width:min(100%,1080px)}header{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 12px}h1{font-size:clamp(22px,4vw,34px);font-weight:850;letter-spacing:.16em;margin:0;color:#e9f8ed}header small{display:block;letter-spacing:.14em;color:var(--accent);font-size:11px;font-weight:750}header p{margin:4px 0 0;font-size:13px;color:var(--muted);max-width:580px}header .tag{border:1px solid #47635d;color:#bbd7c6;border-radius:100px;padding:6px 12px;font-size:11px;letter-spacing:.1em}.frame{position:relative;border:1px solid #42646b;border-radius:14px;overflow:hidden;background:#11232a;box-shadow:0 20px 50px #0008,0 0 0 5px #14282d55;touch-action:none}canvas{display:block;width:100%;height:auto;aspect-ratio:12/7;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}.hud{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;pointer-events:none;font-size:11px;letter-spacing:.1em;font-weight:750;color:#d0e4df;text-shadow:0 1px 5px #071418}.hud span{background:#0a1922c7;padding:6px 9px;border:1px solid #32505a;border-radius:6px}.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:14px 0 0}button{appearance:none;background:#1d343b;color:var(--ink);border:1px solid #41616b;border-radius:8px;font:700 12px system-ui;letter-spacing:.07em;padding:12px 15px;cursor:pointer;min-height:42px}button:hover{background:#294650}button:focus-visible{outline:3px solid var(--gold)}button.primary{background:#376b5e;border-color:#76e3bb;color:#fff}button.primary:hover{background:#438876}.controls .spacer{flex:1}.readout{font-size:12px;color:var(--muted);min-width:210px}.readout strong{color:var(--accent)}.hint{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#9cb4b4;font-size:12px;line-height:1.5;margin-top:11px}.hint b{color:#e0f0e7}.bottom{border-top:1px solid #24414a;margin-top:15px;padding-top:12px;color:#708e92;font-size:11px;line-height:1.5}.bottom strong{color:#a6c5bf}@media(max-width:570px){body{padding:10px}header .tag{display:none}.frame{border-radius:9px}.hud{top:6px;left:6px;right:6px;font-size:8px}.hud span{padding:4px}.controls{gap:7px}.controls button{flex:1;padding:10px 6px;font-size:10px}.controls .spacer{display:none}.readout{width:100%;min-width:0}.hint{font-size:11px}}
+</style></head><body><main><header><div><small>WĘDROWIEC · MIKROŚWIAT 01</small><h1>ŚCIEŻKA</h1><p>Rysuj drogi kamieniem. Wędrowiec najpierw błądzi, a po udanej wyprawie ziemia zachowuje ślad sprawdzonego przejścia.</p></div><span class="tag">ROZDROŻA · ŚLAD UDANEJ WYPRAWY</span></header>
+<div class="frame"><canvas id="world" width="960" height="560" aria-label="Świat z ciężkim kamieniem, przeszkodą i autonomicznym wędrowcem. Przeciągnij niebieski kamień od źródła do celu, omijając skałę. Ziemia zapamiętuje jego ślad."></canvas><div class="hud"><span id="left">ŚLAD: 0%</span><span id="right">WĘDROWIEC CZEKA</span></div></div>
+<div class="controls"><button class="primary" id="release">WĘDROWIEC →</button><button id="again">WĘDROWIEC ←</button><button id="reset">WYCZYŚĆ ŚWIAT</button><button id="vectors" aria-pressed="false">POKAŻ PAMIĘĆ</button><button id="mode" aria-pressed="true">DROGI: DWUKIERUNKOWE</button><button id="fork">TEST: ROZDROŻE</button><button id="explore" aria-pressed="true">BADANIE: WŁ.</button><button id="memory" aria-pressed="true">NAUKA Z PRZEJŚĆ: WŁ.</button><div class="spacer"></div><div class="readout" id="readout">Przeciągnij <strong>niebieski kamień</strong> wokół skały.</div></div>
+<div class="hint"><span><b>1.</b> Złap kamień, narysuj trasę, dołóż ślepą odnogę.</span><span><b>2.</b> Uruchom go dwa razy. Porównaj z „NAUKA Z PRZEJŚĆ: WYŁ.”.</span></div><div class="bottom"><strong>Eksperyment:</strong> ziemia pamięta jedynie <em>geometrię kolein</em>. W trybie BADANIE wędrowiec skanuje lokalne koleiny i pamięta odwiedziny tylko w bieżącej wyprawie. Po <em>dotarciu do celu</em> ślad jego przebytej drogi zostaje oczyszczony z pętli i zapisany na ziemi złotym kolorem. Kolejni wędrowcy lokalnie wyczuwają tę wskazówkę w obie strony. Nie jest to globalny pathfinding, a pierwsza nieudana wyprawa niczego nie nauczy. Rozdroże jest syntetyczne, a ręczne koleiny mogą nadal okazać się nieczytelne. „POKAŻ PAMIĘĆ” ujawnia osie kolein oraz odwiedzone przez wędrowca miejsca. Gdy koleiny pokrywają niemal cały teren, tracą wartość jako wskazówka. Wszystko działa offline.</div></main>
+<script>
+(()=>{'use strict';
+const canvas=document.querySelector('#world'),ctx=canvas.getContext('2d'),W=960,H=560,C=12,NX=W/C,NY=Math.ceil(H/C),N=NX*NY,rock={x:410,y:162,w:146,h:236},source={x:99,y:280},goal={x:865,y:280},str=new Float32Array(N),vx=new Float32Array(N),vy=new Float32Array(N),qx=new Float32Array(N),qy=new Float32Array(N),success=new Float32Array(N);let completed=0,learn=true,lastSuccessfulPath=[];let stone={x:source.x,y:source.y,vx:0,vy:0,r:20},walker=null,elapsed=0,run=0,painted=0,showVec=false,twoWay=true,explore=true,last=0,active=new Map(),keys=new Set(),status='Przeciągnij kamień wokół skały.';const $=s=>document.querySelector(s),clip=(v,a,b)=>Math.max(a,Math.min(b,v)),len=(x,y)=>Math.hypot(x,y),norm=(x,y)=>{let l=len(x,y)||1;return [x/l,y/l]};
+function cell(x,y){let i=clip(Math.floor(x/C),0,NX-1),j=clip(Math.floor(y/C),0,NY-1);return j*NX+i}
+function stamp(x,y,dx,dy,amount=1){let mag=len(dx,dy);if(mag<.01)return;dx/=mag;dy/=mag;let cx=Math.floor(x/C),cy=Math.floor(y/C),R=3;for(let j=Math.max(0,cy-R);j<=Math.min(NY-1,cy+R);j++)for(let i=Math.max(0,cx-R);i<=Math.min(NX-1,cx+R);i++){let d=Math.hypot(i+.5-x/C,j+.5-y/C);if(d>R)continue;let w=Math.exp(-d*d*.55)*amount*.16,k=j*NX+i,old=str[k],fresh=clip(old+w,0,1);if(old<.015&&fresh>=.015)painted++;vx[k]=(vx[k]*old+dx*w)/(old+w||1);vy[k]=(vy[k]*old+dy*w)/(old+w||1);qx[k]=(qx[k]*old+(dx*dx-dy*dy)*w)/(old+w||1);qy[k]=(qy[k]*old+(2*dx*dy)*w)/(old+w||1);str[k]=fresh}}
+function trace(x0,y0,x1,y1){let dx=x1-x0,dy=y1-y0,d=len(dx,dy);if(d<1)return;for(let i=0;i<=Math.ceil(d/6);i++){let t=i/Math.ceil(d/6);stamp(x0+dx*t,y0+dy*t,dx,dy,Math.min(1,d/20))}}
+function collideCircle(o,r){o.x=clip(o.x,r+8,W-r-8);o.y=clip(o.y,r+8,H-r-8);let qx=clip(o.x,rock.x,rock.x+rock.w),qy=clip(o.y,rock.y,rock.y+rock.h),dx=o.x-qx,dy=o.y-qy,d=len(dx,dy);if(d<r){if(d>.001){o.x+=dx/d*(r-d);o.y+=dy/d*(r-d);let n=norm(dx,dy),vn=o.vx*n[0]+o.vy*n[1];if(vn<0){o.vx-=vn*n[0];o.vy-=vn*n[1]}}else{let edges=[[Math.abs(o.x-rock.x),rock.x-r,o.y,0,1],[Math.abs(o.x-(rock.x+rock.w)),rock.x+rock.w+r,o.y,0,1],[Math.abs(o.y-rock.y),o.x,rock.y-r,1,0],[Math.abs(o.y-(rock.y+rock.h)),o.x,rock.y+rock.h+r,1,0]].sort((a,b)=>a[0]-b[0]);o.x=edges[0][1];o.y=edges[0][2];if(edges[0][3])o.vy=0;else o.vx=0}}}
+function sample(x,y){let sx=0,sy=0,ox=0,oy=0,sw=0,weight=0,cx=0,cy=0;for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++){let px=x+dx*C,py=y+dy*C;if(px<0||py<0||px>=W||py>=H)continue;let k=cell(px,py),g=Math.exp(-(dx*dx+dy*dy)*.22),w=g*str[k];sx+=vx[k]*w;sy+=vy[k]*w;ox+=qx[k]*w;oy+=qy[k]*w;cx+=px*w;cy+=py*w;sw+=w;weight+=g}return{dx:sx/(sw||1),dy:sy/(sw||1),ox:ox/(sw||1),oy:oy/(sw||1),px:cx/(sw||1),py:cy/(sw||1),s:sw/(weight||1)}}
+function start(direction=1){let origin=direction===1?source:goal;walker={x:origin.x,y:origin.y,vx:0,vy:0,r:9,phase:'moving',stuck:0,direction,travel:[[origin.x,origin.y]],visits:new Float32Array(N),waypoint:null,choiceClock:0,choices:0,turns:0,backtracks:0,history:[]};elapsed=0;run++;status=direction===1?'Wędrowiec szuka drogi…':'Wędrowiec wraca…'}
+function reset(){str.fill(0);vx.fill(0);vy.fill(0);qx.fill(0);qy.fill(0);success.fill(0);completed=0;lastSuccessfulPath=[];painted=0;stone={x:source.x,y:source.y,vx:0,vy:0,r:20};walker=null;elapsed=0;run=0;active.clear();status='Świat wyczyszczony.'}
+function setMode(value){twoWay=value===true||value==='twoWay';walker=null;status=twoWay?'Pamięć bez strzałek.':'Pamięć kierunku ruchu.';$('#mode').setAttribute('aria-pressed',String(twoWay));$('#mode').textContent=twoWay?'DROGI: DWUKIERUNKOWE':'ŚLAD: STRZAŁKI'}
+function syntheticTrail(anchors,passes=4){
+  let path=[],n=33;
+  for(let i=0;i<anchors.length-1;i++){
+    let a=anchors[Math.max(0,i-1)],b=anchors[i],c=anchors[i+1],d=anchors[Math.min(anchors.length-1,i+2)];
+    for(let k=0;k<n;k++){
+      let t=k/n,t2=t*t,t3=t2*t;
+      let f=j=>.5*(2*b[j]+(-a[j]+c[j])*t+(2*a[j]-5*b[j]+4*c[j]-d[j])*t2+(-a[j]+3*b[j]-3*c[j]+d[j])*t3);
+      path.push([f(0),f(1)]);
+    }
+  }
+  path.push(anchors[anchors.length-1]);
+  for(let pass=0;pass<passes;pass++)for(let i=1;i<path.length;i++){
+    let a=path[i-1],b=path[i],dx=b[0]-a[0],dy=b[1]-a[1];
+    stamp(b[0],b[1],dx,dy,1);
+  }
+}
+function forkPreset(){
+  reset();setMode(true);
+  syntheticTrail([[99,280],[210,280],[295,270],[335,410],[390,450],[590,450],[655,400],[705,290],[795,280],[865,280]]);
+  syntheticTrail([[99,280],[210,280],[295,270],[335,170],[390,115],[590,115],[620,100]]);
+  status='TEST: górna odnoga urywa się. Czy wędrowiec zawróci?';
+}
+
+// A second, independent layer: successful *traversal*, not more wheel ruts.
+// A traveler records positions as it walks. Only arrival can authorize a
+// retrospective, loop-erased trace; failure deposits nothing.
+function recordTravel(w){
+  let prev=w.travel[w.travel.length-1];
+  if(len(w.x-prev[0],w.y-prev[1])>7)w.travel.push([w.x,w.y]);
+}
+function rememberSuccess(w){
+  if(!learn)return;
+  recordTravel(w);
+  const stack=[],seen=new Map();
+  for(const pt of w.travel){
+    const key=cell(pt[0],pt[1]);
+    if(seen.has(key)){
+      let idx=seen.get(key);
+      while(stack.length>idx+1){let old=stack.pop();seen.delete(old.key)}
+      stack[idx]={pt,key};
+    }else{seen.set(key,stack.length);stack.push({pt,key})}
+  }
+  for(const {pt} of stack){
+    let cx=Math.floor(pt[0]/C),cy=Math.floor(pt[1]/C);
+    for(let j=Math.max(0,cy-2);j<=Math.min(NY-1,cy+2);j++)for(let i=Math.max(0,cx-2);i<=Math.min(NX-1,cx+2);i++){
+      let d=Math.hypot(i+.5-pt[0]/C,j+.5-pt[1]/C);
+      let k=j*NX+i;success[k]=Math.min(1,success[k]+.11*Math.exp(-d*d*.7));
+    }
+  }
+  lastSuccessfulPath=stack.map(e=>e.pt);
+  completed++;
+  w.savedPoints=stack.length;
+}
+function senseSuccess(x,y){
+  let sum=0,weights=0;
+  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+    let px=x+dx*C,py=y+dy*C;
+    if(px<0||py<0||px>=W||py>=H)continue;
+    let weight=dx===0&&dy===0?2:1;
+    sum+=success[cell(px,py)]*weight;weights+=weight;
+  }
+  return sum/(weights||1);
+}
+// A local, embodied route explorer. It samples short rays on the marked ground.
+// No global search, stored route graph, or oracle about which branch is correct.
+function routeSense(w,dt){
+  w.choiceClock-=dt;
+  const ix=cell(w.x,w.y);
+  w.visits[ix]=Math.min(4,w.visits[ix]+dt*7);
+  // Memory diffuses only a little: avoid repeated centerline jitter.
+  if(w.choiceClock>0 && w.waypoint && len(w.waypoint[0]-w.x,w.waypoint[1]-w.y)>13)return norm(w.waypoint[0]-w.x,w.waypoint[1]-w.y);
+  let best=null,bestScore=-1e9,heading=len(w.vx,w.vy)>4?norm(w.vx,w.vy):[w.direction,0];
+  const dest=w.direction===1?goal:source,goalHeading=norm(dest.x-w.x,dest.y-w.y);
+  for(let a=0;a<32;a++){
+    const theta=a*Math.PI*2/32,ux=Math.cos(theta),uy=Math.sin(theta),R=52;
+    let ok=true,track=0,visited=0,known=0;
+    for(let r=16;r<=R;r+=12){
+      let px=w.x+ux*r,py=w.y+uy*r;
+      if(px<14||py<14||px>W-14||py>H-14||
+         (px>rock.x-12&&px<rock.x+rock.w+12&&py>rock.y-12&&py<rock.y+rock.h+12)){ok=false;break}
+      const q=sample(px,py);
+      track+=Math.min(1,q.s);known+=senseSuccess(px,py);
+      const k=cell(px,py);visited+=Math.min(3,w.visits[k]);
+    }
+    if(!ok)continue;
+    track/=4;visited/=4;known/=4;
+    let align=ux*heading[0]+uy*heading[1],toward=ux*goalHeading[0]+uy*goalHeading[1];
+    // Require a corridor. Familiar trail is still better than open unmarked land.
+    let score=3.0*track-1.0*visited+.38*align+.14*toward+(learn?2.4*known:0);
+    if(track<.08)score-=1.4;
+    // Slight deterministic tie-breaking, avoids symmetrical stalls.
+    score+=.0001*Math.sin(theta*17+w.choices);
+    if(score>bestScore){bestScore=score;best=[w.x+ux*R,w.y+uy*R,track,visited,align]}
+  }
+  w.choiceClock=.26;
+  w.choices++;
+  if(!best || (best[2]<.09 && sample(w.x,w.y).s<.09))return [0,0];
+  if(best[4]<-.45)w.backtracks++;
+  if(w.waypoint){let prev=norm(w.waypoint[0]-w.x,w.waypoint[1]-w.y),next=norm(best[0]-w.x,best[1]-w.y);if(prev[0]*next[0]+prev[1]*next[1]<.1)w.turns++}
+  w.waypoint=best;
+  if(w.history.length<500)w.history.push([Math.round(w.x),Math.round(w.y),Math.round(best[0]),Math.round(best[1]),+bestScore.toFixed(2)]);
+  return norm(best[0]-w.x,best[1]-w.y);
+}
+function step(dt){dt=clip(dt,0,.035);if(active.size||keys.size){let tx=0,ty=0,c=0;for(const p of active.values()){tx+=p.x;ty+=p.y;c++}if(keys.size){let kx=(keys.has('d')||keys.has('ArrowRight')?1:0)-(keys.has('a')||keys.has('ArrowLeft')?1:0),ky=(keys.has('s')||keys.has('ArrowDown')?1:0)-(keys.has('w')||keys.has('ArrowUp')?1:0);if(kx||ky){tx+=stone.x+kx*120;ty+=stone.y+ky*120;c++}}if(c){tx/=c;ty/=c;let dx=tx-stone.x,dy=ty-stone.y;stone.vx+=clip(dx*65,-2400,2400)*dt;stone.vy+=clip(dy*65,-2400,2400)*dt}}let drag=Math.exp(-8*dt);stone.vx*=drag;stone.vy*=drag;let speed=len(stone.vx,stone.vy),cap=520;if(speed>cap){stone.vx*=cap/speed;stone.vy*=cap/speed}let ox=stone.x,oy=stone.y;stone.x+=stone.vx*dt;stone.y+=stone.vy*dt;collideCircle(stone,stone.r);if(len(stone.x-ox,stone.y-oy)>1&&speed>20)trace(ox,oy,stone.x,stone.y);
+if(walker?.phase==='moving'){elapsed+=dt;let s=sample(walker.x,walker.y),guided=s.s>.018,desired=[walker.direction,0];
+if(explore&&twoWay){desired=routeSense(walker,dt);}
+else if(guided){
+  if(twoWay){
+    // Nematic orientation: theta and theta+PI are the same groove.
+    // The actor resolves the sign from its own velocity, not a global route.
+    let theta=.5*Math.atan2(s.oy,s.ox),tx=Math.cos(theta),ty=Math.sin(theta);
+    let h=len(walker.vx,walker.vy)>3?norm(walker.vx,walker.vy):[walker.direction,0],dot=tx*h[0]+ty*h[1];
+    if(dot<0){tx=-tx;ty=-ty}
+    // Attraction to the locally deformed corridor, not to the destination.
+    desired=norm(tx+(s.px-walker.x)*.045,ty+(s.py-walker.y)*.045);
+  }else desired=norm(s.dx+(s.px-walker.x)*.047,s.dy+(s.py-walker.y)*.047);
+}
+let force=(guided||explore)?410:160;walker.vx+=(desired[0]*force-walker.vx*3.4)*dt;walker.vy+=(desired[1]*force-walker.vy*3.4)*dt;let sp=len(walker.vx,walker.vy),max=125;if(sp>max){walker.vx*=max/sp;walker.vy*=max/sp}let x0=walker.x,y0=walker.y;walker.x+=walker.vx*dt;walker.y+=walker.vy*dt;collideCircle(walker,walker.r);recordTravel(walker);let progress=len(walker.x-x0,walker.y-y0);walker.stuck=progress<.12?walker.stuck+dt:Math.max(0,walker.stuck-dt*.4);let destination=walker.direction===1?goal:source;if(len(walker.x-destination.x,walker.y-destination.y)<48){walker.phase='arrived';rememberSuccess(walker);status=`DOTARŁ — ${elapsed.toFixed(1)} s${learn?' · ziemia zapamiętała przejście':''}`;}else if(elapsed>45){walker.phase='timedout';status='NIE DOTARŁ — limit 45 s (możliwa pętla)';}else if(walker.stuck>3){walker.phase='stopped';status=painted===0?'BRAK KOLEIN — nic do odczytania':`UTKNĄŁ — ${Math.round(walker.x)} / ${Math.round(walker.y)}`;}}
+}
+function draw(){ctx.fillStyle='#10232a';ctx.fillRect(0,0,W,H);ctx.save();ctx.strokeStyle='#254049';ctx.lineWidth=1;for(let x=0;x<=W;x+=C*4){ctx.beginPath();ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H);ctx.stroke()}for(let y=0;y<=H;y+=C*4){ctx.beginPath();ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5);ctx.stroke()}ctx.restore();
+for(let j=0;j<NY;j++)for(let i=0;i<NX;i++){let k=j*NX+i,s=str[k];if(s<.025)continue;let x=i*C,y=j*C;ctx.fillStyle=`rgba(${Math.round(58+46*s)},${Math.round(155+70*s)},${Math.round(136+44*s)},${(.08+.67*s).toFixed(3)})`;ctx.fillRect(x,y,C+1,C+1);if(success[k]>.03){ctx.fillStyle=`rgba(255,189,93,${Math.min(.75,success[k]*.68).toFixed(3)})`;ctx.fillRect(x,y,C+1,C+1)}if(showVec&&s>.12&&i%2===0&&j%2===0){ctx.strokeStyle=`rgba(211,255,228,${.2+s*.7})`;ctx.lineWidth=1.5;ctx.beginPath();if(twoWay){let a=.5*Math.atan2(qy[k],qx[k]),dx=Math.cos(a)*5,dy=Math.sin(a)*5;ctx.moveTo(x+6-dx,y+6-dy);ctx.lineTo(x+6+dx,y+6+dy)}else{ctx.moveTo(x+6-vx[k]*4,y+6-vy[k]*4);ctx.lineTo(x+6+vx[k]*5,y+6+vy[k]*5)}ctx.stroke()}}
+if(lastSuccessfulPath.length>1){
+  ctx.save();ctx.strokeStyle='#ffd080';ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.shadowColor='#f3a64c';ctx.shadowBlur=7;
+  ctx.beginPath();lastSuccessfulPath.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke();ctx.restore();
+}
+if(showVec&&walker&&explore){for(let k=0;k<N;k++){let v=walker.visits[k];if(v<.09)continue;ctx.fillStyle=`rgba(255,191,113,${Math.min(.8,.12+v*.4)})`;ctx.beginPath();ctx.arc((k%NX+.5)*C,(Math.floor(k/NX)+.5)*C,Math.min(4,1.1+v*1.3),0,Math.PI*2);ctx.fill()}if(walker.waypoint){ctx.strokeStyle='#ffcc88aa';ctx.setLineDash([4,6]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(walker.x,walker.y);ctx.lineTo(walker.waypoint[0],walker.waypoint[1]);ctx.stroke();ctx.setLineDash([])}}
+ctx.strokeStyle='#5e9b91';ctx.lineWidth=2;ctx.setLineDash([5,9]);ctx.beginPath();ctx.arc(source.x,source.y,36,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#9cb3a9';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText('POCZĄTEK',source.x,source.y+55);
+ctx.shadowColor='#7ce7af';ctx.shadowBlur=25;ctx.strokeStyle='#80e9b5';ctx.lineWidth=6;ctx.beginPath();ctx.arc(goal.x,goal.y,41,-Math.PI*.55,Math.PI*.55);ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle='#9adbbd';ctx.fillText('CEL',goal.x,goal.y+55);
+ctx.fillStyle='#07161c';ctx.shadowColor='#000';ctx.shadowBlur=18;ctx.fillRect(rock.x+6,rock.y+8,rock.w,rock.h);ctx.shadowBlur=0;ctx.fillStyle='#3c5556';ctx.fillRect(rock.x,rock.y,rock.w,rock.h);ctx.fillStyle='#617573';ctx.fillRect(rock.x,rock.y,rock.w,12);ctx.fillStyle='#2d4245';ctx.fillRect(rock.x+rock.w-11,rock.y+12,11,rock.h-12);ctx.fillStyle='#c3d5c8';ctx.font='bold 12px system-ui';ctx.fillText('SKAŁA',rock.x+rock.w/2,rock.y+rock.h/2);
+ctx.shadowColor='#5ee0e6';ctx.shadowBlur=22;ctx.fillStyle='#68d6e2';ctx.beginPath();ctx.arc(stone.x,stone.y,stone.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle='#b9ffff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(stone.x-3,stone.y-4,stone.r-6,Math.PI*1.1,Math.PI*1.8);ctx.stroke();ctx.fillStyle='#10363c';ctx.beginPath();ctx.arc(stone.x+6,stone.y+4,4,0,Math.PI*2);ctx.fill();
+if(walker){ctx.shadowColor='#ffcb7a';ctx.shadowBlur=20;ctx.fillStyle='#ffbf73';ctx.beginPath();ctx.arc(walker.x,walker.y,walker.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#4a3022';ctx.fillRect(walker.x+3,walker.y-3,2,2);if(walker.phase==='arrived'){ctx.strokeStyle='#ffdf91';ctx.lineWidth=2;ctx.beginPath();ctx.arc(walker.x,walker.y,22+Math.sin(performance.now()*.006)*5,0,Math.PI*2);ctx.stroke()}}
+ctx.textAlign='left';ctx.font='bold 12px system-ui';ctx.fillStyle='#c3e6df';ctx.fillText(twoWay?'ZIEMIA PAMIĘTA OŚ KOLEIN':'ZIEMIA PAMIĘTA STRZAŁKI RUCHU',23,H-21);
+$('#left').textContent=`ŚLAD: ${Math.round(painted/N*100)}% · UDANE: ${completed}${painted/N>.65?' · GĘSTY':''}`;$('#right').textContent=walker?walker.phase==='moving'?`WĘDROWIEC: ${elapsed.toFixed(1)} s`:walker.phase==='arrived'?'WĘDROWIEC DOTARŁ':walker.phase==='timedout'?'WĘDROWIEC: LIMIT 45 s':'WĘDROWIEC UTKNĄŁ':'WĘDROWIEC CZEKA';$('#readout').textContent=status+(walker&&explore&&walker.backtracks?' · zawroty: '+walker.backtracks:'');
+}
+function frame(t){let dt=last?(t-last)/1000:0;last=t;for(let n=0;n<Math.ceil(dt/.025);n++)step(dt/Math.ceil(dt/.025));draw();requestAnimationFrame(frame)}
+function pointerPos(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H}}
+canvas.addEventListener('pointerdown',e=>{let p=pointerPos(e);if(len(p.x-stone.x,p.y-stone.y)<85){active.set(e.pointerId,p);canvas.setPointerCapture(e.pointerId);status='Ziemia zapamiętuje rzeczywisty ruch.'}e.preventDefault()});canvas.addEventListener('pointermove',e=>{if(active.has(e.pointerId))active.set(e.pointerId,pointerPos(e))});function drop(e){active.delete(e.pointerId)}canvas.addEventListener('pointerup',drop);canvas.addEventListener('pointercancel',drop);window.addEventListener('keydown',e=>{if(['w','a','s','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){keys.add(e.key);e.preventDefault()}if(e.key===' '&&!e.repeat){start();e.preventDefault()}});window.addEventListener('keyup',e=>keys.delete(e.key));$('#memory').onclick=()=>{learn=!learn;$('#memory').setAttribute('aria-pressed',String(learn));$('#memory').textContent=learn?'NAUKA Z PRZEJŚĆ: WŁ.':'NAUKA Z PRZEJŚĆ: WYŁ.';walker=null;status=learn?'Złote ślady są znów wyczuwalne.':'Złote ślady pozostają, ale wędrowiec ich nie odczytuje.'};$('#explore').onclick=()=>{explore=!explore;$('#explore').setAttribute('aria-pressed',String(explore));$('#explore').textContent=explore?'BADANIE: WŁ.':'BADANIE: WYŁ.';walker=null;status=explore?'Lokalna pamięć włączona.':'Stary algorytm śledzenia koleiny.'};$('#release').onclick=()=>start(1);$('#again').onclick=()=>start(-1);$('#reset').onclick=reset;$('#mode').onclick=()=>setMode(!twoWay);$('#fork').onclick=forkPreset;$('#vectors').onclick=()=>{showVec=!showVec;$('#vectors').setAttribute('aria-pressed',String(showVec));$('#vectors').textContent=showVec?'UKRYJ PAMIĘĆ':'POKAŻ PAMIĘĆ'};
+// Diagnostic API: tests can inject the same trace as a human drag, but cannot claim to be human playtests.
+window.__lab={reset,start,step,snapshot:()=>({walker:walker&&{...walker},stone:{...stone},painted,elapsed,status,twoWay,explore,learn,completed,successCells:success.reduce((a,v)=>a+(v>.08?1:0),0),choices:walker?.choices,backtracks:walker?.backtracks,turns:walker?.turns,history:walker?.history}),setMode,setLearn(v){learn=!!v},setExplore(v){explore=!!v},forkPreset,stampPath(points){for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],d=len(b[0]-a[0],b[1]-a[1]);for(let j=0;j<=Math.ceil(d/4);j++){let t=j/Math.ceil(d/4),x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t;stamp(x,y,b[0]-a[0],b[1]-a[1],1)}}},sample};
+requestAnimationFrame(frame);
+})();
+</script>
+
+
+<!--
+WĘDROWIEC · ŚCIEŻKA 04. Self-contained/offline; no network scripts.
+Two independent layers: human-made physical ruts and a gold record of
+successful traversal. On arrival, a cell-based loop erasure retains a
+continuous subset of the actual walked path; no direct path-to-goal oracle.
+The new layer persists within the open page, resets on WYCZYŚĆ ŚWIAT.
+See EVIDENCE.md for runtime tests and limitations.
+-->
+</body></html>
