@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medium — czy zapis wraca do tego samego programu?</title>
+<style>
+:root{color-scheme:dark;--bg:#0e151c;--panel:#16232f;--line:#375166;--ink:#d9edf3;--muted:#a0b6c2;--accent:#72dfc8}
+*{box-sizing:border-box}body{margin:0 auto;max-width:880px;padding:clamp(15px,4vw,38px);background:var(--bg);font:15px/1.58 system-ui,Segoe UI,sans-serif;color:var(--ink)}
+h1{font-size:clamp(23px,4vw,34px);line-height:1.16;margin:0 0 15px}h2{font-size:18px;margin:0 0 8px}
+p{color:var(--muted)}a{color:var(--accent)}
+header p{max-width:65ch}
+section{padding:18px;border:1px solid var(--line);background:var(--panel);border-radius:12px;margin:16px 0}
+strong{color:var(--ink)}
+button{font:600 14px system-ui;color:var(--ink);background:#264156;border:1px solid #527389;padding:11px 16px;border-radius:8px;cursor:pointer;margin:4px 6px 4px 0}
+button:focus-visible{outline:3px solid var(--accent)}
+.token{font:600 clamp(18px,4vw,29px) ui-monospace,monospace;letter-spacing:1px;overflow-wrap:anywhere;margin:14px 0;color:var(--accent)}
+.status{font-weight:700;font-size:17px}
+pre{white-space:pre-wrap;word-break:break-word;font:13px/1.6 ui-monospace,monospace;color:#b1c7d2}
+.note{font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>Co naprawdę wraca po ponownym otwarciu?</h1>
+<p>Miniaturowa sonda IndexedDB dla Jaskini i Medium. To jest samodzielny plik HTML, nie Studio ani implementacja biblioteki modeli. Pozostawia w tej przeglądarce <strong>jeden losowy identyfikator testowy</strong>. Niczego nie wysyła do sieci.</p>
+</header>
+<section>
+<h2>Próba odzyskania</h2>
+<div id="status" class="status" role="status" aria-live="polite">Odczytuję lokalny zapis…</div>
+<div id="token" class="token">—</div>
+<button id="read" type="button">Odczytaj ponownie</button>
+<button id="seed" type="button">Utwórz identyfikator, jeśli brak</button>
+<p class="note">Domyślnie narzędzie nie zapisuje niczego bez wybrania przycisku. Wejdź na tę stronę ponownie lub otwórz identyczny plik w innym miejscu, aby sprawdzić, czy identyfikator nadal jest widoczny.</p>
+</section>
+<section>
+<h2>Środowisko uruchomienia</h2>
+<pre id="environment">—</pre>
+<p class="note">Sposób traktowania <code>file://</code> różni się między przeglądarkami i ich wersjami. Nie porównujemy samych hashy plików — porównujemy rzeczywiście widziany stan IndexedDB.</p>
+</section>
+<section>
+<h2>Jak użyć jako kontrpróby</h2>
+<p>1. Otwórz HTML z HTTPS lub lokalnie jako <code>file://</code>. Zapisz losowy identyfikator przyciskiem.</p>
+<p>2. Zamknij kartę i otwórz ponownie w tym samym profilu. Użyj „Odczytaj ponownie”.</p>
+<p>3. Skopiuj dokładnie ten sam HTML pod inną nazwę lub do innego folderu i uruchom jako osobny plik; zobacz, czy znasz ten sam identyfikator.</p>
+<p>4. Otwórz kopię z innego originu (np. po przejściu z Pages na lokalny plik). Ponownie porównaj identyfikatory. Brak zapisu w drugim originie nie dowodzi utraty danych z pierwszego.</p>
+<p><strong>To nie jest test bezpieczeństwa ani gwarancja trwałości.</strong> Powinien ujawniać granicę odzyskiwania, nie ukrywać jej za statusem „zapisano”.</p>
+</section>
+<script>
+(()=>{'use strict';
+const DB='medium-jaskinia-idb-origin-probe-v1',STORE='sentinels',KEY='same-program-different-origin';
+const status=document.getElementById('status'),token=document.getElementById('token'),environment=document.getElementById('environment');
+const update=(s,t)=>{status.textContent=s;token.textContent=t||'—'};
+let pending=false;
+function openDB(){
+ return new Promise((resolve,reject)=>{
+   if(!('indexedDB' in window)){reject(new Error('IndexedDB niedostępne'));return}
+   const req=indexedDB.open(DB,1);
+   req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(STORE))req.result.createObjectStore(STORE)};
+   req.onerror=()=>reject(req.error||Error('Błąd otwarcia IndexedDB'));
+   req.onblocked=()=>reject(Error('Inna karta blokuje otwarcie bazy'));
+   req.onsuccess=()=>{req.result.onversionchange=()=>req.result.close();resolve(req.result)};
+ });
+}
+function fromTx(db,mode,operation){
+ return new Promise((resolve,reject)=>{
+   const tx=db.transaction(STORE,mode),store=tx.objectStore(STORE);
+   let val;
+   const req=operation(store);
+   req.onsuccess=()=>{val=req.result};
+   req.onerror=()=>reject(req.error||Error('Operacja IndexedDB'));
+   tx.onerror=()=>reject(tx.error||Error('Błąd transakcji'));
+   tx.onabort=()=>reject(tx.error||Error('Transakcja przerwana'));
+   tx.oncomplete=()=>resolve(val);
+ });
+}
+function makeToken(){
+ if(crypto&&typeof crypto.randomUUID==='function')return crypto.randomUUID().slice(0,18);
+ const b=new Uint8Array(10);crypto.getRandomValues(b);
+ return Array.from(b,x=>x.toString(16).padStart(2,'0')).join('');
+}
+async function showEnvironment(){
+ const vals={protocol:location.protocol,origin:location.origin,secureContext:isSecureContext,userAgent:navigator.userAgent,mode:location.hash||'normal'};
+ if(navigator.storage?.persisted){try{vals.persistedPermission=await navigator.storage.persisted()}catch(e){vals.persistedPermission=e.name}}
+ if(navigator.storage?.estimate){try{const est=await navigator.storage.estimate();vals.storageQuotaBytes=est.quota}catch(e){vals.storageQuotaBytes=e.name}}
+ environment.textContent=JSON.stringify(vals,null,2);
+}
+async function run(create){
+ if(pending)return;pending=true;update('Sprawdzam IndexedDB…','');
+ let db;
+ try{
+  db=await openDB();
+  let current=await fromTx(db,'readonly',s=>s.get(KEY));
+  if(!current&&create){
+   const proposal={tag:makeToken(),created:Date.now(),probeVersion:1};
+   // A second tab might write first. The result is read back to avoid a false success claim.
+   await fromTx(db,'readwrite',s=>s.add(proposal,KEY));
+   current=await fromTx(db,'readonly',s=>s.get(KEY));
+   update('UTWORZONO PRÓBKĘ — sprawdź ponownie po zamknięciu',current?.tag);
+  } else if(current){
+   update('ODZYSKANO ZAPIS w aktualnym originie',current.tag);
+  } else update('BRAK PRÓBKI w aktualnym originie — dane mogą istnieć gdzie indziej','');
+  window.mediumProbe={result:current?.tag||null,origin:location.origin,protocol:location.protocol};
+ }catch(e){
+  update('ODCZYT NIEUDANY: '+(e.name||'Error')+' — '+e.message,'');
+  window.mediumProbe={error:e.name||'Error',detail:e.message,origin:location.origin,protocol:location.protocol};
+ }finally{try{db?.close()}catch{}pending=false;showEnvironment()}
+}
+document.getElementById('read').addEventListener('click',()=>run(false));
+document.getElementById('seed').addEventListener('click',()=>run(true));
+showEnvironment();run(location.hash==='#seed');
+})();
+</script>
+</body></html>
