@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>POLE — zabawka sił</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080e1b;color:#dce8ee}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+header{position:absolute;top:0;left:0;right:0;pointer-events:none;padding:calc(17px + env(safe-area-inset-top)) 22px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+h1{font-size:22px;letter-spacing:.23em;font-weight:650;margin:0;color:#f4f5ed}p{font-size:12px;line-height:1.5;color:#9cabbc;margin:7px 0 0;max-width:290px}
+small{font-size:10px;letter-spacing:.13em;color:#73879d;white-space:nowrap;margin-top:6px}
+footer{position:absolute;bottom:0;left:0;right:0;pointer-events:none;display:flex;justify-content:space-between;align-items:end;gap:14px;padding:0 22px calc(20px + env(safe-area-inset-bottom))}
+.hint{font-size:12px;line-height:1.4;color:#9cabbc;max-width:185px}
+.controls{display:flex;gap:8px;pointer-events:auto}
+button{appearance:none;border:1px solid #344457;border-radius:999px;background:#101d2d;color:#c8d9e5;padding:11px 13px;letter-spacing:.06em;font-size:10px;font-weight:700;cursor:pointer;min-height:42px}
+button:focus-visible{outline:2px solid #d9f4f5;outline-offset:3px}
+button:active{transform:scale(.96)}
+@media(max-width:420px){header{padding-left:17px;padding-right:17px}footer{padding-left:17px;padding-right:17px}small{display:none}h1{font-size:19px}p{max-width:240px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="scene" aria-label="Interaktywne pole sił. Przesuwaj kolorowe kręgi, stukaj w nie, aby zmienić kierunek siły. Stuknij w puste miejsce, aby dodać iskry."></canvas>
+<header><div><h1>POLE</h1><p>Przeciągaj kręgi · dotknij, by odwrócić siłę.</p></div><small>MAŁA ZABAWKA SIŁ</small></header>
+<footer><div class="hint">Dotknij pustki, aby przyciągać iskry. Przesuń i puść, aby je wystrzelić.</div><div class="controls"><button id="sound" type="button" aria-pressed="false">DŹWIĘK · WYŁ.</button><button id="reset" type="button">OD NOWA</button></div></footer>
+<script>
+(()=>{'use strict';
+const canvas=document.querySelector('#scene'),ctx=canvas.getContext('2d',{alpha:false});
+const resetButton=document.querySelector('#reset'),soundButton=document.querySelector('#sound');
+let W=0,H=0,dpr=1,clock=0,seed=91271,particles=[],magnets=[],ripples=[],pointerState=new Map(),audio=null,sound=false,frames=0;
+const rand=()=>((seed=(1664525*seed+1013904223)>>>0)/4294967296);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const distance=(x,y,a,b)=>Math.hypot(x-a,y-b);
+const palette={plus:[255,193,106],minus:[92,219,229]};
+function resize(){
+ const oldW=W,oldH=H; W=Math.max(1,innerWidth);H=Math.max(1,innerHeight);dpr=Math.min(devicePixelRatio||1,2);
+ canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+ if(oldW&&oldH){for(const m of magnets){m.x=clamp(m.x*W/oldW,38,W-38);m.y=clamp(m.y*H/oldH,120,H-70)}for(const p of particles){p.x*=W/oldW;p.y*=H/oldH;for(const t of p.trail){t.x*=W/oldW;t.y*=H/oldH}}}
+}
+function setup(){
+ seed=91271;clock=0;frames=0;particles=[];ripples=[];pointerState.clear();
+ magnets=[{x:W*.23,y:H*.39,polarity:1,id:0,pulse:0},{x:W*.77,y:H*.39,polarity:-1,id:1,pulse:0},{x:W*.50,y:H*.73,polarity:1,id:2,pulse:0}];
+ for(let i=0;i<27;i++){const a=i*Math.PI*2/27,r=22+rand()*55;addParticle(W*.5+Math.cos(a)*r,H*.51+Math.sin(a)*r,Math.cos(a)*(.5+rand())*165,Math.sin(a)*(.5+rand())*165)}
+}
+function addParticle(x,y,vx,vy){if(particles.length>=90)particles.shift();particles.push({x,y,vx,vy,r:2.2+rand()*1.6,trail:[],hue:rand(),age:0})}
+function launch(x,y,dx,dy){
+ const length=Math.hypot(dx,dy),speed=clamp(length*2.35,120,540),angle=Math.atan2(dy,dx);
+ for(let i=0;i<15;i++){
+  const a=angle+(rand()-.5)*.32,v=speed*(.78+rand()*.36),offset=(rand()-.5)*20;
+  addParticle(x+Math.cos(angle+Math.PI/2)*offset,y+Math.sin(angle+Math.PI/2)*offset,Math.cos(a)*v,Math.sin(a)*v);
+ }
+ ripples.push({x,y,t:0,color:'230,220,172'});
+ tone(300+speed*.55,.12,.06);
+}
+function burst(x,y,n=8){for(let i=0;i<n;i++){const a=rand()*Math.PI*2,s=80+rand()*190;addParticle(x,y,Math.cos(a)*s,Math.sin(a)*s)}ripples.push({x,y,t:0,color:'160,197,229'});tone(320,.07,.035)}
+function tone(f,d=.08,g=.04){if(!sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const osc=audio.createOscillator(),gain=audio.createGain(),t=audio.currentTime;osc.type='sine';osc.frequency.setValueAtTime(f,t);osc.frequency.exponentialRampToValueAtTime(f*.66,t+d);gain.gain.setValueAtTime(g,t);gain.gain.exponentialRampToValueAtTime(.0001,t+d);osc.connect(gain).connect(audio.destination);osc.start(t);osc.stop(t+d+.01)}catch(e){sound=false;soundButton.textContent='DŹWIĘK · BRAK';soundButton.setAttribute('aria-pressed','false')}}
+function forceAt(x,y){let fx=0,fy=0;for(const m of magnets){const dx=m.x-x,dy=m.y-y,r2=dx*dx+dy*dy+1600,scale=m.polarity*3100000/(r2*Math.sqrt(r2));fx+=dx*scale;fy+=dy*scale}
+ // Empty-space touch is a temporary, visible attractor: direct manipulation before release.
+ for(const s of pointerState.values()){if(s.m)continue;const dx=s.x-x,dy=s.y-y,r2=dx*dx+dy*dy+1100,scale=2600000/(r2*Math.sqrt(r2));fx+=dx*scale;fy+=dy*scale}
+ return {x:fx,y:fy}}
+function tick(dt){clock+=dt;frames++;for(const m of magnets)m.pulse=Math.max(0,m.pulse-dt*1.7);
+ for(const p of particles){const f=forceAt(p.x,p.y);p.vx=(p.vx+f.x*dt)*Math.pow(.997,dt*60);p.vy=(p.vy+f.y*dt)*Math.pow(.997,dt*60);
+  const speed=Math.hypot(p.vx,p.vy);if(speed>690){p.vx*=690/speed;p.vy*=690/speed}
+  p.x+=p.vx*dt;p.y+=p.vy*dt;p.age+=dt;
+  const margin=5;if(p.x<margin){p.x=margin;p.vx=Math.abs(p.vx)*.78}else if(p.x>W-margin){p.x=W-margin;p.vx=-Math.abs(p.vx)*.78}
+  if(p.y<margin){p.y=margin;p.vy=Math.abs(p.vy)*.78}else if(p.y>H-margin){p.y=H-margin;p.vy=-Math.abs(p.vy)*.78}
+  for(const m of magnets){const dx=p.x-m.x,dy=p.y-m.y,d=Math.hypot(dx,dy),min=26+p.r;if(d<min&&d>.001){const nx=dx/d,ny=dy/d,radial=p.vx*nx+p.vy*ny;p.x=m.x+nx*min;p.y=m.y+ny*min;if(radial<0){p.vx-=(1.4*radial)*nx;p.vy-=(1.4*radial)*ny}}}
+  if(frames%2===0){p.trail.push({x:p.x,y:p.y});if(p.trail.length>18)p.trail.shift()}
+ }
+ for(const r of ripples)r.t+=dt;ripples=ripples.filter(r=>r.t<.65)
+}
+function draw(){ctx.fillStyle='#080e1b';ctx.fillRect(0,0,W,H);
+ const bg=ctx.createRadialGradient(W*.5,H*.5,10,W*.5,H*.5,Math.max(W,H)*.75);bg.addColorStop(0,'#142238');bg.addColorStop(1,'#080e1b');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+ const step=W<450?33:41;ctx.lineWidth=1;
+ for(let y=100;y<H-46;y+=step){for(let x=step*.6;x<W;x+=step){const f=forceAt(x,y),a=Math.atan2(f.y,f.x),mag=Math.hypot(f.x,f.y),len=clamp(Math.sqrt(mag)*.55,2,10);ctx.strokeStyle=`rgba(137,169,194,${clamp(.07+mag/1700,.07,.23)})`;ctx.beginPath();ctx.moveTo(x-Math.cos(a)*len*.5,y-Math.sin(a)*len*.5);ctx.lineTo(x+Math.cos(a)*len*.5,y+Math.sin(a)*len*.5);ctx.stroke()}}
+ for(const p of particles){if(p.trail.length>1){ctx.beginPath();ctx.moveTo(p.trail[0].x,p.trail[0].y);for(let i=1;i<p.trail.length;i++)ctx.lineTo(p.trail[i].x,p.trail[i].y);ctx.lineTo(p.x,p.y);ctx.lineWidth=1.2+p.r*.22;ctx.strokeStyle=p.hue>.5?'rgba(255,199,126,.28)':'rgba(127,224,244,.27)';ctx.stroke()}}
+ for(const m of magnets){const rgb=palette[m.polarity>0?'plus':'minus'],c=rgb.join(','),radius=26+m.pulse*7;
+  const aura=ctx.createRadialGradient(m.x,m.y,0,m.x,m.y,85+m.pulse*22);aura.addColorStop(0,`rgba(${c},.16)`);aura.addColorStop(1,`rgba(${c},0)`);ctx.fillStyle=aura;ctx.beginPath();ctx.arc(m.x,m.y,85+m.pulse*22,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(m.x,m.y,radius+8,0,Math.PI*2);ctx.lineWidth=1;ctx.strokeStyle=`rgba(${c},.25)`;ctx.stroke();
+  ctx.beginPath();ctx.arc(m.x,m.y,radius,0,Math.PI*2);ctx.fillStyle='#152338';ctx.fill();ctx.lineWidth=2.4;ctx.strokeStyle=`rgb(${c})`;ctx.stroke();
+  ctx.lineCap='round';ctx.strokeStyle=`rgb(${c})`;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(m.x-7,m.y);ctx.lineTo(m.x+7,m.y);if(m.polarity>0){ctx.moveTo(m.x,m.y-7);ctx.lineTo(m.x,m.y+7)}ctx.stroke();
+ }
+ for(const p of particles){const color=p.hue>.5?'255,200,129':'147,233,250';const glow=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);glow.addColorStop(0,`rgba(${color},.6)`);glow.addColorStop(1,`rgba(${color},0)`);ctx.fillStyle=glow;ctx.beginPath();ctx.arc(p.x,p.y,p.r*5,0,Math.PI*2);ctx.fill();ctx.fillStyle=`rgb(${color})`;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()}
+ for(const s of pointerState.values()){
+  if(s.m)continue;
+  ctx.save();const glow=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,78);glow.addColorStop(0,'rgba(175,255,206,.25)');glow.addColorStop(1,'rgba(175,255,206,0)');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(s.x,s.y,78,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(169,255,211,.8)';ctx.lineWidth=1.7;ctx.beginPath();ctx.arc(s.x,s.y,24,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(s.x,s.y,5,0,Math.PI*2);ctx.fillStyle='rgba(169,255,211,.9)';ctx.fill();ctx.restore();
+  if(!s.moved)continue;
+  const dx=s.x-s.startX,dy=s.y-s.startY,len=Math.hypot(dx,dy);
+  if(len<1)continue;
+  ctx.save();ctx.strokeStyle='rgba(255,238,195,.72)';ctx.fillStyle='rgba(255,238,195,.85)';
+  ctx.lineWidth=2;ctx.setLineDash([5,7]);ctx.beginPath();ctx.moveTo(s.startX,s.startY);ctx.lineTo(s.x,s.y);ctx.stroke();ctx.setLineDash([]);
+  const a=Math.atan2(dy,dx);ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-Math.cos(a-.5)*13,s.y-Math.sin(a-.5)*13);ctx.lineTo(s.x-Math.cos(a+.5)*13,s.y-Math.sin(a+.5)*13);ctx.closePath();ctx.fill();ctx.restore();
+ }
+ for(const r of ripples){const k=r.t/.65;ctx.beginPath();ctx.arc(r.x,r.y,9+k*55,0,Math.PI*2);ctx.strokeStyle=`rgba(${r.color},${(1-k)*.55})`;ctx.lineWidth=1.5;ctx.stroke()}
+}
+function point(e){const b=canvas.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top}}
+canvas.addEventListener('pointerdown',e=>{e.preventDefault();canvas.setPointerCapture(e.pointerId);const p=point(e);let closest=null,dist=Infinity;for(const m of magnets){const d=distance(p.x,p.y,m.x,m.y);if(d<dist){dist=d;closest=m}}
+ if(dist<=42){pointerState.set(e.pointerId,{m:closest,x:p.x,y:p.y,startX:p.x,startY:p.y,moved:false});closest.pulse=.8;}
+ else{pointerState.set(e.pointerId,{m:null,x:p.x,y:p.y,startX:p.x,startY:p.y,moved:false})}
+},{passive:false});
+canvas.addEventListener('pointermove',e=>{const s=pointerState.get(e.pointerId);if(!s)return;e.preventDefault();const p=point(e);s.x=p.x;s.y=p.y;if(s.m){if(distance(p.x,p.y,s.startX,s.startY)>8)s.moved=true;s.m.x=clamp(p.x,30,W-30);s.m.y=clamp(p.y,108,H-57);s.m.pulse=.5}else if(distance(p.x,p.y,s.startX,s.startY)>13)s.moved=true},{passive:false});
+function release(e){const s=pointerState.get(e.pointerId);if(!s)return;pointerState.delete(e.pointerId);if(s.m&&!s.moved){s.m.polarity*=-1;s.m.pulse=1;ripples.push({x:s.m.x,y:s.m.y,t:0,color:palette[s.m.polarity>0?'plus':'minus'].join(',')});tone(s.m.polarity>0?490:220,.17,.07);if(navigator.vibrate)navigator.vibrate(10)}else if(!s.m){if(s.moved)launch(s.startX,s.startY,s.x-s.startX,s.y-s.startY);else burst(s.x,s.y)}}
+canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',e=>pointerState.delete(e.pointerId));
+resetButton.addEventListener('click',()=>{setup();tone(400,.09,.04)});
+soundButton.addEventListener('click',()=>{sound=!sound;soundButton.setAttribute('aria-pressed',String(sound));soundButton.textContent=sound?'DŹWIĘK · WŁ.':'DŹWIĘK · WYŁ.';if(sound)tone(440,.08,.035)});
+window.addEventListener('resize',resize);
+resize();setup();let last=performance.now(),acc=0;
+function loop(now){const elapsed=Math.min(.05,(now-last)/1000);last=now;acc+=elapsed;let n=0;while(acc>=1/120&&n<6){tick(1/120);acc-=1/120;n++}draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+window.__poleDebug=()=>({width:W,height:H,particles:particles.length,magnets:magnets.map(m=>({x:m.x,y:m.y,polarity:m.polarity})),frames,activeFingers:[...pointerState.values()].filter(s=>!s.m).length,forceProbe:forceAt(W*.5,H*.5),firstParticle:particles.length?{x:particles[0].x,y:particles[0].y}:null});
+})();
+</script>
+</body></html>
