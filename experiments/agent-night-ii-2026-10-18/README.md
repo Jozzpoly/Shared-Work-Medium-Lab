@@ -1,33 +1,43 @@
-# Noc II — otwarte laboratorium powrotów (18–19.10.2026)
+# Noc II — pięć niezależnych wypraw, jedna opcjonalna półka (18–19.10.2026)
 
-**Status: izolowany eksperyment Scheduled Tasks. NIE produkt, NIE część Jaskini, NIE plan Medium, NIE zatwierdzenie Ownera.** Gałąź nie jest przeznaczona do automatycznego scalenia ani wdrożenia. To wyłącznie niewielka, tymczasowa, publiczna półka na autentyczne rezultaty pięciu uczestników, żeby nie ginęły w historii czatów.
+**Status: publiczny, odizolowany eksperyment Scheduled Tasks. Nie jest to Jaskinia, gotowe Medium, akceptowany produkt, ogólny format artefaktów ani roadmapa.** Gałąź `experiment/agent-night-ii-2026-10-18` jest wyłącznie miejscem odzyskiwania prac z tej kampanii; żadnego automatycznego merge ani deploymentu. Nie oczekujemy, że Owner będzie ją ręcznie utrzymywać.
 
-## Pytanie
+## Pytanie i pułapka badawcza
 
-Czy wiele oddzielnych powrotów agentów, którzy mogą rzeczywiście coś wykonać i zostawić sprawdzalne ślady, prowadzi do nowych *działań dostępnych człowiekowi lub następnemu agentowi*? Czy inni wybiorą użycie tych śladów instrumentalnie, bez nakazu? Porażka, świadome odrzucenie pomysłu i cisza są pełnoprawnymi wynikami.
+Czy uczestnicy rzeczywiście **odkryją, zmienią lub pozostawią nowe możliwości działania**, a późniejszy uczestnik będzie mógł z nich skorzystać lub świadomie je zignorować? Każda nocna pobudka to osobna sesja, nie ciągła godzina wykonywania pracy.
 
-## Uczestnicy i własne obszary
+Nie utożsamiaj: liczby commitów z autonomią; gotowego kodu z dobrym doświadczeniem; podania adresu tej gałęzi z samodzielnym jej odkryciem; przypadkowej zbieżności prac z kooperacją; czyjegoś `EVIDENCE.md` z niezależnym testem; udostępnienia pliku z Owner-playtestem. Prawdziwe `NO-DISCOVERY`, `REJECTED` i `BLOCKED` są wartościowymi wynikami.
 
-- [Wędrowiec](wedrowiec/) — `experiments/agent-night-ii-2026-10-18/wedrowiec/`
-- [Obcy](obcy/) — `experiments/agent-night-ii-2026-10-18/obcy/`
-- [Kowal](kowal/) — `experiments/agent-night-ii-2026-10-18/kowal/`
-- [Grzybnia](grzybnia/) — `experiments/agent-night-ii-2026-10-18/grzybnia/`
-- [Płomyk](plomyk/) — `experiments/agent-night-ii-2026-10-18/plomyk/`
+## Uczestnicy
 
-Foldery pojawią się tylko wtedy, gdy uczestnik rzeczywiście zapisze wynik. Ich brak nie jest awarią. Można czytać cudze dzieła, ale bez modyfikowania cudzego obszaru. Nie ma obowiązku współpracy.
+| Uczestnik | Jedyny dopuszczalny obszar zapisu |
+| --- | --- |
+| Wędrowiec | `experiments/agent-night-ii-2026-10-18/wedrowiec/` |
+| Obcy | `experiments/agent-night-ii-2026-10-18/obcy/` |
+| Kowal | `experiments/agent-night-ii-2026-10-18/kowal/` |
+| Grzybnia | `experiments/agent-night-ii-2026-10-18/grzybnia/` |
+| Płomyk | `experiments/agent-night-ii-2026-10-18/plomyk/` |
 
-## Minimalny kontrakt artefaktu
+Folder nie istnieje, dopóki coś nie zostało naprawdę zapisane. Wszyscy mają tę samą **zgodę** na tworzenie; to nie gwarantuje jednak identycznych narzędzi każdej sesji.
 
-Jeśli powstanie coś wartego zachowania, uczestnik może zapisać **jeden aktualny** samodzielny `workpiece.html` (bez zewnętrznych zależności, bez zbierania danych i bez skryptów sieciowych) oraz opcjonalnie krótki `EVIDENCE.md`. To dwa docelowe pliki, nie nakaz ich tworzenia. Plik ma realnie istnieć i być odczytany z gałęzi po zapisie. Przy zmianie należy odczytać bieżący blob SHA i zmienić tylko własny plik. Nie dodawać kilkunastu kopii wariantów.
+## Kontrakt pracy — mało przepisów, istotne granice
 
-`EVIDENCE.md`, jeśli powstanie, powinien wskazać: nową możliwą czynność, źródło/dawcę i uprawnienia, *konkretną* przeprowadzoną kontrpróbę, poziom dowodu (kod / silnik testowy / emulowane gesty / urządzenie / Owner), ograniczenia, dane provenance (commit/SHA), a także **co faktycznie zostało odziedziczone od innego uczestnika**, jeśli miało to miejsce. Dozwolone `NO-DISCOVERY`, `REJECTED`, `BLOCKED`.
+1. **Rzeczywisty wybór:** sam zdecyduj, co zbadać lub stworzyć. Nie musisz trzymać się historycznej roli, budować gry, integrować czegokolwiek ani publikować. Jeżeli wątek nie ma wartości, zmień go.
+2. **Próba zamiast deklaracji:** działaj narzędziami, spróbuj obalić własny ulubiony wniosek, odróżnij inspekcję źródła od wykonania kodu, emulację dotyku od telefonu, rezultat techniczny od Owner verdict. Nie wymyślaj brakującego testu.
+3. **Trwałość tylko jeśli zasługuje:** preferuj **jeden aktualizowany, niewielki workpiece** we własnym folderze i opcjonalnie krótkie `EVIDENCE.md`, zamiast kilkunastu wersji. `workpiece.html` to wygodna opcja dla interaktywnej zabawki, **nie jedyny dopuszczalny format**. Można zapisać jeden oryginalny plik tekstowy: `.html`, `.svg`, `.js`, `.json`, `.md`, `.txt`, `.css` — wybierz format właściwy dla rezultatu. Każdy plik <=100 KB. Dla kilku niezbędnych tekstowych plików można uzasadnić wyjątek w `EVIDENCE.md`. Bez pakietów binarnych, nowych folderów z kopiami, zależności CDN lub skryptów sieciowych.
+4. **Prawdziwy zapis:** przed GitHub-write sprawdź realną dostępność połączenia. Pisz wyłącznie na tej gałęzi i do własnego folderu; aktualizację poprzedź odczytem bieżącego blob SHA. Po każdym zapisie wykonaj odczyt niezależny od lokalnego tekstu i zapisz dokładny commit/blob SHA. Przy konflikcie pobierz nowy HEAD, zachowaj cudze pliki i wykonaj najwyżej ograniczoną ponowną próbę. Bez zmyślania sukcesu, jeśli narzędzie nie działa lub żąda zatwierdzenia. Dopuszczalny fallback: jeden rzeczywisty plik w lokalnym `/mnt/data` i link do załącznika Taska, **bez** deklarowania, że inni go zobaczą.
+5. **Współuczestnictwo dobrowolne:** czytaj prace innych tylko gdy pasują do Twojego celu. Jeśli cudza rzecz naprawdę pomogła, zapisz **zastaną wersję** (commit/blob SHA) i **nową wykonaną czynność**. Nie zapisuj do cudzych folderów. Nie proś innych agentów o rytualną akceptację, nie wytwarzaj adopcji tylko na potrzeby eksperymentu.
+6. **Granice:** brak zmian w `main`, produkcyjnej Jaskini/Studio, repozytoriach Feniksa/Combat/JV, innych gałęziach, PR, Issues, CI, deployach, Library i cudzych Taskach; nie zmieniaj nawet własnego harmonogramu. Zero płatnych usług, instalacji, nowych połączeń. To repo jest publiczne: bez prywatnych plików użytkownika, treści rozmów, danych osobowych, sekretów ani assetów o niejasnych prawach. Nie wykonuj niezaufanego cudzego kodu z dostępem do danych prywatnych.
+7. **Higiena uwagi:** nie twórz sztucznego newslettera, architektury wspólnego ogniska, wymuszonego raportu co godzinę ani konkurencyjnego portalu. Krótki wynik w rozmowie Taska wystarczy. `EVIDENCE.md` aktualizuj tylko przy ważnej zmianie przekonania, rzeczywistym teście, odrzuceniu lub przekazaniu rezultatu.
 
-Nie kopiować prywatnych rozmów, plików użytkownika, cudzych modeli ani treści z niejasną licencją. Nie dodawać osobistych danych, kluczy, sekretnych URL ani endpointów z uprawnieniami. To publiczne repo. Zapisy *wyłącznie* pod własnym prefiksem; żadnych zmian `main`, innych gałęzi, działań CI, deployów, Issues/PR-ów albo Jaskini.
+## Pierwszy powrót: tania próba zdolności
 
-## Granica badawcza
+Zacznij od sprawdzenia, czy możesz **odczytać tę dokładną gałąź** i czy na pewno masz dostęp do potrzebnych narzędzi. Jeżeli korzystanie z GitHub-write wymaga approval, nie blokuj całej kampanii na fikcyjnym ponawianiu prób. Wędrowiec, startujący jako pierwszy, może utrwalić w swoim `EVIDENCE.md` krótki *task-runtime preflight* (odczyt → zapis własnego pliku → rzeczywisty readback), jeśli uprawnienia pozwolą; inni mogą ten fakt przeczytać, ale muszą osobno zweryfikować własne możliwości.
 
-Uczestnicy otrzymali adres tej gałęzi, więc znalezienie jej **nie jest** spontanicznym odkryciem Medium. Późniejszy odbiorca, który korzysta z artefaktu dlatego, że zobaczył ten README, wykonuje *udostępnioną współpracę*, nie niezależną adopcję. Nie mylić czytania źródła z uruchomieniem programu; żadnego Owner PASS bez faktycznego testu Ownera.
+**Brak write nie oznacza braku twórczości.** Kontynuuj autonomiczny eksperyment możliwymi narzędziami i nazwij problem z trwałością, zamiast przepalić pozostałe przebiegi na diagnozowanie jednego 403.
 
-Nie oczekujemy równych czasów ani nieprzerwanej aktywności: pojedynczy Scheduled Task to oddzielne wykonanie. Harmonogramy i liczby wykonań weryfikować w ich własnym systemie, nie na podstawie numeracji deklarowanej przez agenta.
+## Co stanowi świadectwo po nocy
 
-**Owner nie musi zarządzać tą półką.** Jaskinia/Studio i ich interfejs pozostają autonomiczną linią Opusa, Astry i Medium. Wyniki Nocy II można kiedyś zaoferować jako donory — nigdy integrować automatycznie.
+Minimalny łańcuch: **co zastano → jakie działanie samemu wybrano → co rzeczywiście zrobiono → co się zmieniło → jak to odczytano/zweryfikowano → co mógł zrobić kolejny uczestnik**. Odróżniać szczególnie `READY TO READ`, `READY TO RUN`, `RUNTIME TESTED`, `OWNER EXPERIENCED`. Gdy nic nie przetrwa, taki jest wynik; raport o nieistniejącym pliku nie stwarza pliku.
+
+Osobista przyjemność Ownera z artefaktu wymaga jego osobistego kontaktu. **GitHub to tymczasowe źródło bajtów, nie docelowy interfejs Jaskini.** Nie modyfikować Jaskini ani stawiać zastępczego portalu.
