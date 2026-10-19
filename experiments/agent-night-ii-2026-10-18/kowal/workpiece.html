@@ -1,0 +1,87 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#08141e"><title>NAPIĘCIE — sprężysty chwyt</title><style>
+*{box-sizing:border-box}html,body{margin:0;overflow:hidden;overscroll-behavior:none}body{height:100dvh;background:radial-gradient(ellipse at 50% 0,#1d3944,#07131d 75%);color:#dff4ed;font:14px system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;padding:8px;gap:7px;user-select:none;-webkit-user-select:none}header,nav{width:min(100%,620px);display:flex;align-items:center;justify-content:space-between;gap:8px}header b{font-size:clamp(19px,5vw,25px);letter-spacing:.16em}header small{color:#91b8bd;text-align:right;font-size:10px}.shell{width:min(100%,620px);flex:1;min-height:0;overflow:hidden;border:1px solid #356070;border-radius:13px;background:#102b37}canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}nav button{flex:1;min-height:44px;border:1px solid #396675;border-radius:9px;background:#1b3948;color:#e5faf4;font:700 12px system-ui;touch-action:manipulation}nav button:active{background:#315766}#status{width:min(100%,620px);min-height:17px;text-align:center;font-size:12px;color:#a3cbd0}@media(max-height:550px){header small{display:none}nav button{min-height:36px}}
+</style></head><body><header><b>NAPIĘCIE</b><small>KOWAL · NOC II<br>JEDEN PALEC</small></header><div class="shell"><canvas id="game" aria-label="Złap dowolny fragment liny, naciągnij jednym palcem i puść. Dotknij ponownie, by szybko spróbować jeszcze raz."></canvas></div><nav><button id="again">NOWA KULA</button><button id="guide">TOR: WŁ.</button><button id="mode">01 · GNIAZDO →</button></nav><div id="status" role="status">Dotknij liny, naciągnij i puść.</div><script>(()=>{'use strict';
+const c=document.querySelector('#game'),g=c.getContext('2d'),status=document.querySelector('#status'),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),len=(x,y)=>Math.hypot(x,y),R=19;
+let W=560,H=900,A,B,P,ball=null,grab=null,offset={x:0,y:0,vx:0,vy:0},recoilT=.5,frame=0,score=0,shots=0,mode=0,guide=true,particles=[],rings=[],shake=0,flash=0,win=0,clock=performance.now(),acc=0,audio=null;
+function resize(){
+ const r=c.getBoundingClientRect();if(r.width<1||r.height<1)return;
+ const oldH=H;W=560;H=560*r.height/r.width;
+ const d=Math.min(devicePixelRatio||1,2);c.width=Math.round(r.width*d);c.height=Math.round(r.height*d);
+ g.setTransform(c.width/W,0,0,c.height/H,0,0);
+ A={x:W*.16,y:H*.66};B={x:W*.84,y:H*.66};P={x:W*.5,y:A.y+24};
+ if(!ball){load();return}
+ // Browser toolbars and rotation can resize a mobile viewport mid-gesture or mid-flight.
+ // Preserve the current attempt rather than silently replacing the ball.
+ if(oldH&&Math.abs(oldH-H)>.001){
+  const sy=H/oldH;ball.y*=sy;ball.vy*=sy;
+  for(const q of ball.trail)q.y*=sy;
+  for(const q of particles){q.y*=sy;q.vy*=sy}
+  for(const q of rings)q.y*=sy;
+  if(grab){const p=pos({clientX:grab.lastX,clientY:grab.lastY});grab.x=p.x-grab.dx;grab.y=p.y-grab.dy}
+ }
+}
+function base(t){return{x:A.x+(B.x-A.x)*t,y:A.y+24*Math.sin(Math.PI*t)}}
+function weight(t,u){u=cl(u,.01,.99);return t<=u?t/u:(1-t)/(1-u)}
+function rope(t){const p=base(t),u=grab?grab.t:recoilT,k=weight(t,u);return{x:p.x+offset.x*k,y:p.y+offset.y*k}}
+function pouch(){return rope(.5)}
+function load(){offset={x:0,y:0,vx:0,vy:0};recoilT=.5;ball={x:P.x,y:P.y-24,vx:0,vy:0,state:'loaded',age:0,trail:[],flip:0,triggered:false};win=0;}
+function target(f=frame){return mode===0?{x:W*.72,y:A.y-Math.min(H*.42,350),r:43}:{x:W*(.54+.16*Math.sin(f*.016)),y:H*(.27+.055*Math.cos(f*.02)),r:43}}
+function burst(x,y,n,color){for(let i=0;i<n;i++){const a=Math.random()*6.283,v=.5+Math.random()*3;particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:18+Math.random()*22,color})}rings.push({x,y,r:6,life:23,color})}
+function tone(f){try{audio??=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),a=audio.createGain();o.type='triangle';o.frequency.setValueAtTime(f,audio.currentTime);o.frequency.exponentialRampToValueAtTime(f*.53,audio.currentTime+.13);a.gain.setValueAtTime(.045,audio.currentTime);a.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.16);o.connect(a).connect(audio.destination);o.start();o.stop(audio.currentTime+.17)}catch(e){}}
+// Shared spring dynamics: finger release is followed by four visible recoil frames.
+// The ball remains on the sling during those frames and leaves with the sling velocity.
+const RELEASE_STEPS=4;
+function springAdvance(o){o.vx=(o.vx-o.x*.13)*.78;o.vy=(o.vy-o.y*.13)*.78;o.x+=o.vx;o.y+=o.vy}
+function releaseState(){
+ const o={x:offset.x,y:offset.y,vx:0,vy:0};
+ let last={x:P.x+o.x*weight(.5,recoilT),y:P.y+o.y*weight(.5,recoilT)};
+ for(let i=0;i<RELEASE_STEPS;i++){
+  springAdvance(o);
+  const q={x:P.x+o.x*weight(.5,recoilT),y:P.y+o.y*weight(.5,recoilT)};
+  if(i===RELEASE_STEPS-1){
+   return{x:q.x,y:q.y-24,vx:cl((q.x-last.x)*.72,-20,20),vy:cl((q.y-last.y)*.94,-31,21),state:'flight',age:0,trail:[],flip:0,triggered:false};
+  }
+  last=q;
+ }
+}
+// One deterministic physics function drives both flight and the predicted trajectory.
+function step(s,f){s.age++;s.x+=s.vx;s.y+=s.vy;s.vx*=.998;s.vy+=s.flip>0?-.29:.30;if(s.flip>0)s.flip--;
+ function bounce(nx,ny){const v=s.vx*nx+s.vy*ny;if(v<0){s.vx=(s.vx-1.72*v*nx)*.86;s.vy=(s.vy-1.72*v*ny)*.86}}
+ if(s.x<R+7){s.x=R+7;bounce(1,0)}if(s.x>W-R-7){s.x=W-R-7;bounce(-1,0)}if(s.y<R+7){s.y=R+7;bounce(0,1)}if(s.y>H-R-7){s.y=H-R-7;bounce(0,-1)}
+ const t=target(f);return len(s.x-t.x,s.y-t.y)<t.r+R*.5}
+function predict(){const s=releaseState(),dots=[];let hit=null;for(let i=1;i<=110;i++){const touched=step(s,frame+RELEASE_STEPS-1+i);if(i%5===0)dots.push({i,x:s.x,y:s.y});if(touched){hit={i,x:s.x,y:s.y};break}}return{dots,hit}}
+function launch(){if(!ball||ball.state!=='loaded')return;
+ const s=releaseState(),power=len(s.vx,s.vy);
+ if(power<2.3){status.textContent='Naciągnij mocniej.';return}
+ ball.state='recoil';ball.release={steps:RELEASE_STEPS,flight:s};shots++;
+ shake=cl(power*.15,1,5);flash=5;burst(ball.x,ball.y+24,9,'#ffc995');tone(175+power*12);
+ status.textContent='SPRĘŻYNA ODBIJA · DOTKNIJ LINY, BY POWTÓRZYĆ'
+}
+function sim(){frame++;if(grab){offset.x=grab.dx;offset.y=grab.dy;offset.vx=offset.vy=0}else{springAdvance(offset)}
+ if(ball?.state==='loaded'||ball?.state==='recoil'){const p=pouch();ball.x=p.x;ball.y=p.y-24}
+ if(ball?.state==='recoil'&&--ball.release.steps<=0){
+  const s=ball.release.flight;
+  // The exact release origin and velocity come from the same spring model as preview.
+  Object.assign(ball,s);status.textContent='W LOCIE · DOTKNIJ LINY, BY POWTÓRZYĆ'
+ }
+ if(ball?.state==='flight'){const hit=step(ball,frame);ball.trail.push({x:ball.x,y:ball.y});if(ball.trail.length>25)ball.trail.shift();if(hit){score++;ball.state='won';win=65;shake=10;burst(ball.x,ball.y,38,'#b6ffdb');tone(740);status.textContent='TRAFIENIE!'}else if(ball.age>235){load();status.textContent='Złap linę i spróbuj ponownie.'}}
+ if(ball?.state==='won'&&--win<=0){load();status.textContent='Złap linę i spróbuj ponownie.'}
+ for(const p of particles){p.x+=p.vx;p.y+=p.vy;p.vy+=.08;p.life--}particles=particles.filter(p=>p.life>0);for(const r of rings){r.r+=3;r.life--}rings=rings.filter(r=>r.life>0);shake*=.82;flash=Math.max(0,flash-1)}
+function dot(x,y,r,col){g.fillStyle=col;g.beginPath();g.arc(x,y,r,0,6.283);g.fill()}
+function draw(){g.save();g.translate(Math.sin(frame*1.4)*shake,Math.cos(frame*1.1)*shake);const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#123440');bg.addColorStop(1,'#081a28');g.fillStyle=bg;g.fillRect(-12,-12,W+24,H+24);g.strokeStyle='#9bd8df0c';g.lineWidth=1;for(let x=0;x<W;x+=40){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=40){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
+ const t=target();g.save();g.shadowBlur=24;g.shadowColor='#a1ffd5';g.strokeStyle='#8bf5c6';g.lineWidth=5;g.beginPath();g.arc(t.x,t.y,t.r*(1+.04*Math.sin(frame*.08)),0,6.283);g.stroke();g.restore();dot(t.x,t.y,t.r*.62,'#81ffd118');
+ const power=len(offset.x,offset.y),hot=cl(power/150,0,1);g.beginPath();let p=rope(0);g.moveTo(p.x,p.y);for(let i=1;i<=70;i++){p=rope(i/70);g.lineTo(p.x,p.y)}g.lineCap='round';g.lineJoin='round';g.lineWidth=15;g.strokeStyle='#051620';g.stroke();g.save();g.shadowBlur=12+hot*24;g.shadowColor=hot>.45?'#ffc488':'#84f5df';g.strokeStyle=hot>.45?'#ffd398':'#8de9e0';g.lineWidth=5+hot*3;g.stroke();g.restore();for(const a of [A,B]){dot(a.x,a.y,19,'#77ded4');dot(a.x,a.y,9,'#153d48')}
+ if(grab){const q=rope(grab.t);g.save();g.setLineDash([5,5]);g.strokeStyle='#ffe1aa';g.lineWidth=2;g.beginPath();g.arc(q.x,q.y,25,0,6.283);g.stroke();g.restore();dot(q.x,q.y,8,'#ffe5af');if(guide&&power>20){const pr=predict();for(const q of pr.dots)dot(q.x,q.y,3.4,'#ffdaa9');if(pr.hit){g.strokeStyle='#b5ffcc';g.lineWidth=3;g.beginPath();g.arc(pr.hit.x,pr.hit.y,17,0,6.283);g.stroke()}}}
+ if(ball){for(let i=0;i<ball.trail.length;i++){const q=ball.trail[i];dot(q.x,q.y,2+i*.21,`rgba(255,187,119,${i/80})`)}g.save();g.shadowColor='#ffb976';g.shadowBlur=21;const gr=g.createRadialGradient(ball.x-6,ball.y-7,1,ball.x,ball.y,R);gr.addColorStop(0,'#fff5d8');gr.addColorStop(.5,'#ffc18c');gr.addColorStop(1,'#985640');dot(ball.x,ball.y,R,gr);g.restore()}
+ for(const p of particles)dot(p.x,p.y,2+p.life/25,p.color);for(const r of rings){g.globalAlpha=r.life/23;g.strokeStyle=r.color;g.lineWidth=2;g.beginPath();g.arc(r.x,r.y,r.r,0,6.283);g.stroke()}g.globalAlpha=1;
+ g.textAlign='left';g.font='13px system-ui';g.fillStyle='#b1d6d8';g.fillText(mode===0?'01 · GNIAZDO':'02 · RUCHOMY',18,29);g.textAlign='right';g.fillText(`TRAFIENIA ${score} · STRZAŁY ${shots}`,W-18,29);g.textAlign='center';g.font='13px system-ui';g.fillStyle='#bad7d6';g.fillText(grab?'NACIĄGAJ · PUŚĆ':ball?.state==='flight'||ball?.state==='recoil'?'DOTKNIJ LINY = NOWA PRÓBA':'CHWYĆ LINĘ · POCIĄGNIJ · PUŚĆ',W/2,H-21);if(win>0){g.font='bold 34px system-ui';g.fillStyle='#c4ffdc';g.fillText('TRAFIENIE!',W/2,H*.45)}if(flash>0){g.globalAlpha=flash/80;g.fillStyle='#ffcda5';g.fillRect(0,0,W,H)}g.restore()}
+function pos(e){const b=c.getBoundingClientRect();return{x:(e.clientX-b.left)*W/b.width,y:(e.clientY-b.top)*H/b.height}}
+function nearest(x,y){let best={d:Infinity,t:0};for(let i=1;i<100;i++){const t=i/100,p=rope(t),d=len(x-p.x,y-p.y);if(d<best.d)best={d,t}}return best}
+function nearestRest(x,y){let best={d:Infinity,t:0};for(let i=1;i<100;i++){const t=i/100,p=base(t),d=len(x-p.x,y-p.y);if(d<best.d)best={d,t}}return best}
+function down(e){if(grab)return;const p=pos(e);if(ball?.state!=='loaded'){const r=nearestRest(p.x,p.y);if(r.d>65)return;load()}const hit=nearest(p.x,p.y);if(hit.d>65)return;e.preventDefault();recoilT=hit.t;grab={id:e.pointerId,t:hit.t,x:p.x,y:p.y,dx:0,dy:0,lastX:e.clientX,lastY:e.clientY};try{c.setPointerCapture(e.pointerId)}catch{}status.textContent='Naciągnij samą linę i puść.'}
+function move(e){if(!grab||grab.id!==e.pointerId)return;e.preventDefault();const p=pos(e);grab.lastX=e.clientX;grab.lastY=e.clientY;grab.dx=cl(p.x-grab.x,-190,190);grab.dy=cl(p.y-grab.y,-210,210);offset.x=grab.dx;offset.y=grab.dy}
+function up(e){if(!grab||grab.id!==e.pointerId)return;e.preventDefault();move(e);launch();grab=null;try{c.releasePointerCapture(e.pointerId)}catch{}}
+function cancel(e){if(grab&&(!e||e.pointerId===grab.id)){grab=null;status.textContent='Gest przerwany. Spróbuj ponownie.'}}
+c.addEventListener('pointerdown',down);c.addEventListener('pointermove',move);c.addEventListener('pointerup',up);c.addEventListener('pointercancel',cancel);c.addEventListener('lostpointercapture',cancel);c.addEventListener('contextmenu',e=>e.preventDefault());window.addEventListener('blur',()=>cancel());document.querySelector('#again').onclick=()=>{load();status.textContent='Nowa kula.'};document.querySelector('#guide').onclick=()=>{guide=!guide;document.querySelector('#guide').textContent=guide?'TOR: WŁ.':'TOR: WYŁ.'};document.querySelector('#mode').onclick=()=>{mode=(mode+1)%2;score=shots=0;load();document.querySelector('#mode').textContent=mode?'02 · RUCHOMY →':'01 · GNIAZDO →'};
+function tick(now){acc+=Math.min((now-clock)/16.667,3);clock=now;let n=0;while(acc>=1&&n++<3){sim();acc--}draw();requestAnimationFrame(tick)}resize();new ResizeObserver(resize).observe(c);requestAnimationFrame(tick);window.__kowalProbe=()=>({frame,score,shots,mode,guide,ball:ball&&{...ball,trail:undefined},grab:grab&&{...grab},offset:{...offset},pouch:pouch(),size:{W,H},status:status.textContent,prediction:grab?predict():null});
+})();</script></body></html>
