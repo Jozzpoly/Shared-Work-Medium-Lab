@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<title>POLE X — uczciwa niepewność gestu</title>
+<title>POLE XI — pole liczone gdy się zmienia</title>
 <style>
 :root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080e1b;color:#dce8ee}
@@ -29,6 +29,7 @@ button:active{transform:scale(.96)}
 const canvas=document.querySelector('#scene'),ctx=canvas.getContext('2d',{alpha:false});
 const resetButton=document.querySelector('#reset'),soundButton=document.querySelector('#sound');
 let W=0,H=0,dpr=1,clock=0,seed=91271,particles=[],magnets=[],ripples=[],pointerState=new Map(),audio=null,sound=false,frames=0,lastThrow=null,throwFlash=null;
+let fieldLayer=document.createElement('canvas'),fieldCtx=fieldLayer.getContext('2d'),fieldSignature=null,fieldRebuilds=0;
 const rand=()=>((seed=(1664525*seed+1013904223)>>>0)/4294967296);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const distance=(x,y,a,b)=>Math.hypot(x-a,y-b);
@@ -36,6 +37,7 @@ const palette={plus:[255,193,106],minus:[92,219,229]};
 function resize(){
  const oldW=W,oldH=H; W=Math.max(1,innerWidth);H=Math.max(1,innerHeight);dpr=Math.min(devicePixelRatio||1,2);
  canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+ fieldLayer.width=canvas.width;fieldLayer.height=canvas.height;fieldCtx.setTransform(dpr,0,0,dpr,0,0);fieldSignature=null;
  if(oldW&&oldH){for(const m of magnets){m.x=clamp(m.x*W/oldW,38,W-38);m.y=clamp(m.y*H/oldH,120,H-70)}for(const p of particles){p.x*=W/oldW;p.y*=H/oldH;for(const t of p.trail){t.x*=W/oldW;t.y*=H/oldH}}}
 }
 function setup(){
@@ -132,10 +134,18 @@ function tick(dt){clock+=dt;frames++;if(throwFlash){throwFlash.t+=dt;if(throwFla
  }
  for(const r of ripples)r.t+=dt;ripples=ripples.filter(r=>r.t<.65)
 }
-function draw(){ctx.fillStyle='#080e1b';ctx.fillRect(0,0,W,H);
- const bg=ctx.createRadialGradient(W*.5,H*.5,10,W*.5,H*.5,Math.max(W,H)*.75);bg.addColorStop(0,'#142238');bg.addColorStop(1,'#080e1b');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
- const step=W<450?33:41;ctx.lineWidth=1;
- for(let y=100;y<H-46;y+=step){for(let x=step*.6;x<W;x+=step){const f=forceAt(x,y),a=Math.atan2(f.y,f.x),mag=Math.hypot(f.x,f.y),len=clamp(Math.sqrt(mag)*.55,2,10);ctx.strokeStyle=`rgba(137,169,194,${clamp(.07+mag/1700,.07,.23)})`;ctx.beginPath();ctx.moveTo(x-Math.cos(a)*len*.5,y-Math.sin(a)*len*.5);ctx.lineTo(x+Math.cos(a)*len*.5,y+Math.sin(a)*len*.5);ctx.stroke()}}
+function drawField(){
+ // Field depends on magnet positions, polarity and active touch attractors, not on particles.
+ const signature=magnets.map(m=>[m.x.toFixed(2),m.y.toFixed(2),m.polarity].join(',')).join('|')+'#'+[...pointerState.values()].filter(s=>!s.m).map(s=>[s.x.toFixed(2),s.y.toFixed(2)].join(',')).join('|');
+ if(signature===fieldSignature)return;
+ fieldSignature=signature;fieldRebuilds++;
+ const g=fieldCtx;
+g.fillStyle='#080e1b';g.fillRect(0,0,W,H);
+ const bg=g.createRadialGradient(W*.5,H*.5,10,W*.5,H*.5,Math.max(W,H)*.75);bg.addColorStop(0,'#142238');bg.addColorStop(1,'#080e1b');g.fillStyle=bg;g.fillRect(0,0,W,H);
+ const step=W<450?33:41;g.lineWidth=1;
+ for(let y=100;y<H-46;y+=step){for(let x=step*.6;x<W;x+=step){const f=forceAt(x,y),a=Math.atan2(f.y,f.x),mag=Math.hypot(f.x,f.y),len=clamp(Math.sqrt(mag)*.55,2,10);g.strokeStyle=`rgba(137,169,194,${clamp(.07+mag/1700,.07,.23)})`;g.beginPath();g.moveTo(x-Math.cos(a)*len*.5,y-Math.sin(a)*len*.5);g.lineTo(x+Math.cos(a)*len*.5,y+Math.sin(a)*len*.5);g.stroke()}}
+}
+function draw(){drawField();ctx.drawImage(fieldLayer,0,0,W,H);
  for(const p of particles){if(p.trail.length>1){ctx.beginPath();ctx.moveTo(p.trail[0].x,p.trail[0].y);for(let i=1;i<p.trail.length;i++)ctx.lineTo(p.trail[i].x,p.trail[i].y);ctx.lineTo(p.x,p.y);ctx.lineWidth=1.2+p.r*.22;ctx.strokeStyle=p.hue>.5?'rgba(255,199,126,.28)':'rgba(127,224,244,.27)';ctx.stroke()}}
  for(const m of magnets){const rgb=palette[m.polarity>0?'plus':'minus'],c=rgb.join(','),radius=26+m.pulse*7;
   const aura=ctx.createRadialGradient(m.x,m.y,0,m.x,m.y,85+m.pulse*22);aura.addColorStop(0,`rgba(${c},.16)`);aura.addColorStop(1,`rgba(${c},0)`);ctx.fillStyle=aura;ctx.beginPath();ctx.arc(m.x,m.y,85+m.pulse*22,0,Math.PI*2);ctx.fill();
@@ -189,7 +199,7 @@ soundButton.addEventListener('click',()=>{sound=!sound;soundButton.setAttribute(
 window.addEventListener('resize',resize);
 resize();setup();let last=performance.now(),acc=0;
 function loop(now){const elapsed=Math.min(.05,(now-last)/1000);last=now;acc+=elapsed;let n=0;while(acc>=1/120&&n<6){tick(1/120);acc-=1/120;n++}draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
-window.__poleDebug=()=>({width:W,height:H,particles:particles.length,magnets:magnets.map(m=>({x:m.x,y:m.y,polarity:m.polarity})),frames,activeFingers:[...pointerState.values()].filter(s=>!s.m).length,forceProbe:forceAt(W*.5,H*.5),captured:particles.filter(p=>p.capture!==undefined).length,pointers:[...pointerState.values()].map(s=>({mode:s.mode||'magnet',held:s.held||0,captured:s.captured||0})),firstParticle:particles.length?{x:particles[0].x,y:particles[0].y}:null,throwGrace:particles.filter(p=>p.throwGrace!==undefined).length,lastThrow});
+window.__poleDebug=()=>({width:W,height:H,particles:particles.length,magnets:magnets.map(m=>({x:m.x,y:m.y,polarity:m.polarity})),frames,activeFingers:[...pointerState.values()].filter(s=>!s.m).length,forceProbe:forceAt(W*.5,H*.5),captured:particles.filter(p=>p.capture!==undefined).length,pointers:[...pointerState.values()].map(s=>({mode:s.mode||'magnet',held:s.held||0,captured:s.captured||0})),firstParticle:particles.length?{x:particles[0].x,y:particles[0].y}:null,throwGrace:particles.filter(p=>p.throwGrace!==undefined).length,lastThrow,fieldRebuilds});
 })();
 </script>
 </body></html>
