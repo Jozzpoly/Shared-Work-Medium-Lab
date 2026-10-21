@@ -53,7 +53,7 @@ function snapshot(which){return JSON.parse(JSON.stringify(api(which).get()));}
 function geom(d){const x={schema:d.schema,originalSha256:d.originalSha256,grid:d.grid,changes:d.changes,source:d.source,drain:d.drain,feeding:d.feeding};
   return JSON.stringify(x);
 }
-function signature(d){return geom(d);}
+function signature(d){return JSON.stringify({geometry:geom(d),receiver:d.mediumSignal&&d.mediumSignal.receiver||null});}
 function inspect(){
   const a=snapshot('water'),b=snapshot('signal');
   const same=geom(a)===geom(b);
@@ -80,7 +80,7 @@ function relay(direction){
     if(forward){
       const next=JSON.parse(JSON.stringify(d.a));
       // A native PRZESMYK never knows the receiver; restore it only when it is recoverable here.
-      if(savedReceiver)next.mediumSignal={receiver:{...savedReceiver}};
+      if(d.receiver||savedReceiver)next.mediumSignal={receiver:{...(d.receiver||savedReceiver)}};
       api('signal').import(next);
       const result=snapshot('signal');
       savedReceiver={...result.mediumSignal.receiver};
