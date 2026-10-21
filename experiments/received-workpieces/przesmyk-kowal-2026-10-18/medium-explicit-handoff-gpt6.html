@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medium · jeden świat, dwie interpretacje</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#101823;color:#e7edf4}
+*{box-sizing:border-box}body{margin:0 auto;padding:15px;max-width:1550px}
+header{max-width:850px;margin:0 0 13px}h1{font-size:clamp(23px,3vw,34px);margin:0 0 6px}
+p{line-height:1.5;color:#bfcbd8;margin:6px 0}.tag{color:#95ccd9;font-size:12px;letter-spacing:.1em}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}button{font:inherit;background:#20495d;color:#fff;border:1px solid #5a9cad;padding:10px 14px;border-radius:7px;cursor:pointer;min-height:44px}
+button:hover{background:#28667e}button:disabled{opacity:.45;cursor:wait}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pane{background:#162330;border:1px solid #3b4d61;border-radius:9px;overflow:hidden;min-width:0}
+.pane h2{font-size:15px;margin:0;padding:10px 12px;background:#223441}.pane h2 small{font-size:12px;font-weight:400;color:#a9c1d0}
+iframe{border:0;width:100%;height:570px;display:block;background:#07121a}
+#status{border-left:3px solid #67aebd;background:#172b37;padding:12px;margin:10px 0;min-height:46px;white-space:pre-wrap;font-size:14px}
+#status.warn{border-left-color:#e7ab54}#status.bad{border-left-color:#e27c82}
+details{margin-top:9px;border:1px solid #324655;border-radius:7px;padding:10px}summary{cursor:pointer}
+@media(max-width:880px){.panels{grid-template-columns:1fr}iframe{height:480px}body{padding:9px}} 
+</style></head>
+<body>
+<header><div class="tag">MEDIUM · ODRĘBNY EKSPERYMENT BADAWCZY</div>
+<h1>Jedna konstrukcja. Dwa różne światy.</h1>
+<p>Po lewej budujesz kanały dla wody. Po prawej ten sam układ staje się trasą impulsu. To dwa zachowane narzędzia, nie dwie kopie jednego algorytmu.</p>
+</header>
+<div class="actions">
+<button id="toSignal" disabled>PRZESMYK → ŚLAD</button>
+<button id="toWater" disabled>ŚLAD → PRZESMYK</button>
+<button id="compare" disabled>Porównaj zmiany</button>
+</div>
+<div id="status" role="status" aria-live="polite">Uruchamianie obu przyrządów…</div>
+<section class="panels">
+<div class="pane"><h2>PRZESMYK <small>· woda / edycja geometrii</small></h2>
+<iframe id="water" title="Edytowalny PRZESMYK" src="./playable-authored-breach-gpt6.html"></iframe></div>
+<div class="pane"><h2>ŚLAD <small>· impulsy / inne prawa</small></h2>
+<iframe id="signal" title="Edytowalny ŚLAD" src="./second-life-signal-instrument-gpt6.html"></iframe></div>
+</section>
+<details><summary>Co zostaje, a co ginie przy przekazaniu?</summary>
+<p>Oba przyrządy rozumieją tę samą geometrię 112×68, położenie źródła i odpływu. ŚLAD interpretuje je inaczej i dodaje odbiornik impulsów. PRZESMYK tego odbiornika nie rozumie — most przechowuje go tymczasowo, ale nie zapisuje go w pliku ani w przeglądarce. Odświeżenie strony traci tę pamięć.</p>
+<p>Przekazanie zastępuje bieżącą geometrię odbiorcy, nie scala jej z nową. Gdy odbiorca ma własne zmiany od ostatniego wspólnego punktu, pytamy przed nadpisaniem. Animacja wody, bieżące impulsy i upływ symulowanego czasu nie przechodzą. Transfer nie oznacza akceptacji eksperymentu przez autora.</p>
+<p>To próba na dwóch zaufanych, jawnych plikach w jednorazowym środowisku. Bez konta, serwera, automatycznego transferu i bez prywatnych modeli. Nie stanowi bezpiecznego modelu hostowania niezaufanego kodu ani gotowej integracji z Jaskinią. Działa tylko wtedy, gdy oba pliki mają ten sam origin; nie uruchamiaj tej próbki obok prywatnych danych w tej samej domenie.</p>
+</details>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const water=$('water'),signal=$('signal'),buttons=['toSignal','toWater','compare'];
+let ready=false,knownWater=null,knownSignal=null,savedReceiver=null,transferCount=0;
+function report(message,level=''){const el=$('status');el.className=level;el.textContent=message;}
+function api(which){const frame=which==='water'?water:signal;
+  const object=frame.contentWindow && frame.contentWindow[which==='water'?'__mediumPortable':'__mediumSignal'];
+  if(!object||typeof object.get!=='function')throw Error('Przyrząd '+which+' nie udostępnia jeszcze danych.');
+  return object;
+}
+function snapshot(which){return JSON.parse(JSON.stringify(api(which).get()));}
+function geom(d){const x={schema:d.schema,originalSha256:d.originalSha256,grid:d.grid,changes:d.changes,source:d.source,drain:d.drain,feeding:d.feeding};
+  return JSON.stringify(x);
+}
+function signature(d){return geom(d);}
+function inspect(){
+  const a=snapshot('water'),b=snapshot('signal');
+  const same=geom(a)===geom(b);
+  const aNew=knownWater!==null && signature(a)!==knownWater;
+  const bNew=knownSignal!==null && signature(b)!==knownSignal;
+  const r=b.mediumSignal&&b.mediumSignal.receiver;
+  return {a,b,same,aNew,bNew,receiver:r};
+}
+function state(){
+  try{
+    const d=inspect();
+    report((d.same?'Geometria: zgodna.':'Geometria: różna — dwa niezależne warianty.')+
+      '  Zmiany ścian: '+d.a.changes.length+' / '+d.b.changes.length+
+      '.  ŚLAD: '+(api('signal').status().reach?'droga otwarta':'droga przerwana')+
+      (savedReceiver?'  · odbiornik zachowany w moście':'')+
+      (d.aNew&&d.bNew?'\nUwaga: od ostatniego transferu zmieniono oba światy.':''));
+  }catch(e){report('Nie udało się porównać: '+e.message,'bad')}
+}
+function relay(direction){
+  try{
+    const d=inspect();const forward=direction==='signal';
+    const targetChanged=forward?d.bNew:d.aNew;
+    if(targetChanged && !confirm('W docelowym narzędziu są własne zmiany od ostatniego przekazania. Zastąpić jego geometrię?')){report('Nie zastąpiono zmian odbiorcy.','warn');return}
+    if(forward){
+      const next=JSON.parse(JSON.stringify(d.a));
+      // A native PRZESMYK never knows the receiver; restore it only when it is recoverable here.
+      if(savedReceiver)next.mediumSignal={receiver:{...savedReceiver}};
+      api('signal').import(next);
+      const result=snapshot('signal');
+      savedReceiver={...result.mediumSignal.receiver};
+    }else{
+      const incoming=snapshot('signal');
+      const receiver=incoming.mediumSignal&&incoming.mediumSignal.receiver;
+      api('water').apply(JSON.stringify(incoming));
+      if(receiver)savedReceiver={...receiver}; // Explicitly retained OUTSIDE the older tool.
+    }
+    const a=snapshot('water'),b=snapshot('signal');
+    knownWater=signature(a);knownSignal=signature(b);transferCount++;
+    report((forward?'Wysłano konstrukcję do ŚLADU.':'Wysłano konstrukcję do PRZESMYKU.')+
+      ' Zmieniono geometrię tylko odbiorcy. ŚLAD: '+(api('signal').status().reach?'impuls dociera':'trasa przerwana')+
+      '. Odbiornik impulsu jest zachowany wyłącznie w pamięci tego mostu.'+
+      '\nPrzekazania w tej sesji: '+transferCount);
+  }catch(e){report('Przekazanie odrzucone: '+e.message+'  Żadna zmiana odbiorcy nie powinna być zatwierdzona, jeśli jego walidacja odmówiła.','bad')}
+}
+$('toSignal').onclick=()=>relay('signal');
+$('toWater').onclick=()=>relay('water');
+$('compare').onclick=state;
+function tryReady(){
+  try{
+    api('water');api('signal');
+    ready=true;buttons.forEach(id=>$(id).disabled=false);
+    report('Oba narzędzia działają. Zmień jedną z konstrukcji, następnie wyślij ją drugim przyciskiem. Nic nie synchronizuje się samo.');
+  }catch(e){report('Jeszcze uruchamiam przyrządy. '+e.message,'warn')}
+}
+water.onload=tryReady;signal.onload=tryReady;
+setTimeout(tryReady,1200);
+</script></body></html>
