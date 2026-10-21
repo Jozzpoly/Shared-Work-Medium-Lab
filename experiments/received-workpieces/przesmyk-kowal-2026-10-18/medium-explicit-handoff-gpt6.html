@@ -65,7 +65,7 @@ function inspect(){
 function state(){
   try{
     const d=inspect();
-    report((d.same?'Geometria: zgodna.':'Geometria: różna — dwa niezależne warianty.')+
+    report((d.same?'Konstrukcja: zgodna.':'Konstrukcja: różna — dwa niezależne warianty.')+
       '  Zmiany ścian: '+d.a.changes.length+' / '+d.b.changes.length+
       '.  ŚLAD: '+(api('signal').status().reach?'droga otwarta':'droga przerwana')+
       (savedReceiver?'  · odbiornik zachowany w moście':'')+
@@ -96,7 +96,7 @@ function relay(direction){
       ' Zmieniono geometrię tylko odbiorcy. ŚLAD: '+(api('signal').status().reach?'impuls dociera':'trasa przerwana')+
       '. Odbiornik impulsu jest zachowany wyłącznie w pamięci tego mostu.'+
       '\nPrzekazania w tej sesji: '+transferCount);
-  }catch(e){report('Przekazanie odrzucone: '+e.message+'  Żadna zmiana odbiorcy nie powinna być zatwierdzona, jeśli jego walidacja odmówiła.','bad')}
+  }catch(e){report('Przekazanie odrzucone: '+e.message+'  Jeśli problem wystąpił po imporcie, porównaj stan obu narzędzi.','bad')}
 }
 $('toSignal').onclick=()=>relay('signal');
 $('toWater').onclick=()=>relay('water');
