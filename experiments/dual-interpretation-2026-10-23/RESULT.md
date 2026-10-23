@@ -57,13 +57,20 @@ In the actual PRZESMYK mouse-handler test, choosing the `wall` tool and clicking
 
 The modified receiving ŚLAD imports that JSON without losing geometry; it reports pending and displays the original receiver coordinates. The user's pointer gesture first tries (82,40), correctly remaining unresolved because that cell is now wall. A subsequent actual receiver drag to free **(78,40)** creates a valid new interpretation. Re-export into modified PRZESMYK and the **original unchanged ŚLAD** preserves it, and the previously untouched hydraulic geometry remains intact.
 
-[Replay all 16 checks](revalidation.cjs) with no dependencies, passing these five paths in order:
+[Replay all 22 checks](revalidation.cjs) with no dependencies, passing these five paths in order:
 
 `node revalidation.cjs modified-przesmyk.html modified-slad.html with-lens.json original-przesmyk.html original-slad.html`
 
 Original donor sources are pinned above; the two modified files and JSON exist in this same directory. The runner uses [the same event-capable mock DOM](roundtrip.cjs) and injects **no changes** into either published donor. The observations include untouched receiver forwarding, source-brush-induced quarantine, visible status and export evidence, restart continuity, malformed pending refusal, blocked receiver movement, valid new movement and recipient roundtrip.
 
-**Qualification:** 16/16 source-JS assertions passed through a V8 DOM/event stub and were reproducible from GitHub source readback. The original earlier test had 9/9 comparable source checks and remains available. No real Chrome iframe interaction or Owner feel PASS was measured; local networking in available Chromium was blocked by environment restrictions. **Do not conflate event callback invocation with real pointer UX/viewport acquisition or call this shipping-grade.** The exposed research URL and its dependencies still need hosting/framing qualification for first contact in Jaskinia.
+**Qualification:** 22/22 source-JS assertions passed through a V8 DOM/event stub and were reproducible from GitHub source readback. The original earlier test had 9/9 comparable source checks and remains available. No real Chrome iframe interaction or Owner feel PASS was measured; local networking in available Chromium was blocked by environment restrictions. **Do not conflate event callback invocation with real pointer UX/viewport acquisition or call this shipping-grade.** The exposed research URL and its dependencies still need hosting/framing qualification for first contact in Jaskinia.
+
+
+### Jaskinia contract negative control
+
+The mock runner gained a host/iframe event surrogate that records `postMessage` target origins. The real updated ŚLAD JavaScript responds to a trusted host `hi` with `hello`, `state`, `signals`. When `mediumPending` exists, a `state?` request receives an explicit **receiver needs human repointing** status and **no numeric `signals`**. A forged `hi` from another origin is ignored. After a pointer-based new receiver placement, a later `state?` again returns **state + numeric signals**; every outgoing message targets `https://jozzpoly.github.io`, not a wildcard.
+
+These are six additional passing source-JavaScript tests (22 total) added to [the existing runner](revalidation.cjs), using [the host-aware simulation](roundtrip.cjs). This tests the **existing Jaskinia v1 message contract** at the code boundary, **not** actual iframe load, browser security response headers, user gesture feel, long-lived saves, or installation.
 
 ### Critical remaining failure boundary
 
