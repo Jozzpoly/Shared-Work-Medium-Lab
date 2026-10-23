@@ -64,6 +64,27 @@ A source check of Jaskinia `52-przyrzady.js` confirms a manually entered URL/rec
 
 The iframe path is not a security boundary: instrument communication is optional, and the contract warns that storage is origin-sensitive, lab frames can share origin with Jaskinia on GitHub Pages, and the drop-in does not authenticate a framing parent. **Do not create an arbitrary external deep-link auto-loader without reviewing trust, permissions and origin isolation.** No such loader was implemented here.
 
+
+## Capability-preservation audit — real current donor source (23 Oct)
+
+Reviewed Jaskinia v6.4.1 branch at commit 85aaaaec7334428cbc85ce9379930e17b4f5d6cb, JURE main, and the exact ŚLAD v1 instrument in Medium PR #27 at commit 419b9c9dbf49301ed9fb9bf65e39de33d35f17bb. **Source audit, not a successful live in-Jaskinia browser test or Owner acceptance.**
+
+| Existing participant | Standalone material/open/save | Inside Jaskinia's external instrument window | Proven source-material exchange |
+| --- | --- | --- | --- |
+| **Jaskinia Ruch** | Native material and motion editing, but **Owner FAIL** on authoring feel | already native | Ruch export lacks internal v6.4.1 box anchors |
+| **JURE** | Real rig + source Open and Save As exclusively use File System Access picker APIs | Cross-origin framing may render, but picker operations are forbidden by the Chromium File System Access security model | none confirmed |
+| **ŚLAD — Medium PR #27** | HTML file input and Blob download (no privileged file-picker APIs) | Code includes optional v1 Jaskinia handshake and sends status/signals only to verified parent origin | none; it deliberately does not send or adopt geometry |
+
+Jaskinia already supports an independent URL instrument ('Przyrząd') without patching its source. However its [existing v1 contract](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/docs/przyrzad/KONTRAKT.md) only communicates text/measurements/remark events, not model bytes, scene identity, or authoritative authored topology. The source has a manual URL picker but no generic deep-link route for launching a specific external instrument with the current material.
+
+**Direct sources:** [JURE rig/file I/O](https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/src/io/rig-file.ts), [JURE source I/O](https://github.com/Jozzpoly/Jozz-Universal-Rig-Editor/blob/main/src/io/source-file.ts), [Jaskinia external instruments](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/52-przyrzady.js), [Jaskinia motion export](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/57b-ruch.js), [ŚLAD](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/blob/419b9c9dbf49301ed9fb9bf65e39de33d35f17bb/experiments/received-workpieces/przesmyk-kowal-2026-10-18/second-life-signal-instrument-gpt6.html).
+
+**Browser/security boundary:** The [WICG File System Access analysis](https://github.com/WICG/file-system-access/blob/main/security-privacy-questionnaire.md) states that cross-origin iframes cannot show file pickers. The instrument may still be usable standalone; do not assert a runtime JURE failure without actually framing and trying it. A synthetic local Playwright first-contact probe was attempted but host navigation was refused with ERR_BLOCKED_BY_ADMINISTRATOR; therefore no browser PASS/FAIL from that attempt.
+
+GitHub Pages project sites under jozzpoly.github.io share the **same origin**, hence browser localStorage and IndexedDB can be read across project paths. Distinct-origin framing improves that isolation but does not automatically preserve standalone saves (storage partitioning), and cannot simply call the host's in-process Jaskinia.materialy API. This is an exposed trust boundary, **not evidence that user data was leaked**. Do not work around it with arbitrary script injection or publishing private assets to a shared origin.
+
+**Decision:** the next useful experiment must distinguish (1) display of an external instrument, (2) effective hands/file I/O, (3) recoverable authored results, (4) later reception/use. Existing ŚLAD is the better nonprivileged donor for a minimal first-contact test than JURE. No need to create another editor or generic SDK.
+
 ## Continuation route — not a mandatory scheduler
 
 1. Before creating another editor, inspect whether existing `Przyrząd` plus the existing JURE or JV authoring/runtime can support one genuine, reversible Owner action on a real asset. Distinguish 'reachable inside one Dom' from 'semantically interoperable'.
