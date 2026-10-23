@@ -1,0 +1,15 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>Isolated Jaskinia — storage metadata only</title></head><body style="background:#0b1820;color:#ddd;font:16px system-ui;padding:35px"><h1>Inspekcja stanu originu testowego — same metadane</h1><pre id="output">Przetwarzanie</pre><script>
+try{
+ const raw=localStorage.getItem('jaskinia:v3');
+ const state=raw?JSON.parse(raw):null;
+ const keys=state?Object.keys(state):[];
+ const winTypes={};
+ for(const sp of state?.spaces||[])for(const win of Object.values(sp?.L?.wins||{}))winTypes[win.type]=(winTypes[win.type]||0)+1;
+ const meta={origin:location.origin,exists:!!raw,storeBytes:raw?.length||0,fields:keys,
+   spaces:(state?.spaces||[]).map(s=>({id:s.id,preset:s.preset,windows:Object.keys(s.L?.wins||{}).length})),
+   notesCount:Object.keys(state?.notes||{}).length,savedCount:(state?.saved||[]).length,
+   trashCount:(state?.trash||[]).length,viewsCount:Object.keys(state?.views||{}).length,
+   winTypes,oldKeys:['jaskinia:v2','jaskinia:v1','jaskinia:kopie'].map(k=>({name:k,exists:localStorage.getItem(k)!==null}))};
+ document.getElementById('output').textContent=JSON.stringify(meta,null,2);
+}catch(e){document.getElementById('output').textContent='Only error type: '+e.name}
+</script></body></html>
