@@ -7,6 +7,16 @@
   if(location.origin!=='https://htmlpreview.github.io')throw Error('nieoczekiwany origin');
   if(!location.search.includes('Jozzpoly/Shared-Work-Medium-Lab'))throw Error('nieoczekiwane pochodzenie pliku');
   const keys=Object.keys(localStorage);
+  if(location.hash==='#cleanup'){
+    if(keys.some(k=>k.startsWith('jaskinia:')&&k!=='jaskinia:v3'))throw Error('Inne zapisane dane Jaskini: nie sprzątam.');
+    const raw=localStorage.getItem('jaskinia:v3');
+    if(!raw){status.textContent='Nie znaleziono stanu tej próby. Nic do sprzątania.';return;}
+    const state=JSON.parse(raw),spaces=state.spaces||[],record=spaces[0]?.L?.wins?.wm_pending_tool?.st?.url;
+    if(spaces.length!==1||spaces[0]?.id!=='medium-pending-isolated'||record!==lab||Object.keys(state.notes||{}).length||(state.saved||[]).length||(state.trash||[]).length)throw Error('Znaleziono obcy lub zmodyfikowany stan. Nie usuwam.');
+    localStorage.removeItem('jaskinia:v3');
+    status.textContent='Usunięto jedynie jednorazowy, własny test pending z htmlpreview.github.io. Żadnych innych danych nie zmieniono.';
+    return;
+  }
   if(keys.some(k=>k.startsWith('jaskinia:')))throw Error('W tym originie już istnieje stan Jaskini; nie wolno go zastąpić.');
   const id='medium-pending-isolated',win='wm_pending_tool',signal='wm_pending_signal';
   const state={v:2,cur:id,sel:'',spaces:[{
