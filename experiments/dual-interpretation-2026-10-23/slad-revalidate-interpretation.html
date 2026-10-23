@@ -51,11 +51,16 @@ function instrumentReadout(){
           values:{droga:reach&&Number.isFinite(travel)?Math.round(travel):0,
                   przejscie:reach?1:0,zmiany:edits,impulsy:pulses}};
 }
+let pendingEventReported=false;
 function instrumentReport(){
   if(!observedByJaskinia)return;
-  const q=instrumentReadout();
-  instrumentSend('state',{text:q.text,data:{mode:'route',connected:reach}});
-  if(observedVisible&&!unresolved)instrumentSend('signals',{values:q.values});
+  const q=instrumentReadout(),pending=!!unresolved;
+  instrumentSend('state',{text:q.text,data:{mode:'route',connected:pending?null:reach,needsReceiverConfirmation:pending}});
+  if(pending&&!pendingEventReported){
+    instrumentSend('event',{text:'ŚLAD: odbiornik wymaga ponownego wskazania; dotychczasowe pomiary są historyczne.',level:'uwaga'});
+    pendingEventReported=true;
+  }else if(!pending){pendingEventReported=false}
+  if(observedVisible&&!pending)instrumentSend('signals',{values:q.values});
 }
 window.addEventListener('message',event=>{
   if(window.parent===window||event.source!==window.parent||event.origin!==TRUSTED_HOST)return;
