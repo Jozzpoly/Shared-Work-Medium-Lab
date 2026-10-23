@@ -32,9 +32,22 @@ function run(hydraulicHtml,signalHtml){
  let bad=JSON.parse(JSON.stringify(withLens));bad.mediumSignal.receiver={x:0,y:0};
  let refused=false;try{signal.__mediumSignal.import(bad)}catch{refused=true}
  assert(refused&&equal(signal.__mediumSignal.get(),withLens),'Malformed metadata mutated signal world');
+ // Red-team forward preservation: a later geometry edit can invalidate opaque interpreted metadata.
+ const conflictingCell=withLens.mediumSignal.receiver.y*112+withLens.mediumSignal.receiver.x;
+ const otherFluid=boot(hydraulicHtml),otherLens=boot(signalHtml);
+ assert(otherFluid.__kowal.sample(withLens.mediumSignal.receiver.x,withLens.mediumSignal.receiver.y).solid===0,
+   'Expected an empty receiver cell in the hydraulic source');
+ const blocked={...withLens,changes:[...withLens.changes,[conflictingCell,1]]};
+ otherFluid.__mediumPortable.apply(JSON.stringify(blocked));
+ const naiveCarry={...otherFluid.__mediumPortable.get(),mediumSignal:withLens.mediumSignal};
+ const beforeConflict=otherLens.__mediumSignal.get();
+ let rejectedStale=false;
+ try{otherLens.__mediumSignal.import(naiveCarry)}catch{rejectedStale=true}
+ assert(rejectedStale&&equal(otherLens.__mediumSignal.get(),beforeConflict),
+   'Receiver-on-wall interpretation was not safely rejected');
  const physicsBaseline=boot(hydraulicHtml,true).__probeStep(240),physicsChanged=fluid.__probeStep(240);
  assert(physicsChanged.solids===physicsBaseline.solids-1&&physicsChanged.step===240,'Physical test state invalid');
- return {withLens,throughLegacy,evidence:{originalChanges:baseline.changes.length,authorChanges:withLens.changes.length,extraIndex,originalReceiver:withLens.mediumSignal.receiver,freshReceiver,signalReach:signalStatus.reach,signalDistance:signalStatus.travel,fluidMassRightAt240:{original:physicsBaseline.right,changed:physicsChanged.right},malformedRejected:true,geometryPreserved:true,metadataPreserved:false}};
+ return {withLens,throughLegacy,evidence:{originalChanges:baseline.changes.length,authorChanges:withLens.changes.length,extraIndex,originalReceiver:withLens.mediumSignal.receiver,freshReceiver,signalReach:signalStatus.reach,signalDistance:signalStatus.travel,fluidMassRightAt240:{original:physicsBaseline.right,changed:physicsChanged.right},malformedRejected:true,staleExtensionRejectedWithoutMutation:true,receiverConflictCell:conflictingCell,geometryPreserved:true,metadataPreserved:false}};
 }
 module.exports={run,boot};
 if(require.main===module){
