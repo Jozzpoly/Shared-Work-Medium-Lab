@@ -41,6 +41,32 @@ function test(hydroHtml,signalHtml,capsuleText,legacyHydroHtml,legacySignalHtml)
  check('handoff returns geometry and meaning',same(handback.changes,revised.changes)&&same(handback.mediumSignal,revised.mediumSignal));
  const finalReader=boot(legacySignalHtml);finalReader.__mediumSignal.import(handback);
  check('original receiver reads repaired document',same(finalReader.__mediumSignal.get().mediumSignal.receiver,{x:78,y:40}));
+
+ // Jaskinia v1 host handshake qualified in source-level frame simulation.
+ const framed=boot(signalHtml,false,{parent:true});
+ framed.__deliver({jaskinia:1,type:'hi'});
+ const initial=framed.__messages.map(e=>e.message.type);
+ check('Jaskinia hello/state/signals handshake',
+   initial.includes('hello')&&initial.includes('state')&&initial.includes('signals'));
+ framed.__mediumSignal.import(changed);
+ framed.__messages.length=0;
+ framed.__deliver({jaskinia:1,type:'state?'});
+ const pendingMsgs=framed.__messages.map(e=>e.message.type);
+ check('pending host reports state but no numeric signals',
+   pendingMsgs.includes('state')&&!pendingMsgs.includes('signals'));
+ check('pending host state describes uncertainty',
+   framed.__messages.some(e=>e.message.type==='state'&&e.message.text.includes('wymaga ponownego')));
+ framed.__messages.length=0;
+ framed.__deliver({jaskinia:1,type:'hi'},'https://untrusted.example');
+ check('origin spoof refused',framed.__messages.length===0);
+ const fp=framed.document.getElementById('field');
+ pointer(fp,'pointerdown',62,52);pointer(fp,'pointermove',78,40);pointer(fp,'pointerup',78,40);
+ framed.__messages.length=0;
+ framed.__deliver({jaskinia:1,type:'state?'});
+ check('trusted numeric reporting restored after reauthor',
+   framed.__messages.some(e=>e.message.type==='signals')&&!framed.__mediumSignal.status().pending);
+ check('explicit postMessage target origin for every response',
+   framed.__messages.length>0&&framed.__messages.every(e=>e.origin==='https://jozzpoly.github.io'));
  return {passed:checks.length,total:checks.length,checks,scope:'Original JS through event-capable DOM mock, NOT browser UI or Owner verdict',
   geometry:{before:input.changes.length,after:changed.changes.length},receiver:{before:input.mediumSignal.receiver,after:handback.mediumSignal.receiver}};
 }
