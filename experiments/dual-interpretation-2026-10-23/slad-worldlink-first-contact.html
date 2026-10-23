@@ -131,8 +131,9 @@ shareButton.onclick=async()=>{
   const url=window.location.href.split('#')[0]+'#world='+payload;
   window.history.replaceState(window.history.state,'',url);
   shareField.value=url;shareBox.hidden=false;shareField.focus();shareField.select();
-  try{await navigator.clipboard.writeText(url);$('message').textContent='Link skopiowany. To zapis wyłącznie publicznego wariantu w adresie, bez serwera.';}
-  catch{$('message').textContent='Link jest zaznaczony. Skopiuj go Ctrl+C; otworzy się w nowej karcie.'}
+  const requiresAttention=!!currentCapsule().mediumPending;
+  try{await navigator.clipboard.writeText(url);$('message').textContent=requiresAttention?'Link skopiowany, lecz odbiornik nadal wymaga ponownego wskazania. Zapis zachowuje tę niepewność.':'Link skopiowany. To zapis publicznego wariantu w adresie, bez serwera.';}
+  catch{$('message').textContent=requiresAttention?'Link jest zaznaczony. Skopiuj Ctrl+C; odbiornik wymaga ponownego wskazania.':'Link jest zaznaczony. Skopiuj Ctrl+C; otworzy się w nowej karcie.'}
 };
 buildBaseline();
 const OWNER_VARIANT={"schema":"medium.przesmyk.variant.v1","originalSha256":"21a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843","grid":[112,68],"changes":[[4872,0],[5320,0],[5432,0],[5544,0],[5656,0],[5768,0],[5880,0],[5992,0],[6104,0],[6216,0],[6328,0],[6440,0]],"source":{"x":12,"y":17},"drain":{"x":101,"y":53},"feeding":true,"mediumSignal":{"receiver":{"x":82,"y":40}}};
@@ -142,8 +143,13 @@ if(window.location.hash && window.location.hash.startsWith('#world=')){
     const data=decodeURIComponent(window.location.hash.slice(7));
     if(data.length>120000)throw Error('zbyt duży dokument');
     applyCapsule(data);
-    $('worldlabel').textContent='ODZYSKANY ŚWIAT · Z LINKU';
-    $('message').textContent='Odzyskano konstrukcję i interpretację ŚLADU z adresu. Po zmianach użyj LINK DO ŚWIATA albo ZAPISZ JSON.';
+    if(currentCapsule().mediumPending){
+      $('worldlabel').textContent='ODZYSKANY ŚWIAT · ODBIORNIK NIEPOTWIERDZONY';
+      $('message').textContent='Odzyskano geometrię i pamięć o poprzednim odbiorniku, ale wymaga on ponownego wskazania w wolnym miejscu. Dopiero wtedy interpretacja ŚLADU będzie aktywna.';
+    } else {
+      $('worldlabel').textContent='ODZYSKANY ŚWIAT · Z LINKU';
+      $('message').textContent='Odzyskano konstrukcję i interpretację ŚLADU z adresu. Po zmianach użyj LINK DO ŚWIATA albo ZAPISZ JSON.';
+    }
   } catch(e) {
     $('worldlabel').textContent='NIE ODTWORZONO LINKU · WIDOCZNY PRZYKŁAD';
     $('message').textContent='Nie udało się odtworzyć zapisu z linku ('+String(e.message).slice(0,80)+'). Widoczny jest tylko wariant przykładowy, nie Twój odzyskany świat.';
