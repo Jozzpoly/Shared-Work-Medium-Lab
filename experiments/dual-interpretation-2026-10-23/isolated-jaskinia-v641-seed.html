@@ -1,0 +1,33 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Medium: izolowana próba Jaskini v6.4.1</title><style>body{background:#0a1721;color:#dce8f1;font:16px/1.6 system-ui,sans-serif;max-width:720px;margin:12vh auto;padding:24px}h1{font-size:24px}p{color:#b5c6d2}.bad{color:#ffad9d}a{color:#7bdfdd}</style></head><body><h1>Medium — izolowany Pierwszy Kontakt</h1><p>Przygotowuję jedną publiczną, testową przestrzeń <strong>tylko na rawcdn.githack.com</strong>, oddzieloną od Twojej Jaskini na jozzpoly.github.io.</p><p id="status">Sprawdzanie stanu przed utworzeniem...</p><script>
+(() => {
+ 'use strict';
+ const key='jaskinia:v3',id="medium-przyrzad-2026-10-24",next="https://rawcdn.githack.com/Jozzpoly/Jozz-Cave-Workbench/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/dist/jaskinia-web.html#uklad~medium-przyrzad-2026-10-24",lab="https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/d09005ef92b7eec58d661277b2d13bc1aa6dfc36/experiments/dual-interpretation-2026-10-23/slad-jaskinia-isolated-origin-only.html#world=%7B%22schema%22%3A%22medium.przesmyk.variant.v1%22%2C%22originalSha256%22%3A%2221a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843%22%2C%22grid%22%3A%5B112%2C68%5D%2C%22changes%22%3A%5B%5B4872%2C0%5D%2C%5B5320%2C0%5D%2C%5B5432%2C0%5D%2C%5B5544%2C0%5D%2C%5B5656%2C0%5D%2C%5B5768%2C0%5D%2C%5B5880%2C0%5D%2C%5B5992%2C0%5D%2C%5B6104%2C0%5D%2C%5B6216%2C0%5D%2C%5B6328%2C0%5D%2C%5B6440%2C0%5D%2C%5B2845%2C1%5D%5D%2C%22source%22%3A%7B%22x%22%3A12%2C%22y%22%3A17%7D%2C%22drain%22%3A%7B%22x%22%3A101%2C%22y%22%3A53%7D%2C%22feeding%22%3Atrue%2C%22mediumSignal%22%3A%7B%22receiver%22%3A%7B%22x%22%3A82%2C%22y%22%3A40%7D%7D%7D",status=document.getElementById('status');
+ function say(msg,bad=false){status.textContent=msg;status.className=bad?'bad':''}
+ try{
+  if(location.origin!=='https://rawcdn.githack.com')throw Error('Nieprawidłowy origin: niczego nie zapisuję.');
+  if(!location.pathname.includes('/Jozzpoly/Shared-Work-Medium-Lab/'))throw Error('Nieznane miejsce eksperymentu.');
+  const raw=localStorage.getItem(key);
+  if(!raw)throw Error('Nie odnaleziono oczekiwanego, świeżego stanu testowej Jaskini. Nie zapisuję nowego stanu w ciemno.');
+  const s=JSON.parse(raw);
+  if(!s||!Array.isArray(s.spaces)||!s.spaces.length||!s.spaces.every(x=>x&&x.L&&x.L.wins))throw Error('Nierozpoznany stan; odmawiam zmian.');
+  if(Object.keys(s.notes||{}).length||(s.saved||[]).length||(s.trash||[]).length)throw Error('Znaleziono notatki lub zapisane układy na tym originie; nie dotykam tego stanu.');
+  const existing=s.spaces.find(x=>x.id===id);
+  if(existing){
+   const wins=existing.L?.wins||{};
+   if(!Object.values(wins).some(w=>w.type==='przyrzad'&&w.st?.url===lab))throw Error('ID tej próby jest już zajęte przez inny stan; nie dotykam.');
+   say('Znaleziono wcześniejszą próbę. Otwieram ją bez nadpisywania.');
+  } else {
+   if(s.spaces.length!==5||s.spaces.some(x=>!['przeglad','granie','statystyki','projekt','sciana'].includes(x.id)))throw Error('Stan nie jest świeżym zestawem 5 układów. Odmawiam nadpisywania.');
+   const l={tree:{t:'s',d:'row',r:0.73,a:{t:'w',id:'wm_przyrzad_24'},b:{t:'w',id:'wm_sygnaly_24'}},wins:{
+     wm_przyrzad_24:{type:'przyrzad',z:1,pin:null,st:{url:lab,title:'ŚLAD · Medium: 13 zmian',project:null}},
+     wm_sygnaly_24:{type:'sygnaly',z:1,pin:null,st:{src:'wm_przyrzad_24',span:60}}
+    },floats:[],max:null,focus:null,stats:{}};
+   s.spaces.push({id,name:'Medium · ŚLAD (izolowany test)',preset:null,purpose:'Wyłącznie publiczny egzemplarz badawczy. Nie zapisuj tu prywatnych danych.',L:l});
+   s.cur=id;
+   localStorage.setItem(key,JSON.stringify(s));
+   say('Dodano jeden testowy układ do osobnego originu. Otwieram oryginalny build Jaskini.');
+  }
+  location.replace(next);
+ }catch(e){say('STOP: '+String(e.message).slice(0,300),true);}
+})();
+</script></body></html>
