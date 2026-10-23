@@ -39,6 +39,31 @@ Checked current Jaskinia `v6-materialy` source, including [58-api.js](https://gi
 
 This **corrects** the earlier overly general claim that independent externally authored work cannot appear at all in the Jaskinia Dom without a new Jaskinia release. It can appear as an instrument; deeper native interoperability remains open.
 
+
+## Cross-asset control (all six checked-in Box3D source glTFs)
+
+The same narrow parser was run against the other five **real** `assets/source/*.gltf` files. This is a controlled sample from one exporter/project, not a claim about arbitrary glTF files.
+
+| Asset | Islands | Shape-ambiguous instances | Shape+bone-name ambiguous | Shape+raw-position ambiguous |
+|---|---:|---:|---:|---:|
+| Nadwozie | 121 | 106 | 72 | 0 |
+| OneSided_Steering_Suspension_Rig | 26 | 10 | 10 | 0 |
+| Offroad_Big_Wheels | 51 | 33 | 31 | **2** |
+| Cardan_shaft | 19 | 18 | 12 | 0 |
+| One_Sided_wheel_mount | 19 | 14 | 10 | 0 |
+| Asset_Dumper | 10 | 6 | 0 | 0 |
+| **Total (within each model)** | **246** | **187** | **135** | **2** |
+
+The wheel model is a stronger counterexample than Nadwozie alone: one 12-triangle box attributed to joint `Tire`, and one attributed to joint `group`, share an identical quantized raw-mesh POSITION shape and location. Bone provenance differentiates them in the current file, but a rename/regrouping might not. The inspected skin inverse bind matrices compensate their distinct joint translations in the source rest pose; do not confuse raw POSITION data with independent future world-space part identity.
+
+This is a **static source geometry** result. It does not establish any of these models' intended components or reconstruct real authored rig topology. Each geometry input was fetched via GitHub, not a user local-file import.
+
+## First-contact friction and safety caveat
+
+A source check of Jaskinia `52-przyrzady.js` confirms a manually entered URL/recent-pages picker; `59-adresy.js` has no external `#przyrzad~URL` route. Thus the existing external lab bridge avoids *host code integration* but does not yet prove frictionless one-click installation, integrated asset sharing or restoration of a lab in a new origin/browser.
+
+The iframe path is not a security boundary: instrument communication is optional, and the contract warns that storage is origin-sensitive, lab frames can share origin with Jaskinia on GitHub Pages, and the drop-in does not authenticate a framing parent. **Do not create an arbitrary external deep-link auto-loader without reviewing trust, permissions and origin isolation.** No such loader was implemented here.
+
 ## Continuation route — not a mandatory scheduler
 
 1. Before creating another editor, inspect whether existing `Przyrząd` plus the existing JURE or JV authoring/runtime can support one genuine, reversible Owner action on a real asset. Distinguish 'reachable inside one Dom' from 'semantically interoperable'.
