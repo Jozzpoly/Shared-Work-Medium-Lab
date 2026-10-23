@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - experiment/tworzywo-owner-preview-2026-10-23
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
