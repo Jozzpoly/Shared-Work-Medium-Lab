@@ -7,8 +7,8 @@ function boot(html,stepHook=false){
  const mark='window.__mediumPortable={get:()=>capsule(),apply:raw=>importCapsule(raw)};';
  if(stepHook){assert(src.includes(mark),'Missing step hook');src=src.replace(mark,mark+'window.__probeStep=n=>{for(let i=0;i<n;i++)simulate();return window.__kowal.snapshot()};')}
  const els=new Map(),ctx=new Proxy({createImageData:(w,h)=>({data:new Uint8ClampedArray(w*h*4)})},{get(o,k){return k in o?o[k]:()=>{}},set(o,k,v){o[k]=v;return true}});
- function el(id){if(!els.has(id))els.set(id,{id,textContent:'0',value:'',dataset:{},style:{},width:896,height:544,classList:{add(){},remove(){},toggle(){}},getContext:()=>ctx,addEventListener(){},setAttribute(){},getBoundingClientRect(){return {left:0,top:0,width:896,height:544}},setPointerCapture(){}});return els.get(id)}
- const document={getElementById:el,createElement:el,querySelector:el,querySelectorAll:()=>[],addEventListener(){},body:el('body')};
+ function el(id){if(!els.has(id))els.set(id,{id,textContent:'0',value:'',dataset:{},style:{},width:896,height:544,classList:{add(){},remove(){},toggle(){}},getContext:()=>ctx,addEventListener(type,fn){(this._listeners ||= {})[type]=fn},setAttribute(){},getBoundingClientRect(){return {left:0,top:0,width:896,height:544}},setPointerCapture(){}});return els.get(id)}
+ const document={getElementById:el,createElement:el,querySelector:el,querySelectorAll:q=>q==='[data-tool]'?[(el('tool-wall').dataset.tool='wall',el('tool-wall'))]:[],addEventListener(){},body:el('body')};
  const window={document,addEventListener(){},location:{origin:'https://htmlpreview.github.io'}};window.parent=window;
  const env={window,document,performance:{now:()=>0},requestAnimationFrame(){},setInterval(){},setTimeout(){},Blob:class{},URL:{createObjectURL:()=>'',revokeObjectURL(){}}};
  new Function(...Object.keys(env),src)(...Object.values(env));return window;
