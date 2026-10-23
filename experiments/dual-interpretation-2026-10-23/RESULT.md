@@ -25,13 +25,15 @@ Optional third argument is a file prefix to emit both JSONs again. No npm depend
 4. PRZESMYK imports that JSON through its actual `importCapsule`, exports [through-legacy.json](through-legacy.json): **12/12 topology edits, source, drain and feeding remain equal**, but its export **does not include the mediumSignal receiver**.
 5. A fresh independent ŚLAD runtime imports the second file. With no receiver in the document, it uses **(62,52)**, not the author's earlier **(82,40)**. It has not preserved the complete interpretation.
 6. Negative control: an invalid receiver at (0,0) is rejected by ŚLAD's validation **before applying any change**. The previous world is retained.
-7. With the unchanged PRZESMYK solver at exactly 240 direct test-only steps: original 11-cell version gives right-side water mass **69.66**, 12-cell variant **69.68** (small effect, NOT evidence of a useful new fluid-mechanics interaction).
+7. Stronger red-team: an independent hydraulic edit fills receiver cell **4562** (x=82, y=40), while a hypothetical unaware editor blindly forwards the old opaque receiver metadata. ŚLAD correctly **rejects** that stale interpretation without changing its world. Therefore merely echoing unknown fields can prevent data loss but cannot guarantee their continued validity.
+8. With the unchanged PRZESMYK solver at exactly 240 direct test-only steps: original 11-cell version gives right-side water mass **69.66**, 12-cell variant **69.68** (small effect, NOT evidence of a useful new fluid-mechanics interaction).
 
 ## Interpretation and boundaries
 
 - **PASS:** two independent donor runtimes materially receive/operate on the same authored topology. This is a real data-semantic integration result without new simulation code or a new editor.
 - **FAIL of full interpretation continuity:** a legacy reader intentionally ignores an optional extension, then emits a fresh object without it. This is a compatibility boundary, **not proof of a software bug** or a requirement that all legacy tools must understand future semantics.
 - The initial new cell was **agent-authored**, not Owner-authored; no Owner PASS.
+- A metadata-preserving envelope must also maintain an explicit validity/uncertainty boundary; passing an opaque extension through after material alteration does not certify its semantics.
 - No actual browser file dialogs, WebGL, Jaskinia embedding, cross-origin persistence or user-visible interaction tested. A local Chromium network smoke was blocked by environment policy; don't claim otherwise.
 - Different source-derived behaviour in two consumers is useful only if the author understands what survived; no "automatic always-lossless interpretation" claim.
 
