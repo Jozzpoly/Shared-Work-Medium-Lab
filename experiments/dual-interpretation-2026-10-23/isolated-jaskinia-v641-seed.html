@@ -10,7 +10,9 @@
   if(!raw)throw Error('Nie odnaleziono oczekiwanego, świeżego stanu testowej Jaskini. Nie zapisuję nowego stanu w ciemno.');
   const s=JSON.parse(raw);
   if(!s||!Array.isArray(s.spaces)||!s.spaces.length||!s.spaces.every(x=>x&&x.L&&x.L.wins))throw Error('Nierozpoznany stan; odmawiam zmian.');
-  if(Object.keys(s.notes||{}).length||(s.saved||[]).length||(s.trash||[]).length)throw Error('Znaleziono notatki lub zapisane układy na tym originie; nie dotykam tego stanu.');
+  const noteList=Object.values(s.notes||{});
+  if(noteList.some(n=>!n||typeof n.text!=='string'||n.text.trim().length)||(s.saved||[]).length||(s.trash||[]).length)throw Error('Znaleziono treść notatek lub zapisane układy na tym originie; nie dotykam tego stanu.');
+  if(Object.keys(localStorage).some(k=>k.startsWith('jaskinia:materialy')||k.startsWith('jaskinia:m-')))throw Error('Znaleziono zapis materiałów — koniec próby.');
   const existing=s.spaces.find(x=>x.id===id);
   if(existing){
    const wins=existing.L?.wins||{};
