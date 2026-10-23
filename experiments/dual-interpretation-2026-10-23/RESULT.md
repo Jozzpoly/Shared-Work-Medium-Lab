@@ -39,6 +39,38 @@ Optional third argument is a file prefix to emit both JSONs again. No npm depend
 
 This directly tests the larger F9/F10 Medium hypothesis of **multiple independent interpretations of one source**: a tool may operate correctly on a shared geometry and still silently discard meaning introduced by another instrument.
 
+
+## 23 Oct continuation — preserve → quarantine → re-author, no universal schema
+
+After the initial loss-of-interpretation result, two **isolated descendants of the exact original HTML sources** were created under this same research directory:
+
+- [PRZESMYK preserving interpretation](przesmyk-preserving-interpretation.html) — original hydraulic solver, interaction/visual design and core JSON retained; a narrow optional carry slot for `mediumSignal` added. If the source capsule's known core remains exactly the same after import, the foreign extension is re-exported unchanged, leaving actual validity to the ŚLAD recipient. If any core field changes, export **removes active mediumSignal and keeps the original bytes in a flagged mediumPending** (`requires-revalidation`) field. Both import and export present the appropriate warning. Unknown other future extensions are NOT supported.
+- [ŚLAD revalidating interpretation](slad-revalidate-interpretation.html) — original independent shortest-path and signalling interpretation retained. The recipient recognizes this one `mediumPending` variant, imports valid shared topology, keeps unresolved provenance, shows a visible warning, labels its Jaskinia-facing status as needing receiver placement and suppresses normal Jaskinia numeric signals while unresolved. An *actual pointer-driven receiver repositioning* on a free cell creates a new active `mediumSignal` description and clears the pending state. Moving it onto occupied material does not clear pending.
+
+This is a **paired compatibility experiment**, not a standardized forward-compatible protocol or a Jaskinia product update. The original donor files and Opus's host remain byte-for-byte untouched. It does not address arbitrary unknown extensions, source re-export identity, concurrent edits, authority conflicts, generic metadata migration, browser persistence or cross-origin storage.
+
+### Falsifiable scenario, exact source-bound data
+
+Source [12-edit variant with receiver](with-lens.json) has its authored ŚLAD receiver at **(82,40)**. After importing into modified PRZESMYK, no change preserves that receiver and the **unchanged original ŚLAD** validates it.
+
+In the actual PRZESMYK mouse-handler test, choosing the `wall` tool and clicking (82,40) paints a **2-cell-radius** area. This increases the authored geometry changes **12 → 25** and fills cell **4562**. The exporting instrument now carries the earlier receiver in `mediumPending`, with a user-visible warning, never as an approved current location.
+
+The modified receiving ŚLAD imports that JSON without losing geometry; it reports pending and displays the original receiver coordinates. The user's pointer gesture first tries (82,40), correctly remaining unresolved because that cell is now wall. A subsequent actual receiver drag to free **(78,40)** creates a valid new interpretation. Re-export into modified PRZESMYK and the **original unchanged ŚLAD** preserves it, and the previously untouched hydraulic geometry remains intact.
+
+[Replay all 16 checks](revalidation.cjs) with no dependencies, passing these five paths in order:
+
+`node revalidation.cjs modified-przesmyk.html modified-slad.html with-lens.json original-przesmyk.html original-slad.html`
+
+Original donor sources are pinned above; the two modified files and JSON exist in this same directory. The runner uses [the same event-capable mock DOM](roundtrip.cjs) and injects **no changes** into either published donor. The observations include untouched receiver forwarding, source-brush-induced quarantine, visible status and export evidence, restart continuity, malformed pending refusal, blocked receiver movement, valid new movement and recipient roundtrip.
+
+**Qualification:** 16/16 source-JS assertions passed through a V8 DOM/event stub and were reproducible from GitHub source readback. The original earlier test had 9/9 comparable source checks and remains available. No real Chrome iframe interaction or Owner feel PASS was measured; local networking in available Chromium was blocked by environment restrictions. **Do not conflate event callback invocation with real pointer UX/viewport acquisition or call this shipping-grade.** The exposed research URL and its dependencies still need hosting/framing qualification for first contact in Jaskinia.
+
+### Critical remaining failure boundary
+
+Even the cautious `mediumPending` can be lost by *another* older reader that does not preserve that field. A mere opaque echo is not proof of continuing validity; a tool that cannot interpret foreign semantics cannot safely decide their future meaning. The paired test makes that boundary visible only for these two known interpretations.
+
+The transferable principle is narrower than a proposed architecture: the receiving tool must retain authority for its own semantic validity, while an intermediate tool should not silently claim or discard another author's decision. This is a real example of a **composable environmental capability**, though not evidence of independent, spontaneous Medium adoption.
+
 ## Next useful decision
 
 Before designing plugins or an overarching universal format, distinguish workpiece **core data**, **optional tool-specific interpretation**, and **forward-preserved but unrecognized information**. The smallest future test is to compare ordinary forward preservation versus deliberate explicit conversion with a real recipient, without secretly replacing the author's decision. Do not promote a new schema until a real task requires it.
