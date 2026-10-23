@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0a141e"><title>ŚLAD — przyrząd dla Jaskini</title>
+<style>
+:root{color-scheme:dark;--bg:#0a141e;--panel:#14232d;--border:#31505b;--muted:#8eaab3;--text:#e1f2f2;--cyan:#65e4dc;--warm:#ffc382}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 60% -20%,#1b3b48 0%,#0a141e 65%);color:var(--text);font:14px system-ui,-apple-system,'Segoe UI',sans-serif}
+body{padding:clamp(11px,2.7vw,28px);display:flex;align-items:center;flex-direction:column}
+header,.main,.below,.details{width:min(100%,1130px)}header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+h1{font-size:clamp(20px,3.6vw,30px);font-weight:850;letter-spacing:.17em;margin:0}.ident p{margin:3px 0 0;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.tag{border:1px solid var(--border);border-radius:20px;color:#bde2dc;padding:7px 11px;font-size:10px;letter-spacing:.08em;white-space:nowrap}
+.main{border:1px solid #416773;border-radius:10px;overflow:hidden;box-shadow:0 23px 70px #0008;background:#0b1b25;position:relative}
+#field{width:100%;height:auto;aspect-ratio:112 / 68;display:block;touch-action:none;image-rendering:pixelated;cursor:crosshair}
+.worldlabel{position:absolute;top:12px;left:13px;pointer-events:none;background:#081621b5;border:1px solid #31536388;padding:7px 10px;border-radius:5px;color:#b7cdd3;font-size:10px;letter-spacing:.04em}
+.below{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:13px;margin-top:12px}
+.controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.btn,.file-btn{min-height:41px;background:#1b3340;border:1px solid #3d6470;color:#e0f1f2;font:700 12px system-ui;border-radius:7px;padding:9px 12px;cursor:pointer;touch-action:manipulation}.btn[data-active="true"]{border-color:#71ece1;background:#21525b}.btn.primary{background:#235b57;color:#e4fff7;border-color:#66dace}.btn:focus-visible,.file-btn:focus-within{outline:2px solid #8ff2e5;outline-offset:2px}.file-btn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.stats{display:flex;gap:15px;align-items:center}.stats>div{display:grid;gap:2px;text-align:right}.stats b{font-variant-numeric:tabular-nums;font-size:17px;color:#d2eee8}.stats small{font-size:10px;color:#8ca5af;letter-spacing:.06em}
+.explain{width:min(100%,1130px);border-top:1px solid #31505b8a;margin-top:14px;padding:13px 1px 0;display:grid;grid-template-columns:1fr auto;gap:10px;color:#9bb4bc;font-size:12px;line-height:1.5}
+.explain strong{color:#e1f1ea}.details{margin-top:12px}.details details{border:1px solid #304a55;background:#101f29;border-radius:8px;padding:0 13px}.details summary{cursor:pointer;padding:10px 0;color:#aecad0;font-size:12px}.details p{font-size:11px;color:#93aeb5;line-height:1.5;margin:2px 0 12px}
+@media(max-width:700px){header{margin-bottom:10px}.tag{display:none}.worldlabel{top:6px;left:6px;font-size:9px;padding:4px 5px}.below{display:grid}.stats{justify-content:space-between;min-width:0}.controls{width:100%}.btn,.file-btn{padding:9px 10px;font-size:11px;min-height:44px}.explain{grid-template-columns:1fr;font-size:11px}}
+</style></head><body>
+<header><div class="ident"><h1>ŚLAD</h1><p>PRZESMYK / DRUGIE ŻYCIE AUTORSKIEJ TOPOLOGII</p></div><span class="tag">TEN SAM KSZTAŁT · INNE PRAWA</span></header>
+<div class="main"><canvas id="field" width="896" height="544" aria-label="Topologia ze źródłem i odbiornikiem impulsu. Rysuj ściany i wycinaj przejścia."></canvas><span class="worldlabel" id="worldlabel">SYGNAŁ PRZECHODZI PRZEZ PUSTĄ PRZESTRZEŃ</span></div>
+<div class="below">
+ <div class="controls" role="group" aria-label="Narzędzia">
+   <button id="emit" class="btn primary">◉ WYŚLIJ IMPULS</button>
+   <button id="cut" class="btn" data-active="true">DŁUTO</button>
+   <button id="build" class="btn" data-active="false">MUR</button>
+   <label class="file-btn">WCZYTAJ WARIANT <input id="file" type="file" accept=".json,application/json"></label>
+   <button id="export" class="btn" title="Zapisz topologię zgodnie z oryginalnym schematem PRZESMYKU">ZAPISZ</button>
+ </div>
+ <div class="stats"><div><b id="reachable">—</b><small>DROGA</small></div><div><b id="distance">—</b><small>DŁUGOŚĆ</small></div><div><b id="contrast">—</b><small>VS BAZA</small></div><div><b id="count">—</b><small>EDYCJE</small></div></div>
+</div>
+<div class="explain"><span id="message" role="status"><strong>Jedna konstrukcja może mieć różne zastosowania.</strong> Sygnał omija ściany, dociera do odbiornika albo zostaje odcięty. Przesuń świecące punkty, rysuj ściany i obserwuj skutki.</span><span id="tag">LAB MEDIUM · PIERWSZA PRÓBA</span></div>
+<div class="details"><details><summary>Co to właściwie bada? · Granice eksperymentu</summary><p>To osobne narzędzie oparte na autorskim formacie <code>medium.przesmyk.variant.v1</code>. Importuje tę samą geometrię 112×68 i współrzędne źródła/odpływu, ale nie importuje stanu cieczy. „Sygnał” to propagacja po siatce z przeszkodami, nie rzeczywisty model akustyki ani fizyki fal. Sonda jest dodatkowym punktem pomiarowym: nie zmienia pierwotnego odpływu w eksportowanym wariancie. Posiada własne znaczenie i może eksportować zmiany z powrotem do PRZESMYKU. Niczego nie wysyła na serwer ani nie zapisuje automatycznie.</p></details></div>
+<script>
+(()=>{'use strict';
+const W=112,H=68,C=8,N=W*H,ORIGINAL='21a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843';
+const $=id=>document.getElementById(id),field=$('field'),ctx=field.getContext('2d',{alpha:false});
+const idx=(x,y)=>y*W+x,clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+const solid=new Uint8Array(N),base=new Uint8Array(N),dist=new Float32Array(N),parent=new Int32Array(N);
+let emitter={x:12,y:17},originalDrain={x:101,y:53},originalFeeding=true,receiver={x:62,y:52},tool='cut',startMs=performance.now(),lastPulse=0,needGeom=true,editing=false,active=null,signalPath=[],reach=false,travel=0,pulses=0,unresolved=null,bg=document.createElement('canvas');bg.width=W*C;bg.height=H*C;const bc=bg.getContext('2d',{alpha:false});
+/* Read-only Jaskinia v1 instrument: no incoming commands, no geometry or Owner remarks sent. */
+const TRUSTED_HOST='https://jozzpoly.github.io';
+let observedByJaskinia=false,observedVisible=true;
+function instrumentSend(type,body={}){
+  if(!observedByJaskinia||window.parent===window)return;
+  window.parent.postMessage({jaskinia:1,type,...body},TRUSTED_HOST);
+}
+function instrumentReadout(){
+  const edits=Number($('count').textContent)||0;
+  return {text:'ŚLAD · '+(unresolved?'odbiornik wymaga ponownego wskazania':(reach?'trasa otwarta':'brak przejścia'))+' · '+edits+' zmian',
+          values:{droga:reach&&Number.isFinite(travel)?Math.round(travel):0,
+                  przejscie:reach?1:0,zmiany:edits,impulsy:pulses}};
+}
+function instrumentReport(){
+  if(!observedByJaskinia)return;
+  const q=instrumentReadout();
+  instrumentSend('state',{text:q.text,data:{mode:'route',connected:reach}});
+  if(observedVisible&&!unresolved)instrumentSend('signals',{values:q.values});
+}
+window.addEventListener('message',event=>{
+  if(window.parent===window||event.source!==window.parent||event.origin!==TRUSTED_HOST)return;
+  const d=event.data;if(!d||d.jaskinia!==1||typeof d.type!=='string')return;
+  if(d.type==='hi'){
+    observedByJaskinia=true;
+    instrumentSend('hello',{name:'ŚLAD · Medium',version:'donor 1',wants:[]});
+    instrumentReport();
+  }else if(observedByJaskinia&&d.type==='state?')instrumentReport();
+  else if(observedByJaskinia&&d.type==='visible'){observedVisible=d.visible===true;if(observedVisible)instrumentReport();}
+});
+setInterval(()=>{if(observedByJaskinia&&observedVisible)instrumentReport()},1600);
+/* The sender never transfers the topology, receiver coordinates or imported document to its parent. */
+
+function buildBaseline(){base.fill(0);for(let x=0;x<W;x++){base[idx(x,0)]=1;base[idx(x,H-1)]=1}for(let y=0;y<H;y++){base[idx(0,y)]=1;base[idx(W-1,y)]=1}for(let x=1;x<W-1;x++){let ground=60+(x>32&&x<46?1:0)-(x>77&&x<91?2:0);for(let y=ground;y<H-1;y++)base[idx(x,y)]=1}for(let y=27;y<60;y++)base[idx(56,y)]=1;for(let y=52;y<59;y++)for(let x=77;x<82;x++)base[idx(x,y)]=1;for(let y=47;y<58;y++)for(let x=90;x<93;x++)base[idx(x,y)]=1;solid.set(base)}
+function baselineCapsule(){return {schema:'medium.przesmyk.variant.v1',originalSha256:ORIGINAL,grid:[W,H],changes:[],source:{...emitter},drain:{...originalDrain},feeding:originalFeeding}}
+function applyCapsule(raw){const d=typeof raw==='string'?JSON.parse(raw):raw;if(!d||d.schema!=='medium.przesmyk.variant.v1'||d.originalSha256!==ORIGINAL||!Array.isArray(d.grid)||d.grid[0]!==W||d.grid[1]!==H||!Array.isArray(d.changes)||d.changes.length>N||typeof d.feeding!=='boolean')throw Error('Nieprawidłowy wariant PRZESMYKU');const next=new Uint8Array(base);const seen=new Set();for(const pair of d.changes){if(!Array.isArray(pair)||pair.length!==2||!Number.isInteger(pair[0])||pair[0]<0||pair[0]>=N||pair[0]%W===0||pair[0]%W===W-1||Math.floor(pair[0]/W)===0||Math.floor(pair[0]/W)===H-1||(pair[1]!==0&&pair[1]!==1)||seen.has(pair[0]))throw Error('Nieprawidłowe lub powtarzające się zmiany');seen.add(pair[0]);next[pair[0]]=pair[1]}function point(v){if(!v||!Number.isInteger(v.x)||!Number.isInteger(v.y)||v.x<1||v.x>=W-1||v.y<1||v.y>=H-1||next[idx(v.x,v.y)])throw Error('Źródło lub odbiornik znajduje się poza dostępną przestrzenią');return {x:v.x,y:v.y}}const s=point(d.source),t=point(d.drain);const metadata=d.mediumSignal;
+const pending=d.mediumPending;
+if(pending!==undefined){
+ if(metadata!==undefined||!pending||pending.extension!=='mediumSignal'||pending.status!=='requires-revalidation'||!pending.payload||!pending.payload.receiver)throw Error('Nieprawidłowy stan wymagający walidacji ŚLADU');
+ const rp=pending.payload.receiver;
+ if(!Number.isInteger(rp.x)||!Number.isInteger(rp.y)||rp.x<1||rp.y<1||rp.x>=W-1||rp.y>=H-1)throw Error('Uszkodzona pamięć o odbiorniku ŚLADU');
+}
+
+// Optional local interpretation: legacy PRZESMYK readers know only the shared topology.
+let nextReceiver=null;
+if(metadata!==undefined){
+  if(!metadata||typeof metadata!=='object'||Array.isArray(metadata)||!metadata.receiver)
+    throw Error('Nieprawidłowe dane sondy ŚLADU');
+  const rp=metadata.receiver;
+  if(!Number.isInteger(rp.x)||!Number.isInteger(rp.y)||rp.x<1||rp.y<1||rp.x>=W-1||rp.y>=H-1||next[idx(rp.x,rp.y)])
+    throw Error('Sonda ŚLADU musi znajdować się w pustej komórce');
+  nextReceiver={x:rp.x,y:rp.y};
+}
+solid.set(next);emitter=s;originalDrain=t;originalFeeding=d.feeding;unresolved=pending?JSON.parse(JSON.stringify(pending)):null;
+if(nextReceiver)receiver=nextReceiver;
+else if(solid[idx(receiver.x,receiver.y)])receiver={...t};
+needGeom=true;pulse();return currentCapsule()}
+function currentCapsule(){const changes=[];for(let k=0;k<N;k++)if(solid[k]!==base[k])changes.push([k,solid[k]]);return {...baselineCapsule(),changes,source:{...emitter},drain:{...originalDrain},...(unresolved?{mediumPending:JSON.parse(JSON.stringify(unresolved))}:{mediumSignal:{receiver:{...receiver}}})}}
+function neighbors(x,y,mask=solid){const out=[];for(const [dx,dy,cost] of [[0,-1,1],[1,0,1],[0,1,1],[-1,0,1],[-1,-1,Math.SQRT2],[1,-1,Math.SQRT2],[1,1,Math.SQRT2],[-1,1,Math.SQRT2]]){const xx=x+dx,yy=y+dy;if(xx<1||xx>=W-1||yy<1||yy>=H-1||mask[idx(xx,yy)])continue;if(dx&&dy&&(mask[idx(x+dx,y)]||mask[idx(x,y+dy)]))continue;out.push([xx,yy,cost])}return out}
+// Heap-backed Dijkstra: sound-like arrival order around obstacles, not a fluid solver.
+function solve(mask=solid,report=true){const ds=report?dist:new Float32Array(N),ps=report?parent:new Int32Array(N);ds.fill(Infinity);ps.fill(-1);const heap=[];function push(i,d){let n=heap.length;heap.push([i,d]);while(n){const p=(n-1)>>1;if(heap[p][1]<=d)break;heap[n]=heap[p];n=p}heap[n]=[i,d]}
+function pop(){const root=heap[0],tail=heap.pop();if(heap.length){let n=0;while(n*2+1<heap.length){let a=n*2+1,b=a+1;if(b<heap.length&&heap[b][1]<heap[a][1])a=b;if(tail[1]<=heap[a][1])break;heap[n]=heap[a];n=a}heap[n]=tail}return root}
+const from=idx(emitter.x,emitter.y),to=idx(receiver.x,receiver.y);if(mask[from]||mask[to]){if(report){reach=false;signalPath=[]}return Infinity}ds[from]=0;push(from,0);while(heap.length){const [i,d]=pop();if(d>ds[i]+1e-5)continue;const x=i%W|0,y=i/W|0;for(const [xx,yy,c] of neighbors(x,y,mask)){const k=idx(xx,yy),nd=d+c;if(nd+1e-5<ds[k]){ds[k]=nd;ps[k]=i;push(k,nd)}}}const d=ds[to];if(!report)return d;reach=Number.isFinite(d);travel=reach?d:Infinity;signalPath=[];if(reach){let k=to;while(k>=0&&signalPath.length<N){signalPath.push(k);if(k===from)break;k=ps[k]}signalPath.reverse()}$('reachable').textContent=reach?'OTWARTA':'ODCIĘTA';$('distance').textContent=reach?travel.toFixed(0)+' pól':'—';return d}
+function pulse(){const baselineTravel=solve(base,false);solve(solid,true);const diff=travel-baselineTravel;$('contrast').textContent=Number.isFinite(diff)?((diff>=0?'+':'')+diff.toFixed(0)): '—';startMs=performance.now();pulses++;lastPulse=0;let ch=0;for(let k=0;k<N;k++)if(solid[k]!==base[k])ch++;$('count').textContent=String(ch);$('message').textContent=reach?(Number.isFinite(diff)&&Math.abs(diff)>3?'Ta geometria zmienia trasę o '+(diff>0?'+':'')+diff.toFixed(0)+' pól względem oryginalnej mapy. Sonda jest niezależna od pierwotnego odpływu.':'Impuls w drodze. Zmień przejścia lub przesuń sondę — nie zmienia to pierwotnego odpływu.'):'Brak trasy. Wytnij przejście albo przenieś sondę.';if(unresolved)$('message').textContent='UWAGA: wcześniejszy odbiornik ('+unresolved.payload.receiver.x+', '+unresolved.payload.receiver.y+') wymaga sprawdzenia po zmianach świata. Przesuń sondę na wybraną wolną komórkę, aby świadomie określić nową pozycję.';}
+function paintBackdrop(){bc.fillStyle='#0b1b27';bc.fillRect(0,0,W*C,H*C);bc.strokeStyle='#29465350';bc.lineWidth=.6;bc.beginPath();for(let x=0;x<W;x+=4){bc.moveTo(x*C+.5,0);bc.lineTo(x*C+.5,H*C)}for(let y=0;y<H;y+=4){bc.moveTo(0,y*C+.5);bc.lineTo(W*C,y*C+.5)}bc.stroke();for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const i=idx(x,y);if(!solid[i])continue;const edge=!solid[i-W]||!solid[i-1]||!solid[i+1]||!solid[i+W];bc.fillStyle=edge?'#597480':'#2b424f';bc.fillRect(x*C,y*C,C,C);bc.fillStyle=edge?'#83a0a8':'#395561';bc.fillRect(x*C+1,y*C+1,C-2,edge?2:1)}needGeom=false}
+function drawMark(p,name,color,t){const x=p.x*C+C/2,y=p.y*C+C/2;ctx.save();ctx.shadowBlur=16;ctx.shadowColor=color;ctx.lineWidth=2;ctx.strokeStyle=color;ctx.beginPath();ctx.arc(x,y,8+Math.sin(t*3)*1.5,0,Math.PI*2);ctx.stroke();ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText(name,x,y-16);ctx.restore()}
+function render(now){if(needGeom)paintBackdrop();ctx.drawImage(bg,0,0);const elapsed=Math.min(5000,(now-startMs)/1000)*32; // measured grid steps, not real acoustic speed
+for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const k=idx(x,y),d=dist[k];if(!Number.isFinite(d)||solid[k])continue;const delta=elapsed-d;if(delta<-.3||delta>7)continue;let alpha=delta<1?0.62:Math.max(0,.40*(1-(delta-1)/6));if(alpha<.012)continue;ctx.fillStyle=delta<1?`rgba(107,248,224,${alpha})`:`rgba(54,169,173,${alpha})`;ctx.fillRect(x*C+1,y*C+1,C-2,C-2)}
+if(reach && elapsed>travel-.7){ctx.save();ctx.lineWidth=1.8;ctx.strokeStyle='rgba(255,198,132,.8)';ctx.shadowColor='#ffc38b';ctx.shadowBlur=5;ctx.beginPath();signalPath.forEach((k,i)=>{const xx=(k%W)*C+C/2,yy=((k/W)|0)*C+C/2;if(i===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)});ctx.stroke();ctx.restore();const arrive=clamp((elapsed-travel)/10,0,1);ctx.fillStyle=`rgba(253,207,132,${.15+.5*(1-arrive)})`;ctx.beginPath();ctx.arc(receiver.x*C+4,receiver.y*C+4,11+Math.min(15,(elapsed-travel)*2),0,Math.PI*2);ctx.fill()}
+drawMark(emitter,'NADAJNIK','#ffd197',now/1000);drawMark(receiver,'ODBIORNIK',reach?'#84eadf':'#e3969b',now/1000);
+if(now-startMs>7500){pulse()}requestAnimationFrame(render)}
+function position(e){const rect=field.getBoundingClientRect();return {x:clamp(Math.floor((e.clientX-rect.left)/rect.width*W),1,W-2),y:clamp(Math.floor((e.clientY-rect.top)/rect.height*H),1,H-2)}}
+function safeToPaint(x,y){if(x<1||y<1||x>=W-1||y>=H-1)return false;if(Math.hypot(x-emitter.x,y-emitter.y)<3||Math.hypot(x-receiver.x,y-receiver.y)<3)return false;return true}
+function paint(x,y){const radius=innerWidth<680?2:1;for(let dy=-radius;dy<=radius;dy++)for(let dx=-radius;dx<=radius;dx++){let xx=x+dx,yy=y+dy;if(dx*dx+dy*dy>radius*radius||!safeToPaint(xx,yy))continue;solid[idx(xx,yy)]=tool==='build'?1:0}needGeom=true}
+function line(a,b){const n=Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y));for(let j=0;j<=n;j++){const f=n?j/n:0;paint(Math.round(a.x+(b.x-a.x)*f),Math.round(a.y+(b.y-a.y)*f))}}
+field.addEventListener('pointerdown',e=>{e.preventDefault();const p=position(e);let move=Math.hypot(p.x-emitter.x,p.y-emitter.y)<=3?'emitter':Math.hypot(p.x-receiver.x,p.y-receiver.y)<=3?'receiver':'paint';active={id:e.pointerId,last:p,move};field.setPointerCapture(e.pointerId);if(move==='paint')paint(p.x,p.y)});
+field.addEventListener('pointermove',e=>{if(!active||e.pointerId!==active.id)return;e.preventDefault();const p=position(e);if(active.move==='paint')line(active.last,p);else if(!solid[idx(p.x,p.y)]){if(active.move==='emitter')emitter=p;else {if(receiver.x!==p.x||receiver.y!==p.y){receiver=p;unresolved=null}else receiver=p}}active.last=p});
+function pointerEnd(e){if(!active||e.pointerId!==active.id)return;active=null;pulse()};field.addEventListener('pointerup',pointerEnd);field.addEventListener('pointercancel',pointerEnd);field.addEventListener('lostpointercapture',pointerEnd);
+function setTool(v){tool=v;$('cut').dataset.active=String(v==='cut');$('build').dataset.active=String(v==='build')}
+$('cut').onclick=()=>setTool('cut');$('build').onclick=()=>setTool('build');$('emit').onclick=()=>pulse();
+$('file').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{applyCapsule(await file.text());$('worldlabel').textContent='TWOJA AUTORSKA KONSTRUKCJA · INNE PRAWA'}catch(err){$('message').textContent='Nie wczytano: '+err.message}finally{e.target.value=''}};
+$('export').onclick=()=>{const file=new Blob([JSON.stringify(currentCapsule(),null,2)],{type:'application/json'});const u=URL.createObjectURL(file),a=document.createElement('a');a.href=u;a.download='przesmyk-wariant-po-sygnale.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),500)};
+window.__mediumSignal={get:()=>currentCapsule(),sample:(x,y)=>solid[idx(x,y)],status:()=>({reach,travel,pulses,step:'no-fluid-solver',pathLength:signalPath.length,pending:!!unresolved}),import:raw=>applyCapsule(raw)};
+buildBaseline();
+const OWNER_VARIANT=null;
+if(OWNER_VARIANT){applyCapsule(OWNER_VARIANT);$('worldlabel').textContent='TWOJA KONSTRUKCJA · NOWA MECHANIKA'}
+else {const demo=baselineCapsule();demo.changes=[];for(let y=47;y<58;y++)demo.changes.push([idx(56,y),0]);applyCapsule(demo)}
+requestAnimationFrame(render);
+})();
+</script></body></html>
