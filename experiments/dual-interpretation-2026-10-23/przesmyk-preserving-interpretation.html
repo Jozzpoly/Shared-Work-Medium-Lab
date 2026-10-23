@@ -182,7 +182,7 @@ function importCapsule(raw){
 $('variant-export').addEventListener('click',()=>{const result=capsule();$('variant-json').value=JSON.stringify(result);showExchange(mediumNotice(result,'Wariant gotowy do skopiowania lub pobrania.'))});
 $('variant-import').addEventListener('click',()=>{try{importCapsule($('variant-json').value)}catch(e){showExchange('Nie wczytano: '+e.message,true)}});
 $('variant-file').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{importCapsule(await f.text());$('variant-json').value=JSON.stringify(capsule());}catch(err){showExchange('Nie wczytano: '+err.message,true)}finally{e.target.value=''}});
-$('variant-download').addEventListener('click',()=>{const result=capsule();showExchange(mediumNotice(result,'Wariant zapisany jako JSON.'));const blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='przesmyk-wariant.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);showExchange(mediumNotice(result,'Wariant zapisany jako JSON.'))});
+$('variant-download').addEventListener('click',()=>{const result=capsule();const blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='przesmyk-wariant.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);showExchange(mediumNotice(result,'Wariant zapisany jako JSON.'))});
 // Local verification hook: get() observes; apply() explicitly imports. Not a required host protocol.
 window.__mediumPortable={get:()=>capsule(),apply:raw=>importCapsule(raw)};
 
