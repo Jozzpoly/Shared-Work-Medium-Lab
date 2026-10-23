@@ -155,7 +155,6 @@ if(window.location.hash && window.location.hash.startsWith('#world=')){
     $('message').textContent='Nie udało się odtworzyć zapisu z linku ('+String(e.message).slice(0,80)+'). Widoczny jest tylko wariant przykładowy, nie Twój odzyskany świat.';
   }
 }
-else {const demo=baselineCapsule();demo.changes=[];for(let y=47;y<58;y++)demo.changes.push([idx(56,y),0]);applyCapsule(demo)}
 requestAnimationFrame(render);
 })();
 </script></body></html>
