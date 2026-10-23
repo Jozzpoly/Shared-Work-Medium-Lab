@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Medium — próba osadzenia ŚLADU</title>
+<style>
+:root{font:15px system-ui,sans-serif;color:#dfedf2;background:#0b1620}*{box-sizing:border-box}body{margin:0;padding:18px;max-width:1440px;margin-inline:auto}header{margin-bottom:16px}h1{font-size:22px;margin:0 0 5px}p{margin:0 0 12px;color:#a7bcc6}main{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:12px}iframe{display:block;border:1px solid #36576b;border-radius:8px;background:#081821;width:100%;height:min(80vh,800px)}aside{background:#172633;border:1px solid #355060;border-radius:8px;padding:14px;min-width:0}h2{font-size:16px;margin:0 0 14px}.status{padding:10px;background:#0b1923;border-radius:6px;word-break:break-word;margin-bottom:8px}.ok{color:#80dfaa}.wait{color:#e6bf70}.bad{color:#f28b86}dl{display:grid;grid-template-columns:1fr auto;gap:9px;margin:14px 0}dt{color:#adbdc7}dd{margin:0}pre{font:12px ui-monospace,monospace;white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto}small{color:#aabfc5}button{background:#24495f;color:white;border:1px solid #52738a;padding:8px 12px;border-radius:5px;cursor:pointer}@media(max-width:850px){main{grid-template-columns:1fr}iframe{height:65vh}}
+</style></head><body>
+<header><h1>ŚLAD — świat odzyskany wewnątrz obcej ramki</h1><p>Izolowana próba pierwszego kontaktu. To <strong>nie</strong> jest Jaskinia ani test jej zapisu. Przyrząd działa pod htmlpreview.github.io, a testowy host pod raw.githack.com.</p></header>
+<main><iframe id="instrument" title="ŚLAD: gra i przyrząd" src="https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/38df7a7432498ac78de9a79489d4a323e9985511/experiments/dual-interpretation-2026-10-23/slad-worldlink-iframe-probe-only.html#world=%7B%22schema%22%3A%22medium.przesmyk.variant.v1%22%2C%22originalSha256%22%3A%2221a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843%22%2C%22grid%22%3A%5B112%2C68%5D%2C%22changes%22%3A%5B%5B4872%2C0%5D%2C%5B5320%2C0%5D%2C%5B5432%2C0%5D%2C%5B5544%2C0%5D%2C%5B5656%2C0%5D%2C%5B5768%2C0%5D%2C%5B5880%2C0%5D%2C%5B5992%2C0%5D%2C%5B6104%2C0%5D%2C%5B6216%2C0%5D%2C%5B6328%2C0%5D%2C%5B6440%2C0%5D%2C%5B2845%2C1%5D%5D%2C%22source%22%3A%7B%22x%22%3A12%2C%22y%22%3A17%7D%2C%22drain%22%3A%7B%22x%22%3A101%2C%22y%22%3A53%7D%2C%22feeding%22%3Atrue%2C%22mediumSignal%22%3A%7B%22receiver%22%3A%7B%22x%22%3A82%2C%22y%22%3A40%7D%7D%7D" allow="fullscreen; autoplay"></iframe>
+<aside><h2>Odbiór v1 / testowe obserwacje</h2>
+<div id="status" class="status wait" role="status">Oczekiwanie na załadowanie przyrządu…</div>
+<dl><dt>Prawidłowy origin</dt><dd id="origin">—</dd><dt>hello</dt><dd id="hello">—</dd><dt>state</dt><dd id="state">—</dd><dt>signals</dt><dd id="signals">—</dd><dt>Wstrzymanie sygnału</dt><dd id="pause">—</dd><dt>Wznowienie sygnału</dt><dd id="resume">—</dd></dl>
+<button type="button" id="again">Powtórz sprawdzenie</button>
+<h2 style="margin-top:18px">Ślad otrzymanych komunikatów</h2><pre id="log" aria-live="polite"></pre>
+<small>Strona nie czyta zawartości iframe i nie żąda plików. Sprawdza wyłącznie jawne komunikaty postMessage. Zmiany w ramce mogą zostać utracone po przeładowaniu — używaj eksportu JSON.</small></aside></main>
+<script>
+'use strict';
+const frame=document.getElementById('instrument'), byId=id=>document.getElementById(id);
+const childOrigin='https://htmlpreview.github.io';
+let step=0,stage={},counts={hello:0,state:0,signals:0},timer=null;
+function put(id,txt){byId(id).textContent=txt}
+function line(v){byId('log').textContent=(byId('log').textContent+'\n'+v).trim().slice(-2400)}
+function talk(type,more={}){frame.contentWindow.postMessage({jaskinia:1,type,...more},childOrigin)}
+function done(pass,details){put('status',(pass?'PASS — ':'NIEPOTWIERDZONE — ')+details);byId('status').className='status '+(pass?'ok':'bad')}
+function reset(){
+ stage={};step=0;counts={hello:0,state:0,signals:0};byId('log').textContent='';
+ for(const id of ['hello','state','signals','pause','resume','origin'])put(id,'—');
+ put('status','Ładowanie ramki z innego originu…');byId('status').className='status wait';
+ if(timer)clearTimeout(timer);
+ timer=setTimeout(()=>done(false,'brak pełnego kontraktu w ciągu 12 sekund'),12000);
+ frame.src="https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/38df7a7432498ac78de9a79489d4a323e9985511/experiments/dual-interpretation-2026-10-23/slad-worldlink-iframe-probe-only.html#world=%7B%22schema%22%3A%22medium.przesmyk.variant.v1%22%2C%22originalSha256%22%3A%2221a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843%22%2C%22grid%22%3A%5B112%2C68%5D%2C%22changes%22%3A%5B%5B4872%2C0%5D%2C%5B5320%2C0%5D%2C%5B5432%2C0%5D%2C%5B5544%2C0%5D%2C%5B5656%2C0%5D%2C%5B5768%2C0%5D%2C%5B5880%2C0%5D%2C%5B5992%2C0%5D%2C%5B6104%2C0%5D%2C%5B6216%2C0%5D%2C%5B6328%2C0%5D%2C%5B6440%2C0%5D%2C%5B2845%2C1%5D%5D%2C%22source%22%3A%7B%22x%22%3A12%2C%22y%22%3A17%7D%2C%22drain%22%3A%7B%22x%22%3A101%2C%22y%22%3A53%7D%2C%22feeding%22%3Atrue%2C%22mediumSignal%22%3A%7B%22receiver%22%3A%7B%22x%22%3A82%2C%22y%22%3A40%7D%7D%7D";
+}
+frame.addEventListener('load',()=>{line('iframe load → hi');talk('hi',{v:1})});
+window.addEventListener('message',e=>{
+ if(e.source!==frame.contentWindow||e.origin!==childOrigin||!e.data||e.data.jaskinia!==1)return;
+ const d=e.data;if(!['hello','state','signals'].includes(d.type))return;
+ put('origin','potwierdzony');counts[d.type]++;put(d.type,String(counts[d.type]));
+ if(d.type==='state'){if(String(d.text||'').includes('13 zmian'))stage.authored=true;line('state: '+String(d.text||'').slice(0,120));}
+ if(d.type==='hello')line('hello: '+String(d.name||''));
+ if(d.type==='signals')line('signals: '+Object.keys(d.values||{}).join(', '));
+ if(step===0&&counts.hello&&counts.state&&counts.signals&&stage.authored){
+  step=1;stage.baselineSignals=counts.signals;
+  put('status','Odebrano kontrakt. Sprawdzam visible:false…');
+  setTimeout(()=>{talk('visible',{visible:false});talk('state?');setTimeout(()=>{
+    const muted=counts.state>=2&&counts.signals===stage.baselineSignals;
+    put('pause',muted?'PASS':'FAIL');
+    line('visible:false → '+(muted?'sam state':'nieoczekiwane signals'));
+    step=2;stage.beforeResume=counts.signals;talk('visible',{visible:true});talk('state?');
+    setTimeout(()=>{
+      const resumed=counts.signals>stage.beforeResume;put('resume',resumed?'PASS':'FAIL');
+      clearTimeout(timer);done(muted&&resumed,muted&&resumed?'odzyskano 13 zmian w cross-origin iframe + handshake + stop/wznowienie':'ramka działa, ale wynik nie spełnia kontraktu');
+    },550)
+  },550)},500);
+ }
+});
+byId('again').addEventListener('click',reset);
+reset();
+</script></body></html>
