@@ -1,0 +1,24 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>ŚLAD — pending in real Jaskinia v6.4.1 (isolated)</title><style>body{background:#091924;color:#dbeaf1;font:16px/1.7 system-ui;margin:10vh auto;max-width:760px;padding:2rem}h1{font-size:23px}p{color:#a8c2d0}.danger{color:#ffb1a1}</style></head><body><h1>Test bez zmiany Jaskini użytkownika</h1><p>Ten jednorazowy eksperyment tworzy lokalnie jedną testową przestrzeń tylko na htmlpreview.github.io. Nie przesyła ani nie odczytuje materiałów czy notatek Ownera.</p><p id="status">Weryfikacja...</p><script>
+(()=>{
+ 'use strict';
+ const status=document.getElementById('status'),target="https://htmlpreview.github.io/?https://raw.githubusercontent.com/Jozzpoly/Jozz-Cave-Workbench/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/dist/jaskinia-web.html#uklad~medium-pending-isolated",lab="https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/bb5804507f5bc6940273e9ab39bbdd76e4d86e26/experiments/dual-interpretation-2026-10-23/slad-jaskinia-htmlpreview-origin-only.html#world=%7B%22schema%22%3A%22medium.przesmyk.variant.v1%22%2C%22originalSha256%22%3A%2221a0d7cada718ff876f2761d36fa9165da6c5a7f6a640d93325e8f16dd51e843%22%2C%22grid%22%3A%5B112%2C68%5D%2C%22changes%22%3A%5B%5B4872%2C0%5D%2C%5B5320%2C0%5D%2C%5B5432%2C0%5D%2C%5B5544%2C0%5D%2C%5B5656%2C0%5D%2C%5B5768%2C0%5D%2C%5B5880%2C0%5D%2C%5B5992%2C0%5D%2C%5B6104%2C0%5D%2C%5B6216%2C0%5D%2C%5B6328%2C0%5D%2C%5B6440%2C0%5D%2C%5B4562%2C1%5D%5D%2C%22source%22%3A%7B%22x%22%3A12%2C%22y%22%3A17%7D%2C%22drain%22%3A%7B%22x%22%3A101%2C%22y%22%3A53%7D%2C%22feeding%22%3Atrue%2C%22mediumPending%22%3A%7B%22extension%22%3A%22mediumSignal%22%2C%22status%22%3A%22requires-revalidation%22%2C%22payload%22%3A%7B%22receiver%22%3A%7B%22x%22%3A82%2C%22y%22%3A40%7D%7D%7D%7D";
+ function fail(text){status.textContent='STOP: '+text;status.className='danger'}
+ try{
+  if(location.origin!=='https://htmlpreview.github.io')throw Error('nieoczekiwany origin');
+  if(!location.search.includes('Jozzpoly/Shared-Work-Medium-Lab'))throw Error('nieoczekiwane pochodzenie pliku');
+  const keys=Object.keys(localStorage);
+  if(keys.some(k=>k.startsWith('jaskinia:')))throw Error('W tym originie już istnieje stan Jaskini; nie wolno go zastąpić.');
+  const id='medium-pending-isolated',win='wm_pending_tool',signal='wm_pending_signal';
+  const state={v:2,cur:id,sel:'',spaces:[{
+   id,name:'Medium · sondy niepewne (test)',preset:null,purpose:'Tylko fikcyjna geometria; bez prywatnych danych.',
+   L:{tree:{t:'s',d:'row',r:.73,a:{t:'w',id:win},b:{t:'w',id:signal}},
+      wins:{[win]:{type:'przyrzad',z:1,pin:null,st:{url:lab,title:'ŚLAD · wymaga wskazania',project:null}},
+        [signal]:{type:'sygnaly',z:1,pin:null,st:{src:win,span:60}}},
+      floats:[],max:null,focus:null,stats:{}}
+  }],notes:{},saved:[],trash:[],views:{}};
+  localStorage.setItem('jaskinia:v3',JSON.stringify(state));
+  status.textContent='Przygotowano wyłącznie jedną pustą testową przestrzeń. Otwieram niezmieniony build Jaskini v6.4.1.';
+  location.replace(target);
+ }catch(e){fail(String(e.message||e).slice(0,250));}
+})();
+</script></body></html>
