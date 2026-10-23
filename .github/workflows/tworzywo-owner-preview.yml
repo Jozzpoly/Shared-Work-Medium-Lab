@@ -59,6 +59,42 @@ jobs:
           done
           test -s server.json || { cat owner-preview-server.log; exit 1; }
           npm run test:browser
+      - name: Falsify standalone file-origin Owner entry (research only)
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/delivery"
+          cd studio/experiments/material-as-construction
+          node --input-type=module <<'NODE'
+          import {chromium} from 'playwright';
+          import {pathToFileURL} from 'node:url';
+          import {resolve} from 'node:path';
+          import {writeFileSync} from 'node:fs';
+          const result = { route:'file:// actual built HTML',pass:false,opens:false,canLoadModels:false,persistsAfterReload:false,errors:[],note:'This is a research preflight of the delivered entry, not human usability.' };
+          let browser;
+          try {
+            browser = await chromium.launch({headless:true,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox']});
+            const page = await browser.newPage({viewport:{width:1280,height:800}});
+            page.on('pageerror',e=>result.errors.push('page: '+String(e).slice(0,200)));
+            page.on('console',m=>{if(m.type()==='error')result.errors.push('console: '+m.text().slice(0,300))});
+            await page.goto(pathToFileURL(resolve('tworzywo-probe.html')).href,{waitUntil:'domcontentloaded',timeout:12000});
+            await page.waitForFunction(()=>window.__TWORZYWO?.ready===true,{timeout:12000});
+            result.opens=await page.evaluate(()=>window.__TWORZYWO.views.size>0);
+            if(result.opens){
+              await page.getByText('Modele próbne',{exact:true}).first().click({timeout:5000});
+              await page.waitForFunction(()=>window.__TWORZYWO.session.snapshot().nodes.length>2,{timeout:12000});
+              result.canLoadModels=true;
+              await page.reload({waitUntil:'domcontentloaded'});
+              await page.waitForFunction(()=>window.__TWORZYWO?.ready===true,{timeout:12000});
+              result.persistsAfterReload=await page.evaluate(()=>window.__TWORZYWO.session.snapshot().nodes.length>2 && window.__TWORZYWO.views.size>0);
+            }
+            result.pass=result.opens&&result.canLoadModels&&result.persistsAfterReload;
+          } catch(e) { result.failure=String(e).slice(0,1800); }
+          finally { if(browser)await browser.close(); }
+          writeFileSync(process.env.GITHUB_WORKSPACE+'/delivery/file-origin-check.json',JSON.stringify(result,null,2));
+          console.log('FILE_ORIGIN_RESULT',JSON.stringify(result));
+          NODE
       - name: Prepare artifact with explicit provenance and limits
         if: always()
         shell: bash
