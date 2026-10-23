@@ -48,6 +48,9 @@ function test(hydroHtml,signalHtml,capsuleText,legacyHydroHtml,legacySignalHtml)
  const initial=framed.__messages.map(e=>e.message.type);
  check('Jaskinia hello/state/signals handshake',
    initial.includes('hello')&&initial.includes('state')&&initial.includes('signals'));
+ check('active instrument reports connected without pending',
+   framed.__messages.find(e=>e.message.type==='state')?.message.data?.connected===true&&
+   framed.__messages.find(e=>e.message.type==='state')?.message.data?.needsReceiverConfirmation===false);
  framed.__mediumSignal.import(changed);
  framed.__messages.length=0;
  framed.__deliver({jaskinia:1,type:'state?'});
@@ -56,6 +59,16 @@ function test(hydroHtml,signalHtml,capsuleText,legacyHydroHtml,legacySignalHtml)
    pendingMsgs.includes('state')&&!pendingMsgs.includes('signals'));
  check('pending host state describes uncertainty',
    framed.__messages.some(e=>e.message.type==='state'&&e.message.text.includes('wymaga ponownego')));
+ check('pending metadata invalidates numeric connected field',
+   framed.__messages.some(e=>e.message.type==='state'&&
+     e.message.data?.connected===null&&e.message.data?.needsReceiverConfirmation===true));
+ check('pending metadata emits one visible event marker',
+   framed.__messages.filter(e=>e.message.type==='event').length===1&&
+   framed.__messages.some(e=>e.message.type==='event'&&e.message.level==='uwaga'));
+ framed.__messages.length=0;
+ framed.__deliver({jaskinia:1,type:'state?'});
+ check('repeated state request does not spam warning events',
+   framed.__messages.length===1&&framed.__messages[0].message.type==='state');
  framed.__messages.length=0;
  framed.__deliver({jaskinia:1,type:'hi'},'https://untrusted.example');
  check('origin spoof refused',framed.__messages.length===0);
@@ -65,6 +78,9 @@ function test(hydroHtml,signalHtml,capsuleText,legacyHydroHtml,legacySignalHtml)
  framed.__deliver({jaskinia:1,type:'state?'});
  check('trusted numeric reporting restored after reauthor',
    framed.__messages.some(e=>e.message.type==='signals')&&!framed.__mediumSignal.status().pending);
+ check('reauthored connection status restored without uncertainty',
+   framed.__messages.some(e=>e.message.type==='state'&&e.message.data?.connected===true&&
+     e.message.data?.needsReceiverConfirmation===false));
  check('explicit postMessage target origin for every response',
    framed.__messages.length>0&&framed.__messages.every(e=>e.origin==='https://jozzpoly.github.io'));
  return {passed:checks.length,total:checks.length,checks,scope:'Original JS through event-capable DOM mock, NOT browser UI or Owner verdict',
