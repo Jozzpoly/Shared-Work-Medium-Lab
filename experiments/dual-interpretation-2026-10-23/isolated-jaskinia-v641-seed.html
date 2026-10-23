@@ -6,10 +6,10 @@
  try{
   if(location.origin!=='https://rawcdn.githack.com')throw Error('Nieprawidłowy origin: niczego nie zapisuję.');
   if(!location.pathname.includes('/Jozzpoly/Shared-Work-Medium-Lab/'))throw Error('Nieznane miejsce eksperymentu.');
-  const raw=localStorage.getItem(key);
-  if(!raw)throw Error('Nie odnaleziono oczekiwanego, świeżego stanu testowej Jaskini. Nie zapisuję nowego stanu w ciemno.');
-  const s=JSON.parse(raw);
-  if(!s||!Array.isArray(s.spaces)||!s.spaces.length||!s.spaces.every(x=>x&&x.L&&x.L.wins))throw Error('Nierozpoznany stan; odmawiam zmian.');
+  const raw=localStorage.getItem(key),pristine=!raw;
+  if(pristine&&Object.keys(localStorage).some(k=>k.startsWith('jaskinia:')))throw Error('Brak głównego stanu, ale są inne dane Jaskini. Odmawiam.');
+  const s=pristine?{v:2,cur:id,sel:'',spaces:[],notes:{},saved:[],trash:[],views:{}}:JSON.parse(raw);
+  if(!s||!Array.isArray(s.spaces)||(!pristine&&!s.spaces.length)||!s.spaces.every(x=>x&&x.L&&x.L.wins))throw Error('Nierozpoznany stan; odmawiam zmian.');
   const noteList=Object.values(s.notes||{});
   if(noteList.some(n=>!n||typeof n.text!=='string'||n.text.trim().length)||(s.saved||[]).length||(s.trash||[]).length)throw Error('Znaleziono treść notatek lub zapisane układy na tym originie; nie dotykam tego stanu.');
   if(Object.keys(localStorage).some(k=>k.startsWith('jaskinia:materialy')||k.startsWith('jaskinia:m-')))throw Error('Znaleziono zapis materiałów — koniec próby.');
@@ -19,7 +19,8 @@
    if(!Object.values(wins).some(w=>w.type==='przyrzad'&&w.st?.url===lab))throw Error('ID tej próby jest już zajęte przez inny stan; nie dotykam.');
    say('Znaleziono wcześniejszą próbę. Otwieram ją bez nadpisywania.');
   } else {
-   if(s.spaces.length!==5||s.spaces.some(x=>!['przeglad','granie','statystyki','projekt','sciana'].includes(x.id)))throw Error('Stan nie jest świeżym zestawem 5 układów. Odmawiam nadpisywania.');
+   if(!pristine&&(s.spaces.length!==5||s.spaces.some(x=>!['przeglad','granie','statystyki','projekt','sciana'].includes(x.id))))throw Error('Stan nie jest świeżym zestawem 5 układów. Odmawiam nadpisywania.');
+   if(pristine&&s.spaces.length)throw Error('Błąd izolacji: oczekiwano pustego stanu.');
    const l={tree:{t:'s',d:'row',r:0.73,a:{t:'w',id:'wm_przyrzad_24'},b:{t:'w',id:'wm_sygnaly_24'}},wins:{
      wm_przyrzad_24:{type:'przyrzad',z:1,pin:null,st:{url:lab,title:'ŚLAD · Medium: 13 zmian',project:null}},
      wm_sygnaly_24:{type:'sygnaly',z:1,pin:null,st:{src:'wm_przyrzad_24',span:60}}
