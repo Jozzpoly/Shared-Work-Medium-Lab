@@ -46,7 +46,34 @@ function run(source,fixture){
  insist(c.authored.changes.length===13,'same number of edits for negative control');
  insist(c.local.reach&&c.local.travel!==a.local.travel,'negative control locally changes measured cost');
  insist(!eq(c.packets,a.packets),'negative control host sees changed signal');
- return {passed:12,kind:'source-JS plus Jaskinia v1 packet-level falsifier; no live Opera navigation',
+ // Edit-provenance falsifier: one state produced by native pointer events,
+ // the *same* state produced by a new import. Public telemetry cannot tell how.
+ function seeded(){
+  const app=boot(source,false,{parent:true});
+  app.__mediumSignal.import(JSON.stringify(fixture));
+  app.__deliver({jaskinia:1,type:'hi'});
+  app.__messages.length=0;
+  return app;
+ }
+ const gestured=seeded();
+ const field=gestured.document.getElementById('field');
+ const build=gestured.document.getElementById('build');
+ insist(typeof build.onclick==='function','native build tool handler exists');
+ build.onclick();
+ function pointer(kind){
+  const cb=field._listeners?.[kind];insist(typeof cb==='function','native '+kind+' handler exists');
+  cb({pointerId:18,clientX:3.5/112*896,clientY:3.5/68*544,preventDefault(){}});
+ }
+ pointer('pointerdown');pointer('pointerup');
+ const authoredByGesture=gestured.__mediumSignal.get();
+ gestured.__deliver({jaskinia:1,type:'state?'});
+ const loaded=seeded();
+ loaded.__mediumSignal.import(JSON.stringify(authoredByGesture));
+ loaded.__deliver({jaskinia:1,type:'state?'});
+ insist(eq(authoredByGesture,loaded.__mediumSignal.get()),'same final topology via UI gestures and imported JSON');
+ insist(eq(gestured.__messages.map(x=>x.message),loaded.__messages.map(x=>x.message)),'same host reports for gesture versus import');
+ insist(authoredByGesture.changes.length===17&&gestured.__mediumSignal.status().pulses===loaded.__mediumSignal.status().pulses,'same edit count and pulse count');
+ return {passed:15,kind:'source-JS plus Jaskinia v1 packet-level falsifier; no live Opera navigation',
   specimens:{
    A:{wallAt:[3,3],edits:13,occupancy:a.occupancy},
    B:{wallAt:[20,30],edits:13,occupancy:b.occupancy}
@@ -55,6 +82,7 @@ function run(source,fixture){
   samePreciseLocalTravel:a.local.travel,
   samePathLength:a.local.pathLength,
   sameFutureAction:{moveReceiverTo:[3,3],worldA:'rejected: wall',worldB:'accepted: free'},
+  identicalFinalWorkDifferentOrigin:{editedVia:'original pointerdown/pointerup',otherVia:'JSON import',edits:authoredByGesture.changes.length,publicMessagesEqual:true},
   negativeControl:{receiver:[78,40],travel:c.local.travel,hostSignal:c.packets.find(p=>p.type==='signals').values},
   conclusion:'same reported facts do not determine grid topology or all future interactions'};
 }
