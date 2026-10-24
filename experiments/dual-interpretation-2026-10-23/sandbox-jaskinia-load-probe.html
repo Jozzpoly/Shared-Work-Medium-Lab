@@ -1,0 +1,23 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medium — beztrwała kopia autentycznej Jaskini</title><style>body{background:#0c1821;color:#e6eff6;font:14px system-ui;margin:0}header{padding:14px;border-bottom:1px solid #456}iframe{display:block;width:100%;height:calc(100dvh - 90px);border:0}small{color:#aebfcb}</style></head><body><header><strong>Medium / izolacja testowa prawdziwej Jaskini</strong><p id="state">Pobieram niezmieniony build źródłowy…</p><small>Uruchomienie wyłącznie z pamięcią sesyjną w zamkniętej ramce. Nie dotykamy właściwych zapisów.</small></header><iframe id="jaskinia" title="Autentyczna Jaskinia v6.4.1 w ramce izolowanej" sandbox="allow-scripts"></iframe><script>
+(async()=>{
+ const info=document.getElementById('state'),frame=document.getElementById('jaskinia');
+ const url="https://rawcdn.githack.com/Jozzpoly/Jozz-Cave-Workbench/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/dist/jaskinia-web.html";
+ const label=(x)=>info.textContent=x;
+ window.addEventListener('message',e=>{
+  if(e.source!==frame.contentWindow||e.data?.kind!=='medium-virtual-store-status')return;
+  label('Kod Jaskini: '+e.data.phase+' | '+String(e.data.message||'').slice(0,140));
+ });
+ try{
+  const res=await fetch(url,{cache:'force-cache',mode:'cors'});
+  if(!res.ok)throw Error('CORS/fetch: HTTP '+res.status);
+  const source=await res.text();
+  if(source.length<200000||!source.includes('Jaskinia'))throw Error('Nieznany build lub niepełny dokument: '+source.length);
+  const prelude="(function(){try{const m=new Map(),v={getItem:k=>m.has(k)?m.get(k):null,setItem:(k,x)=>{m.set(String(k),String(x))},removeItem:k=>m.delete(String(k)),clear:()=>m.clear(),key:i=>Array.from(m.keys())[i]||null,get length(){return m.size}};Object.defineProperty(window,'localStorage',{configurable:true,get:()=>v});parent.postMessage({kind:'medium-virtual-store-status',phase:'pamięć wirtualna włączona',message:'klucze='+v.length},'*')}catch(e){parent.postMessage({kind:'medium-virtual-store-status',phase:'STOP: pamięć niemożliwa',message:String(e).slice(0,150)},'*')}})();";
+  const safeHead='<scr'+'ipt>'+prelude+'</scr'+'ipt>';
+  const modified=source.replace(/<head([^>]*)>/i,x=>x+safeHead);
+  if(modified===source)throw Error('Nie odnaleziono nagłówka dokumentu.');
+  label('Pobrano '+source.length+' znaków oryginalnego buildu. Uruchamiam beztrwałą ramkę…');
+  frame.srcdoc=modified;
+ }catch(e){label('STOP — '+String(e.message||e))}
+})();
+</script></body></html>
