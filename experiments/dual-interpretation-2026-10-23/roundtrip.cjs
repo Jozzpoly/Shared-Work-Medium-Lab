@@ -13,8 +13,9 @@ function boot(html,stepHook=false,host=null,view=null){
  const window={document,addEventListener(type,fn){((this._listeners ||= {})[type] ||= []).push(fn)},location:{origin:'https://htmlpreview.github.io',href:view?.href||'https://htmlpreview.github.io/research.html',hash:view?.hash||''}};
  window.history={state:null,replaceState(state,title,url){this.state=state;window.location.href=String(url);window.location.hash=String(url).includes('#')?'#'+String(url).split('#').slice(1).join('#'):''}};
  const parent=host?.parent?{postMessage(message,origin){messages.push({message,origin})}}:window;
- window.parent=parent;window.__messages=messages;
+ window.parent=parent;window.top=host?.top||parent;window.__messages=messages;
  window.__deliver=(data,origin='https://jozzpoly.github.io')=>{for(const fn of window._listeners?.message||[])fn({data,origin,source:parent})};
+ window.__deliverTop=(data,origin='https://raw.githack.com')=>{for(const fn of window._listeners?.message||[])fn({data,origin,source:window.top})};
  const navigator={clipboard:{async writeText(text){window.__copied=String(text)}}};
  const env={window,document,navigator,innerWidth:896,BroadcastChannel:host?.BroadcastChannel,performance:{now:()=>0},requestAnimationFrame(){},setInterval(){},setTimeout(){},Blob:class{},URL:{createObjectURL:()=>'',revokeObjectURL(){}}};
  new Function(...Object.keys(env),src)(...Object.values(env));return window;
