@@ -99,15 +99,16 @@ These were originally six additional passing source-JavaScript tests (22 then; e
 
 ### 24 Oct — a deliberate export link can reappear in Jaskinia state/package metadata
 
-[Exact Jaskinia-source 7-assertion probe](host-url-carriage.cjs). Inputs: untouched v6.4.1 [52-przyrzady.js](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/52-przyrzady.js), [15-store.js](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/15-store.js), [55-feedback.js](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/55-feedback.js):
+[Exact Jaskinia-source 9-assertion probe](host-url-carriage.cjs). Inputs: untouched v6.4.1 [52-przyrzady.js](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/52-przyrzady.js), [15-store.js](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/15-store.js), [55-feedback.js](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/src/jaskinia/55-feedback.js):
 
 `node host-url-carriage.cjs 52-przyrzady.js 15-store.js 55-feedback.js`
 
-The source functions were executed with **fake** `example.invalid` `#world=` JSON containing the synthetic marker `PUBLIC_SYNTHETIC_WORLD_DATA`. **7/7 controls pass:**
+The source functions were executed with **fake** `example.invalid` `#world=` JSON containing the synthetic marker `PUBLIC_SYNTHETIC_WORLD_DATA`. **9/9 controls pass:**
 
 - `rememberLive(url,title,project)` saves the **complete URL including fragment** to Jaskinia's `jaskinia:przyrzady` recent list.
 - `snapshotAll` preserves the same URL inside a workspace window's `st.url`.
 - Real `packageData(false)` stores that full address **twice** when the window contains a running instrument: `uklady[0].uklad.wins.w.st.url` and `przyrzady[0].adres`. This remains true even with notebook text deliberately excluded from the package.
+- Two negative controls demonstrate that merely redacting **one** of the addresses in an exported package is inadequate: replacing only `przyrzady[0].adres` leaves the marker inside `uklady[0].uklad.wins.w.st.url`, and replacing only the latter still leaves the instrument address. These are two independent copies of the same initial URL.
 - Everything above was source-executed with synthetic fixtures, not a user's localStorage or private materials. No exfiltration, third-party request, or actual leaked asset was observed.
 
 **Exact triggering boundary:** This concerns a **workpiece-bearing link used as the instrument's *initial/selected URL*** in Jaskinia, as in our disposable seeded test. Merely clicking `LINK DO ŚWIATA` *inside an already embedded child* changes the child's own URL/hash and may **not** update the parent window's saved `st.url`; do not overstate that every share click is automatically remembered. A browser URL fragment is normally not sent in an HTTP request, but its inclusion in the JavaScript-visible URL allows it to be copied into host-local metadata and later a user-directed diagnostic package. GitHub Pages origin sharing can make that storage accessible to other same-origin scripts; separate preview paths do not create separate origin isolation.
