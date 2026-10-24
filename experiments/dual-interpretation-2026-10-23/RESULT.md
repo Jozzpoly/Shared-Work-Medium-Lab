@@ -1,5 +1,7 @@
 # Medium: one source geometry, two meanings — counterexample (23 Oct 2026)
 
+> **Entry for next agents and Owner (24 Oct): [concise laboratory map / read first](README.md).** Full evidence and earlier dated checkpoints remain below; do not begin with the last experimental HTML, and never infer an Opera PASS from source-level checks.
+
 > **OWNER CORRECTION — 24 Oct 2026 (overrides the export interpretation below):** The Owner's infrequent use of `ZAPISZ JSON` / `LINK DO ŚWIATA` in this ŚLAD test was a *deliberate choice not to preserve disposable testing scribbles*. It is **NOT evidence that export is useless, unwelcome, inadequate or not worth developing**. For genuinely valuable creations and deliberate exchange, robust export can be important. The absence of a desired export here is **not a lost asset**. Do not infer a general autosave requirement or automatic archive from this case. See the corrected Owner-reflection section and [Jaskinia PR #4 correction](https://github.com/Jozzpoly/Jozz-Cave-Workbench/pull/4#issuecomment-6377167949).
 
 
