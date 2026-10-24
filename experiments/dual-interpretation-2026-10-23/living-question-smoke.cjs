@@ -68,6 +68,21 @@ function run(labHtml,wrapperHtml,seed){
   A.topMessages.some(x=>x.message.kind==='cell-answer'&&x.message.x===3&&x.message.blocked===true)&&
   B.topMessages.some(x=>x.message.kind==='cell-answer'&&x.message.x===3&&x.message.blocked===false)&&
   !A.topMessages.some(x=>Object.keys(x.message).includes('changesMap')));
+ // The extra read-only capability must not reintroduce the old false 'connected' claim when pending.
+ const pending=JSON.parse(JSON.stringify(seed));
+ pending.changes.push([4562,1]);
+ pending.mediumPending={status:'requires-revalidation',extension:'mediumSignal',payload:pending.mediumSignal};
+ delete pending.mediumSignal;
+ const pendingLab=boot(labHtml,false,{parent:true});
+ pendingLab.__mediumSignal.import(JSON.stringify(pending));
+ pendingLab.__deliver({jaskinia:1,type:'hi'},'https://rawcdn.githack.com');
+ const pendingMessages=pendingLab.__messages.map(x=>x.message);
+ check('pending receiver reports explicit uncertainty with no live numeric signals',
+  pendingMessages.some(x=>x.type==='state'&&x.data.connected===null&&x.data.needsReceiverConfirmation===true)&&
+  pendingMessages.some(x=>x.type==='event')&&!pendingMessages.some(x=>x.type==='signals'));
+ pendingLab.__messages.length=0;
+ pendingLab.__deliver({jaskinia:1,type:'state?'},'https://rawcdn.githack.com');
+ check('repeated pending report does not spam an event',pendingLab.__messages.every(x=>x.message.type==='state'));
  check('fully syntactic observer and instrument scripts',!!new Function(wrapperJS)&&!!new Function(soleScript(labHtml)));
  return {passed:ok.length,checks:ok,evidence:{Afirst:first,Asecond:second,Bfirst:B.get('result').textContent,
   originalHostPackets:A.lab.__messages.map(x=>x.message.type),Areadonly:true,noBroadcastChannel:true,
