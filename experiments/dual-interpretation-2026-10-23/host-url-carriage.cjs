@@ -41,6 +41,12 @@ function run(instruments,storage,feedback){
  pass('native package contains guest URL via running instrument',pkg.przyrzady[0].adres===link);
  pass('package contents include encoded synthetic world marker',JSON.stringify(pkg).includes(tag));
  pass('omitting note text does not omit instrument address',pkg.notatki.tresc.includes('pominięta')&&pkg.przyrzady[0].adres===link);
+ const single=JSON.parse(JSON.stringify(pkg));
+ single.przyrzady[0].adres='[redacted]';
+ pass('redacting only instrument URL still leaks through layout',JSON.stringify(single).includes(tag));
+ const reverse=JSON.parse(JSON.stringify(pkg));
+ reverse.uklady[0].uklad.wins.w.st.url='[redacted]';
+ pass('redacting only layout URL still leaks through instrument',JSON.stringify(reverse).includes(tag));
  pass('no real notes or files in test fixture',!Object.keys(st.notes).length&&!st.saved.length);
  return {passed:checks.length,checks,scope:'original source functions with synthetic stubs; no real private data or network',
    carriers:['jaskinia:przyrzady recent URL','workspace snapshot window st.url','package layout st.url','package instrument adres'],
