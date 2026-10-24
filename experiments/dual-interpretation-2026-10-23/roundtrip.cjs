@@ -7,16 +7,16 @@ function boot(html,stepHook=false,host=null,view=null){
  const mark='window.__mediumPortable={get:()=>capsule(),apply:raw=>importCapsule(raw)};';
  if(stepHook){assert(src.includes(mark),'Missing step hook');src=src.replace(mark,mark+'window.__probeStep=n=>{for(let i=0;i<n;i++)simulate();return window.__kowal.snapshot()};')}
  const els=new Map(),ctx=new Proxy({createImageData:(w,h)=>({data:new Uint8ClampedArray(w*h*4)})},{get(o,k){return k in o?o[k]:()=>{}},set(o,k,v){o[k]=v;return true}});
- function el(id){if(!els.has(id))els.set(id,{id,textContent:'0',value:'',dataset:{},style:{},width:896,height:544,classList:{add(){},remove(){},toggle(){}},getContext:()=>ctx,focus(){},select(){},addEventListener(type,fn){(this._listeners ||= {})[type]=fn},setAttribute(){},getBoundingClientRect(){return {left:0,top:0,width:896,height:544}},setPointerCapture(){}});return els.get(id)}
+ function el(id){if(!els.has(id))els.set(id,{id,textContent:'0',value:'',dataset:{},style:{},width:896,height:544,classList:{add(){},remove(){},toggle(){}},getContext:()=>ctx,focus(){},select(){},addEventListener(type,fn){((this._listeners ||= {})[type] ||= []).push(fn)},setAttribute(){},getBoundingClientRect(){return {left:0,top:0,width:896,height:544}},setPointerCapture(){}});return els.get(id)}
  const document={getElementById:el,createElement:el,querySelector:el,querySelectorAll:q=>q==='[data-tool]'?[(el('tool-wall').dataset.tool='wall',el('tool-wall'))]:[],addEventListener(){},body:el('body')};
  const messages=[];
  const window={document,addEventListener(type,fn){(this._listeners ||= {})[type]=fn},location:{origin:'https://htmlpreview.github.io',href:view?.href||'https://htmlpreview.github.io/research.html',hash:view?.hash||''}};
  window.history={state:null,replaceState(state,title,url){this.state=state;window.location.href=String(url);window.location.hash=String(url).includes('#')?'#'+String(url).split('#').slice(1).join('#'):''}};
  const parent=host?.parent?{postMessage(message,origin){messages.push({message,origin})}}:window;
  window.parent=parent;window.__messages=messages;
- window.__deliver=(data,origin='https://jozzpoly.github.io')=>window._listeners?.message?.({data,origin,source:parent});
+ window.__deliver=(data,origin='https://jozzpoly.github.io')=>{for(const fn of window._listeners?.message||[])fn({data,origin,source:parent})};
  const navigator={clipboard:{async writeText(text){window.__copied=String(text)}}};
- const env={window,document,navigator,innerWidth:896,performance:{now:()=>0},requestAnimationFrame(){},setInterval(){},setTimeout(){},Blob:class{},URL:{createObjectURL:()=>'',revokeObjectURL(){}}};
+ const env={window,document,navigator,innerWidth:896,BroadcastChannel:host?.BroadcastChannel,performance:{now:()=>0},requestAnimationFrame(){},setInterval(){},setTimeout(){},Blob:class{},URL:{createObjectURL:()=>'',revokeObjectURL(){}}};
  new Function(...Object.keys(env),src)(...Object.values(env));return window;
 }
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
