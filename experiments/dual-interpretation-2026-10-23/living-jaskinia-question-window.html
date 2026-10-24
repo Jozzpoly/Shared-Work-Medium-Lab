@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medium · rzeczywista Jaskinia + pytanie do świata</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#08131c;color:#e5eef4;font-family:system-ui,sans-serif;font-size:13px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid #35505e;background:#142330}
+header strong{font-size:14px}header small{color:#a3b8c6}form{display:flex;gap:6px;align-items:center}input{width:60px;background:#1e3544;border:1px solid #527188;border-radius:4px;color:#fff;padding:5px}button{background:#245c70;color:white;border:1px solid #5790a0;padding:6px 11px;border-radius:5px;cursor:pointer}
+#result{min-width:190px;color:#d4efd7;font-variant-numeric:tabular-nums}#detail{width:100%;color:#b2cad4;font-size:11px}iframe{display:block;width:100%;height:calc(100dvh - 106px);border:0;background:#091822}
+</style>
+<script>
+(function(){
+ 'use strict';
+ const CH='medium-public-probe-20261024-gpt6-b731',TAG='medium-public-inspect-v1';
+ const bus=typeof BroadcastChannel==='function'?new BroadcastChannel(CH):null;
+ let pending=null,activeInstance=null,lastAnswer=null,tries=0;
+ const qs=id=>document.getElementById(id);
+ const render=(label,detail)=>{if(qs('result'))qs('result').textContent=label;if(qs('detail'))qs('detail').textContent=detail||''};
+ function ask(x,y){
+   if(!Number.isInteger(x)||!Number.isInteger(y)||x<1||x>110||y<1||y>66){render('Niepoprawna komórka','Zakres: x 1–110, y 1–66.');return;}
+   const id=('q'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)).slice(0,35);
+   pending={tag:TAG,kind:'ask-cell',id,x,y,issuedAt:Date.now()};tries=0;
+   render('Pytanie '+x+','+y+'…','Oczekuję odpowiedzi działającego przyrządu (nie z kopii świata).');
+   send();
+ }
+ function send(){
+   if(!pending||!bus)return;
+   tries++;bus.postMessage(pending);
+   if(tries<=12)setTimeout(()=>{if(pending)send()},950);
+   else if(pending)render('Brak odpowiedzi','Ograniczenie przeglądarki, połączenia lub iframe — nie uznaję tego za PASS.');
+ }
+ function fromHash(){
+  const m=location.hash.match(/^#ask=(\d{1,3}),(\d{1,3})$/);
+  if(!m){render('Wybierz komórkę','Zmień fragment adresu na #ask=x,y, bez przeładowywania Jaskini.');return;}
+  const x=Number(m[1]),y=Number(m[2]);
+  if(qs('x'))qs('x').value=x;if(qs('y'))qs('y').value=y;
+  ask(x,y);
+ }
+ if(bus){
+  bus.onmessage=e=>{
+   const v=e.data;
+   if(!v||v.tag!==TAG)return;
+   if(v.kind==='ready'){
+     activeInstance=v.instance;
+     if(pending)send();
+     else if(!lastAnswer)render('ŚLAD aktywny','Przyrząd zgłosił handshake w rzeczywistej Jaskini; wybierz komórkę.');
+   }
+   if(v.kind==='cell-answer'&&pending&&v.id===pending.id&&v.x===pending.x&&v.y===pending.y){
+    const q=pending;pending=null;
+    if(activeInstance&&v.instance!==activeInstance){render('Niespójny egzemplarz','Odpowiedź pochodzi od innego runtime — nie uznaję jej.');return;}
+    activeInstance=v.instance;
+    lastAnswer=v;
+    const lag=Date.now()-q.issuedAt;
+    render('('+v.x+','+v.y+'): '+(v.blocked?'ŚCIANA':'WOLNE'),
+      'odczyt na żywo · '+lag+' ms · zmian '+v.changes+' · świat '+v.worldFingerprint+
+      ' · runtime '+v.instance+' · czas '+new Date(v.measuredAt).toLocaleTimeString('pl-PL'));
+   }
+  };
+ }
+ window.addEventListener('hashchange',fromHash);
+ document.addEventListener('DOMContentLoaded',()=>{
+   qs('question').addEventListener('submit',e=>{
+     e.preventDefault();
+     const x=Number(qs('x').value),y=Number(qs('y').value);
+     const fragment='#ask='+x+','+y;
+     if(location.hash!==fragment)location.hash=fragment;
+     else ask(x,y);
+   });
+   if(!bus)render('Brak BroadcastChannel','Ten tryb przeglądarki nie obsługuje kanału badawczego.');
+   else fromHash();
+ });
+})();
+</script></head><body>
+<header>
+ <strong>Medium / pytanie do żywego świata</strong>
+ <small>Oryginalna Jaskinia v6.4.1 poniżej · publiczna, odizolowana próba · bez prywatnych assetów</small>
+ <form id="question"><label for="x">X</label><input id="x" type="number" min="1" max="110" value="3"><label for="y">Y</label><input id="y" type="number" min="1" max="66" value="3"><button type="submit">Sprawdź komórkę</button></form>
+ <output id="result" role="status" aria-live="polite">Ładowanie…</output>
+ <span id="detail">Odczyt dotyczy istniejącego przyrządu, nie eksportu całej geometrii.</span>
+</header>
+<iframe title="Prawdziwy, niezmieniony build Jaskini v6.4.1" src="https://rawcdn.githack.com/Jozzpoly/Shared-Work-Medium-Lab/a700fd6f6429192b9182af7c1cedce253592a4c3/experiments/dual-interpretation-2026-10-23/isolated-nested-jaskinia-inspection-seed.html" referrerpolicy="no-referrer"></iframe>
+</body></html>
