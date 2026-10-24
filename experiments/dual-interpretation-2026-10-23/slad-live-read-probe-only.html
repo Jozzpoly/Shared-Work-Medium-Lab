@@ -133,22 +133,34 @@ function worldFingerprint(c){
   return (h>>>0).toString(16).padStart(8,'0');
 }
 function advertiseReading(){
-  if(readChannel&&observedByJaskinia)readChannel.postMessage({tag:'medium-public-inspect-v1',kind:'ready',
-    origin:'instrument-running-in-Jaskinia',instance:INSTANCE_STAMP,at:Date.now()});
+ if(!observedByJaskinia)return;
+ const ready={tag:'medium-public-inspect-v1',kind:'ready',origin:'instrument-running-in-Jaskinia',
+   instance:INSTANCE_STAMP,at:Date.now()};
+ if(readChannel)readChannel.postMessage(ready);
+ // Guaranteed cross-origin frame communication, even if BroadcastChannel storage is partitioned
+ // by the intermediate Jaskinia ancestor. Direct to the same-origin observer tab only.
+ if(window.top!==window&&window.top!==window.parent)
+   window.top.postMessage(ready,'https://raw.githack.com');
 }
-if(readChannel){
-  readChannel.onmessage=event=>{
-    const q=event.data;
-    if(!observedByJaskinia||!q||q.tag!=='medium-public-inspect-v1'||q.kind!=='ask-cell'||
-       typeof q.id!=='string'||!/^[a-z0-9-]{1,40}$/.test(q.id)||
-       !Number.isInteger(q.x)||!Number.isInteger(q.y)||q.x<1||q.y<1||q.x>=W-1||q.y>=H-1)return;
-    const c=currentCapsule(),blocked=solid[idx(q.x,q.y)]===1;
-    readChannel.postMessage({tag:'medium-public-inspect-v1',kind:'cell-answer',id:q.id,
-      x:q.x,y:q.y,blocked,canReceive:!blocked,changes:c.changes.length,
-      worldFingerprint:worldFingerprint(c),instance:INSTANCE_STAMP,
-      measuredAt:Date.now(),source:'real ŚLAD runtime; browser test only'});
-  };
+function answerReadQuestion(q){
+ if(!observedByJaskinia||!q||q.tag!=='medium-public-inspect-v1'||q.kind!=='ask-cell'||
+    typeof q.id!=='string'||!/^[a-z0-9-]{1,40}$/.test(q.id)||
+    !Number.isInteger(q.x)||!Number.isInteger(q.y)||q.x<1||q.y<1||q.x>=W-1||q.y>=H-1)return null;
+ const c=currentCapsule(),blocked=solid[idx(q.x,q.y)]===1;
+ return {tag:'medium-public-inspect-v1',kind:'cell-answer',id:q.id,
+   x:q.x,y:q.y,blocked,canReceive:!blocked,changes:c.changes.length,
+   worldFingerprint:worldFingerprint(c),instance:INSTANCE_STAMP,
+   measuredAt:Date.now(),source:'real ŚLAD runtime; browser test only'};
 }
+if(readChannel)readChannel.onmessage=event=>{
+ const answer=answerReadQuestion(event.data);
+ if(answer)readChannel.postMessage(answer);
+};
+window.addEventListener('message',event=>{
+ if(event.origin!=='https://raw.githack.com'||event.source!==window.top||window.top===window.parent)return;
+ const answer=answerReadQuestion(event.data);
+ if(answer)window.top.postMessage(answer,'https://raw.githack.com');
+});
 window.addEventListener('message',event=>{
  if(event.origin===TRUSTED_HOST&&event.source===window.parent&&event.data?.jaskinia===1&&event.data.type==='hi')
    advertiseReading();
