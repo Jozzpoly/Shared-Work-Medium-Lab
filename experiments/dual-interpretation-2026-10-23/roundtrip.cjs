@@ -16,7 +16,7 @@ function boot(html,stepHook=false,host=null,view=null){
  window.parent=parent;window.__messages=messages;
  window.__deliver=(data,origin='https://jozzpoly.github.io')=>window._listeners?.message?.({data,origin,source:parent});
  const navigator={clipboard:{async writeText(text){window.__copied=String(text)}}};
- const env={window,document,navigator,performance:{now:()=>0},requestAnimationFrame(){},setInterval(){},setTimeout(){},Blob:class{},URL:{createObjectURL:()=>'',revokeObjectURL(){}}};
+ const env={window,document,navigator,innerWidth:896,performance:{now:()=>0},requestAnimationFrame(){},setInterval(){},setTimeout(){},Blob:class{},URL:{createObjectURL:()=>'',revokeObjectURL(){}}};
  new Function(...Object.keys(env),src)(...Object.values(env));return window;
 }
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
