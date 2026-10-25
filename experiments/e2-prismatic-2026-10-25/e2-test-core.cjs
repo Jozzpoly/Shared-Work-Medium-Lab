@@ -35,5 +35,23 @@ check('no native rail in material schema',!Object.hasOwn(m.serial(),'rail'));
 check('six simulated physical seconds passed',Math.abs(m.t-6)<1e-7);
 check('passive simulation does not modify authored rest document',m.authored().points[2].y===260);
 check('no script imported an external library',!html.includes('src="https://')&&!html.includes('import('));
-const report={passed:checks.length,checks,maxOffRail:+maxDrift.toFixed(3),maxRodStrain:+maxStrain.toFixed(6),maxReferenceRodError:+maxTargetError.toFixed(8),referenceExcursion:+(maxX-minX).toFixed(3),samples,limit:'An analytic target is NOT a competing physics engine. A distance-only example lacking a prismatic joint is not proof that all approximate guide mechanisms are impossible.'};
+
+const guidedClass=scripts[1].match(/class GuidedLinkage extends Linkage\{[\s\S]*?\n\}\nlet world=/);
+check('guided model is a subclass of the same Linkage solver',!!guidedClass);
+vm.runInContext('const Linkage=window.LINKAGE_CORE.Linkage;\n'+guidedClass[0].replace(/\nlet world=$/,'')+'\nwindow.GuidedLinkage=GuidedLinkage;',context);
+const guided=new context.window.GuidedLinkage(initial);
+guided.running=true;
+let mxGuidedDrift=0,mxGuidedStrain=0,maxCrankMismatch=0;
+const other=new Linkage(initial);other.running=true;
+for(let i=0;i<720;i++){
+ guided.step(DT);other.step(DT);
+ mxGuidedDrift=Math.max(mxGuidedDrift,Math.abs(guided.node(3).y-260));
+ mxGuidedStrain=Math.max(mxGuidedStrain,guided.maxError());
+ maxCrankMismatch=Math.max(maxCrankMismatch,Math.hypot(guided.node(2).x-other.node(2).x,guided.node(2).y-other.node(2).y));
+}
+check('same solver with rail projects endpoint exactly to a horizontal guide',mxGuidedDrift<1e-8);
+check('same solver satisfies rod constraints even with the extra rail',mxGuidedStrain<.01);
+check('same motor drives both models identically',maxCrankMismatch<1e-8);
+
+const report={passed:checks.length,checks,maxOffRail:+maxDrift.toFixed(3),maxRodStrain:+maxStrain.toFixed(6),maxReferenceRodError:+maxTargetError.toFixed(8),referenceExcursion:+(maxX-minX).toFixed(3),guidedMaxOffRail:mxGuidedDrift,guidedMaxStrain:mxGuidedStrain,maxCrankMismatch,samples,limit:'An analytic target is NOT a competing physics engine. A distance-only example lacking a prismatic joint is not proof that all approximate guide mechanisms are impossible.'};
 console.log(JSON.stringify(report,null,2));
