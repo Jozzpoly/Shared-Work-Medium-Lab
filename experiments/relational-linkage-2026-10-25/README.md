@@ -8,7 +8,7 @@
 
 - [**ŁĄCZNIK — pojedynczy samowystarczalny HTML**](workbench.html). Nie wymaga zewnętrznych bibliotek ani serwera.
 - [Oryginalny przyrząd Jaskini v1](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/docs/przyrzad/KONTRAKT.md): strona może działać samodzielnie lub jako zwykły zewnętrzny `Przyrząd` w **oryginalnej** Jaskini. Odpowiada na `hi/state?`, przesyła wyłącznie liczniki i bieżącą odchyłkę więzów jako `state/signals`. Nie przenosi geometrii ani plików do hosta.
-- [Szybki podgląd publicznego eksperymentu](https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/a0169665f752b1e9a130ea43c5019f1df55cb56a/experiments/relational-linkage-2026-10-25/workbench.html) — adres przygotowany do dobrowolnego otwarcia, **nieprzetestowany w żywej przeglądarce** w tej iteracji. Trzeci origin preview nie jest prywatnym hostingiem. Nigdy nie wprowadzać do tego egzemplarza wartościowych/prywatnych materiałów.
+- [Szybki podgląd publicznego eksperymentu](https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/8bf45fa9f438af1f155fe3d52bd4350248d3ccdf/experiments/relational-linkage-2026-10-25/workbench.html) — adres przygotowany do dobrowolnego otwarcia, **nieprzetestowany w żywej przeglądarce** w tej iteracji. Trzeci origin preview nie jest prywatnym hostingiem. Nigdy nie wprowadzać do tego egzemplarza wartościowych/prywatnych materiałów.
 
 ## Jeden konkretny test swobody
 
@@ -35,6 +35,9 @@ node test-ui.cjs
 ```
 
 **41/41** testów źródłowych na odczytanym kodzie repo: 25 model/dane + 16 syntetycznych zdarzeń UI. **19/19** dalszych kontroli w **prawdziwym headless Chromium 144** na bajtach HTML o *tym samym Git blob SHA co w repo*: prawdziwy canvas, klikanie, RAF, przeglądarkowe pobieranie dwóch różnych plików, ich import, odmowa sfałszowanego pliku, kontynuacja w drugim świeżym oknie i **dotyk emulowany przez Chromium** przy 390 px. [Przenośny reproduktor](test-browser.py) używa `page.set_content` — administrator blokuje nawigację do `file:` i `data:`, ale nie wczytanie treści do pustej kontrolowanej strony. To **NIE** jest test pod rzeczywistym adresem URL, osadzeniem w Operze/Jaskini, fizycznym urządzeniem ani Owner acceptance. Obejrzenie zrzutów wykazało też **problem mobilnego UX**: zachowany świat 1000×650 zajmuje tylko środkowy, poziomy pas wysokiego telefonu, pozostawiając za dużo pustego miejsca. Zielone testy dotyku tego nie unieważniają. Nie mylić 41 testów JS i 19 Chromium z 60 testami Ownera.
+
+
+**Dodatkowa negatywna próba w prawdziwym Chromium:** po połączeniu dwóch punktów podczas ruchu bieżący pręt miał długość **285,82**, a jego końcówki w zamrożonym projekcie były oddalone o **194,16** — różnica **91,65**. W świeżej karcie po imporcie rzeczywiście pojawił się **czerwony pręt** z odchyłką 91,65. Poprawiono także komunikat przy **imporcie**, aby odbiorca od razu zobaczył, że projekt zawiera napięte więzy; test w prawdziwym Chromium przeszedł. Takiego wyniku nie wolno maskować przez zmianę kolorów ani nazywać zachowaniem tej samej pozy.
 
 **Test rozstrzygający, jeśli będzie bezpieczna okazja:** bez instruktażu i bez otwierania przez agenta nowej karty bez wyraźnej wartości, czy w realnym przyrządzie Owner potrafi w jednej krótkiej spontanicznej sesji przejść od obserwacji przykładu do **własnego, działającego układu relacji**? Czy przewidywanie i naprawianie jego zachowania jest czytelne? Czy wariant bez napędu nadal daje interesującą manipulację? Jeżeli narzędzie pozostaje zestawem niezrozumiałych kontrolek albo zachowanie jest zbyt sztuczne, zamknąć to jako *FAIL* i zachować dowód. Nie tworzyć automatycznie kolejnego generica.
 
