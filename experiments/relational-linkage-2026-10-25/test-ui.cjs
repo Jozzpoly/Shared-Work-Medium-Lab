@@ -19,11 +19,12 @@ const el=id=>{
 };
 const doc={getElementById:el,querySelectorAll:()=>tools,createElement:x=>el('new-'+x),
  body:{append(){}},hidden:false,addEventListener:(t,fn)=>events.set('doc-'+t,fn)};
-const sent=[],parent={postMessage:(m,o)=>sent.push({message:m,origin:o})};
+const sent=[],savedBlobs=[];class TestBlob{constructor(chunks,meta){this.body=chunks.join('');this.type=meta.type;this.size=this.body.length}}
+const parent={postMessage:(m,o)=>sent.push({message:m,origin:o})};
 const win={parent,devicePixelRatio:1,addEventListener:(t,fn)=>events.set('win-'+t,fn)};
 let raf=null;
-const ctx=vm.createContext({window:win,document:doc,console,Blob,
- URL:{createObjectURL:()=> 'blob:synthetic',revokeObjectURL(){}},setTimeout(){},
+const ctx=vm.createContext({window:win,document:doc,console,Blob:TestBlob,
+ URL:{createObjectURL:blob=>{savedBlobs.push(blob);return 'blob:synthetic'},revokeObjectURL(){}},setTimeout(){},
  requestAnimationFrame(fn){raf=fn}});
 scripts.forEach(s=>vm.runInContext(s,ctx));
 const {model}=win.LINKAGE_TEST_ACCESS;
@@ -74,5 +75,35 @@ check('foreign iframe cannot impersonate host',()=>{
  const n=sent.length;
  events.get('win-message')({source:{},origin:'https://test-host',data:{jaskinia:1,type:'hi'}});
  assert.equal(sent.length,n);
+});
+check('passive time preserves authored design but live pose becomes different',()=>{
+ model.load(win.LINKAGE_CORE.fresh());
+ const base=JSON.stringify(model.authored());
+ handlers.get('play-click')();
+ for(let i=1;i<=340;i++)raf(i*16.66667);
+ assert.equal(JSON.stringify(model.authored()),base);
+ assert.notEqual(JSON.stringify(model.serial()),base);
+});
+check('UI produces distinct labelled design and pose files without mutating source',()=>{
+ const frozen=JSON.stringify(model.authored()),start=savedBlobs.length;
+ handlers.get('export-design-click')();
+ assert.equal(el('new-a').download,'lacznik-projekt.json');
+ handlers.get('export-pose-click')();
+ assert.equal(el('new-a').download,'lacznik-poza.json');
+ assert.equal(savedBlobs.length,start+2);
+ const design=JSON.parse(savedBlobs[start].body),pose=JSON.parse(savedBlobs[start+1].body);
+ assert.equal(design.kind,'design');assert.equal(pose.kind,'pose');
+ assert.equal(design.schema,'medium.linkage.transfer.v1');
+ assert.notEqual(JSON.stringify(design.document),JSON.stringify(pose.document));
+ assert.equal(JSON.stringify(model.authored()),frozen);
+});
+check('intentional edit changes authored source and undo returns to last source, not live pose',()=>{
+ const source=JSON.stringify(model.authored());
+ handlers.get('tool-point-click')();pointer('pointerdown',710,430);
+ assert.notEqual(JSON.stringify(model.authored()),source);
+ assert.equal(model.authored().points.length,5);
+ handlers.get('undo-click')();
+ assert.equal(model.running,false);assert.equal(JSON.stringify(model.authored()),source);
+ assert.equal(model.nodes.length,4);
 });
 console.log('PASS '+cases.length+'/'+cases.length+' synthetic UI cases (not live Chromium)');
