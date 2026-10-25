@@ -1,0 +1,79 @@
+<!doctype html><html lang="pl"><meta charset="utf-8">
+<title>E2b · przeglądarkowy test gestów prowadnicy</title>
+<style>body{font:14px system-ui;background:#0e1720;color:#f1f4f6;margin:12px}
+pre{white-space:pre-wrap;background:#1a303d;padding:12px;border-radius:8px}
+iframe{display:block;width:100%;max-width:1250px;height:690px;border:1px solid #536979}
+</style>
+<h2>E2b — niezależny test wykonania w przeglądarce</h2>
+<p>Automatyczne zdarzenia DOM (symulacja wskaźnika), prawdziwy skrypt i canvas. <strong>To nie jest test ludzkiego feelu, fizycznego dotyku ani Jaskini.</strong></p>
+<pre id="result" role="status">Uruchamianie testu…</pre>
+<iframe id="lab" src="./authorable-rails.html" title="Badawczy edytor"></iframe>
+<script>
+(async()=>{
+ const result=document.querySelector('#result'),notes=[];
+ function check(name,good){notes.push({name,pass:!!good});if(!good)throw Error('FAIL: '+name)}
+ const iframe=document.querySelector('#lab');
+ try{
+  await new Promise((resolve,reject)=>{
+   if(iframe.contentWindow?.LINKAGE_TEST_ACCESS)return resolve();
+   iframe.addEventListener('load',resolve,{once:true});
+   setTimeout(()=>reject(Error('Nie załadowano aplikacji w 12 s')),12000)
+  });
+  const w=iframe.contentWindow,d=w.document,api=w.LINKAGE_TEST_ACCESS;
+  check('moduł aplikacji dostępny',!!api);
+  const m=api.model,stage=d.querySelector('#stage');
+  check('uczciwa scena korba-korbowód-suwak',m.nodes.length===3&&m.rods.length===2&&m.motor===1&&m.rails.length===0);
+  stage.setPointerCapture=()=>{}; // Synthetic events do not own a real OS pointer.
+  function event(type,x,y,id=37){
+   const box=stage.getBoundingClientRect(),s=Math.min(box.width/1000,box.height/650);
+   const ox=(box.width-1000*s)/2,oy=(box.height-650*s)/2;
+   const e=new w.PointerEvent(type,{bubbles:true,button:0,pointerId:id,pointerType:'mouse',
+     clientX:box.left+ox+x*s,clientY:box.top+oy+y*s});
+   stage.dispatchEvent(e);
+  }
+  const railButton=d.querySelector('[data-mode="rail"]');
+  railButton.click();
+  check('tryb prowadnicy dostępny',railButton.classList.contains('active'));
+  event('pointerdown',400,260);event('pointermove',510,260);event('pointerup',510,260);
+  check('gest tworzy relację',m.rails.length===1&&m.rails[0].node===3&&m.rails[0].dx>.99);
+  check('gest utrwala tylko świadomie dodaną relację',m.authored().rails.length===1);
+  const exportBefore=m.transfer('design');
+  m.running=true;
+  let off=0,rodError=0;
+  for(let i=0;i<720;i++){m.step(1/120);off=Math.max(off,m.railError());rodError=Math.max(rodError,m.maxError())}
+  m.running=false;
+  check('prowadnica prawdziwie ogranicza 720 kroków',off<1e-7);
+  check('pręty zachowują długości',rodError<2);
+  check('symulacja nie przepisała źródła',JSON.stringify(m.authored())===JSON.stringify(exportBefore.document));
+  const node=m.node(3);
+  event('pointerdown',node.x,node.y);event('pointerup',node.x,node.y);
+  check('stuknięcie usuwa prowadnicę',m.rails.length===0&&m.authored().rails.length===0);
+  d.querySelector('#undo').click();
+  check('cofnięcie przywraca autorską relację',m.rails.length===1&&m.authored().rails.length===1);
+  const imported=new w.LINKAGE_CORE.Linkage(m.transfer('design').document);
+  check('nowy odbiorca odzyskuje relację',imported.rails.length===1);
+  check('eksport oznaczony v2',m.transfer('design').schema==='medium.linkage.transfer.v2');
+  const restored=JSON.stringify(m.authored());
+  const malformed=JSON.parse(restored);malformed.rails[0].node=1; // pinned node
+  const input=d.querySelector('#import');
+  async function feed(value){
+   const file=new w.File([JSON.stringify(value)],'layout.json',{type:'application/json'});
+   const dt=new w.DataTransfer();dt.items.add(file);input.files=dt.files;
+   input.dispatchEvent(new w.Event('change',{bubbles:true}));
+   await new Promise(r=>setTimeout(r,120));
+  }
+  await feed({schema:'medium.linkage.transfer.v2',kind:'design',document:malformed});
+  check('import niebezpiecznego obiektu odrzucony bez zamiany modelu',JSON.stringify(m.authored())===restored);
+  const original=m.transfer('design');
+  m.removeRail(3);m.commitDesign({type:'rail-removed',node:3});
+  await feed(original);
+  check('prawdziwa operacja importu odtwarza prowadnicę',m.authored().rails.length===1&&m.rails.length===1);
+  iframe.style.width='390px';
+  await new Promise(r=>setTimeout(r,150));
+  check('wąski viewport nadal utrzymuje działający canvas',stage.getBoundingClientRect().width>300);
+  check('brak utraty rails po resize',m.rails.length===1);
+  const summary={status:'PASS',checks:notes.length,rail_max_error:off,rod_max_error:rodError,limit:'Chromium/Opera DOM synthetic pointer; real renderer and source JS; no actual OS pointer capture, touch device, host integration or Owner PASS'};
+  result.textContent=JSON.stringify(summary,null,2)+'\n'+notes.map(x=>'✓ '+x.name).join('\n');
+ }catch(err){result.textContent='FAIL '+err.stack+'\n'+notes.map(x=>(x.pass?'✓ ':'✗ ')+x.name).join('\n')}
+})();
+</script></html>
