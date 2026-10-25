@@ -16,7 +16,7 @@ Natywne gesty myszy/dotyku trafiają do jednego canvasa. Zależności pozostają
 
 ## Co jest prawdziwe, a co uproszczone
 
-Model: punkty poddane grawitacji, więzy stałej długości rozwiązane iteracyjnym *position-based dynamics* (20 iteracji na krok, 120 Hz), kotwice w świecie i **jeden kinematyczny napęd ramienia**. To nie silnik brył sztywnych; nie symuluje masy prętów, momentów bezwładności, kolizji pręt–pręt, tarcia ani realistycznego momentu napędu. Silnie nadmiernie związane układy mogą się odkształcić: pręty o dużej odchyłce czerwienieją, a `odchylka` jest pomiarem, nie zapewnieniem poprawności. To wystarcza do ograniczonego testu „tworzenie relacji ≠ ustawianie animacji”, ale **nie wystarcza do oceny finalnej mechaniki Jozz Vehicle**.
+Model: punkty poddane grawitacji, więzy stałej długości rozwiązane iteracyjnym *position-based dynamics* (20 iteracji na krok, 120 Hz), kotwice w świecie i **jeden kinematyczny napęd ramienia**. To nie silnik brył sztywnych; nie symuluje masy prętów, momentów bezwładności, kolizji pręt–pręt, tarcia ani realistycznego momentu napędu. Silnie nadmiernie związane układy mogą się odkształcić: pręty o dużej odchyłce czerwienieją, a `odchylka` jest pomiarem, nie zapewnieniem poprawności. Negatywna kontrola przesuwa jedną z dwóch stałych kotwic tak, że ich połączenie ma 580 zamiast 260 jednostek — instrument zgłasza **320 jednostek niespełnionego więzu**, zamiast udawać poprawną fizykę. To wystarcza do ograniczonego testu „tworzenie relacji ≠ ustawianie animacji”, ale **nie wystarcza do oceny finalnej mechaniki Jozz Vehicle**.
 
 **Ważny donor i antywzorzec:**
 - Jaskinia **Ruch** v6.4.1: technicznie poprawiony, lecz negatywny osąd dotyczy samej swobody tworzenia mechanizmów, nie liczby testów.
@@ -30,7 +30,7 @@ node test.cjs
 node test-ui.cjs
 ```
 
-**22/22** testów wykonanych na *odczytanych z GitHuba bajtach* tej gałęzi: 12 obliczeń i warunków danych + 10 syntetycznych zdarzeń UI / protokołu Jaskini. Dodatkowo lokalny prototyp przed wypchnięciem przeszedł 13 + 10 testów źródła. Stanowisko Chromium w obecnym środowisku odrzuca nawet `data:` przez `ERR_BLOCKED_BY_ADMINISTRATOR`; **nie było rzeczywistego testu renderingu, dotyku, fizycznego feelu, osadzenia w Operze ani oceny Ownera**. Nie przedstawiać PASS z JS jako PASS produktu.
+**23/23** testów wykonanych na *odczytanych z GitHuba bajtach* tej gałęzi: 13 obliczeń i warunków danych + 10 syntetycznych zdarzeń UI / protokołu Jaskini. Dodatkowo lokalny prototyp przed wypchnięciem przeszedł 13 + 10 testów źródła. Stanowisko Chromium w obecnym środowisku odrzuca nawet `data:` przez `ERR_BLOCKED_BY_ADMINISTRATOR`; **nie było rzeczywistego testu renderingu, dotyku, fizycznego feelu, osadzenia w Operze ani oceny Ownera**. Nie przedstawiać PASS z JS jako PASS produktu.
 
 **Test rozstrzygający, jeśli będzie bezpieczna okazja:** bez instruktażu i bez otwierania przez agenta nowej karty bez wyraźnej wartości, czy w realnym przyrządzie Owner potrafi w jednej krótkiej spontanicznej sesji przejść od obserwacji przykładu do **własnego, działającego układu relacji**? Czy przewidywanie i naprawianie jego zachowania jest czytelne? Czy wariant bez napędu nadal daje interesującą manipulację? Jeżeli narzędzie pozostaje zestawem niezrozumiałych kontrolek albo zachowanie jest zbyt sztuczne, zamknąć to jako *FAIL* i zachować dowód. Nie tworzyć automatycznie kolejnego generica.
 
