@@ -1,5 +1,14 @@
 # E2e · od mechanicznego dowodu do bezpośredniego authoringu (25.10.2026)
 
+
+> **OWNER VERDICT — 25.10.2026, supersedes all earlier “Owner experience unconfirmed” assessments: FAIL (authoring/control).**
+> Owner independently built and exported his first non-scripted mechanism (6 bodies, 4 joints), but says creating it took a very long time because the controls and connections were extremely difficult to understand and use. He reports that placing two bodies on top of one another **did not let him reliably make the hinge work at their actual contact**, forcing a workaround with joint anchor positions outside the body's visible geometry. Earlier researcher speculation that these anchors might be intentional design choices was **explicitly corrected by Owner**: they resulted from the tool's limitations. Owner strongly approves the *ambition/direction* of this experiment, while judging execution, direct control and building experience very negatively. **No mechanical/browser PASS supersedes this experiential FAIL.**
+>
+> **Scope correction:** the project sample belongs to Owner and is NOT copied into this public repository. The causal code hypothesis is that `hinge` mode relies on topmost single-body hit testing and two near-spatial clicks (including cancellation when both target the same body), while E2h's occlusion-cycling control lives in `move` mode. This can make coincident/contacting parts hard to address, but the exact sequence the Owner used was not instrumented; do not present the hypothesis as a reproduced root cause.
+>
+> **Direction:** Do not improve E2e by inertia or ask the Owner to debug it. Freeze this as a bounded technical research donor, with the real Owner FAIL attached. Future authoring work must be judged against intuitive contact-grounded assembly and meaningful construction control, not merely a working solver or a scripted browser gesture. Medium's wider purpose remains discoverable capabilities and reduced Owner orchestration in one Jaskinia home.
+
+
 **Status: ADEQUATE jako techniczny, izolowany falsyfikator; Owner EXPERIENCE i współautorstwo NIEPOTWIERDZONE.**
 Nie jest docelowym Studiem/Jozz Vehicle/Jaskinią ani odpowiedzią na pytanie o wybór solvera.
 
