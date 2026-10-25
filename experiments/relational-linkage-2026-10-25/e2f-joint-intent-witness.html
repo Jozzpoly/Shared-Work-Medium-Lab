@@ -62,7 +62,7 @@ h2{font-size:16px;margin:0}canvas{width:100%;aspect-ratio:1.6/1;background:#0a1c
    ctx.fillStyle='#d1e2e8';ctx.font='15px system-ui';ctx.fillText('zielony: ślad środka',12,25);ctx.fillText('żółty: oś przegubu',12,45);
   }
   for(const scenario of scenarios){
-   const doc=validate(scenario.data),model=build(doc),local=localAnchor(doc),centerStart=model.bodies.get(1).getPosition(),track=[];
+   const doc=validate(scenario.data),model=build(doc),local=localAnchor(doc),startVector=model.bodies.get(1).getPosition(),centerStart={x:startVector.x,y:startVector.y},track=[];
    for(let i=0;i<240;i++){model.world.step(1/120);if(i%3===0){const q=model.bodies.get(1).getPosition();track.push([q.x,q.y])}}
    const centerEnd=model.bodies.get(1).getPosition();
    const excursion=Math.hypot(centerEnd.x-centerStart.x,centerEnd.y-centerStart.y);
