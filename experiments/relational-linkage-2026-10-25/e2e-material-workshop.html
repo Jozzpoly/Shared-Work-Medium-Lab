@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E2e · Materia i relacje — warsztat badawczy Medium</title>
+<style>
+:root{color-scheme:dark;--bg:#0b171f;--ink:#eaf2f2;--panel:#16303b;--line:#375663;--accent:#efc26b}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 system-ui,-apple-system,sans-serif}
+body{display:flex;flex-direction:column}
+header{display:flex;align-items:center;flex-wrap:wrap;gap:5px;background:var(--panel);padding:7px 9px;border-bottom:1px solid var(--line)}
+header strong{font-size:14px;letter-spacing:.02em;margin-right:9px;color:var(--accent)}
+button,label.file{cursor:pointer;color:var(--ink);background:#23424e;border:1px solid var(--line);border-radius:6px;padding:7px 9px;font:inherit;min-height:34px}
+button:hover,label.file:hover{border-color:var(--accent)}
+button.active{background:#91652e;border-color:var(--accent)}
+button.run{background:#235646;border-color:#53917c;font-weight:700}
+button:disabled{opacity:.55;cursor:default}
+input[type=file]{display:none}
+main{flex:1;min-height:0;display:flex;flex-direction:column}
+#stage{width:100%;height:100%;min-height:150px;touch-action:none;display:block;cursor:crosshair;outline:none}
+#help{background:#122733;border-top:1px solid var(--line);padding:7px 11px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+#status{color:#d8e8e9;flex:1;min-width:180px}
+#metrics{color:#88cdb8;font-variant-numeric:tabular-nums}
+footer{font-size:11px;padding:4px 10px;color:#aac1c5;border-top:1px solid var(--line)}
+@media(max-width:640px){header{padding:5px;gap:4px}header strong{width:100%}button,label.file{font-size:12px;padding:6px;min-height:32px}#help{font-size:12px}}
+</style>
+</head><body>
+<header>
+<strong>E2e · WARSZTAT MATERII <small>· eksperyment, nie produkt</small></strong>
+<button id="play" class="run">▶ Uruchom</button>
+<button data-mode="move" class="active">Chwyć</button>
+<button data-mode="box">+ Belka</button>
+<button data-mode="disc">+ Koło</button>
+<button data-mode="hinge">Zawias</button>
+<button data-mode="rail">Prowadnica</button>
+<button data-mode="motor">Napęd</button>
+<button data-mode="delete">Usuń</button>
+<button id="rotate">Obróć 15°</button>
+<button id="sizeDown">− Rozmiar</button>
+<button id="sizeUp">+ Rozmiar</button>
+<button id="pin">Kotwica</button>
+<button id="undo">↶ Cofnij</button>
+<button id="new">Nowy świat</button>
+<button id="save">Zapisz projekt</button>
+<label class="file">Otwórz JSON<input id="import" type="file" accept=".json,application/json"></label>
+</header>
+<main><canvas id="stage" role="application" aria-label="Warsztat fizyczny: twórz i przebudowuj bryły oraz zawiasy, prowadnice i napędy" tabindex="0"></canvas>
+<div id="help"><span id="status" role="status">Zawias: kliknij belkę, potem puste miejsce, by przypiąć obrót do świata. Następnie Napęd: kliknij znacznik zawiasu. Uruchom.</span><span id="metrics">2 bryły · 0 przegubów · projekt</span></div></main>
+<footer>Realne kontakty i przeguby Planck.js 1.5.1. Uruchomienie nie zmienia projektu. Stop wraca do konstrukcji. Brak autosave, brak zapisu do Jaskini, brak prywatnego hostingu.</footer>
+<script src="https://cdn.jsdelivr.net/npm/planck@1.5.1/dist/planck.min.js"></script>
+<script id="e2e-app">
+(()=>{
+'use strict';
+const P=window.planck,$=id=>document.getElementById(id);
+const stage=$('stage'),ctx=stage.getContext('2d'),W=12,H=7.3,DT=1/120;
+const clone=x=>JSON.parse(JSON.stringify(x)),number=x=>typeof x==='number'&&Number.isFinite(x);
+const V=(x,y)=>P.Vec2(x,y),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),clamp=(x,lo,hi)=>Math.max(lo,Math.min(hi,x));
+let nextId=3,mode='move',selected=null,pending=null,gesture=null,playing=false,model=null,history=[],frames=0,contacts=0;
+let doc={
+ schema:'medium.material-workshop.v0',
+ parts:[{id:1,kind:'box',x:4.2,y:3.6,w:2.3,h:.34,angle:0,pinned:false},
+        {id:2,kind:'box',x:4.95,y:4.38,w:.5,h:.5,angle:0,pinned:false}],
+ joints:[]
+};
+const empty=()=>({schema:'medium.material-workshop.v0',parts:[],joints:[]});
+function validate(value){
+ if(!value||value.schema!=='medium.material-workshop.v0'||!Array.isArray(value.parts)||!Array.isArray(value.joints)||value.parts.length>35||value.joints.length>65)throw Error('Nieprawidłowy lub zbyt duży dokument');
+ const ids=new Set(),jids=new Set(),parts=[],joints=[];
+ for(const p of value.parts){
+  if(!p||!Number.isSafeInteger(p.id)||p.id<1||ids.has(p.id)||!['box','disc'].includes(p.kind)||![p.x,p.y,p.angle,p.w,p.h].every(number)||
+  p.x<.2||p.x>W-.2||p.y<.2||p.y>H-.2||Math.abs(p.angle)>100||p.w<.16||p.w>3.0||p.h<.12||p.h>1.6||typeof p.pinned!=='boolean')throw Error('Nieprawidłowa bryła');
+  ids.add(p.id);parts.push({id:p.id,kind:p.kind,x:p.x,y:p.y,angle:p.angle,w:p.w,h:p.h,pinned:p.pinned});
+ }
+ const has=id=>ids.has(id);
+ for(const j of value.joints){
+  if(!j||!Number.isSafeInteger(j.id)||j.id<1||jids.has(j.id)||!['hinge','rail'].includes(j.kind)||!has(j.b)||
+    (j.a!==null&&!has(j.a))||j.a===j.b||![j.x,j.y,j.dx,j.dy].every(number)||typeof j.motor!=='boolean'||
+    j.x<-.2||j.x>W+.2||j.y<-.2||j.y>H+.2||Math.abs(Math.hypot(j.dx,j.dy)-1)>1e-4||
+    (j.kind==='rail'&&(j.a!==null||j.motor))||
+    parts.find(p=>p.id===j.b).pinned)throw Error('Nieprawidłowy przegub');
+  jids.add(j.id);joints.push({id:j.id,kind:j.kind,a:j.a,b:j.b,x:j.x,y:j.y,dx:j.dx,dy:j.dy,motor:j.motor});
+ }
+ return {schema:value.schema,parts,joints};
+}
+function build(source){
+ const prepared=validate(source),world=new P.World({gravity:V(0,0)}),ground=world.createBody({type:'static'}),bodies=new Map(),joins=new Map();
+ for(const p of prepared.parts){
+  const b=world.createBody({type:p.pinned?'static':'dynamic',position:V(p.x,p.y),angle:p.angle,linearDamping:.3,angularDamping:.5,allowSleep:false});
+  if(p.kind==='box')b.createFixture({shape:P.Box(p.w/2,p.h/2),density:1,friction:.48,restitution:.02});
+  else b.createFixture({shape:P.Circle(p.w/2),density:1,friction:.45,restitution:.02});
+  b.setUserData(p.id);bodies.set(p.id,b);
+ }
+ for(const j of prepared.joints){
+  const a=j.a===null?ground:bodies.get(j.a),b=bodies.get(j.b);
+  const joint=j.kind==='hinge'?
+    new P.RevoluteJoint({enableMotor:j.motor,motorSpeed:1.5,maxMotorTorque:500,collideConnected:false},a,b,V(j.x,j.y)):
+    new P.PrismaticJoint({collideConnected:false},a,b,V(j.x,j.y),V(j.dx,j.dy));
+  joins.set(j.id,world.createJoint(joint));
+ }
+ return {world,bodies,joins,ground};
+}
+function say(msg){$('status').textContent=msg}
+function metrics(){
+ $('metrics').textContent=doc.parts.length+' bryły · '+doc.joints.length+' przegubów · '+(playing?'symulacja ('+frames+' kroków, '+contacts+' kontaktów)':'projekt');
+}
+function rebuild(){model=build(doc);metrics()}
+function edit(fn){
+ if(playing)return false;
+ const before=JSON.stringify(doc),candidate=clone(doc);
+ try{const result=fn(candidate);if(result===false)return false;const valid=validate(candidate);if(JSON.stringify(valid)===before)return false;doc=valid;history.push(before);if(history.length>40)history.shift();nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();return true}catch(e){say('Nie można zmienić: '+e.message);return false}
+}
+function getPart(id){return doc.parts.find(p=>p.id===id)}
+function activeId(){return selected&&getPart(selected)?selected:null}
+function setMode(next){mode=next;pending=null;gesture=null;for(const el of document.querySelectorAll('[data-mode]'))el.classList.toggle('active',el.dataset.mode===mode);say({
+ move:'Wybierz bryłę i przeciągnij ją. Rozmiar i obrót zmienisz przyciskami.',
+ box:'Kliknij puste miejsce: utworzysz nową fizyczną belkę.',
+ disc:'Kliknij puste miejsce: utworzysz nowe fizyczne koło.',
+ hinge:'Kliknij bryłę, potem puste tło (zawias do świata) albo inną bryłę (zawias między częściami).',
+ rail:'Przeciągnij od wybranej bryły w kierunku dozwolonego przesuwu.',
+ motor:'Kliknij mały znacznik istniejącego zawiasu, żeby włączyć/wyłączyć fizyczny napęd.',
+ delete:'Kliknij przegub (znacznik) albo bryłę, żeby usunąć świadomie wybrany element.'}[next]);
+}
+function togglePlay(){
+ if(!window.planck){say('Silnik Planck.js nie załadował się.');return}
+ playing=!playing;
+ if(playing){rebuild();frames=0;contacts=0;pending=null;gesture=null;say('Świat działa. Obserwuj konsekwencje i kontakt. Stop powraca do projektu.')}
+ else {rebuild();say('Powrócono do zaprojektowanej konstrukcji. Żadnej chwilowej pozy nie zapisano automatycznie.')}
+ $('play').textContent=playing?'■ Stop → projekt':'▶ Uruchom';
+ for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#undo,#new,#import,#save'))el.disabled=playing;
+ metrics();
+}
+function sizeInfo(){const rect=stage.getBoundingClientRect(),scale=Math.min(rect.width/W,rect.height/H),x0=(rect.width-W*scale)/2,y0=(rect.height-H*scale)/2;return {rect,scale,x0,y0}}
+function xy(e){const {rect,scale,x0,y0}=sizeInfo();return {x:(e.clientX-rect.left-x0)/scale,y:(e.clientY-rect.top-y0)/scale}}
+function hit(q){
+ if(!model)return null;
+ const fixtureTol=.16;let best=null,bestScore=Infinity;
+ for(const p of doc.parts){
+  const b=model.bodies.get(p.id),pos=b.getPosition(),a=b.getAngle(),c=Math.cos(a),s=Math.sin(a),dx=q.x-pos.x,dy=q.y-pos.y;
+  const local={x:dx*c+dy*s,y:-dx*s+dy*c};
+  const inside=p.kind==='box'?Math.max(Math.abs(local.x)-p.w/2,Math.abs(local.y)-p.h/2):Math.hypot(local.x,local.y)-p.w/2;
+  if(inside<=fixtureTol&&inside<bestScore){best=p.id;bestScore=inside}
+ }
+ return best;
+}
+function hingeAt(q){
+ if(!doc.joints.length)return null;
+ let best=null,d=.18;for(const j of doc.joints){
+  if(j.kind==='hinge'){
+   const v=dist(q,j);if(v<d){d=v;best=j.id}
+  }else{
+   const b=model.bodies.get(j.b),pos=b.getPosition(),v=dist(q,pos);
+   if(v<d){d=v;best=j.id}
+  }
+ }
+ return best;
+}
+function addHinge(a,b,x,y){
+ const id=nextId++;
+ return edit(d=>{
+  if(a===b)return false;
+  const part=d.parts.find(p=>p.id===a);
+  if(!part||part.pinned||b!==null&&(!d.parts.some(p=>p.id===b)||d.parts.find(p=>p.id===b).pinned))return false;
+  if(d.joints.some(j=>j.kind==='hinge'&&((j.a===a&&j.b===b)||(j.a===b&&j.b===a))&&dist(j,{x,y})<.25))return false;
+  d.joints.push({id,kind:'hinge',a:b,b:a,x,y,dx:1,dy:0,motor:false});
+ });
+}
+function addRail(id,x,y,dx,dy){
+ const n=Math.hypot(dx,dy);if(n<.3)return false;
+ const jid=nextId++;
+ return edit(d=>{
+  const p=d.parts.find(q=>q.id===id);
+  if(!p||p.pinned||d.joints.some(j=>j.b===id&&(j.kind==='rail'||j.a===null&&j.kind==='hinge'&&j.motor)))return false;
+  d.joints.push({id:jid,kind:'rail',a:null,b:id,x,y,dx:dx/n,dy:dy/n,motor:false});
+ });
+}
+function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
+stage.addEventListener('pointerdown',e=>{
+ if(playing||e.button!==undefined&&e.button!==0||gesture!==null)return;
+ stage.focus({preventScroll:true});
+ const q=xy(e),id=hit(q),jid=hingeAt(q);
+ if(mode==='move'){
+  selected=id;gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),pointer:e.pointerId}:null;
+  if(gesture)stage.setPointerCapture?.(e.pointerId);
+  else say('Wybierz część.');return;
+ }
+ if(mode==='box'||mode==='disc'){
+  if(!id&&q.x>.3&&q.x<W-.3&&q.y>.3&&q.y<H-.3&&edit(d=>d.parts.push({id:nextId++,kind:mode,x:q.x,y:q.y,w:mode==='disc'?.88:1.55,h:mode==='disc'?.88:.38,angle:0,pinned:false})))say('Dodano część: można ją przesunąć, obrócić, połączyć albo wykorzystać w kontakcie.');
+  else say('Dotknij pustej przestrzeni w granicach warsztatu.');return;
+ }
+ if(mode==='hinge'){
+  if(pending===null){if(!id){say('Najpierw wybierz bryłę.');return}pending={id,at:q};say('Wskaż drugą bryłę przy miejscu styku lub puste tło dla zawiasu do świata.');return}
+  if(id===pending.id){pending=null;say('Anulowano wskazywanie.');return}
+  if(id!==null&&dist(q,pending.at)>.9){say('Punkty zawiasu są zbyt daleko; przybliż elementy i spróbuj ponownie.');pending=null;return}
+  const anchor=pending.at,a=pending.id,created=addHinge(a,id,anchor.x,anchor.y);
+  pending=null;say(created?'Utworzono autorski zawias.':'Nie można utworzyć takiego zawiasu.');return;
+ }
+ if(mode==='rail'){
+  if(!id){say('Najpierw naciśnij punkt na ruchomej bryle.');return}
+  gesture={type:'rail',id,start:q,end:q,pointer:e.pointerId};stage.setPointerCapture?.(e.pointerId);
+  say('Przeciągnij, aby wybrać kierunek prowadnicy; puść, żeby zatwierdzić.');return;
+ }
+ if(mode==='motor'){
+  const joint=doc.joints.find(j=>j.id===jid);
+  if(!joint||joint.kind!=='hinge'){say('Kliknij okrągły znacznik zawiasu, nie korpus.');return}
+  const changed=edit(d=>{d.joints.find(j=>j.id===jid).motor=!joint.motor});
+  say(changed?'Zmieniono napęd zawiasu.':'Nie zmieniono napędu.');return;
+ }
+ if(mode==='delete'){
+  if(jid!==null){edit(d=>{d.joints=d.joints.filter(j=>j.id!==jid)});say('Usunięto wybrany przegub.')}
+  else if(id!==null){edit(d=>{d.parts=d.parts.filter(p=>p.id!==id);d.joints=d.joints.filter(j=>j.a!==id&&j.b!==id)});selected=null;say('Usunięto bryłę i jej przeguby.')}
+  return;
+ }
+});
+stage.addEventListener('pointermove',e=>{if(!gesture||gesture.pointer!==e.pointerId)return;if(gesture.type==='move')gesture.end=xy(e);if(gesture.type==='rail')gesture.end=xy(e)});
+stage.addEventListener('pointerup',e=>{
+ if(!gesture||gesture.pointer!==e.pointerId)return;
+ const g=gesture,q=xy(e);gesture=null;
+ if(g.type==='move'){
+  const dx=q.x-g.start.x,dy=q.y-g.start.y;
+  if(Math.hypot(dx,dy)>.05){
+   const done=edit(d=>{const p=d.parts.find(p=>p.id===g.id);p.x=clamp(g.origin.x+dx,.25,W-.25);p.y=clamp(g.origin.y+dy,.25,H-.25)});
+   say(done?'Przesunięto konstrukcyjną pozycję części. Wznowienie liczy świat od projektu.':'Bez zmiany pozycji.');
+  }else say('Wybrano bryłę. Zmień rozmiar, obrót lub kotwicę.');
+ }
+ if(g.type==='rail'){const ok=addRail(g.id,g.start.x,g.start.y,q.x-g.start.x,q.y-g.start.y);say(ok?'Prowadnica utworzona. To prawdziwy przegub pryzmatyczny do świata.':'Nie dodano prowadnicy; wymagany świadomy kierunek i zgodne relacje.')}
+});
+stage.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId){gesture=null;say('Gest anulowany bez zmian.')}});
+for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));
+$('play').addEventListener('click',togglePlay);
+$('undo').addEventListener('click',undo);
+$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
+function changeSelected(kind){
+ const id=activeId();if(!id||playing){say('Najpierw zaznacz bryłę w trybie Chwyć.');return}
+ const ok=edit(d=>{const p=d.parts.find(p=>p.id===id);
+ if(kind==='rotate')p.angle+=Math.PI/12;
+ else if(kind==='increase'){p.w=Math.min(3,p.w*1.17);if(p.kind==='box')p.h=Math.min(1.6,p.h*1.11);else p.h=p.w}
+ else if(kind==='decrease'){p.w=Math.max(.17,p.w/1.17);if(p.kind==='box')p.h=Math.max(.13,p.h/1.11);else p.h=p.w}
+ else if(kind==='pin'){if(!p.pinned&&d.joints.some(j=>j.b===id||j.a===id))return false;p.pinned=!p.pinned}
+ });
+ say(ok?'Świadoma zmiana geometrii/trybu w projekcie.':'Zmiana niewykonalna lub bez efektu.');
+}
+$('rotate').addEventListener('click',()=>changeSelected('rotate'));
+$('sizeUp').addEventListener('click',()=>changeSelected('increase'));
+$('sizeDown').addEventListener('click',()=>changeSelected('decrease'));
+$('pin').addEventListener('click',()=>changeSelected('pin'));
+$('save').addEventListener('click',()=>{
+ if(playing){say('Najpierw wróć do projektu.');return}
+ const blob=new Blob([JSON.stringify(doc,null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='medium-e2e-projekt.json';document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);say('Wyeksportowano projekt — bez chwilowych położeń z symulacji.');
+});
+$('import').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>100000){say('Plik zbyt duży.');return}
+ try{const candidate=validate(JSON.parse(await file.text())),b=build(candidate),before=JSON.stringify(doc);
+  void b;history.push(before);doc=candidate;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;rebuild();
+  say('Odzyskano edytowalny projekt. Nie odzyskiwano historii i chwilowych prędkości.')}
+ catch(e){say('Odrzucono import bez zmiany projektu: '+String(e.message||e).slice(0,70))}
+});
+window.addEventListener('keydown',e=>{if(e.target?.matches('input,textarea')||e.ctrlKey||e.altKey||e.metaKey)return;if(e.code==='Escape'){pending=null;setMode('move')}else if(!playing&&e.key==='z')undo()});
+function draw(){
+ if(!model)return;
+ const rect=stage.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1),width=Math.max(1,Math.floor(rect.width*dpr)),height=Math.max(1,Math.floor(rect.height*dpr));
+ if(stage.width!==width||stage.height!==height){stage.width=width;stage.height=height}
+ const scale=Math.min(rect.width/W,rect.height/H),ox=(rect.width-scale*W)/2,oy=(rect.height-scale*H)/2;
+ ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);
+ ctx.translate(ox,oy);ctx.scale(scale,scale);
+ ctx.fillStyle='#0d2029';ctx.fillRect(0,0,W,H);
+ ctx.strokeStyle='#26434e';ctx.lineWidth=.012;
+ for(let x=0;x<=W;x+=.5){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+ for(let y=0;y<=H;y+=.5){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+ for(const j of doc.joints){
+  const bx=model.bodies.get(j.b),p=bx.getPosition();
+  if(j.kind==='rail'){
+   ctx.beginPath();ctx.moveTo(p.x-j.dx*9,p.y-j.dy*9);ctx.lineTo(p.x+j.dx*9,p.y+j.dy*9);
+   ctx.strokeStyle='#6daed0';ctx.setLineDash([.15,.1]);ctx.lineWidth=.035;ctx.stroke();ctx.setLineDash([]);
+  }else{
+   ctx.fillStyle=j.motor?'#f7bd69':'#d8f1a6';ctx.beginPath();ctx.arc(j.x,j.y,.095,0,Math.PI*2);ctx.fill();
+   ctx.strokeStyle='#173341';ctx.lineWidth=.025;ctx.stroke();
+   if(j.motor){ctx.fillStyle='#f7bd69';ctx.font='.22px system-ui';ctx.fillText('↻',j.x+.13,j.y-.11)}
+  }
+ }
+ for(const p of doc.parts){
+  const b=model.bodies.get(p.id),pos=b.getPosition();ctx.save();ctx.translate(pos.x,pos.y);ctx.rotate(b.getAngle());
+  ctx.fillStyle=p.pinned?'#346d67':p.kind==='disc'?'#af905d':'#56849c';
+  ctx.strokeStyle=p.id===selected?'#ffda92':'#9ec5d5';ctx.lineWidth=p.id===selected?.06:.025;
+  ctx.beginPath();if(p.kind==='box')ctx.rect(-p.w/2,-p.h/2,p.w,p.h);else ctx.arc(0,0,p.w/2,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(p.w/3,0);ctx.strokeStyle='#f8d891';ctx.lineWidth=.035;ctx.stroke();
+  ctx.fillStyle='#f0f5f6';ctx.font='.18px system-ui';ctx.fillText(String(p.id),-.08,.07);ctx.restore();
+ }
+ if(pending){ctx.beginPath();ctx.arc(pending.at.x,pending.at.y,.15,0,Math.PI*2);ctx.strokeStyle='#f8c873';ctx.lineWidth=.045;ctx.stroke()}
+ if(gesture?.type==='rail'){const end=gesture.end||gesture.start;ctx.beginPath();ctx.moveTo(gesture.start.x,gesture.start.y);ctx.lineTo(end.x,end.y);ctx.strokeStyle='#f1d17a';ctx.lineWidth=.055;ctx.stroke()}
+}
+let last=0,acc=0;
+function frame(now){
+ if(!last)last=now;let delta=Math.max(0,Math.min(.07,(now-last)/1000));last=now;
+ if(playing&&model){acc+=delta;let i=0;while(acc>=DT&&i<8){model.world.step(DT);acc-=DT;i++;frames++;
+  for(let c=model.world.getContactList();c;c=c.getNext())if(c.isTouching()&&c.getFixtureA().getBody().getUserData()!=null&&c.getFixtureB().getBody().getUserData()!=null)contacts++;
+ }}
+ draw();if(playing&&frames%12===0)metrics();requestAnimationFrame(frame);
+}
+document.addEventListener('visibilitychange',()=>{last=0;acc=0});
+window.E2E={get doc(){return clone(doc)},get model(){return model},get playing(){return playing},get stats(){return {frames,contacts}},build,validate,edit,undo,setMode,togglePlay,xy,hit,get status(){return $('status').textContent}};
+try{if(!P)throw Error('CDN Planck.js niedostępny');doc=validate(doc);rebuild();requestAnimationFrame(frame)}
+catch(e){say('Nie załadowano modelu: '+e.message)}
+})();
+</script></body></html>
