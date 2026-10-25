@@ -1,0 +1,107 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E2c · Brakujące oddziaływanie materialne</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;background:#0b151d;color:#e8f2f4;font:15px/1.48 system-ui,Arial,sans-serif}
+main{max-width:1200px;padding:22px 18px 40px;margin:auto}
+h1{font-size:24px;margin:0 0 6px}h2{font-size:16px;margin:0}
+p{color:#b7cbd5;max-width:900px}b{color:#fff}
+#verdict{padding:10px 13px;background:#21303b;border-radius:8px;font-weight:600;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+article{min-width:0;background:#122632;border:1px solid #325060;border-radius:11px;padding:12px}
+.sub{font-size:13px;color:#bbd0d9;min-height:2.8em;margin:5px 0 0}
+canvas{display:block;width:100%;aspect-ratio:1.25/1;background:#0d1d29;border-radius:8px;margin-top:12px}
+.metric{font-variant-numeric:tabular-nums;margin:8px 0 0;font-size:14px}
+code{font-size:12px}details{margin-top:18px;color:#b7cbd5}
+small{font-size:12px;color:#99b2c0}
+</style></head><body>
+<main><h1>E2c · Czy bliskość części wystarcza, żeby zmienić świat?</h1>
+<p>Ta sama rzeczywista implementacja ŁĄCZNIKA E2b, 720 kroków przy 120 Hz. Trzy warianty różnią się wyłącznie <b>napędem lub jawnym prętem</b>. Nie jest to porównanie z Rapierem ani test jakości gry.</p>
+<div id="verdict" role="status">Uruchamianie identycznego kodu modelu z E2b…</div>
+<div class="grid">
+<article><h2>A · Napęd i bliskość</h2><p class="sub">Korba się porusza; punkt obok nie jest z nią połączony.</p><canvas id="a" width="540" height="420"></canvas><div class="metric" id="aMetric">—</div></article>
+<article><h2>B · Bez napędu</h2><p class="sub">Ten sam swobodny punkt, identyczna geometria startowa, wyłączony napęd.</p><canvas id="b" width="540" height="420"></canvas><div class="metric" id="bMetric">—</div></article>
+<article><h2>C · Jawny pręt</h2><p class="sub">Napęd jak w A, ale punkt został bezpośrednio przywiązany do korby prętem.</p><canvas id="c" width="540" height="420"></canvas><div class="metric" id="cMetric">—</div></article>
+</div>
+<details><summary>Metodologia i granice dowodu</summary>
+<p>Scena: punkt kotwiczony (160,260), korba długości 60, wolna końcówka (400,260), korbowód długości 180 oraz <b>niepołączony punkt testowy (240,260)</b>. Startowa odległość wizualnych kółek wynosi 20 jednostek. A oraz B mają tę samą topologię; C ma dodatkowy jawny pręt od punktu 2 do 4 (długość 20). Ślady są obliczane z tej samej klasy <code>Linkage</code>, bez animowanych makiet.</p>
+<p><b>Wnioskowanie ograniczone:</b> brak kontaktu w obecnym, bezkolizyjnym modelu punktowo-prętowym. Nie oznacza to, że PBD jako rodzina metod nie może obsługiwać kolizji ani że Rapier ma automatycznie lepszy interfejs tworzenia. Nie testowano fizycznego nacisku, kształtów brył, momentu siły, Jaskini, sterowania przez Ownera ani przeniesienia dzieła między agentami.</p></details>
+<small>Źródło: <a href="./authorable-rails.html">ŁĄCZNIK E2b (ta sama gałąź)</a>. R8 ReflexBrain posiada odrębny kontrtest kontaktu, ale działa na innej scenie i silniku.</small>
+<iframe id="source" src="./authorable-rails.html" style="width:0;height:0;opacity:0;pointer-events:none;position:absolute" tabindex="-1" aria-hidden="true"></iframe>
+</main>
+<script>
+(async()=>{
+const verdict=document.querySelector('#verdict');
+function round(x){return Number(x.toFixed(4))}
+try{
+const iframe=document.querySelector('#source');
+await new Promise((resolve,reject)=>{
+ if(iframe.contentWindow?.LINKAGE_CORE)return resolve();
+ iframe.addEventListener('load',resolve,{once:true});
+ setTimeout(()=>reject(Error('Źródłowy model nie został załadowany')),12000);
+});
+const {Linkage,DT}=iframe.contentWindow.LINKAGE_CORE;
+function simulate(motor,link){
+ const m=new Linkage(),n=m.addNode(240,260);
+ if(n.id!==4)throw Error('Scena E2b nie jest kanoniczną trójką punktów');
+ if(link&&!m.addRod(2,n.id))throw Error('Nie udało się połączyć punktu');
+ m.motor=motor?1:null;m.running=true;
+ const points=[],driver=[],samples=[],ref=[],minimum=Infinity;
+ let maxStrain=0;
+ for(let i=0;i<720;i++){
+  m.step(DT);
+  let p=m.node(4),q=m.node(2);
+  const dist=Math.hypot(p.x-q.x,p.y-q.y);
+  minimum=Math.min(minimum,dist);maxStrain=Math.max(maxStrain,m.maxError());
+  points.push([p.x,p.y]);driver.push([q.x,q.y]);
+  if((i+1)%120===0)samples.push({tick:i+1,free:{x:round(p.x),y:round(p.y)},driver:{x:round(q.x),y:round(q.y)}});
+ }
+ return {points,driver,samples,minimum,maxStrain,hasExplicitLink:m.rods.length===3};
+}
+const a=simulate(true,false),b=simulate(false,false),c=simulate(true,true);
+let exactDifference=0,driverDifference=0;
+for(let i=0;i<720;i++){
+ exactDifference=Math.max(exactDifference,Math.hypot(a.points[i][0]-b.points[i][0],a.points[i][1]-b.points[i][1]));
+ driverDifference=Math.max(driverDifference,Math.hypot(a.driver[i][0]-b.driver[i][0],a.driver[i][1]-b.driver[i][1]));
+}
+const endDistance=Math.hypot(a.points[719][0]-c.points[719][0],a.points[719][1]-c.points[719][1]);
+const tests=[
+['Brak ukrytego pręta w A/B',!a.hasExplicitLink&&!b.hasExplicitLink],
+['Bliski kontakt na rysunku przy braku fizycznego złącza',a.minimum<=22],
+['Napęd rzeczywiście zmienia trajektorię korby',driverDifference>30],
+['Niezwiązany punkt nie odczuwa działania motoru przez 720 kroków',exactDifference<1e-9],
+['Jawna relacja skutecznie przekazuje ruch',c.hasExplicitLink&&endDistance>100],
+['Długości prętów nadal są spełnione',Math.max(a.maxStrain,b.maxStrain,c.maxStrain)<2],
+['Wszystkie wyniki liczbowe pozostają skończone',[endDistance,exactDifference,driverDifference].every(Number.isFinite)]
+];
+const failed=tests.filter(([name,pass])=>!pass);
+const specs=[['a',a],['b',b],['c',c]];
+function draw(id,v){
+ const el=document.getElementById(id),ctx=el.getContext('2d'),W=el.width,H=el.height;
+ ctx.clearRect(0,0,W,H);
+ // Common comparison view: x from 80..360; y from 175..665.
+ const xy=([x,y])=>[(x-65)/335*W,(y-167)/506*H];
+ ctx.strokeStyle='#254554';ctx.lineWidth=1;
+ for(let x=100;x<400;x+=50){let px=xy([x,175])[0];ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,H);ctx.stroke()}
+ for(let y=200;y<700;y+=50){let py=xy([80,y])[1];ctx.beginPath();ctx.moveTo(0,py);ctx.lineTo(W,py);ctx.stroke()}
+ function trail(points,color,width=3){
+  ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=width;
+  for(let i=0;i<points.length;i+=2){const p=xy(points[i]);if(i===0)ctx.moveTo(...p);else ctx.lineTo(...p)}
+  ctx.stroke();
+ }
+ trail(v.driver,'#e8b362',3);trail(v.points,'#69d0e5',3);
+ const first=xy([240,260]);ctx.fillStyle='#dcebf1';ctx.beginPath();ctx.arc(...first,6,0,Math.PI*2);ctx.fill();
+ const last=xy(v.points[719]);ctx.fillStyle='#69d0e5';ctx.beginPath();ctx.arc(...last,6,0,Math.PI*2);ctx.fill();
+ const anchor=xy([160,260]);ctx.fillStyle='#84d5b0';ctx.fillRect(anchor[0]-5,anchor[1]-5,10,10);
+ ctx.font='16px system-ui';ctx.fillStyle='#e3e9ec';ctx.fillText('niebieski: punkt testowy',12,24);ctx.fillStyle='#e8b362';ctx.fillText('pomarańczowy: korba',12,45);
+}
+for(const [id,v] of specs)draw(id,v);
+document.querySelector('#aMetric').textContent='Końcowa pozycja: ('+a.samples.at(-1).free.x+', '+a.samples.at(-1).free.y+')';
+document.querySelector('#bMetric').textContent='Różnica trajektorii punktu A − B: '+round(exactDifference);
+document.querySelector('#cMetric').textContent='Różnica końcowa względem A: '+round(endDistance);
+verdict.textContent=failed.length?'FAIL: '+failed.map(x=>x[0]).join('; '):'PASS '+tests.length+'/'+tests.length+' · Bliskość bez więzi: brak przeniesienia ruchu · Jawny pręt: przeniesienie ruchu';
+verdict.dataset.status=failed.length?'FAIL':'PASS';
+window.CONTACT_EVIDENCE={tests,report:{source:'E2b Linkage',steps:720,scenarios:['motor/no-link','no-motor/no-link','motor/rod-link'],maxUnlinkedDifference:exactDifference,maxMotorDifference:driverDifference,maxConnectedDifference:endDistance,minimumVisualDistance:a.minimum,maxRodStrain:Math.max(a.maxStrain,b.maxStrain,c.maxStrain),samples:{a:a.samples,b:b.samples,c:c.samples},limits:'No collider or rigid body. A/B matched same source; R8 from separate engine cannot be claimed as a direct benchmark.'}};
+}catch(e){verdict.textContent='FAIL: '+e.message;verdict.dataset.status='FAIL';window.CONTACT_EVIDENCE={error:e.message}}
+})();
+</script></body></html>
