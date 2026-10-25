@@ -31,8 +31,8 @@ input[type=file]{display:none}.small{font-size:11px;opacity:.9}@media(max-width:
 <label class="importLabel" tabindex="0" title="Otwórz świadomie zachowany układ">Otwórz JSON<input id="import" type="file" accept="application/json,.json"></label>
 </header>
 <main><canvas id="stage" tabindex="0" aria-label="Warsztat mechaniczny: chwytaj punkty, łącz je, zakotwiczaj, napędzaj i przebudowuj" role="application"></canvas>
-<div id="hint"><div id="status" role="status">Wybierz „Uruchom”, a potem „Chwyć” i poruszaj układem.</div><div id="instruction">Punkty to ruchome węzły. Pręty próbują utrzymać odległości. Czerwony pręt oznacza sprzeczne lub przeciążone więzy. Kotwice wiążą ze światem.</div></div></main>
-<footer><span id="counts">4 punkty · 3 pręty · 2 kotwice · 1 napęd</span><span>Model 2D oparty na więzach; nie jest fizyką sztywnych brył 3D. Bez autosave i bez wysyłania geometrii.</span></footer>
+<div id="hint"><div id="status" role="status">Spróbuj: wybierz „Prowadnica”, przeciągnij od prawego punktu w poziomie i uruchom ruch.</div><div id="instruction">Punkty to ruchome węzły. Pręty próbują utrzymać odległości. Czerwony pręt oznacza sprzeczne lub przeciążone więzy. Kotwice wiążą ze światem.</div></div></main>
+<footer><span id="counts">3 punkty · 2 pręty · 0 prowadnic · 1 kotwica · 1 napęd</span><span>Model 2D oparty na więzach; nie jest fizyką sztywnych brył 3D. Bez autosave i bez wysyłania geometrii.</span></footer>
 <script id="linkage-core">
 (function(root){'use strict';
 const W=1000,H=650,DT=1/120,MAX_POINTS=96,MAX_RODS=160,MAX_RAILS=96;
@@ -42,8 +42,8 @@ const num=x=>typeof x==='number'&&Number.isFinite(x);
 const finitePos=v=>v&&num(v.x)&&num(v.y)&&v.x>=0&&v.x<=W&&v.y>=0&&v.y<=H;
 const clone=obj=>JSON.parse(JSON.stringify(obj));
 function fresh(){
- const points=[{id:1,x:220,y:220,pin:true},{id:2,x:290,y:260,pin:false},{id:3,x:473,y:380,pin:false},{id:4,x:480,y:220,pin:true}];
- const rods=[{id:1,a:1,b:2,length:hypot(70,40)},{id:2,a:2,b:3,length:hypot(183,120)},{id:3,a:3,b:4,length:hypot(7,160)}];
+ const points=[{id:1,x:160,y:260,pin:true},{id:2,x:220,y:260,pin:false},{id:3,x:400,y:260,pin:false}];
+ const rods=[{id:1,a:1,b:2,length:60},{id:2,a:2,b:3,length:180}];
  return {schema:'medium.linkage.v2',points,rods,rails:[],motor:1,motorSpeed:1.05};
 }
 function validate(raw){
@@ -187,7 +187,7 @@ root.LINKAGE_CORE={Linkage,validate,fresh,decodeTransfer,W,H,DT};
 const {Linkage,decodeTransfer,W,H,DT}=window.LINKAGE_CORE,stage=document.getElementById('stage'),ctx=stage.getContext('2d');const model=new Linkage();
 const $=id=>document.getElementById(id);let railDraft=null,mode='move',pendingNode=null,dragId=null,dragPointerId=null,rodPointerId=null,dragSnap=null,dragOrigin=null,dirty=true,visible=true,last=0,acc=0,lastReport=0,latestHost=null;const history=[];
 const toolHelp={move:'Chwyć punkt i przesuń go. Możesz to robić także podczas ruchu.',point:'Dotknij pustej przestrzeni, aby utworzyć nowy punkt.',rod:'Wybierz pierwszy punkt, a następnie drugi (lub przeciągnij od jednego do drugiego).',rail:'Przeciągnij od wybranego punktu wzdłuż planowanego kierunku jazdy. Krótkie stuknięcie punktu z prowadnicą usuwa ją.',pin:'Dotknij punktu, aby przypiąć go do świata lub uwolnić.',motor:'Dotknij pręta z dokładnie jedną zakotwiczoną końcówką, aby nadać lub odebrać napęd.',delete:'Dotknij pręta lub punktu, aby go usunąć.'};
-let label='Na początek: ▶ Uruchom. Potem chwytaj i przebudowuj układ.';
+let label='Zacznij od prowadnicy: przeciągnij od prawego punktu wzdłuż osi ruchu.';
 function say(s){label=s;$('status').textContent=s;report();dirty=true}
 function persistUndo(snapshot){history.push(snapshot||JSON.stringify(model.authored()));if(history.length>40)history.shift();$('undo').disabled=false}
 function emit(type,body){if(!latestHost)return;try{window.parent.postMessage({jaskinia:1,type,...body},latestHost)}catch{}}
