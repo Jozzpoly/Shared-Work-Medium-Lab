@@ -34,7 +34,17 @@ W E2b autor mógł narysować punktową prowadnicę, ale nie otrzymywał materia
 
 **Regresja na E2g:** dotychczasowe browser-suites [20/20](e2e-browser-rehearsal.html), [22/22](e2e-empty-world-falsifier.html), [18/18](e2f-connected-move-test.html) oraz [12/12](e2g-geometry-intent-falsifier.html) ponownie PASS na kodzie `5ebd5cf`. Jest to wciąż techniczny rehearsal na *syntetycznych* gestach, bez faktycznego Owner first-contact, telefonu, długoterminowej stabilności, rzeczywistego systemu Studio i jakości swobodnej kreatywności.
 
-**Co nie zostało rozwiązane**: dla przegubów między dwiema fizycznymi częściami ani dla mechanizmów wieloosiowych nie istnieje jedno domyślne poprawne zachowanie obrotu/skalowania. Wciąż otwarte są selection w złożonej nakładającej się geometrii, live-edit na działającej symulacji i koszt uwagi Ownera. Nie eskalować tego w architekturę nowych local frames bez prób uzasadniających.
+**Co nie zostało rozwiązane**: dla przegubów między dwiema fizycznymi częściami ani dla mechanizmów wieloosiowych nie istnieje jedno domyślne poprawne zachowanie obrotu/skalowania. Wciąż otwarte są ergonomia wyboru zakrytych części na realnym telefonie, live-edit na działającej symulacji i koszt uwagi Ownera. Nie eskalować tego w architekturę nowych local frames bez prób uzasadniających.
+
+## E2h · niegubienie części pod nakładającą się geometrią
+
+**Wcześniejszy MATERIAL FINDING:** [oryginalny falsyfikator](e2h-overlap-picking-falsifier.html) przy aplikacji E2e przed poprawką (`6f5032bee5a36a5b11ac0c6a49feb687bc0ddf55`) zwrócił częściowo ukrytą dużą belkę #1 zamiast widocznego na wierzchu koła #2, bo stary hit test wybierał najbardziej ujemną odległość od krawędzi, nie ostatnią narysowaną warstwę. Mała, fizycznie współpołożona część nie była domyślnie wybieralna.
+
+**Rozstrzygnięcie na source `17488a1c90438f8d8be976e73ac7b8b7bbf53434`:** trafienie odpowiada kolejności rysowania (ostatnia bryła na wierzchu). Przy nakładaniu pojawia się wyłącznie kontekstowo przycisk `Wybierz inną część (1/N)`, który cyklicznie wybiera wszystkie geometrie pod wskazanym miejscem. Wybrana zakryta bryła zachowuje żółty obrys widoczny **nad** innymi bryłami. Rozwiązanie współpracuje z autorskim przesuwaniem, punktem startowym zawiasu, usuwaniem i undo, bez dodawania nowych stałych trybów. Po geometrii się zmienia wybór spod spodu jest ponownie rozstrzygany, a nie traktowany jako wieczna więź.
+
+**[Browser E2h: 15/15 PASS](e2h-overlap-browser-test.html)** (test commit `a81a2c918a5d526b02ea2673942d98baaa174c0c`, aplikacja z `17488a1`). W realnej Operze przetestowano 2/3 w pełni nakładające się ciała, wybór wierzchniej warstwy, cykliczny dostęp do niższych, drag, joint do wybranej ukrytej części, delete/undo. Pierwotny falsyfikator po tej samej poprawce zgłasza `TARGET BEHAVIOR`. Regresja 20/20, 22/22, 18/18 i 20/20 E2g również przeszła ponownie na tym źródle.
+
+**Zakres:** przeszły syntetyczne zdarzenia touch-typu wewnątrz prawdziwej przeglądarki. Nie stwierdzono Owner UX PASS, prawdziwego dotyku, niezależnego agentowego odzyskania sensu elementów ani lepszego projektu 3D. Wybór zakrytych elementów może wciąż wymagać zbyt wielu kliknięć, a pozycje kontrolek na telefonie nie są zweryfikowane. Nie używać punktowego PASS jako argumentu za finalnym UX.
 
 ## Co rzeczywiście jest dostępne
 
