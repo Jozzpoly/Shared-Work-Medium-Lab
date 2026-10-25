@@ -1,6 +1,6 @@
 """E2 interactive witness in genuine headless Chromium (set_content, no network).
 Run: python e2-test-browser.py  (requires playwright and Chromium).
-The right-hand scene is an analytic reference, NOT a second physical solver.
+Both scenes use the original ŁĄCZNIK PBD; the right adds one explicit prismatic rail projection.
 """
 from pathlib import Path
 import os, json
@@ -30,7 +30,9 @@ with sync_playwright() as pw:
   page.evaluate('E2_PROBE.step(720)')
   state=page.evaluate('E2_PROBE.state')
   check(label+' missing guide causes drift',state['maxDrift']>120)
-  check(label+' analytic guide remains exact',state['idealEnd']['y']==260)
+  check(label+' guided PBD constraint stays on rail',state['idealEnd']['y']==260)
+  check(label+' guided PBD length constraint remains satisfied',state['guidedRodStrain']<2)
+  check(label+' same crank input in both models',abs(state['crank']['x']-state['guideCrank']['x'])<1e-6 and abs(state['crank']['y']-state['guideCrank']['y'])<1e-6)
   check(label+' native distance constraints remain satisfied',state['maxStrain']<2)
   page.get_by_role('button',name='Pauza').click()
   page.locator('#guide').fill('230')
@@ -50,4 +52,4 @@ with sync_playwright() as pw:
   check(label+' no uncaught errors',not errors)
   page.close()
  browser.close()
-print(json.dumps({'passed':len(passed),'checks':passed,'limit':'Chrome set_content of exact standalone HTML. No Jaskinia host, no physical phone, no Owner acceptance, no second physics engine.'},ensure_ascii=False,indent=2))
+print(json.dumps({'passed':len(passed),'checks':passed,'limit':'Chrome set_content of exact standalone HTML. Same ŁĄCZNIK PBD solver + one rail constraint, not a full rigid-body physics engine. No Jaskinia host, physical phone or Owner acceptance.'},ensure_ascii=False,indent=2))
