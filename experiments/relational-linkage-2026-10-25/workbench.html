@@ -86,7 +86,7 @@ class Linkage{
    case 'node-moved':
     {const p=point(edit.id);p.x=edit.x;p.y=edit.y;break}
    case 'pin-set':
-    {const p=point(edit.id);p.pin=edit.pin;if(edit.pin){p.x=edit.x;p.y=edit.y}break}
+    {const p=point(edit.id);p.pin=edit.pin;if(edit.pin){p.x=edit.x;p.y=edit.y}doc.motor=this.motor;break}
    case 'motor-set':
     doc.motor=edit.motor;break;
    case 'node-deleted':
