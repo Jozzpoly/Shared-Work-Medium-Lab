@@ -138,6 +138,27 @@ test('live-time new rod keeps intended measured length but may strain frozen aut
  assert.ok(m.maxError()<1); // current live scene has a satisfied new relation
  assert.equal(authored.rod(rod.id).length,rod.length);
 });
+test('runtime new node edits only intended authored source nodes, not unrelated motion',()=>{
+ const m=new Linkage(),baseline=m.authored();
+ m.running=true;for(let i=0;i<400;i++)m.step(DT);
+ const newPoint=m.addNode(850,530);m.commitDesign({type:'node-added',node:newPoint});
+ assert.deepEqual(m.authored().points.slice(0,4),baseline.points);
+ assert.equal(m.authored().points[4].id,newPoint.id);
+ assert.ok(Math.abs(m.serial().points[1].x-m.authored().points[1].x)>10);
+});
+test('independent fresh runtime can read typed design and pose without conversation context',()=>{
+ const old=new Linkage();old.running=true;for(let i=0;i<400;i++)old.step(DT);
+ const freshPoint=old.addNode(850,530);old.commitDesign({type:'node-added',node:freshPoint});
+ const documents=[old.transfer('design'),old.transfer('pose')].map(x=>JSON.parse(JSON.stringify(x)));
+ const second=vm.createContext({window:{}});vm.runInContext(scripts[0],second);
+ const decoder=second.window.LINKAGE_CORE.decodeTransfer,Receiver=second.window.LINKAGE_CORE.Linkage;
+ const restored=documents.map(x=>{const d=decoder(x);return {kind:d.kind,source:new Receiver(d.document).serial()}});
+ assert.equal(restored[0].kind,'design');assert.equal(restored[1].kind,'pose');
+ assert.equal(restored[0].source.points[1].x,290);
+ assert.ok(Math.abs(restored[1].source.points[1].x-290)>10);
+ assert.equal(restored[0].source.points.length,5);
+ assert.equal(restored[1].source.points.length,5);
+});
 test('clearing last motor link clears the motor',()=>{
  const m=new Linkage();assert.ok(m.removeRod(1));assert.equal(m.motor,null);
 });
