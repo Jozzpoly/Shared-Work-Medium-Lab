@@ -69,6 +69,65 @@ test('exposes current source-versus-runtime snapshot boundary after pure simulat
  assert.equal(JSON.stringify(clone.serial()),JSON.stringify(after));
  // This PASS documents a dangerous semantic gap; it is NOT export-of-authored-rest acceptance.
 });
+test('pure simulated time cannot rewrite last authored design',()=>{
+ const m=new Linkage(),original=JSON.stringify(m.authored());
+ m.running=true;for(let i=0;i<400;i++)m.step(DT);
+ assert.equal(JSON.stringify(m.authored()),original);
+ assert.notEqual(JSON.stringify(m.serial()),original);
+});
+test('design and pose are explicit transfer kinds with the same v1 material geometry',()=>{
+ const m=new Linkage();m.running=true;for(let i=0;i<400;i++)m.step(DT);
+ const authored=m.transfer('design'),pose=m.transfer('pose');
+ assert.equal(authored.schema,'medium.linkage.transfer.v1');assert.equal(pose.schema,authored.schema);
+ assert.equal(authored.kind,'design');assert.equal(pose.kind,'pose');
+ assert.equal(authored.document.schema,'medium.linkage.v1');assert.equal(pose.document.schema,'medium.linkage.v1');
+ assert.notEqual(JSON.stringify(authored.document),JSON.stringify(pose.document));
+ const decode=scope.LINKAGE_CORE.decodeTransfer;
+ assert.equal(decode(authored).kind,'design');assert.equal(decode(pose).kind,'pose');
+ assert.equal(JSON.stringify(new Linkage(decode(authored).document).serial()),JSON.stringify(authored.document));
+ assert.equal(JSON.stringify(new Linkage(decode(pose).document).serial()),JSON.stringify(pose.document));
+});
+test('runtime pose transfer deliberately excludes time, previous positions and history',()=>{
+ const m=new Linkage();m.running=true;for(let i=0;i<240;i++)m.step(DT);
+ const file=m.transfer('pose'),newWorld=new Linkage(file.document);
+ assert.equal(newWorld.t,0);assert.equal(newWorld.running,false);
+ assert.equal(file.document.points.every(n=>!Object.hasOwn(n,'px')&&!Object.hasOwn(n,'py')),true);
+ assert.equal(file.document.points.some(n=>Object.hasOwn(n,'vx')),false);
+});
+test('a deliberate authoring commit changes design without later simulated rewriting',()=>{
+ const m=new Linkage(),old=JSON.stringify(m.authored());
+ const n=m.addNode(690,510);assert.ok(n);m.addRod(3,n.id);m.commitDesign();
+ const newDesign=JSON.stringify(m.authored());assert.notEqual(newDesign,old);
+ assert.equal(m.authored().points.length,5);assert.equal(m.authored().rods.length,4);
+ m.running=true;for(let i=0;i<100;i++)m.step(DT);
+ assert.equal(JSON.stringify(m.authored()),newDesign);
+});
+test('uncommitted runtime manipulation is not automatically credited as authoring',()=>{
+ const m=new Linkage(),before=JSON.stringify(m.authored());
+ m.moveNode(3,700,480);
+ assert.equal(JSON.stringify(m.authored()),before);
+ m.commitDesign();assert.notEqual(JSON.stringify(m.authored()),before);
+});
+test('explicit authored transfer is a defensive copy',()=>{
+ const m=new Linkage(),f=m.transfer('design');
+ f.document.points[0].x=990;
+ assert.equal(m.authored().points[0].x,220);
+});
+test('v1 legacy transfer stays importable but origin has unknown semantics',()=>{
+ const decode=scope.LINKAGE_CORE.decodeTransfer,m=new Linkage();
+ const legacy=decode(JSON.parse(JSON.stringify(m.serial())));
+ assert.equal(legacy.kind,'legacy-untagged');
+ assert.equal(legacy.document.schema,'medium.linkage.v1');
+});
+test('invalid transfer metadata and forged material references fail closed',()=>{
+ const decode=scope.LINKAGE_CORE.decodeTransfer;
+ const m=new Linkage(),correct=m.transfer('design'),before=JSON.stringify(m.authored());
+ assert.throws(()=>decode({...correct,kind:'video'}));
+ const forged=JSON.parse(JSON.stringify(correct));forged.document.rods[0].a=9999;
+ assert.throws(()=>decode(forged));
+ assert.throws(()=>m.transfer('arbitrary'));
+ assert.equal(JSON.stringify(m.authored()),before);
+});
 test('clearing last motor link clears the motor',()=>{
  const m=new Linkage();assert.ok(m.removeRod(1));assert.equal(m.motor,null);
 });
