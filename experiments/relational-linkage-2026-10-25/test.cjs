@@ -53,6 +53,12 @@ test('bad numeric values and out-of-world coordinates refused',()=>{
  const a=copy(fresh());a.points[0].x=Infinity;assert.throws(()=>validate(a));
  const b=copy(fresh());b.points[0].x=-1;assert.throws(()=>validate(b));
 });
+test('impossible anchored geometry remains explicitly strained, not fake-solved',()=>{
+ const m=new Linkage();const r=m.addRod(1,4);assert.ok(r);
+ m.moveNode(4,800,220);
+ assert.ok(m.maxError()>6);assert.equal(m.node(4).x,800);
+ assert.equal(m.rods.find(x=>x.id===r.id).length,260);
+});
 test('clearing last motor link clears the motor',()=>{
  const m=new Linkage();assert.ok(m.removeRod(1));assert.equal(m.motor,null);
 });
