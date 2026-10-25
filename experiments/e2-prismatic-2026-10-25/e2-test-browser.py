@@ -24,6 +24,7 @@ with sync_playwright() as pw:
   page.set_content(source,wait_until='domcontentloaded')
   state=page.evaluate('E2_PROBE.state')
   check(label+' initial mechanism',state['time']==0 and state['guideY']==260)
+  check(label+' original crank starts at common pinned offset',abs(state['crank']['x']-220)<1e-9 and abs(state['crank']['y']-260)<1e-9)
   check(label+' two visible canvases',page.locator('canvas').count()==2 and all(page.locator('canvas').nth(i).bounding_box()['width']>300 for i in (0,1)))
   page.evaluate('E2_PROBE.step(120)')
   manual=page.evaluate('E2_PROBE.state')
