@@ -40,3 +40,22 @@ E2 pokazało, że ten sam ŁĄCZNIK PBD uzyskuje suwak po dodaniu jednej reguły
 **Nie robić teraz:** katalogu joints, rozbudowanego autosave, hostingu, PR do Jaskini, refaktoru E1, wyboru finalnego solvera, integracji Studio/JV, sztucznego polerowania na podstawie 19 zielonych testów.
 
 **Owner intent:** jednym Domem jest Jaskinia, a Medium zwiększa zasięg twórczych działań. Zielony test techniczny nie nadpisuje doświadczenia Ownera. Każdy eksperyment może być porzucony, jeśli nie tworzy realnej sprawczości.
+
+---
+
+## E2c/E2d · kontrpróby materialnej sprawczości (25.10.2026)
+
+**Stan: ADEQUATE dla reprezentacyjnych granic i donorowego działania fizyki; Owner experience NIEPOTWIERDZONE.** Nie podnosić żadnego z trzech modeli do docelowego buildera.
+
+- [E2c: kontrola brakującego kontaktu w dokładnej klasie ŁĄCZNIKA](contact-ablation.html). Prawdziwy Chromium w Operze, **7/7** logicznych kontroli. 720 kroków: wolny punkt w pobliżu napędzanej korby ma **identyczną całą trajektorię** przy włączonym i wyłączonym napędzie (`max difference = 0`). Jawny pręt łączący go z korbą zmienia końcową pozycję o **358,5982 jednostki**. Punktowe okręgi są tylko wizualizacją; nie interpretować odległości 20 jednostek jako kolizji brył. Rozstrzygnięcie: istniejący bezkolizyjny graf punktów i dystansów nie przenosi skutków poprzez samą bliskość. Nie wynika, że każda metoda PBD nie potrafi kolizji.
+- [E2d: Planck.js 1.5.1 — rzeczywiste przeguby i kontakt](planck-joint-contact-probe.html). Prawdziwy Chromium w Operze, **10/10** kontroli: trzy bryły maszyny połączone rzeczywistymi dwoma rodzajami przegubów, silnik na korbie, suwak ograniczony do osi oraz czwarta bryła bez autorskiego złącza. Cargo może fizycznie zderzać się **wyłącznie z suwakiem** dzięki filtrowaniu kategorii kolizji. W 720 krokach: cargo w osi **przemieszcza się o -3,0049 jednostki X** z 48 krokami kontaktu slider–cargo; odsunięte poza oś = **0** kontaktów i **0** przemieszczenia; sensoryczne cargo w tej samej pozycji = 457 stanów `isTouching` i **0** przemieszczenia (brak impulsu). Jest to mocny wewnątrz-silnikowy kontrast przyczynowy, ale **nie symetryczny benchmark** Planck kontra ŁĄCZNIK: mają odmienne jednostki, model ciał i sceny.
+- R8 ReflexBrain [test realnego kontaktu pośredniego](https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/rb-r8-open-material-workbench-2026-10-22/tests/living-organism/r8-mediated-contacts.test.ts) jest niezależną, przydatną kontrpróbą. Jednak jego [implementacja świata](https://github.com/Jozzpoly/ReflexBrain-Lab/blob/research/rb-r8-open-material-workbench-2026-10-22/src/living-organism/world.ts) nie wystawia API autorskich joints, a dynamiczne części R8 tworzy z `lockRotations()`. Ręczny `rotateMaterialPart` nie oznacza swobodnej dynamiki obrotowej tych części. Nie mylić funkcjonalności użytej w R8 z pełnym zakresem biblioteki Rapier.
+- Planck E2d ładuje zewnętrzny **wersjonowany, lecz nie zhashowany** CDN `planck@1.5.1`. Przy potrzebie twardej, offline odtwarzalności przypiąć i zweryfikować dokładne bajty zależności osobno. Na tym etapie nie włączać serwera/CDN do Jaskini i nie dotykać prywatnego storage.
+
+### Rozstrzygnięcie i krawędź dalszej pracy
+
+**Materialny kontakt i przeguby w jednym działającym solverze = potwierdzona możliwość.** **Tworzenie i edytowanie takich relacji bez kodu, zachowując intencję oraz swobodne eksperymentowanie = całkowicie OTWARTE.**
+
+Następny przyrost wartości nie wynika z dopisywania „jeszcze jednego jointa” do ŁĄCZNIKA ani ze stawiania obok siebie kolejnych screenshotów silników. Rozstrzygający sprawdzian powinien wymagać od człowieka/niezależnego agenta *własnego, nieprzewidzianego mechanizmu*, w którym modyfikuje się rozmiar/orientację bryły, położenie przegubu i pozycję przeszkody, a wynik zmienia się przez rzeczywisty kontakt. Dopuszczalny będzie bardzo mały prototyp alternatywnego języka bez budowania całego edytora, ale tylko jeżeli da się uczciwie zmierzyć koszt gestów i zachowanie po modyfikacji. Sprawdzić też E1: authoring-rest i runtime-state nie są tym samym.
+
+Żadna integracja/merge/PR do produkcyjnej Jaskini ani automatyczna publikacja. Główny cel: **Jaskinia jeden Dom, Medium poszerza rzeczywiste możliwości działania w nim**; osobne projekty pozostają autonomiczne.
