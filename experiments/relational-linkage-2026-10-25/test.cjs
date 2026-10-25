@@ -128,6 +128,16 @@ test('invalid transfer metadata and forged material references fail closed',()=>
  assert.throws(()=>m.transfer('arbitrary'));
  assert.equal(JSON.stringify(m.authored()),before);
 });
+test('live-time new rod keeps intended measured length but may strain frozen authored rest',()=>{
+ const m=new Linkage();m.running=true;for(let i=0;i<400;i++)m.step(DT);
+ const rod=m.addRod(2,4);assert.ok(rod);
+ m.commitDesign({type:'rod-added',rod});
+ const authored=new Linkage(m.authored());
+ assert.equal(authored.node(2).x,290); // no implicit adoption of ambient motion
+ assert.ok(authored.maxError()>100); // honest warning: original rest and current measured length disagree
+ assert.ok(m.maxError()<1); // current live scene has a satisfied new relation
+ assert.equal(authored.rod(rod.id).length,rod.length);
+});
 test('clearing last motor link clears the motor',()=>{
  const m=new Linkage();assert.ok(m.removeRod(1));assert.equal(m.motor,null);
 });
