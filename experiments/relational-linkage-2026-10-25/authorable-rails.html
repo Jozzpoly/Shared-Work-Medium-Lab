@@ -74,6 +74,10 @@ function validate(raw){
   railIds.add(r.id);railNodes.add(r.node);
   return {id:r.id,node:r.node,x:r.x,y:r.y,dx:r.dx,dy:r.dy};
  });
+ if(motor!==null){
+  const drivenRod=rods.find(r=>r.id===motor),a=points.find(n=>n.id===drivenRod.a),b=points.find(n=>n.id===drivenRod.b);
+  if(railNodes.has((a.pin?b:a).id))throw Error('Prowadnica koliduje z kinematycznym napędem');
+ }
  return {schema:'medium.linkage.v2',points,rods,rails,motor,motorSpeed:speed};
 }
 class Linkage{
@@ -139,7 +143,7 @@ class Linkage{
  removeNode(id){if(!this.node(id))return false;this.nodes=this.nodes.filter(n=>n.id!==id);this.rods=this.rods.filter(r=>r.a!==id&&r.b!==id);this.rails=this.rails.filter(r=>r.node!==id);if(!this.rod(this.motor))this.motor=null;return true}
  removeRod(id){if(!this.rod(id))return false;this.rods=this.rods.filter(r=>r.id!==id);if(this.motor===id)this.motor=null;return true}
  togglePin(id){let n=this.node(id);if(!n||(!n.pin&&this.railOf(id)))return false;n.pin=!n.pin;n.px=n.x;n.py=n.y;if(this.motor!==null){const r=this.rod(this.motor),[a,b]=this.ends(r);if(a.pin===b.pin)this.motor=null;else this.syncMotorAngle()}return true}
- toggleMotor(id){let r=this.rod(id);if(!r)return false;if(this.motor===id){this.motor=null;return true}const[a,b]=this.ends(r);if(a.pin===b.pin)return false;this.motor=id;this.syncMotorAngle();return true}
+ toggleMotor(id){let r=this.rod(id);if(!r)return false;if(this.motor===id){this.motor=null;return true}const[a,b]=this.ends(r);if(a.pin===b.pin||this.railOf((a.pin?b:a).id))return false;this.motor=id;this.syncMotorAngle();return true}
  projectToRail(n,rail){
   const x=n.x-rail.x,y=n.y-rail.y;
   let t=x*rail.dx+y*rail.dy,low=-Infinity,high=Infinity;
@@ -204,7 +208,7 @@ function nearestNode(p,rad){let best=null,d=rad;for(const n of model.nodes){let 
 function nearestRod(p,rad){let best=null,d=rad;for(const r of model.rods){const a=model.node(r.a),b=model.node(r.b),dx=b.x-a.x,dy=b.y-a.y;const f=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));let distance=Math.hypot(a.x+f*dx-p.x,a.y+f*dy-p.y);if(distance<=d){d=distance;best=r}}return best}
 function connect(a,b){const snapshot=JSON.stringify(model.authored());const r=model.addRod(a,b);if(r){persistUndo(snapshot);model.commitDesign({type:'rod-added',rod:r});say('Dodano prawdziwą więź: odległość tych dwóch węzłów jest teraz związana.')}else say('Nie można dodać tej więzi (już istnieje lub punkty zbyt blisko).');pendingNode=null;rodPointerId=null}
 stage.addEventListener('pointerdown',e=>{
- if(e.button!==undefined&&e.button!==0)return;if(dragId!==null)return;stage.focus({preventScroll:true});const p=xy(e),r=21/p.s,n=nearestNode(p,r),rod=nearestRod(p,13/p.s);if(mode==='move'){if(!n){say('Chwyć jeden z okrągłych punktów.');return}dragId=n.id;dragPointerId=e.pointerId;dragSnap=JSON.stringify(model.authored());dragOrigin={x:n.x,y:n.y};model.dragging=n.id;stage.setPointerCapture?.(e.pointerId);return}
+ if(e.button!==undefined&&e.button!==0)return;if(dragId!==null||railDraft!==null)return;stage.focus({preventScroll:true});const p=xy(e),r=21/p.s,n=nearestNode(p,r),rod=nearestRod(p,13/p.s);if(mode==='move'){if(!n){say('Chwyć jeden z okrągłych punktów.');return}dragId=n.id;dragPointerId=e.pointerId;dragSnap=JSON.stringify(model.authored());dragOrigin={x:n.x,y:n.y};model.dragging=n.id;stage.setPointerCapture?.(e.pointerId);return}
  if(mode==='rail'){
    if(!n){say('Wybierz okrągły ruchomy punkt i przeciągnij, aby wskazać oś.');return}
    if(n.pin){say('Najpierw uwolnij zakotwiczony punkt.');return}
@@ -213,8 +217,8 @@ stage.addEventListener('pointerdown',e=>{
   }
  if(mode==='point'){if(p.x<14||p.x>W-14||p.y<14||p.y>H-14)return;const old=JSON.stringify(model.authored());const q=model.addNode(p.x,p.y);if(q){persistUndo(old);model.commitDesign({type:'node-added',node:q});say('Nowy punkt. Teraz połącz go z innymi, żeby naprawdę wpływał na mechanizm.')}else say('Osiągnięto limit punktów.');return}
  if(mode==='rod'){if(n){if(pendingNode===null){pendingNode=n.id;rodPointerId=e.pointerId;stage.setPointerCapture?.(e.pointerId);say('Pierwszy punkt wybrany. Wskaż albo przeciągnij do drugiego.')}else if(n.id!==pendingNode){connect(pendingNode,n.id)}else {pendingNode=null;dirty=true}}else{pendingNode=null;dirty=true}return}
- if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.authored());if(model.togglePin(n.id)){persistUndo(old);model.commitDesign({type:'pin-set',id:n.id,pin:n.pin,x:n.x,y:n.y});say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}return}
- if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.authored());if(model.toggleMotor(rod.id)){persistUndo(old);model.commitDesign({type:'motor-set',motor:model.motor});say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy i jednego swobodnego końca pręta.');return}
+ if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.authored());if(model.togglePin(n.id)){persistUndo(old);model.commitDesign({type:'pin-set',id:n.id,pin:n.pin,x:n.x,y:n.y});say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}else say('Aby zakotwiczyć ten punkt, usuń najpierw jego prowadnicę.');return}
+ if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.authored());if(model.toggleMotor(rod.id)){persistUndo(old);model.commitDesign({type:'motor-set',motor:model.motor});say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy, jednego swobodnego końca i braku prowadnicy na napędzanym punkcie.');return}
  if(mode==='delete'){if(!n&&!rod)return;const old=JSON.stringify(model.authored());if(n?model.removeNode(n.id):model.removeRod(rod.id)){persistUndo(old);model.commitDesign(n?{type:'node-deleted',id:n.id}:{type:'rod-deleted',id:rod.id});say('Element i jego zależności zostały usunięte.')}return}
 });
 stage.addEventListener('pointermove',e=>{const p=xy(e);if(railDraft&&e.pointerId===railDraft.pointer){railDraft.end=p;dirty=true}else if(dragId!==null){if(e.pointerId!==dragPointerId)return;model.moveNode(dragId,p.x,p.y);dirty=true}else if(mode==='rod'&&pendingNode!==null){dirty=true}});
