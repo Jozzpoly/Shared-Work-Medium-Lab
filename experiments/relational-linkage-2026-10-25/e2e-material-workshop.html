@@ -41,6 +41,7 @@ footer{font-size:11px;padding:4px 10px;color:#aac1c5;border-top:1px solid var(--
 <button id="sizeDown">− Rozmiar</button>
 <button id="sizeUp">+ Rozmiar</button>
 <button id="pin">Kotwica</button>
+<button id="cyclePick" hidden title="Wiele części jest pod tym samym punktem. Wybierz inną, także schowaną pod spodem.">Wybierz inną część</button>
 <button id="mountIntent" hidden title="Dla bryły z dokładnie jednym zawiasem do świata: obracaj wokół zawiasu lub skaluj z zachowaniem proporcjonalnego mocowania">Zachowaj mocowanie: WYŁ.</button>
 <button id="moveWith" title="Włącz, aby przesuwać wszystkie bryły połączone przegubami oraz punkty ich zaczepienia, jako jedną konstrukcję">Przesuń z połączeniami: WYŁ.</button>
 </div>
@@ -60,7 +61,7 @@ const P=window.planck,$=id=>document.getElementById(id);
 const stage=$('stage'),ctx=stage.getContext('2d'),W=12,H=7.3,DT=1/120;
 const clone=x=>JSON.parse(JSON.stringify(x)),number=x=>typeof x==='number'&&Number.isFinite(x);
 const V=(x,y)=>P.Vec2(x,y),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),clamp=(x,lo,hi)=>Math.max(lo,Math.min(hi,x));
-let nextId=3,mode='move',selected=null,pending=null,gesture=null,moveConnected=false,preserveMount=false,playing=false,model=null,history=[],frames=0,contacts=0;
+let nextId=3,mode='move',selected=null,pending=null,gesture=null,moveConnected=false,preserveMount=false,pickCandidates=[],pickSpot=null,playing=false,model=null,history=[],frames=0,contacts=0;
 let doc={
  schema:'medium.material-workshop.v0',
  parts:[{id:1,kind:'box',x:4.2,y:3.6,w:2.3,h:.34,angle:0,pinned:false},
@@ -111,6 +112,9 @@ function metrics(){
  $('mountIntent').hidden=!mountEligible;
  $('mountIntent').classList.toggle('active',mountEligible&&preserveMount);
  $('mountIntent').textContent='Zachowaj mocowanie: '+(mountEligible&&preserveMount?'WŁ.':'WYŁ.');
+ const alternative=mode==='move'&&selected!=null&&pickCandidates.length>1&&pickCandidates.includes(selected);
+ $('cyclePick').hidden=!alternative;
+ $('cyclePick').textContent=alternative?'Wybierz inną część ('+(pickCandidates.indexOf(selected)+1)+'/'+pickCandidates.length+')':'Wybierz inną część';
  $('moveWith').classList.toggle('active',moveConnected);$('moveWith').textContent='Przesuń z połączeniami: '+(moveConnected?'WŁ.':'WYŁ.');
  $('metrics').textContent=doc.parts.length+' bryły · '+doc.joints.length+' przegubów · '+(playing?'symulacja ('+frames+' kroków, '+contacts+' kontaktów)':'projekt');
 }
@@ -118,7 +122,7 @@ function rebuild(){model=build(doc);metrics()}
 function edit(fn){
  if(playing)return false;
  const before=JSON.stringify(doc),candidate=clone(doc);
- try{const result=fn(candidate);if(result===false)return false;const valid=validate(candidate);if(JSON.stringify(valid)===before)return false;const staged=build(valid);doc=valid;model=staged;history.push(before);if(history.length>40)history.shift();nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));metrics();return true}catch(e){say('Nie można zmienić: '+e.message);return false}
+ try{const result=fn(candidate);if(result===false)return false;const valid=validate(candidate);if(JSON.stringify(valid)===before)return false;const staged=build(valid);doc=valid;model=staged;pickCandidates=[];pickSpot=null;history.push(before);if(history.length>40)history.shift();nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));metrics();return true}catch(e){say('Nie można zmienić: '+e.message);return false}
 }
 function getPart(id){return doc.parts.find(p=>p.id===id)}
 function eligibleMount(id){
@@ -160,7 +164,7 @@ function translateLinked(source,start,dx,dy){
  for(const j of source.joints)if(g.ids.has(j.b)||g.ids.has(j.a)){j.x+=g.x;j.y+=g.y}
  return g;
 }
-function setMode(next){if(gesture?.type==='move')rebuild();mode=next;pending=null;gesture=null;for(const el of document.querySelectorAll('[data-mode]'))el.classList.toggle('active',el.dataset.mode===mode);say({
+function setMode(next){if(gesture?.type==='move')rebuild();mode=next;pending=null;gesture=null;for(const el of document.querySelectorAll('[data-mode]'))el.classList.toggle('active',el.dataset.mode===mode);metrics();say({
  move:'Wybierz bryłę i przeciągnij ją. Rozmiar i obrót zmienisz przyciskami.',
  box:'Kliknij dowolne miejsce: utworzysz belkę, także na innej części (mogą pojawić się fizyczne kolizje).',
  disc:'Kliknij dowolne miejsce: utworzysz koło, także na istniejącej części.',
@@ -175,22 +179,30 @@ function togglePlay(){
  if(playing){rebuild();frames=0;contacts=0;pending=null;gesture=null;say('Świat działa. Obserwuj konsekwencje i kontakt. Stop powraca do projektu.')}
  else {rebuild();say('Powrócono do zaprojektowanej konstrukcji. Żadnej chwilowej pozy nie zapisano automatycznie.')}
  $('play').textContent=playing?'■ Stop → projekt':'▶ Uruchom';
- for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#mountIntent,#moveWith,#undo,#new,#import,#save'))el.disabled=playing;
+ for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#cyclePick,#mountIntent,#moveWith,#undo,#new,#import,#save'))el.disabled=playing;
  metrics();
 }
 function sizeInfo(){const rect=stage.getBoundingClientRect(),scale=Math.min(rect.width/W,rect.height/H),x0=(rect.width-W*scale)/2,y0=(rect.height-H*scale)/2;return {rect,scale,x0,y0}}
 function xy(e){const {rect,scale,x0,y0}=sizeInfo();return {x:(e.clientX-rect.left-x0)/scale,y:(e.clientY-rect.top-y0)/scale}}
-function hit(q){
- if(!model)return null;
- const fixtureTol=.16;let best=null,bestScore=Infinity;
- for(const p of doc.parts){
-  const b=model.bodies.get(p.id),pos=b.getPosition(),a=b.getAngle(),c=Math.cos(a),s=Math.sin(a),dx=q.x-pos.x,dy=q.y-pos.y;
-  const local={x:dx*c+dy*s,y:-dx*s+dy*c};
-  const inside=p.kind==='box'?Math.max(Math.abs(local.x)-p.w/2,Math.abs(local.y)-p.h/2):Math.hypot(local.x,local.y)-p.w/2;
-  if(inside<=fixtureTol&&inside<bestScore){best=p.id;bestScore=inside}
+function hitCandidates(q){
+ if(!model)return [];
+ const tolerance=.16,ids=[];
+ // Draw order is doc.parts order. The last rendered part is the visually topmost.
+ for(let i=doc.parts.length-1;i>=0;i--){
+  const p=doc.parts[i],b=model.bodies.get(p.id),pos=b.getPosition(),a=b.getAngle(),c=Math.cos(a),sn=Math.sin(a),dx=q.x-pos.x,dy=q.y-pos.y;
+  const local={x:dx*c+dy*sn,y:-dx*sn+dy*c};
+  const signed=p.kind==='box'?Math.max(Math.abs(local.x)-p.w/2,Math.abs(local.y)-p.h/2):Math.hypot(local.x,local.y)-p.w/2;
+  if(signed<=tolerance)ids.push(p.id);
  }
- return best;
+ return ids;
 }
+function hit(q){return hitCandidates(q)[0]??null}
+function preferredHit(q){
+ const hits=hitCandidates(q);
+ if(selected!==null&&hits.includes(selected)&&pickSpot&&dist(q,pickSpot)<.22)return selected;
+ return hits[0]??null;
+}
+
 function hingeAt(q){
  if(!doc.joints.length)return null;
  let best=null,d=.18;for(const j of doc.joints){
@@ -223,13 +235,15 @@ function addRail(id,x,y,dx,dy){
   d.joints.push({id:jid,kind:'rail',a:null,b:id,x,y,dx:dx/n,dy:dy/n,motor:false});
  });
 }
-function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;pending=null;gesture=null;preserveMount=false;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
+function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;pending=null;gesture=null;preserveMount=false;pickCandidates=[];pickSpot=null;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
 stage.addEventListener('pointerdown',e=>{
  if(playing||e.button!==undefined&&e.button!==0||gesture!==null)return;
  stage.focus({preventScroll:true});
- const q=xy(e),id=hit(q),jid=hingeAt(q);
+ const q=xy(e),id=preferredHit(q),jid=hingeAt(q);
  if(mode==='move'){
-  if(selected!==id)preserveMount=false;selected=id;metrics();gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),withConnected:moveConnected,pointer:e.pointerId,delta:{x:0,y:0}}:null;
+  if(selected!==id)preserveMount=false;
+  selected=id;pickCandidates=hitCandidates(q);pickSpot=q;metrics();
+  gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),withConnected:moveConnected,pointer:e.pointerId,delta:{x:0,y:0}}:null;
   if(gesture)stage.setPointerCapture?.(e.pointerId);
   else say('Wybierz część.');return;
  }
@@ -298,7 +312,7 @@ stage.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId){ge
 for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));
 $('play').addEventListener('click',togglePlay);
 $('undo').addEventListener('click',undo);
-$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;gesture=null;preserveMount=false;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
+$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;gesture=null;preserveMount=false;pickCandidates=[];pickSpot=null;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
 function changeSelected(kind){
  const id=activeId();if(!id||playing){say('Najpierw zaznacz bryłę w trybie Chwyć.');return}
  const fixedMount=preserveMount?eligibleMount(id):null;
@@ -331,6 +345,12 @@ $('rotate').addEventListener('click',()=>changeSelected('rotate'));
 $('sizeUp').addEventListener('click',()=>changeSelected('increase'));
 $('sizeDown').addEventListener('click',()=>changeSelected('decrease'));
 $('pin').addEventListener('click',()=>changeSelected('pin'));
+$('cyclePick').addEventListener('click',()=>{
+ if(playing||mode!=='move'||pickCandidates.length<2||!pickCandidates.includes(selected))return;
+ selected=pickCandidates[(pickCandidates.indexOf(selected)+1)%pickCandidates.length];
+ preserveMount=false;metrics();
+ say('Wybrano część #'+selected+' ('+(pickCandidates.indexOf(selected)+1)+'/'+pickCandidates.length+' pod wskazanym miejscem). Możesz teraz ją przeciągnąć lub użyć jako podstawy przegubu.');
+});
 $('mountIntent').addEventListener('click',()=>{
  const j=eligibleMount(activeId());
  if(playing||!j)return;
@@ -353,7 +373,7 @@ $('save').addEventListener('click',()=>{
 $('import').addEventListener('change',async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>100000){say('Plik zbyt duży.');return}
  try{const candidate=validate(JSON.parse(await file.text())),staged=build(candidate),before=JSON.stringify(doc);
-  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;gesture=null;preserveMount=false;metrics();
+  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;gesture=null;preserveMount=false;pickCandidates=[];pickSpot=null;metrics();
   say('Odzyskano edytowalny projekt. Nie odzyskiwano historii i chwilowych prędkości.')}
  catch(e){say('Odrzucono import bez zmiany projektu: '+String(e.message||e).slice(0,70))}
 });
@@ -399,6 +419,13 @@ function draw(){
   ctx.beginPath();ctx.arc(x,y,.12,0,Math.PI*2);ctx.fillStyle=j.motor?'#eeb562':'#def0ae';
   ctx.fill();ctx.strokeStyle='#142b35';ctx.lineWidth=.04;ctx.stroke();
   if(j.motor){ctx.fillStyle='#f7dfb5';ctx.font='.23px system-ui';ctx.fillText('↻',x+.13,y-.13)}
+ }
+ // Selected body must remain visible even when occluded by later-rendered geometry.
+ if(selected!==null&&model.bodies.has(selected)){
+  const p=doc.parts.find(p=>p.id===selected),b=model.bodies.get(selected),q=b.getPosition();
+  ctx.save();ctx.translate(q.x,q.y);ctx.rotate(b.getAngle());
+  ctx.beginPath();if(p.kind==='box')ctx.rect(-p.w/2,-p.h/2,p.w,p.h);else ctx.arc(0,0,p.w/2,0,Math.PI*2);
+  ctx.strokeStyle='#ffe4a3';ctx.lineWidth=.055;ctx.setLineDash([.12,.07]);ctx.stroke();ctx.restore();
  }
  if(pending){ctx.beginPath();ctx.arc(pending.at.x,pending.at.y,.15,0,Math.PI*2);ctx.strokeStyle='#f8c873';ctx.lineWidth=.045;ctx.stroke()}
  if(gesture?.type==='rail'){const end=gesture.end||gesture.start;ctx.beginPath();ctx.moveTo(gesture.start.x,gesture.start.y);ctx.lineTo(end.x,end.y);ctx.strokeStyle='#f1d17a';ctx.lineWidth=.055;ctx.stroke()}
