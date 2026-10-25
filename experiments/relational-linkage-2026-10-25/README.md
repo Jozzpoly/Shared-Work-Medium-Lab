@@ -1,5 +1,7 @@
 # ŁĄCZNIK — mechaniczne relacje zamiast gotowych animacji (25.10.2026)
 
+> **Najnowszy E2e (odrębny warsztat prawdziwych brył):** [stan i ograniczenia](E2E_STATUS.md) · [otwórz eksperyment](e2e-material-workshop.html) · [edytowalny dokument świata](e2e-authored-specimen.json). Dwa prawdziwe browser PASS dotyczyły wcześniejszych, przypiętych wersji; ostatnie korekty UI są jeszcze nieweryfikowane w Operze.
+
 > **Aktualne kontrpróby E2b–E2d:** [status, granice i następny falsyfikator](E2B_STATUS.md) · [własne prowadnice E2b](authorable-rails.html) · [brak kontaktu E2c](contact-ablation.html) · [przeguby + kontakt E2d (Planck)](planck-joint-contact-probe.html). Żaden wynik nie stanowi Owner PASS ani wdrożenia do Jaskini.
 
 **Eksperyment Medium, nie Jaskinia v6.5, Ruch 2.0, nowy builder JV ani gotowy produkt.**
