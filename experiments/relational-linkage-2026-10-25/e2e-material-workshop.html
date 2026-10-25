@@ -105,7 +105,7 @@ function rebuild(){model=build(doc);metrics()}
 function edit(fn){
  if(playing)return false;
  const before=JSON.stringify(doc),candidate=clone(doc);
- try{const result=fn(candidate);if(result===false)return false;const valid=validate(candidate);if(JSON.stringify(valid)===before)return false;doc=valid;history.push(before);if(history.length>40)history.shift();nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();return true}catch(e){say('Nie można zmienić: '+e.message);return false}
+ try{const result=fn(candidate);if(result===false)return false;const valid=validate(candidate);if(JSON.stringify(valid)===before)return false;const staged=build(valid);doc=valid;model=staged;history.push(before);if(history.length>40)history.shift();nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));metrics();return true}catch(e){say('Nie można zmienić: '+e.message);return false}
 }
 function getPart(id){return doc.parts.find(p=>p.id===id)}
 function activeId(){return selected&&getPart(selected)?selected:null}
@@ -257,8 +257,8 @@ $('save').addEventListener('click',()=>{
 });
 $('import').addEventListener('change',async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>100000){say('Plik zbyt duży.');return}
- try{const candidate=validate(JSON.parse(await file.text())),b=build(candidate),before=JSON.stringify(doc);
-  void b;history.push(before);doc=candidate;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;rebuild();
+ try{const candidate=validate(JSON.parse(await file.text())),staged=build(candidate),before=JSON.stringify(doc);
+  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;metrics();
   say('Odzyskano edytowalny projekt. Nie odzyskiwano historii i chwilowych prędkości.')}
  catch(e){say('Odrzucono import bez zmiany projektu: '+String(e.message||e).slice(0,70))}
 });
