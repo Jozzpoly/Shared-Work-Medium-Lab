@@ -1,6 +1,6 @@
 # ŁĄCZNIK — mechaniczne relacje zamiast gotowych animacji (25.10.2026)
 
-> **Najnowszy E2e (odrębny warsztat prawdziwych brył):** [stan i ograniczenia](E2E_STATUS.md) · [otwórz eksperyment](e2e-material-workshop.html) · [edytowalny dokument świata](e2e-authored-specimen.json). Dwa prawdziwe browser PASS dotyczyły wcześniejszych, przypiętych wersji; ostatnie korekty UI są jeszcze nieweryfikowane w Operze.
+> **Aktualny E2e/E2f — materialny warsztat i dwie semantyki ruchu:** [stan i granice](E2E_STATUS.md) · [otwórz warsztat](e2e-material-workshop.html) · [porównaj różnicę w zachowaniu zawiasu](e2f-joint-intent-witness.html) · [edytowalny projekt](e2e-authored-specimen.json). Po ostatnich zmianach sprawdzono w Operze 20/20, 22/22 i 18/18. To dowód techniczny, nie Owner PASS ani wybór finalnego buildera.
 
 > **Aktualne kontrpróby E2b–E2d:** [status, granice i następny falsyfikator](E2B_STATUS.md) · [własne prowadnice E2b](authorable-rails.html) · [brak kontaktu E2c](contact-ablation.html) · [przeguby + kontakt E2d (Planck)](planck-joint-contact-probe.html). Żaden wynik nie stanowi Owner PASS ani wdrożenia do Jaskini.
 
