@@ -1,18 +1,20 @@
 # ŁĄCZNIK — mechaniczne relacje zamiast gotowych animacji (25.10.2026)
 
-**Eksperyment Medium, nie Jaskinia v6.5, Ruch 2.0, nowy builder JV ani gotowy produkt.** Celem jest możliwie tanio sfalsyfikować jedną hipotezę: *czy tworzenie i zmienianie zależności między własnymi elementami daje odczuwalnie większą sprawczość niż parametryzowanie ruchu przygotowanych części?*
+**Eksperyment Medium, nie Jaskinia v6.5, Ruch 2.0, nowy builder JV ani gotowy produkt.**
+
+**[Szersza kampania i krytyczne hipotezy (25 października)](CAMPAIGN.md)** — czytaj przed następnym etapem implementacji. ŁĄCZNIK jest tylko jednym konkurencyjnym egzemplarzem, nie domyślną architekturą. Celem jest możliwie tanio sfalsyfikować jedną hipotezę: *czy tworzenie i zmienianie zależności między własnymi elementami daje odczuwalnie większą sprawczość niż parametryzowanie ruchu przygotowanych części?*
 
 ## Wejście
 
 - [**ŁĄCZNIK — pojedynczy samowystarczalny HTML**](workbench.html). Nie wymaga zewnętrznych bibliotek ani serwera.
 - [Oryginalny przyrząd Jaskini v1](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/docs/przyrzad/KONTRAKT.md): strona może działać samodzielnie lub jako zwykły zewnętrzny `Przyrząd` w **oryginalnej** Jaskini. Odpowiada na `hi/state?`, przesyła wyłącznie liczniki i bieżącą odchyłkę więzów jako `state/signals`. Nie przenosi geometrii ani plików do hosta.
-- [Szybki podgląd publicznego eksperymentu](https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/144a6124f2c00ae0041da55d2279a49293512ef4/experiments/relational-linkage-2026-10-25/workbench.html) — adres przygotowany do dobrowolnego otwarcia, **nieprzetestowany w żywej przeglądarce** w tej iteracji. Trzeci origin preview nie jest prywatnym hostingiem. Nigdy nie wprowadzać do tego egzemplarza wartościowych/prywatnych materiałów.
+- [Szybki podgląd publicznego eksperymentu](https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/7c7e0ab96a9e57e53b3fdc0b93e0ff083b949bb5/experiments/relational-linkage-2026-10-25/workbench.html) — adres przygotowany do dobrowolnego otwarcia, **nieprzetestowany w żywej przeglądarce** w tej iteracji. Trzeci origin preview nie jest prywatnym hostingiem. Nigdy nie wprowadzać do tego egzemplarza wartościowych/prywatnych materiałów.
 
 ## Jeden konkretny test swobody
 
 Początkowa scena ma cztery węzły, trzy sztywne pręty, dwie kotwice i jeden napęd. Użytkownik może **uruchomić**, **chwycić węzeł**, **dodać nowy punkt**, **połączyć go jednym lub kilkoma prętami**, **zmienić kotwice/napęd**, **usunąć zależność** i zobaczyć zmianę zachowania całego układu. Nie ma przygotowanej jedynej „prawidłowej” konstrukcji ani zaprogramowanej ścieżki animacji każdego ogniwa.
 
-Natywne gesty myszy/dotyku trafiają do jednego canvasa. Zależności pozostają aktywne także podczas chwytania i na pauzie. Świadomy `Zapisz JSON` / `Otwórz JSON` obsługuje wartościowy wariant. **Brak autosave jest świadomą granicą tego badania, nie oceną wartości eksportu.** Przywracanie importu sprawdza referencje, duplikaty i zakresy danych przed zamianą aktywnego modelu. Cofnięcie dotyczy autorskiej zmiany, nie każdej klatki symulacji. Aktywne przeciąganie należy tylko do jednego `pointerId`; drugi palec nie może go zakończyć.
+Natywne gesty myszy/dotyku trafiają do jednego canvasa. Zależności pozostają aktywne także podczas chwytania i na pauzie. Świadomy `Zapisz JSON` / `Otwórz JSON` obsługuje wartościowy wariant. **Ten eksport zachowuje bieżącą POZĘ symulacji, nie oddzielnie pierwotny autorski układ ani historię zdarzeń.** Uruchomienie symulacji bez edycji autorskiej może więc zmienić dane, które później wczyta `Otwórz JSON`. Osobna kontrola w `test.cjs` to ujawnia; **nie jest to zaliczony test zachowania źródła autorskiego**. **Brak autosave jest świadomą granicą tego badania, nie oceną wartości eksportu.** Przywracanie importu sprawdza referencje, duplikaty i zakresy danych przed zamianą aktywnego modelu. Cofnięcie dotyczy autorskiej zmiany, nie każdej klatki symulacji. Aktywne przeciąganie należy tylko do jednego `pointerId`; drugi palec nie może go zakończyć.
 
 ## Co jest prawdziwe, a co uproszczone
 
@@ -30,7 +32,7 @@ node test.cjs
 node test-ui.cjs
 ```
 
-**23/23** testów wykonanych na *odczytanych z GitHuba bajtach* tej gałęzi: 13 obliczeń i warunków danych + 10 syntetycznych zdarzeń UI / protokołu Jaskini. Dodatkowo lokalny prototyp przed wypchnięciem przeszedł 13 + 10 testów źródła. Stanowisko Chromium w obecnym środowisku odrzuca nawet `data:` przez `ERR_BLOCKED_BY_ADMINISTRATOR`; **nie było rzeczywistego testu renderingu, dotyku, fizycznego feelu, osadzenia w Operze ani oceny Ownera**. Nie przedstawiać PASS z JS jako PASS produktu.
+**24/24** testów wykonanych na *odczytanych z GitHuba bajtach* tej gałęzi: 14 obliczeń i warunków danych + 10 syntetycznych zdarzeń UI / protokołu Jaskini. Dodatkowo lokalny prototyp przed wypchnięciem przeszedł 13 + 10 testów źródła. Stanowisko Chromium w obecnym środowisku odrzuca nawet `data:` przez `ERR_BLOCKED_BY_ADMINISTRATOR`; **nie było rzeczywistego testu renderingu, dotyku, fizycznego feelu, osadzenia w Operze ani oceny Ownera**. Nie przedstawiać PASS z JS jako PASS produktu.
 
 **Test rozstrzygający, jeśli będzie bezpieczna okazja:** bez instruktażu i bez otwierania przez agenta nowej karty bez wyraźnej wartości, czy w realnym przyrządzie Owner potrafi w jednej krótkiej spontanicznej sesji przejść od obserwacji przykładu do **własnego, działającego układu relacji**? Czy przewidywanie i naprawianie jego zachowania jest czytelne? Czy wariant bez napędu nadal daje interesującą manipulację? Jeżeli narzędzie pozostaje zestawem niezrozumiałych kontrolek albo zachowanie jest zbyt sztuczne, zamknąć to jako *FAIL* i zachować dowód. Nie tworzyć automatycznie kolejnego generica.
 
