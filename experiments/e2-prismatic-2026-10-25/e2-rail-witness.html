@@ -148,7 +148,7 @@ function drawScene(id,right){const canvas=$(id),ctx=canvas.getContext('2d');if(!
  const m=right?guided:world,a=m.node(1),b=m.node(2),end=right?projected():m.node(3);ctx.strokeStyle='#8fc1be';ctx.lineWidth=2;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(55,guideY);ctx.lineTo(655,guideY);ctx.stroke();ctx.setLineDash([]);
  rod(ctx,a,b,'#eeb269');rod(ctx,b,end,right?'#77c8ba':'#9bb4c2');arc(ctx,a.x,a.y,14,'#287a72');arc(ctx,b.x,b.y,10,'#f6d7a2');arc(ctx,end.x,end.y,12,right?'#a3efd8':'#e9eef2');
  if(right){ctx.lineWidth=3;ctx.strokeStyle='#6ac0b2';ctx.strokeRect(end.x-24,guideY-18,48,36);if(!end.possible){ctx.fillStyle='#e9747a';ctx.font='15px system-ui';ctx.fillText('poza zakresem długości pręta',300,60)}}
- else{ctx.strokeStyle='#ff8280';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(end.x,end.y);ctx.lineTo(end.x,guideY);ctx.stroke();ctx.fillStyle='#e8ada3';ctx.font='14px system-ui';ctx.fillText('Δy = '+(end.y-guideY).toFixed(1),end.x+16,Math.max(30,Math.min(405,end.y-13)))}
+ else{ctx.strokeStyle='#ff8280';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(end.x,end.y);ctx.lineTo(end.x,guideY);ctx.stroke();ctx.fillStyle='#e8ada3';ctx.font='14px system-ui';ctx.fillText('Δy = '+(end.y-guideY).toFixed(1),Math.max(10,Math.min(560,end.x+16)),Math.max(30,Math.min(405,end.y-13)));if(end.y>440||end.y<0||end.x<0||end.x>700){ctx.fillStyle='#ffd0bb';ctx.font='bold 14px system-ui';ctx.fillText('Końcówka poza kadrem — pozycja y = '+end.y.toFixed(0),20,420)}}
  ctx.fillStyle='#adc3cb';ctx.font='13px system-ui';ctx.fillText(right?'Prowadnica = dodatkowe więzy PBD':'Prowadnica = tylko rysunek',19,26);
 }
 function draw(){drawScene('free',false);drawScene('guided',true);metrics()}
