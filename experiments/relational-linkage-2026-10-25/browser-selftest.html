@@ -34,8 +34,11 @@ iframe{display:block;width:100%;max-width:1250px;height:690px;border:1px solid #
   const railButton=d.querySelector('[data-mode="rail"]');
   railButton.click();
   check('tryb prowadnicy dostępny',railButton.classList.contains('active'));
-  event('pointerdown',400,260);event('pointermove',510,260);event('pointerup',510,260);
+  event('pointerdown',400,260,37);
+  event('pointerdown',220,260,38); // second finger must never steal the first gesture
+  event('pointermove',510,260,37);event('pointerup',510,260,37);event('pointerup',220,260,38);
   check('gest tworzy relację',m.rails.length===1&&m.rails[0].node===3&&m.rails[0].dx>.99);
+  check('drugi wskaźnik nie przejmuje tworzonej prowadnicy',m.rails[0].node===3);
   check('gest utrwala tylko świadomie dodaną relację',m.authored().rails.length===1);
   const exportBefore=m.transfer('design');
   m.running=true;
@@ -53,6 +56,14 @@ iframe{display:block;width:100%;max-width:1250px;height:690px;border:1px solid #
   const imported=new w.LINKAGE_CORE.Linkage(m.transfer('design').document);
   check('nowy odbiorca odzyskuje relację',imported.rails.length===1);
   check('eksport oznaczony v2',m.transfer('design').schema==='medium.linkage.transfer.v2');
+  const one={schema:'medium.linkage.v2',points:[{id:1,x:100,y:100,pin:true},{id:2,x:160,y:100,pin:false}],
+    rods:[{id:1,a:1,b:2,length:60}],rails:[],motor:null,motorSpeed:1.05};
+  const conflicting=new w.LINKAGE_CORE.Linkage(one),conflictRail=conflicting.setRail(2,80,0);
+  conflicting.commitDesign({type:'rail-set',rail:conflictRail});
+  check('nie można włączyć napędu na punkcie z prowadnicą',conflicting.toggleMotor(1)===false);
+  const forged=conflicting.transfer('design').document;forged.motor=1;
+  let rejected=false;try{new w.LINKAGE_CORE.Linkage(forged)}catch{rejected=true}
+  check('import sprzecznego napędu i prowadnicy jest odrzucany',rejected);
   const restored=JSON.stringify(m.authored());
   const malformed=JSON.parse(restored);malformed.rails[0].node=1; // pinned node
   const input=d.querySelector('#import');
