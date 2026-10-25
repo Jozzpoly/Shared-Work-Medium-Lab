@@ -1,0 +1,70 @@
+{
+  "schema": "medium.material-workshop.v0",
+  "parts": [
+    {
+      "id": 3,
+      "kind": "box",
+      "x": 4,
+      "y": 3.6,
+      "w": 1.55,
+      "h": 0.38,
+      "angle": 0,
+      "pinned": false
+    },
+    {
+      "id": 4,
+      "kind": "box",
+      "x": 5.8,
+      "y": 3.6,
+      "w": 1.55,
+      "h": 0.38,
+      "angle": 0,
+      "pinned": false
+    },
+    {
+      "id": 5,
+      "kind": "disc",
+      "x": 6.85,
+      "y": 4,
+      "w": 0.88,
+      "h": 0.88,
+      "angle": 0,
+      "pinned": false
+    }
+  ],
+  "joints": [
+    {
+      "id": 6,
+      "kind": "hinge",
+      "a": 4,
+      "b": 3,
+      "x": 4.7,
+      "y": 3.6,
+      "dx": 1,
+      "dy": 0,
+      "motor": false
+    },
+    {
+      "id": 7,
+      "kind": "hinge",
+      "a": null,
+      "b": 3,
+      "x": 4,
+      "y": 3.6,
+      "dx": 1,
+      "dy": 0,
+      "motor": true
+    },
+    {
+      "id": 8,
+      "kind": "rail",
+      "a": null,
+      "b": 5,
+      "x": 6.85,
+      "y": 4,
+      "dx": 1,
+      "dy": 0,
+      "motor": false
+    }
+  ]
+}
