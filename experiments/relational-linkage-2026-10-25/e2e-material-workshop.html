@@ -13,6 +13,8 @@ button:hover,label.file:hover{border-color:var(--accent)}
 button.active{background:#91652e;border-color:var(--accent)}
 button.run{background:#235646;border-color:#53917c;font-weight:700}
 button:disabled{opacity:.55;cursor:default}
+.selection-actions{display:none;gap:5px;align-items:center;padding:2px 4px;border-left:1px solid var(--line)}
+.selection-actions.on{display:flex}
 input[type=file]{display:none}
 main{flex:1;min-height:0;display:flex;flex-direction:column}
 #stage{width:100%;height:100%;min-height:150px;touch-action:none;display:block;cursor:crosshair;outline:none}
@@ -33,10 +35,12 @@ footer{font-size:11px;padding:4px 10px;color:#aac1c5;border-top:1px solid var(--
 <button data-mode="rail">Prowadnica</button>
 <button data-mode="motor">Napęd</button>
 <button data-mode="delete">Usuń</button>
+<div id="part-actions" class="selection-actions" aria-label="Narzędzia wybranej bryły">
 <button id="rotate">Obróć 15°</button>
 <button id="sizeDown">− Rozmiar</button>
 <button id="sizeUp">+ Rozmiar</button>
 <button id="pin">Kotwica</button>
+</div>
 <button id="undo">↶ Cofnij</button>
 <button id="new">Nowy świat</button>
 <button id="save">Zapisz projekt</button>
@@ -99,6 +103,7 @@ function build(source){
 }
 function say(msg){$('status').textContent=msg}
 function metrics(){
+ const panel=$('part-actions');panel.classList.toggle('on',!playing&&selected!==null&&doc.parts.some(p=>p.id===selected));
  $('metrics').textContent=doc.parts.length+' bryły · '+doc.joints.length+' przegubów · '+(playing?'symulacja ('+frames+' kroków, '+contacts+' kontaktów)':'projekt');
 }
 function rebuild(){model=build(doc);metrics()}
@@ -177,7 +182,7 @@ stage.addEventListener('pointerdown',e=>{
  stage.focus({preventScroll:true});
  const q=xy(e),id=hit(q),jid=hingeAt(q);
  if(mode==='move'){
-  selected=id;gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),pointer:e.pointerId}:null;
+  selected=id;metrics();gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),pointer:e.pointerId}:null;
   if(gesture)stage.setPointerCapture?.(e.pointerId);
   else say('Wybierz część.');return;
  }
