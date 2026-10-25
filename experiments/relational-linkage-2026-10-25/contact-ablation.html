@@ -46,7 +46,7 @@ function simulate(motor,link){
  if(n.id!==4)throw Error('Scena E2b nie jest kanoniczną trójką punktów');
  if(link&&!m.addRod(2,n.id))throw Error('Nie udało się połączyć punktu');
  m.motor=motor?1:null;m.running=true;
- const points=[],driver=[],samples=[],ref=[],minimum=Infinity;
+ const points=[],driver=[],samples=[];let minimum=Infinity;
  let maxStrain=0;
  for(let i=0;i<720;i++){
   m.step(DT);
