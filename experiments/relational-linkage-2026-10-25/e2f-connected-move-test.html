@@ -23,7 +23,7 @@ try{
    {id:4,kind:'hinge',a:2,b:1,x:3.75,y:3,dx:1,dy:0,motor:false},
    {id:5,kind:'hinge',a:null,b:1,x:3,y:3,dx:1,dy:0,motor:true}
   ]};
- const before=JSON.stringify(source),parts=id=>app.doc.parts.find(p=>p.id===id),joints=id=>app.doc.joints.find(j=>j.id===id);
+ let before=null;const parts=id=>app.doc.parts.find(p=>p.id===id),joints=id=>app.doc.joints.find(j=>j.id===id);
  function event(kind,x,y,ptr=31){
   const rect=canvas.getBoundingClientRect(),s=Math.min(rect.width/12,rect.height/7.3),ox=(rect.width-s*12)/2,oy=(rect.height-s*7.3)/2;
   canvas.dispatchEvent(new w.PointerEvent(kind,{bubbles:true,pointerType:'touch',pointerId:ptr,button:0,clientX:rect.left+ox+x*s,clientY:rect.top+oy+y*s}));
@@ -33,7 +33,7 @@ try{
   const input=d.querySelector('#import');input.files=dt.files;input.dispatchEvent(new w.Event('change',{bubbles:true}));
   await new Promise(r=>setTimeout(r,120));
  }
- await importDoc(source);check('import trzech brył i dwóch różnych zawiasów',app.doc.parts.length===3&&app.doc.joints.length===2);
+ await importDoc(source);check('import trzech brył i dwóch różnych zawiasów',app.doc.parts.length===3&&app.doc.joints.length===2);before=JSON.stringify(app.doc);
  app.setMode('move');event('pointerdown',3,3);event('pointermove',4,4);event('pointerup',4,4);
  check('standardowy gest przesuwa tylko jedną część',eq(parts(1).x,4)&&eq(parts(2).x,4.5)&&eq(parts(3).x,8));
  check('standardowy gest świadomie zachowuje globalne osie',eq(joints(4).x,3.75)&&eq(joints(5).x,3));
