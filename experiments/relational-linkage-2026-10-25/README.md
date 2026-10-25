@@ -1,5 +1,7 @@
 # ŁĄCZNIK — mechaniczne relacje zamiast gotowych animacji (25.10.2026)
 
+> **Nowy izolowany falsyfikator E2b:** [autorska prowadnica i pełny stan badań](E2B_STATUS.md) · [samodzielny HTML](authorable-rails.html) · [test przeglądarkowy](browser-selftest.html). Te wyniki nie stanowią Owner PASS i nie są wdrożeniem do Jaskini.
+
 **Eksperyment Medium, nie Jaskinia v6.5, Ruch 2.0, nowy builder JV ani gotowy produkt.**
 
 **[Szersza kampania i krytyczne hipotezy (25 października)](CAMPAIGN.md)** — czytaj przed następnym etapem implementacji. ŁĄCZNIK jest tylko jednym konkurencyjnym egzemplarzem, nie domyślną architekturą. Celem jest możliwie tanio sfalsyfikować jedną hipotezę: *czy tworzenie i zmienianie zależności między własnymi elementami daje odczuwalnie większą sprawczość niż parametryzowanie ruchu przygotowanych części?*
