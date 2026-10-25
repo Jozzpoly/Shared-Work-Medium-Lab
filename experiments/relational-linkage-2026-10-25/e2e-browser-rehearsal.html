@@ -1,0 +1,85 @@
+<!doctype html><html lang="pl"><meta charset="utf-8">
+<title>E2e · automatyczny rehearsal authoringu</title>
+<style>body{font:14px/1.5 system-ui;background:#101e28;color:#e8f3f3;margin:15px}
+pre{white-space:pre-wrap;background:#19323d;padding:12px;border-radius:8px}
+iframe{display:block;width:100%;height:550px;border:1px solid #527483;max-width:1100px}</style>
+<h2>E2e — techniczny rehearsal authoringu</h2>
+<p>Źródłowa aplikacja i jej interakcje DOM, syntetyczne gesty myszy; testuje prawdziwy silnik. Nie zastępuje fizycznego urządzenia ani oceny człowieka.</p>
+<pre id="result" role="status">Próby w trakcie…</pre><iframe src="./e2e-material-workshop.html" id="lab" title="Warsztat"></iframe>
+<script>
+(async()=>{
+const result=document.querySelector('#result'),notes=[];
+const check=(n,v)=>{notes.push({name:n,pass:!!v});if(!v)throw Error('NIEPOWODZENIE: '+n)};
+try{
+const iframe=document.querySelector('#lab');
+await new Promise((resolve,reject)=>{
+ if(iframe.contentWindow?.E2E?.model)return resolve();
+ iframe.addEventListener('load',resolve,{once:true});
+ setTimeout(()=>reject(Error('Timeout iframe')),13000);
+});
+const w=iframe.contentWindow,d=w.document,a=w.E2E,stage=d.querySelector('#stage');
+const clone=x=>JSON.parse(JSON.stringify(x));
+check('prawdziwy Planck uruchomiony',!!w.planck&&!!a.model.world);
+check('początek daje części, ale nie gotowe joints',a.doc.parts.length===2&&a.doc.joints.length===0);
+stage.setPointerCapture=()=>{};
+function xy(x,y){const rect=stage.getBoundingClientRect(),s=Math.min(rect.width/12,rect.height/7.3);
+ const ox=(rect.width-12*s)/2,oy=(rect.height-7.3*s)/2;
+ return [rect.left+ox+x*s,rect.top+oy+y*s]}
+function pointer(kind,x,y,id=9){const [cx,cy]=xy(x,y);
+ stage.dispatchEvent(new w.PointerEvent(kind,{bubbles:true,cancelable:true,pointerId:id,pointerType:'mouse',button:0,clientX:cx,clientY:cy}))}
+const button=q=>d.querySelector(q).click();
+button('[data-mode="hinge"]');pointer('pointerdown',4.2,3.6);pointer('pointerdown',2.0,2.0);
+check('gest autorstwa tworzy world hinge',a.doc.joints.length===1&&a.doc.joints[0].kind==='hinge'&&a.doc.joints[0].a===null);
+button('[data-mode="motor"]');pointer('pointerdown',4.2,3.6);
+check('kliknięcie autorskiego zawiasu włącza realny napęd',a.doc.joints[0].motor===true);
+const authored=JSON.stringify(a.doc),base=a.doc;
+const initialCargo=a.model.bodies.get(2).getPosition();
+button('#play');
+check('włączenie runtime',a.playing===true);
+for(let i=0;i<720;i++)a.model.world.step(1/120);
+const cargo=a.model.bodies.get(2).getPosition();
+const delta=Math.hypot(cargo.x-initialCargo.x,cargo.y-initialCargo.y);
+check('część zderzana reaguje bez napisanego przez autora złącza',delta>.1);
+check('uruchomienie nie nadpisuje projektu',JSON.stringify(a.doc)===authored);
+button('#play');
+check('stop wraca do authored, bez ukrytej adopcji pozy',!a.playing&&JSON.stringify(a.doc)===authored&&Math.abs(a.model.bodies.get(2).getPosition().x-initialCargo.x)<1e-5);
+const modeOff=clone(base);modeOff.joints[0].motor=false;
+const off=a.build(modeOff),offStart=off.bodies.get(2).getPosition();
+for(let i=0;i<720;i++)off.world.step(1/120);
+const offCargo=off.bodies.get(2).getPosition();
+const offDelta=Math.hypot(offCargo.x-offStart.x,offCargo.y-offStart.y);
+check('kontrola bez napędu nie przenosi skutku ruchu',offDelta<.001);
+const far=clone(base);far.parts.find(x=>x.id===2).y=6.1;
+const away=a.build(far),farStart=away.bodies.get(2).getPosition();
+for(let i=0;i<720;i++)away.world.step(1/120);
+const farEnd=away.bodies.get(2).getPosition();
+const farDelta=Math.hypot(farEnd.x-farStart.x,farEnd.y-farStart.y);
+check('kontrola poza torem kontaktu pozostaje nieruchoma',farDelta<.001);
+button('[data-mode="move"]');pointer('pointerdown',4.95,4.38);pointer('pointermove',6.1,4.38);pointer('pointerup',6.1,4.38);
+check('bezpośredni gest przesuwa autorską bryłę',a.doc.parts.find(x=>x.id===2).x>5.9);
+button('#undo');check('undo cofnie gest bryły',Math.abs(a.doc.parts.find(x=>x.id===2).x-4.95)<1e-5);
+button('[data-mode="rail"]');pointer('pointerdown',4.95,4.38);pointer('pointermove',6.15,4.38);pointer('pointerup',6.15,4.38);
+check('gest nadaje prawdziwy prismatic joint',a.doc.joints.length===2&&a.doc.joints.some(x=>x.kind==='rail'&&x.b===2));
+const plan=a.doc;
+check('zapis zachowuje authored relacje',a.validate(plan).joints.length===2&&a.build(plan).joins.size===2);
+const invalid=clone(plan);invalid.joints.push({...invalid.joints[1],id:999,b:999});
+let rejected=false;try{a.validate(invalid)}catch{rejected=true}
+check('fałszywe połączenie z nieistniejącą bryłą odrzucone',rejected);
+const importEl=d.querySelector('#import');
+async function feed(doc){const file=new w.File([JSON.stringify(doc)],'artwork.json',{type:'application/json'});
+ const dt=new w.DataTransfer();dt.items.add(file);importEl.files=dt.files;
+ importEl.dispatchEvent(new w.Event('change',{bubbles:true}));
+ await new Promise(r=>setTimeout(r,100))}
+const beforeBad=JSON.stringify(a.doc);await feed(invalid);
+check('niepoprawny import nie zastępuje projektu',JSON.stringify(a.doc)===beforeBad);
+button('#new');check('pusty świat nie zawiera prefabrykowanych konstrukcji',a.doc.parts.length===0&&a.doc.joints.length===0);
+await feed(plan);check('edycja i źródłowe joints wracają po faktycznym imporcie',a.doc.joints.length===2&&a.doc.parts.length===2);
+const newFrame=w.document.createElement('iframe');
+newFrame.style.display='none';newFrame.src='./e2e-material-workshop.html';d.body.appendChild(newFrame);
+await new Promise((resolve,reject)=>{newFrame.addEventListener('load',resolve,{once:true});setTimeout(()=>reject(Error('nowy odbiorca')),13000)});
+const receiver=newFrame.contentWindow.E2E;check('drugie niezależne otwarcie posiada działający builder',!!receiver?.build);
+check('dokument nadaje się do odtworzenia przez drugi runtime',receiver.build(plan).joins.size===2);
+result.textContent=JSON.stringify({status:'PASS',checks:notes.length,contactDelta:delta,withoutMotor:offDelta,farAway:farDelta,limits:'DOM-synthetic pointer / authoring specific scenario; human usability, cross-agent spontaneous skill, mobile device and Jaskinia host not tested'},null,2)+'\n'+notes.map(n=>'✓ '+n.name).join('\n');
+}catch(e){result.textContent='FAIL '+String(e.stack||e)+'\n'+notes.map(n=>(n.pass?'✓ ':'✗ ')+n.name).join('\n')}
+})();
+</script></html>
