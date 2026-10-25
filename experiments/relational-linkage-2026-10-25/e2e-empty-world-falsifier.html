@@ -1,0 +1,73 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><title>E2e · empty-world falsifier</title>
+<style>body{font:14px/1.5 system-ui;background:#101f2a;color:#f0f4f5;margin:12px}pre{white-space:pre-wrap;background:#183241;padding:12px;border-radius:8px}
+iframe{display:block;width:100%;max-width:1000px;height:520px;border:1px solid #48606e}</style>
+<h2>E2e — od pustego świata do własnej konstrukcji</h2><p>Test funkcjonalny realnego edytora z syntetycznymi zdarzeniami wskaźnika. Nie jest niezależnym, spontanicznym testem człowieka.</p>
+<pre id="out" role="status">Uruchamianie…</pre><iframe id="app" src="./e2e-material-workshop.html" title="Warsztat"></iframe>
+<script>
+(async()=>{
+const output=document.querySelector('#out'),checks=[];
+const check=(name,pass)=>{checks.push({name,pass:!!pass});if(!pass)throw Error('FAIL '+name)};
+try{
+const frame=document.querySelector('#app');
+await new Promise((res,rej)=>{if(frame.contentWindow?.E2E?.model)return res();frame.addEventListener('load',res,{once:true});setTimeout(()=>rej(Error('Timeout')),13000)});
+const w=frame.contentWindow,d=w.document,app=w.E2E,stage=d.querySelector('#stage'),clone=x=>JSON.parse(JSON.stringify(x));
+stage.setPointerCapture=()=>{};
+function p(kind,x,y,id=7){
+ const rect=stage.getBoundingClientRect(),s=Math.min(rect.width/12,rect.height/7.3),ox=(rect.width-12*s)/2,oy=(rect.height-7.3*s)/2;
+ stage.dispatchEvent(new w.PointerEvent(kind,{bubbles:true,pointerId:id,pointerType:'touch',button:0,clientX:rect.left+ox+x*s,clientY:rect.top+oy+y*s}));
+}
+const press=sel=>d.querySelector(sel).click();
+press('#new');check('pusty świat bez części',app.doc.parts.length===0&&app.doc.joints.length===0);
+press('[data-mode="box"]');p('pointerdown',4,3.6);p('pointerdown',5.8,3.6);
+press('[data-mode="disc"]');p('pointerdown',6.85,4.0);
+check('samodzielnie stworzono trzy materialne ciała',app.doc.parts.length===3&&app.doc.joints.length===0);
+const [a,b,c]=app.doc.parts;
+press('[data-mode="move"]');p('pointerdown',4,3.6);p('pointermove',4.6,3.6); // preview not committed
+check('drag ma natychmiastowy podgląd ciała',app.model.bodies.get(a.id).getPosition().x>4.5);
+check('podgląd nie przepisał źródła podczas trwania gestu',Math.abs(app.doc.parts[0].x-4)<1e-7);
+p('pointerdown',5.8,3.6,8); // second pointer must not steal gesture
+p('pointercancel',4.6,3.6);
+check('anulowany drag nie zmienia dokumentu ani świata',Math.abs(app.doc.parts[0].x-4)<1e-7&&Math.abs(app.model.bodies.get(a.id).getPosition().x-4)<1e-7);
+p('pointerdown',4,3.6);p('pointermove',4.1,3.6);p('pointerup',4.1,3.6);
+check('świadomy drag zmienia wyłącznie wybraną część',app.doc.parts[0].x>4.08&&Math.abs(app.doc.parts[1].x-5.8)<1e-7);
+press('#undo');
+check('undo przywraca wcześniejszą geometrię',Math.abs(app.doc.parts[0].x-4)<1e-7);
+p('pointerdown',4,3.6);p('pointerup',4,3.6);
+press('#sizeUp');press('#rotate');
+check('własna zmiana rozmiaru i obrotu',app.doc.parts[0].w>1.6&&app.doc.parts[0].angle>.2);
+press('#undo');press('#undo'); // restore original geometry
+check('seria cofnięć przywraca rozmiar i orientację',Math.abs(app.doc.parts[0].angle)<1e-7&&Math.abs(app.doc.parts[0].w-1.55)<1e-7);
+press('[data-mode="hinge"]');p('pointerdown',4.7,3.6);p('pointerdown',5.1,3.6);
+check('dwa własne ciała powiązano prawdziwym przegubem',app.doc.joints.length===1&&app.doc.joints[0].a===b.id&&app.doc.joints[0].b===a.id);
+p('pointerdown',4,3.6);p('pointerdown',2,2);
+check('zawias świata dodany niezależnym gestem',app.doc.joints.length===2&&app.doc.joints.some(x=>x.a===null&&x.b===a.id));
+press('[data-mode="motor"]');p('pointerdown',4,3.6);
+check('napęd aktywowany na przegubie świata',app.doc.joints.find(x=>x.a===null)?.motor===true);
+press('[data-mode="rail"]');p('pointerdown',6.85,4);p('pointermove',8.0,4);p('pointerup',8.0,4);
+check('utworzono niezależny przegub pryzmatyczny',app.doc.joints.some(x=>x.kind==='rail'&&x.b===c.id));
+const authored=app.doc,encoded=JSON.stringify(authored);
+const joined=app.build(authored);
+const unjoinedDoc=clone(authored);unjoinedDoc.joints=unjoinedDoc.joints.filter(j=>!(j.a===b.id&&j.b===a.id));
+const unjoined=app.build(unjoinedDoc);
+const yBefore=joined.bodies.get(b.id).getPosition();
+for(let i=0;i<720;i++){joined.world.step(1/120);unjoined.world.step(1/120)}
+const jEnd=joined.bodies.get(b.id).getPosition(),uEnd=unjoined.bodies.get(b.id).getPosition();
+const coupledDifference=Math.hypot(jEnd.x-uEnd.x,jEnd.y-uEnd.y);
+check('własny zawias między bryłami realnie zmienia ruch',coupledDifference>.2);
+check('ruch pryzmatycznej trzeciej części ograniczony do osi',Math.abs(joined.bodies.get(c.id).getPosition().y-4)<.05);
+check('próbkowanie fizyki nie mutuje autorskiego projektu',JSON.stringify(app.doc)===encoded);
+press('#play');check('runtime z własnego dokumentu rusza',app.playing);
+press('#play');check('powrót do authored po zatrzymaniu',!app.playing&&JSON.stringify(app.doc)===encoded);
+const invalid=clone(authored);invalid.parts[0].w=999;
+let rejected=false;try{app.build(invalid)}catch{rejected=true}
+check('fałszywy rozmiar odrzucony przed zastąpieniem świata',rejected&&JSON.stringify(app.doc)===encoded);
+const jsonFile=new w.File([encoded],'world.json',{type:'application/json'}),input=d.querySelector('#import'),dt=new w.DataTransfer();dt.items.add(jsonFile);
+press('#new');check('przed importem ponownie pusty świat',app.doc.parts.length===0);
+input.files=dt.files;input.dispatchEvent(new w.Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,130));
+check('import przywraca dowolną autorską topologię',app.doc.parts.length===3&&app.doc.joints.length===3);
+frame.style.width='390px';await new Promise(r=>setTimeout(r,160));
+check('wąski viewport zachowuje canvas',stage.getBoundingClientRect().width>=370);
+output.textContent=JSON.stringify({status:'PASS',checks:checks.length,physicalCouplingDifference:coupledDifference,scenarios:'empty-authoring, two-body hinge, world-hinge motor, rail, edit preview cancel, size, angle, import',scope:'synthetic touch-like PointerEvent; no physical device, Owner verdict or autonomous agent'},null,2)+'\n'+checks.map(x=>'✓ '+x.name).join('\n');
+}catch(e){output.textContent='FAIL '+String(e.stack||e)+'\n'+checks.map(x=>(x.pass?'✓ ':'✗ ')+x.name).join('\n')}
+})();
+</script></html>
