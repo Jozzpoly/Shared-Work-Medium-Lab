@@ -209,20 +209,28 @@ stage.addEventListener('pointerdown',e=>{
   return;
  }
 });
-stage.addEventListener('pointermove',e=>{if(!gesture||gesture.pointer!==e.pointerId)return;if(gesture.type==='move')gesture.end=xy(e);if(gesture.type==='rail')gesture.end=xy(e)});
+stage.addEventListener('pointermove',e=>{
+ if(!gesture||gesture.pointer!==e.pointerId)return;
+ const p=xy(e);gesture.end=p;
+ if(gesture.type==='move'){
+  const body=model.bodies.get(gesture.id),dx=p.x-gesture.start.x,dy=p.y-gesture.start.y;
+  body.setTransform(V(clamp(gesture.origin.x+dx,.25,W-.25),clamp(gesture.origin.y+dy,.25,H-.25)),gesture.origin.angle);
+ }
+});
 stage.addEventListener('pointerup',e=>{
  if(!gesture||gesture.pointer!==e.pointerId)return;
  const g=gesture,q=xy(e);gesture=null;
  if(g.type==='move'){
   const dx=q.x-g.start.x,dy=q.y-g.start.y;
   if(Math.hypot(dx,dy)>.05){
+   const jointed=doc.joints.some(j=>j.a===g.id||j.b===g.id);
    const done=edit(d=>{const p=d.parts.find(p=>p.id===g.id);p.x=clamp(g.origin.x+dx,.25,W-.25);p.y=clamp(g.origin.y+dy,.25,H-.25)});
-   say(done?'Przesunięto konstrukcyjną pozycję części. Wznowienie liczy świat od projektu.':'Bez zmiany pozycji.');
+   say(done?(jointed?'Przesunięto bryłę; istniejące kotwice przegubów nie przesunęły się automatycznie. Sprawdź relacje.':'Przesunięto konstrukcyjną pozycję części. Wznowienie liczy świat od projektu.'):'Bez zmiany pozycji.');
   }else say('Wybrano bryłę. Zmień rozmiar, obrót lub kotwicę.');
  }
  if(g.type==='rail'){const ok=addRail(g.id,g.start.x,g.start.y,q.x-g.start.x,q.y-g.start.y);say(ok?'Prowadnica utworzona. To prawdziwy przegub pryzmatyczny do świata.':'Nie dodano prowadnicy; wymagany świadomy kierunek i zgodne relacje.')}
 });
-stage.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId){gesture=null;say('Gest anulowany bez zmian.')}});
+stage.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId){gesture=null;rebuild();say('Gest anulowany bez zmian w projekcie.')}});
 for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));
 $('play').addEventListener('click',togglePlay);
 $('undo').addEventListener('click',undo);
@@ -280,10 +288,16 @@ function draw(){
  for(const p of doc.parts){
   const b=model.bodies.get(p.id),pos=b.getPosition();ctx.save();ctx.translate(pos.x,pos.y);ctx.rotate(b.getAngle());
   ctx.fillStyle=p.pinned?'#346d67':p.kind==='disc'?'#af905d':'#56849c';
-  ctx.strokeStyle=p.id===selected?'#ffda92':'#9ec5d5';ctx.lineWidth=p.id===selected?.06:.025;
+  ctx.strokeStyle=p.id===selected?'#ffda92':'#9ec5d5';ctx.lineWidth=p.id===selected ? .06 : .025;
   ctx.beginPath();if(p.kind==='box')ctx.rect(-p.w/2,-p.h/2,p.w,p.h);else ctx.arc(0,0,p.w/2,0,Math.PI*2);ctx.fill();ctx.stroke();
   ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(p.w/3,0);ctx.strokeStyle='#f8d891';ctx.lineWidth=.035;ctx.stroke();
   ctx.fillStyle='#f0f5f6';ctx.font='.18px system-ui';ctx.fillText(String(p.id),-.08,.07);ctx.restore();
+ }
+ // World-pivot markers must be drawn ABOVE the bodies; otherwise motor targets are invisible.
+ for(const j of doc.joints)if(j.kind==='hinge'){
+  ctx.beginPath();ctx.arc(j.x,j.y,.12,0,Math.PI*2);ctx.fillStyle=j.motor?'#eeb562':'#def0ae';
+  ctx.fill();ctx.strokeStyle='#142b35';ctx.lineWidth=.04;ctx.stroke();
+  if(j.motor){ctx.fillStyle='#f7dfb5';ctx.font='.23px system-ui';ctx.fillText('↻',j.x+.13,j.y-.13)}
  }
  if(pending){ctx.beginPath();ctx.arc(pending.at.x,pending.at.y,.15,0,Math.PI*2);ctx.strokeStyle='#f8c873';ctx.lineWidth=.045;ctx.stroke()}
  if(gesture?.type==='rail'){const end=gesture.end||gesture.start;ctx.beginPath();ctx.moveTo(gesture.start.x,gesture.start.y);ctx.lineTo(end.x,end.y);ctx.strokeStyle='#f1d17a';ctx.lineWidth=.055;ctx.stroke()}
