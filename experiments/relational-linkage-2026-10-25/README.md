@@ -6,13 +6,13 @@
 
 - [**ŁĄCZNIK — pojedynczy samowystarczalny HTML**](workbench.html). Nie wymaga zewnętrznych bibliotek ani serwera.
 - [Oryginalny przyrząd Jaskini v1](https://github.com/Jozzpoly/Jozz-Cave-Workbench/blob/85aaaaec7334428cbc85ce9379930e17b4f5d6cb/docs/przyrzad/KONTRAKT.md): strona może działać samodzielnie lub jako zwykły zewnętrzny `Przyrząd` w **oryginalnej** Jaskini. Odpowiada na `hi/state?`, przesyła wyłącznie liczniki i bieżącą odchyłkę więzów jako `state/signals`. Nie przenosi geometrii ani plików do hosta.
-- [Szybki podgląd publicznego eksperymentu](https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/8a87732f50dbabd3570591eaa658d4206ac2808e/experiments/relational-linkage-2026-10-25/workbench.html) — adres przygotowany do dobrowolnego otwarcia, **nieprzetestowany w żywej przeglądarce** w tej iteracji. Trzeci origin preview nie jest prywatnym hostingiem. Nigdy nie wprowadzać do tego egzemplarza wartościowych/prywatnych materiałów.
+- [Szybki podgląd publicznego eksperymentu](https://raw.githack.com/Jozzpoly/Shared-Work-Medium-Lab/144a6124f2c00ae0041da55d2279a49293512ef4/experiments/relational-linkage-2026-10-25/workbench.html) — adres przygotowany do dobrowolnego otwarcia, **nieprzetestowany w żywej przeglądarce** w tej iteracji. Trzeci origin preview nie jest prywatnym hostingiem. Nigdy nie wprowadzać do tego egzemplarza wartościowych/prywatnych materiałów.
 
 ## Jeden konkretny test swobody
 
 Początkowa scena ma cztery węzły, trzy sztywne pręty, dwie kotwice i jeden napęd. Użytkownik może **uruchomić**, **chwycić węzeł**, **dodać nowy punkt**, **połączyć go jednym lub kilkoma prętami**, **zmienić kotwice/napęd**, **usunąć zależność** i zobaczyć zmianę zachowania całego układu. Nie ma przygotowanej jedynej „prawidłowej” konstrukcji ani zaprogramowanej ścieżki animacji każdego ogniwa.
 
-Natywne gesty myszy/dotyku trafiają do jednego canvasa. Zależności pozostają aktywne także podczas chwytania i na pauzie. Świadomy `Zapisz JSON` / `Otwórz JSON` obsługuje wartościowy wariant. **Brak autosave jest świadomą granicą tego badania, nie oceną wartości eksportu.** Przywracanie importu sprawdza referencje, duplikaty i zakresy danych przed zamianą aktywnego modelu. Cofnięcie dotyczy autorskiej zmiany, nie każdej klatki symulacji.
+Natywne gesty myszy/dotyku trafiają do jednego canvasa. Zależności pozostają aktywne także podczas chwytania i na pauzie. Świadomy `Zapisz JSON` / `Otwórz JSON` obsługuje wartościowy wariant. **Brak autosave jest świadomą granicą tego badania, nie oceną wartości eksportu.** Przywracanie importu sprawdza referencje, duplikaty i zakresy danych przed zamianą aktywnego modelu. Cofnięcie dotyczy autorskiej zmiany, nie każdej klatki symulacji. Aktywne przeciąganie należy tylko do jednego `pointerId`; drugi palec nie może go zakończyć.
 
 ## Co jest prawdziwe, a co uproszczone
 
@@ -30,7 +30,7 @@ node test.cjs
 node test-ui.cjs
 ```
 
-**21/21** testów wykonanych na *odczytanych z GitHuba bajtach* tej gałęzi: 12 obliczeń i warunków danych + 9 syntetycznych zdarzeń UI / protokołu Jaskini. Dodatkowo lokalny prototyp przed wypchnięciem przeszedł 13 + 10 testów źródła. Stanowisko Chromium w obecnym środowisku odrzuca nawet `data:` przez `ERR_BLOCKED_BY_ADMINISTRATOR`; **nie było rzeczywistego testu renderingu, dotyku, fizycznego feelu, osadzenia w Operze ani oceny Ownera**. Nie przedstawiać PASS z JS jako PASS produktu.
+**22/22** testów wykonanych na *odczytanych z GitHuba bajtach* tej gałęzi: 12 obliczeń i warunków danych + 10 syntetycznych zdarzeń UI / protokołu Jaskini. Dodatkowo lokalny prototyp przed wypchnięciem przeszedł 13 + 10 testów źródła. Stanowisko Chromium w obecnym środowisku odrzuca nawet `data:` przez `ERR_BLOCKED_BY_ADMINISTRATOR`; **nie było rzeczywistego testu renderingu, dotyku, fizycznego feelu, osadzenia w Operze ani oceny Ownera**. Nie przedstawiać PASS z JS jako PASS produktu.
 
 **Test rozstrzygający, jeśli będzie bezpieczna okazja:** bez instruktażu i bez otwierania przez agenta nowej karty bez wyraźnej wartości, czy w realnym przyrządzie Owner potrafi w jednej krótkiej spontanicznej sesji przejść od obserwacji przykładu do **własnego, działającego układu relacji**? Czy przewidywanie i naprawianie jego zachowania jest czytelne? Czy wariant bez napędu nadal daje interesującą manipulację? Jeżeli narzędzie pozostaje zestawem niezrozumiałych kontrolek albo zachowanie jest zbyt sztuczne, zamknąć to jako *FAIL* i zachować dowód. Nie tworzyć automatycznie kolejnego generica.
 
