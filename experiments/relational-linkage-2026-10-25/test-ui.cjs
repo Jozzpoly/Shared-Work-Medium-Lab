@@ -98,12 +98,33 @@ check('UI produces distinct labelled design and pose files without mutating sour
  assert.equal(JSON.stringify(model.authored()),frozen);
 });
 check('intentional edit changes authored source and undo returns to last source, not live pose',()=>{
- const source=JSON.stringify(model.authored());
+ const source=JSON.stringify(model.authored()),oldNodes=model.authored().points;
  handlers.get('tool-point-click')();pointer('pointerdown',710,430);
+ assert.deepEqual(model.authored().points.slice(0,4),oldNodes); // no unrelated live motion baked into rest
  assert.notEqual(JSON.stringify(model.authored()),source);
  assert.equal(model.authored().points.length,5);
  handlers.get('undo-click')();
  assert.equal(model.running,false);assert.equal(JSON.stringify(model.authored()),source);
  assert.equal(model.nodes.length,4);
+});
+check('pin invalidation updates source motor and undo restores prior design',()=>{
+ model.load(win.LINKAGE_CORE.fresh());
+ const source=JSON.stringify(model.authored());
+ handlers.get('tool-pin-click')();pointer('pointerdown',290,260);
+ assert.equal(model.motor,null);assert.equal(model.authored().motor,null);
+ assert.equal(model.authored().points.find(p=>p.id===2).pin,true);
+ handlers.get('undo-click')();
+ assert.equal(JSON.stringify(model.authored()),source);
+ assert.equal(model.motor,1);assert.equal(model.node(2).pin,false);
+});
+check('dragged source change does not bake other simulated or settled node positions',()=>{
+ model.load(win.LINKAGE_CORE.fresh());
+ const start=model.authored();
+ handlers.get('tool-move-click')();pointer('pointerdown',290,260);
+ pointer('pointermove',345,245);pointer('pointerup',345,245);
+ assert.equal(model.authored().points[1].x,345);
+ assert.deepEqual(model.authored().points.filter(p=>p.id!==2),start.points.filter(p=>p.id!==2));
+ handlers.get('undo-click')();
+ assert.equal(JSON.stringify(model.authored()),JSON.stringify(start));
 });
 console.log('PASS '+cases.length+'/'+cases.length+' synthetic UI cases (not live Chromium)');
