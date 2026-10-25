@@ -127,4 +127,21 @@ check('dragged source change does not bake other simulated or settled node posit
  handlers.get('undo-click')();
  assert.equal(JSON.stringify(model.authored()),JSON.stringify(start));
 });
+check('live-added rod exposes strained source rather than silently promising same displayed pose',()=>{
+ model.load(win.LINKAGE_CORE.fresh());model.running=true;
+ for(let i=0;i<400;i++)model.step(win.LINKAGE_CORE.DT);
+ const p=model.node(2),q=model.node(4);
+ handlers.get('tool-rod-click')();
+ pointer('pointerdown',p.x,p.y);pointer('pointerup',p.x,p.y);
+ pointer('pointerdown',q.x,q.y);pointer('pointerup',q.x,q.y);
+ const authored=new win.LINKAGE_CORE.Linkage(model.authored());
+ assert.equal(authored.node(2).x,290);
+ assert.ok(authored.maxError()>100);
+ const count=savedBlobs.length;
+ handlers.get('export-design-click')();
+ assert.equal(savedBlobs.length,count+1);
+ assert.ok(el('status').textContent.includes('więzy są napięte'));
+ const restored=new win.LINKAGE_CORE.Linkage(JSON.parse(savedBlobs[count].body).document);
+ assert.ok(restored.maxError()>100);
+});
 console.log('PASS '+cases.length+'/'+cases.length+' synthetic UI cases (not live Chromium)');
