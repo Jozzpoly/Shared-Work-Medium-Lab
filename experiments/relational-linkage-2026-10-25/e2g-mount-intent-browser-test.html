@@ -1,0 +1,78 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><title>E2g · rzeczywista edycja mocowania</title>
+<style>body{font:14px/1.4 system-ui;background:#0c1923;color:#e8f3f5;margin:14px}
+pre{white-space:pre-wrap;background:#193340;border-radius:8px;padding:12px}
+iframe{height:520px;width:100%;max-width:1000px;border:1px solid #456875}</style>
+<h2>E2g · Gest i jawna intencja mocowania</h2><p>Rzeczywisty HTML E2e i biblioteka fizyki, zdarzenia PointerEvent symulowane. Test stanów i operacji, nie test ergonomii ludzkiej dłoni.</p>
+<pre role="status" id="report">Start…</pre><iframe id="app" src="./e2e-material-workshop.html" title="Warsztat"></iframe>
+<script>
+(async()=>{
+const report=document.querySelector('#report'),checks=[];
+function check(label,pass){checks.push({label,pass:!!pass});if(!pass)throw Error('FAIL '+label)}
+const close=(a,b,eps=1e-5)=>Math.abs(a-b)<eps;
+const clone=x=>JSON.parse(JSON.stringify(x));
+const loc=(doc)=>{
+ const p=doc.parts.find(p=>p.id===1),j=doc.joints.find(j=>j.id===2);
+ const dx=j.x-p.x,dy=j.y-p.y,c=Math.cos(p.angle),s=Math.sin(p.angle);
+ return {x:dx*c+dy*s,y:-dx*s+dy*c};
+};
+try{
+const frame=document.querySelector('#app');
+await new Promise((ok,bad)=>{if(frame.contentWindow?.E2E?.model)return ok();frame.addEventListener('load',ok,{once:true});setTimeout(()=>bad(Error('timeout E2e')),12000)});
+const w=frame.contentWindow,d=w.document,a=w.E2E,canvas=d.querySelector('#stage');
+canvas.setPointerCapture=()=>{};
+const source={
+ schema:'medium.material-workshop.v0',
+ parts:[{id:1,kind:'box',x:4,y:3.1,w:2,h:.3,angle:0,pinned:false}],
+ joints:[{id:2,kind:'hinge',a:null,b:1,x:4.95,y:3.1,dx:1,dy:0,motor:false}]
+};
+async function feed(val){
+ const file=new w.File([JSON.stringify(val)],'test.json',{type:'application/json'}),dt=new w.DataTransfer();
+ dt.items.add(file);const input=d.querySelector('#import');
+ input.files=dt.files;input.dispatchEvent(new w.Event('change',{bubbles:true}));
+ await new Promise(r=>setTimeout(r,100));
+}
+function pointer(type,x,y){
+ const rect=canvas.getBoundingClientRect(),s=Math.min(rect.width/12,rect.height/7.3),ox=(rect.width-12*s)/2,oy=(rect.height-7.3*s)/2;
+ canvas.dispatchEvent(new w.PointerEvent(type,{bubbles:true,pointerId:41,button:0,pointerType:'mouse',
+ clientX:rect.left+ox+x*s,clientY:rect.top+oy+y*s}));
+}
+function select(){a.setMode('move');const p=a.doc.parts.find(p=>p.id===1);pointer('pointerdown',p.x,p.y);pointer('pointerup',p.x,p.y)}
+const btn=q=>d.querySelector(q),pivot=()=>a.doc.joints[0],body=()=>a.doc.parts[0];
+await feed(source);check('zaimportowano jedną bryłę i jeden zawias',a.doc.parts.length===1&&a.doc.joints.length===1);
+let original=JSON.stringify(a.doc);
+select();check('narzędzie zachowania mocowania ujawnia się dla jednego zawiasu',!btn('#mountIntent').hidden);
+check('domyślnie zachowanie mocowania jest WYŁ.',!btn('#mountIntent').classList.contains('active'));
+btn('#rotate').click();
+check('dotychczasowy obrót zmienia lokalny punkt zaczepienia',Math.abs(loc(a.doc).y)>.2);
+check('dotychczasowy obrót pozostawia oś w świecie',close(pivot().x,4.95)&&close(pivot().y,3.1));
+a.undo();check('undo przywraca projekt przed obrotem',JSON.stringify(a.doc)===original);
+select();btn('#mountIntent').click();
+check('użytkownik jawnie włącza zachowanie mocowania',btn('#mountIntent').classList.contains('active'));
+btn('#rotate').click();
+check('obrót wokół zawiasu zachowuje autorskie lokalne mocowanie',close(loc(a.doc).x,.95)&&close(loc(a.doc).y,0));
+check('obrót wokół zawiasu przemieszcza środek bryły',Math.hypot(body().x-4,body().y-3.1)>.2);
+check('globalny zawias zachowuje te same współrzędne i tożsamość',pivot().id===2&&close(pivot().x,4.95)&&close(pivot().y,3.1));
+const reloaded=a.build(a.doc);
+for(let i=0;i<240;i++)reloaded.world.step(1/120);
+check('przekształcony projekt uruchamia się w silniku',Number.isFinite(reloaded.bodies.get(1).getAngle()));
+a.undo();check('undo zachowanego mocowania jest atomowe',JSON.stringify(a.doc)===original);
+select();btn('#sizeDown').click();
+check('zwykły skrót geometrii może pozostawić mocowanie poza bryłą',Math.abs(loc(a.doc).x)>body().w/2);
+a.undo();select();btn('#mountIntent').click();btn('#sizeDown').click();
+check('skrócenie z zachowaniem mocowania utrzymuje pozycję w materiale',Math.abs(loc(a.doc).x)<=body().w/2+1e-5);
+check('skala utrzymuje bezwymiarowy punkt mocowania',close(loc(a.doc).x/(body().w/2),.95));
+check('podczas skali oś świata pozostaje bez zmian',close(pivot().x,4.95)&&close(pivot().y,3.1));
+const archived=clone(a.doc);await feed(archived);
+check('import utrzymuje zrekonstruowaną więź i geometrię',close(loc(a.doc).x/(body().w/2),.95));
+a.undo();check('undo importu nie gubi źródła',close(loc(a.doc).x/(body().w/2),.95));
+const doc2=clone(source);
+doc2.parts.push({id:3,kind:'box',x:6,y:3.1,w:1,h:.3,angle:0,pinned:false});
+doc2.joints.push({id:4,kind:'hinge',a:3,b:1,x:5,y:3.1,dx:1,dy:0,motor:false});
+await feed(doc2);select();
+check('dla dwóch przegubów narzędzie zachowania mocowania jest ukryte',btn('#mountIntent').hidden);
+const pre=JSON.stringify(a.doc);btn('#mountIntent').click();
+check('ukryty przycisk nie zmienia danych ani nie aktywuje niedozwolonego trybu',JSON.stringify(a.doc)===pre&&!btn('#mountIntent').classList.contains('active'));
+report.textContent=JSON.stringify({status:'PASS',checks:checks.length,qualified:'exactly one world hinge, explicit UI transform choice',limitations:'synthetic pointer, scripted geometry, no physical touch, Owner feel or multi-joint rotation semantics'},null,2)+'\n'+checks.map(x=>'✓ '+x.label).join('\n');
+}catch(err){report.textContent='FAIL '+String(err.stack||err)+'\n'+checks.map(x=>(x.pass?'✓ ':'✗ ')+x.label).join('\n')}
+})();
+</script></html>
