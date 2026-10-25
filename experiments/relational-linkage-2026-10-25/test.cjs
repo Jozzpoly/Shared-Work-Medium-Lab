@@ -59,6 +59,16 @@ test('impossible anchored geometry remains explicitly strained, not fake-solved'
  assert.ok(m.maxError()>6);assert.equal(m.node(4).x,800);
  assert.equal(m.rods.find(x=>x.id===r.id).length,260);
 });
+test('exposes current source-versus-runtime snapshot boundary after pure simulation',()=>{
+ const m=new Linkage(),start=m.serial();
+ m.running=true;for(let i=0;i<400;i++)m.step(DT);
+ const after=m.serial();
+ assert.deepEqual(after.rods,start.rods);assert.equal(after.motor,start.motor);
+ assert.ok(after.points.some((p,i)=>Math.hypot(p.x-start.points[i].x,p.y-start.points[i].y)>10));
+ const clone=new Linkage(JSON.parse(JSON.stringify(after)));
+ assert.equal(JSON.stringify(clone.serial()),JSON.stringify(after));
+ // This PASS documents a dangerous semantic gap; it is NOT export-of-authored-rest acceptance.
+});
 test('clearing last motor link clears the motor',()=>{
  const m=new Linkage();assert.ok(m.removeRod(1));assert.equal(m.motor,null);
 });
