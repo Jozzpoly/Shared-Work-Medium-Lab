@@ -1,0 +1,39 @@
+# E2e · od mechanicznego dowodu do bezpośredniego authoringu (25.10.2026)
+
+**Status: ADEQUATE jako techniczny, izolowany falsyfikator; Owner EXPERIENCE i współautorstwo NIEPOTWIERDZONE.**
+Nie jest docelowym Studiem/Jozz Vehicle/Jaskinią ani odpowiedzią na pytanie o wybór solvera.
+
+## Dlaczego ten etap
+
+W E2b autor mógł narysować punktową prowadnicę, ale nie otrzymywał materialnego kontaktu. E2c pokazał, że sam niepołączony punkt w grafie więzów nie reaguje na napędzany, bliski element. E2d pokazał natywne przeguby i kontakt w Planck, lecz był **zaprogramowanym mechanizmem**. E2e bada węższe, mocniejsze pytanie: czy da się tworzyć **własne ciała i przeguby z gestów**, uruchamiać je jako prawdziwą fizykę i zachować edytowalny projekt bez cichego przepisania go przez runtime.
+
+**[Otwórz warsztat E2e](e2e-material-workshop.html)** · **[portable, edytowalny przykład JSON](e2e-authored-specimen.json)** · [browser rehearsal: autor→kontakt→transfer](e2e-browser-rehearsal.html) · [empty-world falsifier](e2e-empty-world-falsifier.html).
+
+## Faktyczne wyniki, z granicą SHAs
+
+- **20/20 real-browser** na plikach SHA **`156f9a54fb9d9cfa76325bbef437e2ff3f85a6aa`**: interfejs syntetycznymi PointerEvent utworzył world hinge, włączył motor, w realnym Planck uzyskał **4.7255 jednostki** przemieszczenia niezwiązanego cargo; bez motoru **0**, poza torem kontaktu **0**. Stop wrócił do authored, gest przesunął bryłę, undo, world rail, staged save/import, recovery drugiego runtime przeszły. **To nie jest sprawdzian swobodnej jakości UX ani prawdziwego urządzenia.**
+- **22/22 real-browser** na plikach SHA **`fc89686d3cef92baf722c14abd335556a786f950`**: od pustego świata przez UI dodano trzy ciała, joint między dwoma ciałami, osobny world hinge i motor, prowadnicę do świata, zmianę kąta/rozmiaru, podgląd przeciągania, anulowanie gestu, undo, import i czasowo uruchamianą symulację. Kontrolowany brak złącza zmienił wynik po 720 krokach o **1.83779 jednostki**. To nie jest dowód, że człowiek sam odkrywa te możliwości bez instrukcji.
+- Po tych dwóch PASS poprawiono w izolowanej gałęzi: **kontekstowy panel edycji** (mniej domyślnych przycisków), atomowe fizyczne staging przed zmianą dokumentu, widoczne uchwyty motoru, ciągły drag preview i jego rollback po anulowaniu, ochronę przed zbyt sprzecznymi world joints oraz świadome umieszczanie nakładających się części.
+- **LIVE QA NAJNOWSZEGO HEAD NIEPOTWIERDZONE:** w trakcie ponownych testów Opera zgłosiła `Browser not connected`. Dla bieżącego HTML odczytanego z GitHuba sprawdzono kompilację obu skryptów przez JS `Function`, brak duplikatów `id` i obecność wszystkich krytycznych gałęzi zmian, ale to **nie jest browser/runtime PASS**. Nie propagować poprzednich 20/20 i 22/22 jako nowej walidacji ostatniego commit SHA.
+
+## Co rzeczywiście jest dostępne
+
+Wąska wersja 2D: belka lub koło, zmiana rozmiaru i obrotu, dodawanie/przesuwanie/usuwanie ciał, zawias do świata lub między wybranymi ciałami, pryzmatyczna prowadnica w dowolnym kierunku do świata, motor na zawiasie, realny Planck kontakt. `Zapisz projekt` przenosi tylko świadomie authorowaną strukturę (`medium.material-workshop.v0`); `Start` uruchamia fizykę z projektu; `Stop` jawnie wraca do projektu, więc chwila dynamiki nie staje się ukrytą intencją autora. Cofanie edycji źródłowych. Import jest walidowany i fizycznie staged przed zmianą aktywnego projektu. Nowy świat może być całkiem pusty.
+
+Przykład JSON jest **prawdziwym edytowalnym dokumentem projektu**, bez zależności od rozmowy. Umożliwia następnemu agentowi odzyskanie mechanizmu i świadome zmiany, ale sam fakt istnienia pliku NIE potwierdza niezależnej, zimnej agentowej kontynuacji.
+
+## Najważniejsze otwarte FAIL / ryzyka
+
+1. **Najbardziej brakuje jakości obsługi.** Jest zbyt wiele trybów. Zawias między ciałami wymaga dwóch trafionych miejsc blisko siebie, a przy nakładających się bryłach wybór jest niejednoznaczny. Zmniejszenie liczby przycisków nie dowodzi naturalnego authoringu.
+2. **Brak live-edit → test → live-edit bez resetu.** To świadoma, uczciwa granica E1 (projekt vs chwilowa poza), ale może być materialnym Owner FAIL. Należy podważać tę decyzję doświadczeniem, nie usuwać jej po cichu.
+3. **Fizyka ograniczona:** brak zaawansowanych brył, 3D, prawdziwych component assets, świata reagującego na trwałe zmiany, przenośnych lokalnych ramek przegubów jako pełnego języka authoringu, grawitacja celowo zero, motor stały, brak wielopunktowej manipulacji, mało kontroli nad parametrami. Zbieżność rozwiązania fizycznego przy sprzecznych więzach nie jest szeroko zbadana.
+4. **Dostarczenie:** Planck `1.5.1` przez wersjonowany CDN, NIE byte-pinned/offline; brak testu realnego telefonu, Jaskini/Operowego `Przyrządu` i bezpiecznej trwałości na różnych originach. Hostowany preview to **publiczny eksperyment, nie prywatny nośnik**; bez materiałów osobistych.
+5. **Brak Owner PASS i cold-agent PASS.** Testy zostały napisane przez tego samego agenta i deterministycznie odgrywają przygotowane zadania. Dalsze automatyczne zielone metryki nie zmienią tej granicy.
+
+## Co dalej, bez rozpędu
+
+**Nie** rozwijać E2e automatycznie w ogólny builder ani wdrażać do Jaskini. **Najbliższe sensowne kryterium:** gdy realnie jest możliwy bezpieczny, dobrowolny first-contact, obserwować swobodne zbudowanie własnego, nieprzewidzianego mechanizmu i jego przebudowę. Jeżeli nowy język pozostaje serią niewygodnych przycisków, **FAIL** mimo realnej fizyki. W razie dalszej pracy bez Ownera lepsze są testy autorskich semantyk i cold-agent kontynuacji z portable JSON niż produkowanie coraz lepszego solver demo.
+
+Cel wyższego rzędu: **Jaskinia jest jednym Domem; Medium ma otwierać działanie ludzi i agentów bez konkurującej rzeczywistości, bez wymuszania monolitu i bez zmieniania autonomicznych projektów w nasze laboratorium.**
+
+Żadnego merge/PR do Jaskini, Studia, ReflexBrain, JV i Medium main, ani automatycznego hostingu. Wszystkie zmiany mieszczą się w folderze izolowanych eksperymentów gałęzi Medium.
