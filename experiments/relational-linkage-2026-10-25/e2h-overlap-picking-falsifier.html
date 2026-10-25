@@ -1,0 +1,26 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><title>E2h · wybor nakladajacych sie czesci</title>
+<style>body{font:14px/1.4 system-ui;background:#0c1b24;color:#e8f2f3;padding:14px}pre{background:#193540;padding:14px;border-radius:8px;white-space:pre-wrap}iframe{width:100%;height:490px;max-width:1060px;border:1px solid #486778}</style>
+<h2>E2h — co naprawdę wskazuje kliknięcie?</h2><p>Narysowane kolejno: duża belka, a na niej małe koło. Obie części obejmują środek (4,3); małe koło jest rysowane na wierzchu. Test wykonuje prawdziwy import i sprawdza wybór w źródłowym edytorze.</p>
+<pre role="status" id="result">Uruchamianie…</pre><iframe id="app" src="./e2e-material-workshop.html" title="Źródłowy warsztat"></iframe>
+<script>
+(async()=>{
+const el=document.querySelector('#result');try{
+const f=document.querySelector('#app');
+await new Promise((done,fail)=>{if(f.contentWindow?.E2E?.model)return done();f.addEventListener('load',done,{once:true});setTimeout(()=>fail(Error('Load timeout')),12000)});
+const w=f.contentWindow,d=w.document,app=w.E2E;
+const scene={schema:'medium.material-workshop.v0',parts:[
+ {id:1,kind:'box',x:4,y:3,w:3,h:1.6,angle:0,pinned:false},
+ {id:2,kind:'disc',x:4,y:3,w:.6,h:.6,angle:0,pinned:false}],joints:[]};
+const input=d.querySelector('#import'),file=new w.File([JSON.stringify(scene)],'scene.json',{type:'application/json'}),dt=new w.DataTransfer();
+dt.items.add(file);input.files=dt.files;input.dispatchEvent(new w.Event('change',{bubbles:true}));
+await new Promise(r=>setTimeout(r,130));
+const direct=app.hit({x:4,y:3}),outer=app.hit({x:5.25,y:3});
+const lastDrawn=app.doc.parts.at(-1).id;
+if(app.doc.parts.length!==2||outer!==1)throw Error('Niepoprawny setup');
+const expectedTop=2;
+const status=direct===expectedTop?'TARGET BEHAVIOR':'MATERIAL FINDING';
+el.textContent=JSON.stringify({status,expectedVisibleTop:expectedTop,actuallyPickedAtOverlap:direct,largeBodyStillPickedOutsideSmall:outer,drawOrder:app.doc.parts.map(x=>x.id),limitation:'Source picking, not independent human click evaluation'},null,2)+
+(direct!==expectedTop?'\nClick at center currently chooses the occluding background body.':'\nVisual order and hit choice now align.');
+}catch(err){el.textContent='FAIL TEST '+String(err.stack||err)}
+})();
+</script></html>
