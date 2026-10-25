@@ -1,4 +1,18 @@
 # Medium / warsztat twórczej sprawczości — mapa kampanii, 25.10.2026
+## E1 CHECKPOINT — po pierwszej kampanii implementacyjnej (25.10.2026)
+
+**Wynik: ADEQUATE jako rozdzielenie danych; Owner EXPERIENCE nadal NIEPOTWIERDZONE.** 41/41 odtwarzalnych kontroli źródłowego JS na aktualnych plikach z GitHuba (25 model/dane + 16 gesty/UI). To nie rzeczywisty test Opery ani renderingu. E1 obaliło *dwa kolejne naiwne modele*:
+
+1. **Stary `serial()`:** po 400 krokach bez edycji zapisywał bieżącą pozę jako nową pozycję startową, przez co eksport pozornie 'projektu' tracił początkową geometrię.
+2. **Pierwszy `design` snapshot na każde kliknięcie:** samo dodanie punktu podczas ruchu utrwalało **także nieedytowane węzły** (np. węzeł 2: `290,260 → 168.48,157.99`), a więc nadal przypisywało autorowi pozycje osiągnięte wyłącznie przez symulację.
+
+**Obecny kandydat E1:** `Linkage.authored()` przechowuje niezależny projekt. Nie zmienia się pod wpływem autonomicznych kroków silnika. Jawne operacje edycji (`node-added/moved/deleted`, `rod-added/deleted`, `pin-set`, `motor-set`) zmieniają **tylko wskazane pola źródła**, a nie przypadkowo aktualną pozycję reszty mechanizmu. Dwa **świadome** przyciski: `Zapisz projekt` i `Zapisz pozę`; dokument transferu `medium.linkage.transfer.v1` niesie `kind: design|pose`, zagnieżdżony format materiału nadal jest `medium.linkage.v1`. Surowe legacy v1 można otworzyć, ale status 'projekt/poza' pozostaje nieznany i jest jawnie komunikowany. Import pozy ustanawia ją jako *nowy punkt startowy*, nie wskrzesza prędkości, historii ani upływu czasu. Cofnięcie dotyczy autorskiego dokumentu. Oddzielny nowy kontekst JS potrafi odczytać oba typy i odtworzyć różne pozycje węzłów z zachowaniem topologii. **Nie jest to dowód, że zimny agent zrozumiał intencję.**
+
+**Nierozwiązana sprzeczność:** połączenie dwóch elementów *podczas ruchu* zachowuje zamierzoną długość pręta zmierzoną w bieżącej pozie (przykład `317.63`), ale projekt nadal przechowuje dotychczasowe, niezmienione pozycje końcówek (`194.16` odległości). Po ponownym otwarciu projektu daje to **~123.47 jednostek naprężenia**. W bieżącym świecie nowy pręt jest poprawny. Bez wyraźnego wyboru nie istnieje automatycznie jedno prawdziwe znaczenie 'zachowaj konstrukcję': można chcieć zachować stare rest, nowe live albo przebudować część źródła. Przy eksporcie projektu UI **ostrzega o sprzecznych więzach** i pozwala zamiast tego świadomie zapisać pozę. NIE ogłaszać rozwiązania semantyki live-edit po wyłącznie zielonych testach. To najlepszy kandydat do rzeczywistej decyzji Ownera / testu feelu.
+
+**Najbliższy ruch:** porównać krótką, konkretną interakcję `modyfikuję mechanizm w ruchu → zapisuję → otwieram → poprawiam` dla obu interpretacji. Jeżeli zgodność odtwarzanego zachowania jest ważniejsza od zachowania wcześniejszego projektu — source-op polityka może przegrać. Jeśli połączenia generują nieczytelne odchyłki, rozważyć świadome `adopt live pose` jako osobną czynność, nie cichą aktualizację. Nie przechodzić automatycznie do E2 ani jednego docelowego silnika.
+
+
 
 **Dokument badawczy dla agentów, nie decyzja Ownera, backlog ani specyfikacja architektury.** Punkt wyjścia: [ŁĄCZNIK](README.md), [pierwszy egzemplarz](workbench.html), jego [testy modelu](test.cjs) i [gestów](test-ui.cjs). Pisane po odzyskaniu historii współpracy z projektu Medium, odczytaniu Jaskini i Opusowego dokumentu *Jaskinia — druga runda* w otwartej Operze, porównaniu Ruch v6.4.1, ReflexBrain R8, ŚLAD/PRZESMYK, dotychczasowych aspiracji Studio/Jozz Vehicle oraz oficjalnych docs przegubów/solwerów. Zewnętrzne wnioski innych agentów są **hipotezami**, dopóki Owner ich nie potwierdzi lub próba nie da właściwego dowodu.
 
