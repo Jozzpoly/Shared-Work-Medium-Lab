@@ -114,10 +114,10 @@ function edit(fn){
 }
 function getPart(id){return doc.parts.find(p=>p.id===id)}
 function activeId(){return selected&&getPart(selected)?selected:null}
-function setMode(next){mode=next;pending=null;gesture=null;for(const el of document.querySelectorAll('[data-mode]'))el.classList.toggle('active',el.dataset.mode===mode);say({
+function setMode(next){if(gesture?.type==='move')rebuild();mode=next;pending=null;gesture=null;for(const el of document.querySelectorAll('[data-mode]'))el.classList.toggle('active',el.dataset.mode===mode);say({
  move:'Wybierz bryłę i przeciągnij ją. Rozmiar i obrót zmienisz przyciskami.',
- box:'Kliknij puste miejsce: utworzysz nową fizyczną belkę.',
- disc:'Kliknij puste miejsce: utworzysz nowe fizyczne koło.',
+ box:'Kliknij dowolne miejsce: utworzysz belkę, także na innej części (mogą pojawić się fizyczne kolizje).',
+ disc:'Kliknij dowolne miejsce: utworzysz koło, także na istniejącej części.',
  hinge:'Kliknij bryłę, potem puste tło (zawias do świata) albo inną bryłę (zawias między częściami).',
  rail:'Przeciągnij od wybranej bryły w kierunku dozwolonego przesuwu.',
  motor:'Kliknij mały znacznik istniejącego zawiasu, żeby włączyć/wyłączyć fizyczny napęd.',
@@ -164,6 +164,7 @@ function addHinge(a,b,x,y){
   const part=d.parts.find(p=>p.id===a);
   if(!part||part.pinned||b!==null&&(!d.parts.some(p=>p.id===b)||d.parts.find(p=>p.id===b).pinned))return false;
   if(d.joints.some(j=>j.kind==='hinge'&&((j.a===a&&j.b===b)||(j.a===b&&j.b===a))&&dist(j,{x,y})<.25))return false;
+  if(b===null&&d.joints.some(j=>j.b===a&&j.a===null))return false;
   d.joints.push({id,kind:'hinge',a:b,b:a,x,y,dx:1,dy:0,motor:false});
  });
 }
@@ -172,11 +173,11 @@ function addRail(id,x,y,dx,dy){
  const jid=nextId++;
  return edit(d=>{
   const p=d.parts.find(q=>q.id===id);
-  if(!p||p.pinned||d.joints.some(j=>j.b===id&&(j.kind==='rail'||j.a===null&&j.kind==='hinge'&&j.motor)))return false;
+  if(!p||p.pinned||d.joints.some(j=>j.b===id&&(j.kind==='rail'||j.a===null&&j.kind==='hinge')))return false;
   d.joints.push({id:jid,kind:'rail',a:null,b:id,x,y,dx:dx/n,dy:dy/n,motor:false});
  });
 }
-function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
+function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;pending=null;gesture=null;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
 stage.addEventListener('pointerdown',e=>{
  if(playing||e.button!==undefined&&e.button!==0||gesture!==null)return;
  stage.focus({preventScroll:true});
@@ -187,8 +188,8 @@ stage.addEventListener('pointerdown',e=>{
   else say('Wybierz część.');return;
  }
  if(mode==='box'||mode==='disc'){
-  if(!id&&q.x>.3&&q.x<W-.3&&q.y>.3&&q.y<H-.3&&edit(d=>d.parts.push({id:nextId++,kind:mode,x:q.x,y:q.y,w:mode==='disc'?.88:1.55,h:mode==='disc'?.88:.38,angle:0,pinned:false})))say('Dodano część: można ją przesunąć, obrócić, połączyć albo wykorzystać w kontakcie.');
-  else say('Dotknij pustej przestrzeni w granicach warsztatu.');return;
+  if(q.x>.3&&q.x<W-.3&&q.y>.3&&q.y<H-.3&&edit(d=>d.parts.push({id:nextId++,kind:mode,x:q.x,y:q.y,w:mode==='disc'?.88:1.55,h:mode==='disc'?.88:.38,angle:0,pinned:false})))say('Dodano część: można ją przesunąć, obrócić, połączyć albo wykorzystać w kontakcie.');
+  else say('Wybierz miejsce wewnątrz obszaru warsztatu.');return;
  }
  if(mode==='hinge'){
   if(pending===null){if(!id){say('Najpierw wybierz bryłę.');return}pending={id,at:q};say('Wskaż drugą bryłę przy miejscu styku lub puste tło dla zawiasu do świata.');return}
@@ -231,7 +232,7 @@ stage.addEventListener('pointerup',e=>{
    const jointed=doc.joints.some(j=>j.a===g.id||j.b===g.id);
    const done=edit(d=>{const p=d.parts.find(p=>p.id===g.id);p.x=clamp(g.origin.x+dx,.25,W-.25);p.y=clamp(g.origin.y+dy,.25,H-.25)});
    say(done?(jointed?'Przesunięto bryłę; istniejące kotwice przegubów nie przesunęły się automatycznie. Sprawdź relacje.':'Przesunięto konstrukcyjną pozycję części. Wznowienie liczy świat od projektu.'):'Bez zmiany pozycji.');
-  }else say('Wybrano bryłę. Zmień rozmiar, obrót lub kotwicę.');
+  }else{rebuild();say('Wybrano bryłę. Zmień rozmiar, obrót lub kotwicę.')}
  }
  if(g.type==='rail'){const ok=addRail(g.id,g.start.x,g.start.y,q.x-g.start.x,q.y-g.start.y);say(ok?'Prowadnica utworzona. To prawdziwy przegub pryzmatyczny do świata.':'Nie dodano prowadnicy; wymagany świadomy kierunek i zgodne relacje.')}
 });
@@ -239,7 +240,7 @@ stage.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId){ge
 for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));
 $('play').addEventListener('click',togglePlay);
 $('undo').addEventListener('click',undo);
-$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
+$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;gesture=null;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
 function changeSelected(kind){
  const id=activeId();if(!id||playing){say('Najpierw zaznacz bryłę w trybie Chwyć.');return}
  const ok=edit(d=>{const p=d.parts.find(p=>p.id===id);
@@ -263,7 +264,7 @@ $('save').addEventListener('click',()=>{
 $('import').addEventListener('change',async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>100000){say('Plik zbyt duży.');return}
  try{const candidate=validate(JSON.parse(await file.text())),staged=build(candidate),before=JSON.stringify(doc);
-  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;metrics();
+  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;gesture=null;metrics();
   say('Odzyskano edytowalny projekt. Nie odzyskiwano historii i chwilowych prędkości.')}
  catch(e){say('Odrzucono import bez zmiany projektu: '+String(e.message||e).slice(0,70))}
 });
@@ -315,7 +316,7 @@ function frame(now){
  }}
  draw();if(playing&&frames%12===0)metrics();requestAnimationFrame(frame);
 }
-document.addEventListener('visibilitychange',()=>{last=0;acc=0});
+document.addEventListener('visibilitychange',()=>{last=0;acc=0;if(document.hidden&&gesture){if(gesture.type==='move')rebuild();gesture=null;pending=null}});
 window.E2E={get doc(){return clone(doc)},get model(){return model},get playing(){return playing},get stats(){return {frames,contacts}},build,validate,edit,undo,setMode,togglePlay,xy,hit,get status(){return $('status').textContent}};
 try{if(!P)throw Error('CDN Planck.js niedostępny');doc=validate(doc);rebuild();requestAnimationFrame(frame)}
 catch(e){say('Nie załadowano modelu: '+e.message)}
