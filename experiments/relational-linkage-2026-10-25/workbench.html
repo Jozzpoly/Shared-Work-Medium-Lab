@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ŁĄCZNIK — relacje, nie animacje · Medium</title>
+<style>
+:root{color-scheme:dark;--bg:#0b141b;--panel:#13242e;--ink:#e9f0ed;--muted:#a9c0c5;--accent:#f8bd65;--edge:#33515c;--ok:#80d9bb}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:13px/1.35 system-ui,-apple-system,sans-serif}
+body{display:flex;flex-direction:column}header{padding:8px 10px;display:flex;flex-wrap:wrap;align-items:center;gap:7px;background:var(--panel);border-bottom:1px solid var(--edge)}
+strong.logo{letter-spacing:.075em;font-weight:800;font-size:14px;margin-right:6px;color:var(--accent)}
+button,.importLabel{border:1px solid var(--edge);background:#1b303c;color:var(--ink);border-radius:7px;padding:7px 9px;font:inherit;cursor:pointer;touch-action:manipulation;min-height:34px}
+button.active{background:#a96a2a;color:#fff;border-color:var(--accent)}button:focus-visible,.importLabel:focus-visible{outline:2px solid var(--accent)}button:hover,.importLabel:hover{border-color:var(--accent)}button:disabled{opacity:.5;cursor:default}
+button.run{background:#244d43;border-color:#447b6b;font-weight:700}button.secondary{background:transparent;color:var(--muted)}.divider{height:20px;border-left:1px solid var(--edge);margin:0 2px}
+main{flex:1;min-height:0;position:relative}#stage{display:block;width:100%;height:100%;touch-action:none;outline:none;cursor:crosshair}
+#hint{pointer-events:none;position:absolute;bottom:12px;left:12px;max-width:min(630px,calc(100% - 24px));border:1px solid #345460;background:#10212ce0;padding:9px 11px;border-radius:8px;color:var(--muted)}
+#status{font-weight:650;color:#e0e7df}footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:7px 10px;border-top:1px solid var(--edge);background:#101d25;color:var(--muted)}
+input[type=file]{display:none}.small{font-size:11px;opacity:.9}@media(max-width:640px){header{padding:6px;gap:5px}button,.importLabel{padding:7px;font-size:12px}.logo{width:100%}#hint{font-size:11px;bottom:5px;left:5px}}
+</style></head>
+<body>
+<header>
+<strong class="logo">ŁĄCZNIK <span class="small">· badawczy przyrząd Medium</span></strong>
+<button id="play" class="run" title="Sprawdź co robi układ; spacja">▶ Uruchom</button><span class="divider"></span>
+<button data-mode="move" class="active" title="Przeciągaj części">Chwyć</button>
+<button data-mode="point" title="Dodaj swobodny punkt">+ Punkt</button>
+<button data-mode="rod" title="Wskaż dwa punkty lub przeciągnij z jednego na drugi">Połącz</button>
+<button data-mode="pin" title="Przypnij lub uwolnij punkt">Kotwica</button>
+<button data-mode="motor" title="Nadaj napęd łącznikowi mającemu jedną kotwicę">Napęd</button>
+<button data-mode="delete" title="Usuń wskazany punkt lub łącznik">Usuń</button>
+<span class="divider"></span><button id="undo" class="secondary" title="Cofnij zmianę budowy">↶ Cofnij</button>
+<button id="export" class="secondary" title="Świadomie pobierz pracę jako JSON">Zapisz JSON</button>
+<label class="importLabel" tabindex="0" title="Otwórz świadomie zachowany układ">Otwórz JSON<input id="import" type="file" accept="application/json,.json"></label>
+</header>
+<main><canvas id="stage" tabindex="0" aria-label="Warsztat mechaniczny: chwytaj punkty, łącz je, zakotwiczaj, napędzaj i przebudowuj" role="application"></canvas>
+<div id="hint"><div id="status" role="status">Wybierz „Uruchom”, a potem „Chwyć” i poruszaj układem.</div><div id="instruction">Punkty to ruchome węzły. Pręty próbują utrzymać odległości. Czerwony pręt oznacza sprzeczne lub przeciążone więzy. Kotwice wiążą ze światem.</div></div></main>
+<footer><span id="counts">4 punkty · 3 pręty · 2 kotwice · 1 napęd</span><span>Model 2D oparty na więzach; nie jest fizyką sztywnych brył 3D. Bez autosave i bez wysyłania geometrii.</span></footer>
+<script id="linkage-core">
+(function(root){'use strict';
+const W=1000,H=650,DT=1/120,MAX_POINTS=96,MAX_RODS=160;
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const hypot=(a,b)=>Math.hypot(a,b);
+const num=x=>typeof x==='number'&&Number.isFinite(x);
+const finitePos=v=>v&&num(v.x)&&num(v.y)&&v.x>=0&&v.x<=W&&v.y>=0&&v.y<=H;
+const clone=obj=>JSON.parse(JSON.stringify(obj));
+function fresh(){
+ const points=[{id:1,x:220,y:220,pin:true},{id:2,x:290,y:260,pin:false},{id:3,x:473,y:380,pin:false},{id:4,x:480,y:220,pin:true}];
+ const rods=[{id:1,a:1,b:2,length:hypot(70,40)},{id:2,a:2,b:3,length:hypot(183,120)},{id:3,a:3,b:4,length:hypot(7,160)}];
+ return {schema:'medium.linkage.v1',points,rods,motor:1,motorSpeed:1.05};
+}
+function validate(raw){
+ if(!raw||raw.schema!=='medium.linkage.v1'||!Array.isArray(raw.points)||!Array.isArray(raw.rods)||
+    raw.points.length>MAX_POINTS||raw.rods.length>MAX_RODS)throw Error('Nieobsługiwany lub zbyt duży układ');
+ let ids=new Set(),lid=new Set();
+ const points=raw.points.map(p=>{
+  if(!p||!Number.isSafeInteger(p.id)||p.id<=0||ids.has(p.id)||!finitePos(p)||typeof p.pin!=='boolean')throw Error('Nieprawidłowy punkt');
+  ids.add(p.id);return {id:p.id,x:p.x,y:p.y,pin:p.pin};
+ });
+ const rods=raw.rods.map(r=>{
+  if(!r||!Number.isSafeInteger(r.id)||r.id<=0||lid.has(r.id)||!ids.has(r.a)||!ids.has(r.b)||r.a===r.b||
+     !num(r.length)||r.length<8||r.length>1500)throw Error('Nieprawidłowy łącznik');
+  lid.add(r.id);return {id:r.id,a:r.a,b:r.b,length:r.length};
+ });
+ // Disallow duplicate rods between the same two nodes: avoids misleading duplicate coupling.
+ const edges=new Set();for(const r of rods){const k=[r.a,r.b].sort((a,b)=>a-b).join(':');if(edges.has(k))throw Error('Podwójne połączenie');edges.add(k)}
+ const motor=raw.motor===null?null:raw.motor;
+ if(motor!==null){if(!lid.has(motor))throw Error('Napęd bez połączenia');const r=rods.find(x=>x.id===motor),a=points.find(x=>x.id===r.a),b=points.find(x=>x.id===r.b);if(a.pin===b.pin)throw Error('Napęd potrzebuje dokładnie jednej kotwicy')}
+ const speed=raw.motorSpeed??1.05;if(!num(speed)||speed<.1||speed>4)throw Error('Nieprawidłowa prędkość napędu');
+ return {schema:'medium.linkage.v1',points,rods,motor,motorSpeed:speed};
+}
+class Linkage{
+ constructor(state=fresh()){this.load(state)}
+ load(raw){const st=validate(raw);this.nodes=st.points.map(x=>({...x,px:x.x,py:x.y}));this.rods=st.rods.map(x=>({...x}));this.motor=st.motor;this.motorSpeed=st.motorSpeed;this.motorAngle=0;this.running=false;this.dragging=null;this.t=0;this.nextNode=Math.max(0,...this.nodes.map(n=>n.id))+1;this.nextRod=Math.max(0,...this.rods.map(n=>n.id))+1;this.syncMotorAngle();return this}
+ serial(){return {schema:'medium.linkage.v1',points:this.nodes.map(({id,x,y,pin})=>({id,x:+x.toFixed(5),y:+y.toFixed(5),pin})),rods:this.rods.map(({id,a,b,length})=>({id,a,b,length:+length.toFixed(5)})),motor:this.motor,motorSpeed:this.motorSpeed}}
+ node(id){return this.nodes.find(n=>n.id===id)}
+ rod(id){return this.rods.find(r=>r.id===id)}
+ ends(rod){return [this.node(rod.a),this.node(rod.b)]}
+ syncMotorAngle(){let r=this.rod(this.motor);if(!r)return;let[a,b]=this.ends(r);let fixed=a.pin?a:b,free=a.pin?b:a;this.motorAngle=Math.atan2(free.y-fixed.y,free.x-fixed.x)}
+ addNode(x,y){if(this.nodes.length>=MAX_POINTS||!finitePos({x,y}))return null;let n={id:this.nextNode++,x,y,px:x,py:y,pin:false};this.nodes.push(n);return n}
+ addRod(aid,bid){let a=this.node(aid),b=this.node(bid);if(!a||!b||a===b||this.rods.length>=MAX_RODS||this.rods.some(r=>(r.a===aid&&r.b===bid)||(r.a===bid&&r.b===aid)))return null;
+ const len=hypot(a.x-b.x,a.y-b.y);if(len<8)return null;const r={id:this.nextRod++,a:aid,b:bid,length:len};this.rods.push(r);return r}
+ removeNode(id){if(!this.node(id))return false;this.nodes=this.nodes.filter(n=>n.id!==id);this.rods=this.rods.filter(r=>r.a!==id&&r.b!==id);if(!this.rod(this.motor))this.motor=null;return true}
+ removeRod(id){if(!this.rod(id))return false;this.rods=this.rods.filter(r=>r.id!==id);if(this.motor===id)this.motor=null;return true}
+ togglePin(id){let n=this.node(id);if(!n)return false;n.pin=!n.pin;n.px=n.x;n.py=n.y;if(this.motor!==null){const r=this.rod(this.motor),[a,b]=this.ends(r);if(a.pin===b.pin)this.motor=null;else this.syncMotorAngle()}return true}
+ toggleMotor(id){let r=this.rod(id);if(!r)return false;if(this.motor===id){this.motor=null;return true}const[a,b]=this.ends(r);if(a.pin===b.pin)return false;this.motor=id;this.syncMotorAngle();return true}
+ moveNode(id,x,y){let n=this.node(id);if(!n)return false;n.x=clamp(x,15,W-15);n.y=clamp(y,15,H-15);n.px=n.x;n.py=n.y;if(this.motor!==null&&this.rod(this.motor)&&(this.rod(this.motor).a===id||this.rod(this.motor).b===id))this.syncMotorAngle();if(!this.running)this.settle(25,null,id);return true}
+ settle(iterations=20,driver=null,protectedId=null){
+  const movable=n=>!n.pin&&n.id!==this.dragging&&n.id!==protectedId&&(!driver||driver.id!==n.id);
+  for(let k=0;k<iterations;k++){
+   for(const r of this.rods){const[a,b]=this.ends(r);if(!a||!b)continue;let dx=b.x-a.x,dy=b.y-a.y;let dist=hypot(dx,dy);if(dist<1e-7){dx=1;dy=0;dist=1}const e=(dist-r.length)/dist;
+    const wa=movable(a)?1:0,wb=movable(b)?1:0,ws=wa+wb;if(!ws)continue;const corrX=dx*e,corrY=dy*e;if(wa){a.x+=corrX*wa/ws;a.y+=corrY*wa/ws}if(wb){b.x-=corrX*wb/ws;b.y-=corrY*wb/ws}
+   }
+   for(const n of this.nodes)if(movable(n)){const x=n.x,y=n.y;n.x=clamp(x,12,W-12);n.y=clamp(y,12,H-12);if(n.x!==x)n.px=n.x;if(n.y!==y)n.py=n.y}
+  }
+ }
+ step(dt=DT){if(!this.running)return;dt=clamp(dt,0,DT);this.t+=dt;
+ let driver=null,anchor=null,dr=this.rod(this.motor);if(dr){const[a,b]=this.ends(dr);anchor=a.pin?a:b;driver=a.pin?b:a;if(anchor.pin&&!driver.pin&&driver.id!==this.dragging){this.motorAngle+=dt*this.motorSpeed;driver.x=clamp(anchor.x+Math.cos(this.motorAngle)*dr.length,12,W-12);driver.y=clamp(anchor.y+Math.sin(this.motorAngle)*dr.length,12,H-12);driver.px=driver.x;driver.py=driver.y}else driver=null}
+ const movable=n=>!n.pin&&n.id!==this.dragging&&(!driver||driver.id!==n.id);
+ for(const n of this.nodes){if(!movable(n))continue;const vx=(n.x-n.px)*.991,vy=(n.y-n.py)*.991;n.px=n.x;n.py=n.y;n.x+=vx;n.y+=vy+260*dt*dt}
+ this.settle(20,driver);
+ }
+ maxError(){return this.rods.reduce((m,r)=>{const[a,b]=this.ends(r);return Math.max(m,Math.abs(hypot(a.x-b.x,a.y-b.y)-r.length))},0)}
+}
+root.LINKAGE_CORE={Linkage,validate,fresh,W,H,DT};
+})(typeof window==='undefined'?globalThis:window);
+</script>
+<script id="linkage-ui">
+(()=>{'use strict';
+const {Linkage,W,H,DT}=window.LINKAGE_CORE,stage=document.getElementById('stage'),ctx=stage.getContext('2d');const model=new Linkage();
+const $=id=>document.getElementById(id);let mode='move',pendingNode=null,dragId=null,dragSnap=null,dirty=true,visible=true,last=0,acc=0,lastReport=0,latestHost=null;const history=[];
+const toolHelp={move:'Chwyć punkt i przesuń go. Możesz to robić także podczas ruchu.',point:'Dotknij pustej przestrzeni, aby utworzyć nowy punkt.',rod:'Wybierz pierwszy punkt, a następnie drugi (lub przeciągnij od jednego do drugiego).',pin:'Dotknij punktu, aby przypiąć go do świata lub uwolnić.',motor:'Dotknij pręta z dokładnie jedną zakotwiczoną końcówką, aby nadać lub odebrać napęd.',delete:'Dotknij pręta lub punktu, aby go usunąć.'};
+let label='Na początek: ▶ Uruchom. Potem chwytaj i przebudowuj układ.';
+function say(s){label=s;$('status').textContent=s;report();dirty=true}
+function persistUndo(snapshot){history.push(snapshot||JSON.stringify(model.serial()));if(history.length>40)history.shift();$('undo').disabled=false}
+function emit(type,body){if(!latestHost)return;try{window.parent.postMessage({jaskinia:1,type,...body},latestHost)}catch{}}
+function stateData(){return {phase:model.running?'ruch':'pauza',nodes:model.nodes.length,rods:model.rods.length,pins:model.nodes.filter(n=>n.pin).length,motor:model.motor!==null,seconds:+model.t.toFixed(1),authoring:'local-only'}}
+function report(){let d=stateData();$('counts').textContent=`${d.nodes} punkty · ${d.rods} pręty · ${d.pins} kotwice · napęd ${d.motor?'tak':'nie'} · ${d.phase}`;emit('state',{text:`ŁĄCZNIK · ${d.rods} relacji · ${d.phase} · ${label}`.slice(0,240),data:d});emit('signals',{values:{wezly:d.nodes,prety:d.rods,kotwice:d.pins,naped:d.motor?1:0,odchylka:+model.maxError().toFixed(3)}})}
+function setMode(m){mode=m;pendingNode=null;for(const b of document.querySelectorAll('[data-mode]'))b.classList.toggle('active',b.dataset.mode===m);$('instruction').textContent=toolHelp[m];dirty=true}
+function togglePlay(){model.running=!model.running;$('play').textContent=model.running?'⏸ Pauza':'▶ Uruchom';say(model.running?'Symulacja działa. Zmieniaj połączenia również w ruchu.':'Pauza. Możesz precyzyjnie budować i zmieniać pozycje.');last=0;acc=0}
+function undo(){if(!history.length)return;let snapshot=history.pop();model.load(JSON.parse(snapshot));$('play').textContent='▶ Uruchom';$('undo').disabled=!history.length;pendingNode=null;say('Cofnięto ostatnią zmianę budowy. Układ zatrzymany.');}
+$('play').addEventListener('click',togglePlay);$('undo').addEventListener('click',undo);$('undo').disabled=true;
+for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));
+function scaleInfo(){const box=stage.getBoundingClientRect();const s=Math.min(box.width/W,box.height/H);return {box,s,ox:(box.width-W*s)/2,oy:(box.height-H*s)/2}}
+function xy(e){const {box,s,ox,oy}=scaleInfo();return {x:(e.clientX-box.left-ox)/s,y:(e.clientY-box.top-oy)/s,s}}
+function nearestNode(p,rad){let best=null,d=rad;for(const n of model.nodes){let x=Math.hypot(n.x-p.x,n.y-p.y);if(x<=d){best=n;d=x}}return best}
+function nearestRod(p,rad){let best=null,d=rad;for(const r of model.rods){const a=model.node(r.a),b=model.node(r.b),dx=b.x-a.x,dy=b.y-a.y;const f=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));let distance=Math.hypot(a.x+f*dx-p.x,a.y+f*dy-p.y);if(distance<=d){d=distance;best=r}}return best}
+function connect(a,b){const snapshot=JSON.stringify(model.serial());const r=model.addRod(a,b);if(r){persistUndo(snapshot);say('Dodano prawdziwą więź: odległość tych dwóch węzłów jest teraz związana.')}else say('Nie można dodać tej więzi (już istnieje lub punkty zbyt blisko).');pendingNode=null}
+stage.addEventListener('pointerdown',e=>{
+ if(e.button!==undefined&&e.button!==0)return;stage.focus({preventScroll:true});const p=xy(e),r=21/p.s,n=nearestNode(p,r),rod=nearestRod(p,13/p.s);if(mode==='move'){if(!n){say('Chwyć jeden z okrągłych punktów.');return}dragId=n.id;dragSnap=JSON.stringify(model.serial());model.dragging=n.id;stage.setPointerCapture?.(e.pointerId);return}
+ if(mode==='point'){if(p.x<14||p.x>W-14||p.y<14||p.y>H-14)return;const old=JSON.stringify(model.serial());const q=model.addNode(p.x,p.y);if(q){persistUndo(old);say('Nowy punkt. Teraz połącz go z innymi, żeby naprawdę wpływał na mechanizm.')}else say('Osiągnięto limit punktów.');return}
+ if(mode==='rod'){if(n){if(pendingNode===null){pendingNode=n.id;stage.setPointerCapture?.(e.pointerId);say('Pierwszy punkt wybrany. Wskaż albo przeciągnij do drugiego.')}else if(n.id!==pendingNode){connect(pendingNode,n.id)}else {pendingNode=null;dirty=true}}else{pendingNode=null;dirty=true}return}
+ if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.serial());if(model.togglePin(n.id)){persistUndo(old);say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}return}
+ if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.serial());if(model.toggleMotor(rod.id)){persistUndo(old);say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy i jednego swobodnego końca pręta.');return}
+ if(mode==='delete'){if(!n&&!rod)return;const old=JSON.stringify(model.serial());if(n?model.removeNode(n.id):model.removeRod(rod.id)){persistUndo(old);say('Element i jego zależności zostały usunięte.')}return}
+});
+stage.addEventListener('pointermove',e=>{const p=xy(e);if(dragId!==null){model.moveNode(dragId,p.x,p.y);dirty=true}else if(mode==='rod'&&pendingNode!==null){dirty=true}});
+stage.addEventListener('pointerup',e=>{
+ if(dragId!==null){const changed=dragSnap!==JSON.stringify(model.serial());if(changed){persistUndo(dragSnap);say('Nowa pozycja. Połączenia nadal zachowują swoje więzy.')}model.dragging=null;dragId=null;dragSnap=null;dirty=true}
+ else if(mode==='rod'&&pendingNode!==null){const p=xy(e),n=nearestNode(p,21/p.s);if(n&&n.id!==pendingNode)connect(pendingNode,n.id)}
+});
+stage.addEventListener('pointercancel',()=>{if(dragId!==null){model.dragging=null;dragId=null;dragSnap=null;dirty=true}});
+window.addEventListener('keydown',e=>{if(e.target?.matches('input,textarea,button')||e.altKey||e.ctrlKey||e.metaKey)return;if(e.code==='Space'){e.preventDefault();togglePlay()}else if(e.code==='Escape'){pendingNode=null;setMode('move')}else if(e.key==='z'||e.key==='Z'){undo()}});
+$('export').addEventListener('click',()=>{const file=new Blob([JSON.stringify(model.serial(),null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download='lacznik-uklad.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);say('Pobrano układ na Twoje wyraźne żądanie. Nie zapisuję bazgrołów automatycznie.')});
+$('import').addEventListener('change',async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>120000){say('Plik jest zbyt duży.');return}try{const str=await f.text(),raw=JSON.parse(str);const next=new Linkage(raw);persistUndo(JSON.stringify(model.serial()));model.load(next.serial());$('play').textContent='▶ Uruchom';say('Odzyskano układ. Możesz przebudowywać go od razu.')}catch(err){say('Nie udało się odczytać układu: '+String(err.message||err).slice(0,80))}});
+function draw(){const {s,ox,oy,box}=scaleInfo(),dpr=Math.min(2,window.devicePixelRatio||1);const ww=Math.max(1,Math.round(box.width*dpr)),hh=Math.max(1,Math.round(box.height*dpr));if(stage.width!==ww||stage.height!==hh){stage.width=ww;stage.height=hh}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,box.width,box.height);ctx.translate(ox,oy);ctx.scale(s,s);ctx.fillStyle='#0b141b';ctx.fillRect(0,0,W,H);
+ // Grid and ground are visual only; no fictitious contact physics.
+ ctx.strokeStyle='#1b3037';ctx.lineWidth=1/s;for(let x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<=H;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+ for(const r of model.rods){const a=model.node(r.a),b=model.node(r.b);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.lineWidth=8;ctx.strokeStyle=Math.abs(Math.hypot(a.x-b.x,a.y-b.y)-r.length)>6?'#f27477':r.id===model.motor?'#f8bd65':'#7aa5b6';ctx.lineCap='round';ctx.stroke();if(r.id===model.motor){const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};ctx.fillStyle='#f8bd65';ctx.font='bold 19px system-ui';ctx.fillText('↻',mid.x+8,mid.y-6)}}
+ for(const n of model.nodes){let size=Math.max(11,8/s);if(n.pin){ctx.fillStyle='#2f6b69';ctx.beginPath();ctx.arc(n.x,n.y,size+7,0,2*Math.PI);ctx.fill();ctx.strokeStyle='#80d9bb';ctx.lineWidth=2;ctx.stroke()}
+ ctx.fillStyle=n.id===pendingNode?'#f8bd65':n.pin?'#9fe4c9':'#f4efe0';ctx.beginPath();ctx.arc(n.x,n.y,size,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#203440';ctx.lineWidth=3;ctx.stroke()}
+ ctx.fillStyle='#a1b5bc';ctx.font='17px system-ui';ctx.fillText(model.running?'● ŚWIAT DZIAŁA':'Ⅱ PAUZA',25,34);ctx.fillText('CHWYTAJ · ŁĄCZ · PRZEBUDOWUJ',25,H-24);
+ dirty=false}
+function frame(now){if(!last)last=now;const real=Math.min(.08,Math.max(0,(now-last)/1000));last=now;if(visible&&model.running){acc+=real;let steps=0;while(acc>=DT&&steps++<8){model.step(DT);acc-=DT}dirty=true}if(dirty)draw();if(now-lastReport>1000){report();lastReport=now}requestAnimationFrame(frame)}
+window.addEventListener('resize',()=>{dirty=true});document.addEventListener('visibilitychange',()=>{visible=!document.hidden;last=0;acc=0});
+window.addEventListener('message',e=>{if(e.source!==window.parent||e.data?.jaskinia!==1)return; if(e.data.type==='hi'){latestHost=e.origin;emit('hello',{name:'ŁĄCZNIK · Medium',version:'0.1 eksperyment',wants:[]});report()}else if(latestHost&&e.origin===latestHost&&e.data.type==='state?'){report()}else if(latestHost&&e.origin===latestHost&&e.data.type==='visible'){visible=!!e.data.visible;last=0;acc=0}});
+window.LINKAGE_TEST_ACCESS={model,xy,nearestNode,nearestRod,report}; // test-only local page API, no cross-origin bridge
+report();requestAnimationFrame(frame);
+})();
+</script>
+</body></html>
