@@ -69,7 +69,36 @@ class Linkage{
  constructor(state=fresh()){this.load(state)}
  load(raw){const st=validate(raw);this.nodes=st.points.map(x=>({...x,px:x.x,py:x.y}));this.rods=st.rods.map(x=>({...x}));this.motor=st.motor;this.motorSpeed=st.motorSpeed;this.motorAngle=0;this.running=false;this.dragging=null;this.t=0;this.nextNode=Math.max(0,...this.nodes.map(n=>n.id))+1;this.nextRod=Math.max(0,...this.rods.map(n=>n.id))+1;this.syncMotorAngle();this.design=this.serial();return this}
  authored(){return clone(this.design)}
- commitDesign(){this.design=this.serial();return this.authored()}
+ commitDesign(edit=null){
+  // Explicit no-argument call = deliberate adoption of the entire live pose.
+  if(!edit){this.design=this.serial();return this.authored()}
+  // Normal UI authoring makes a *targeted source edit*; unrelated simulated motion does not
+  // become part of the rest/authoring geometry merely because one gesture occurred.
+  const doc=clone(this.design);
+  const point=id=>{const p=doc.points.find(p=>p.id===id);if(!p)throw Error('Brak punktu źródłowego');return p};
+  switch(edit.type){
+   case 'node-added':
+    if(doc.points.some(p=>p.id===edit.node.id))throw Error('Duplikat punktu');
+    doc.points.push({id:edit.node.id,x:edit.node.x,y:edit.node.y,pin:edit.node.pin});break;
+   case 'rod-added':
+    if(doc.rods.some(r=>r.id===edit.rod.id))throw Error('Duplikat połączenia');
+    doc.rods.push(clone(edit.rod));break;
+   case 'node-moved':
+    {const p=point(edit.id);p.x=edit.x;p.y=edit.y;break}
+   case 'pin-set':
+    {const p=point(edit.id);p.pin=edit.pin;if(edit.pin){p.x=edit.x;p.y=edit.y}break}
+   case 'motor-set':
+    doc.motor=edit.motor;break;
+   case 'node-deleted':
+    point(edit.id);doc.points=doc.points.filter(p=>p.id!==edit.id);
+    doc.rods=doc.rods.filter(r=>r.a!==edit.id&&r.b!==edit.id);doc.motor=this.motor;break;
+   case 'rod-deleted':
+    if(!doc.rods.some(r=>r.id===edit.id))throw Error('Brak połączenia źródłowego');
+    doc.rods=doc.rods.filter(r=>r.id!==edit.id);doc.motor=this.motor;break;
+   default:throw Error('Nieznana operacja autorska');
+  }
+  this.design=validate(doc);return this.authored()
+ }
  transfer(kind){if(kind!=='design'&&kind!=='pose')throw Error('Nieznany typ zapisu');return {schema:'medium.linkage.transfer.v1',kind,document:kind==='design'?this.authored():this.serial()}}
  serial(){return {schema:'medium.linkage.v1',points:this.nodes.map(({id,x,y,pin})=>({id,x:+x.toFixed(5),y:+y.toFixed(5),pin})),rods:this.rods.map(({id,a,b,length})=>({id,a,b,length:+length.toFixed(5)})),motor:this.motor,motorSpeed:this.motorSpeed}}
  node(id){return this.nodes.find(n=>n.id===id)}
@@ -131,18 +160,18 @@ function scaleInfo(){const box=stage.getBoundingClientRect();const s=Math.min(bo
 function xy(e){const {box,s,ox,oy}=scaleInfo();return {x:(e.clientX-box.left-ox)/s,y:(e.clientY-box.top-oy)/s,s}}
 function nearestNode(p,rad){let best=null,d=rad;for(const n of model.nodes){let x=Math.hypot(n.x-p.x,n.y-p.y);if(x<=d){best=n;d=x}}return best}
 function nearestRod(p,rad){let best=null,d=rad;for(const r of model.rods){const a=model.node(r.a),b=model.node(r.b),dx=b.x-a.x,dy=b.y-a.y;const f=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));let distance=Math.hypot(a.x+f*dx-p.x,a.y+f*dy-p.y);if(distance<=d){d=distance;best=r}}return best}
-function connect(a,b){const snapshot=JSON.stringify(model.authored());const r=model.addRod(a,b);if(r){persistUndo(snapshot);model.commitDesign();say('Dodano prawdziwą więź: odległość tych dwóch węzłów jest teraz związana.')}else say('Nie można dodać tej więzi (już istnieje lub punkty zbyt blisko).');pendingNode=null;rodPointerId=null}
+function connect(a,b){const snapshot=JSON.stringify(model.authored());const r=model.addRod(a,b);if(r){persistUndo(snapshot);model.commitDesign({type:'rod-added',rod:r});say('Dodano prawdziwą więź: odległość tych dwóch węzłów jest teraz związana.')}else say('Nie można dodać tej więzi (już istnieje lub punkty zbyt blisko).');pendingNode=null;rodPointerId=null}
 stage.addEventListener('pointerdown',e=>{
  if(e.button!==undefined&&e.button!==0)return;if(dragId!==null)return;stage.focus({preventScroll:true});const p=xy(e),r=21/p.s,n=nearestNode(p,r),rod=nearestRod(p,13/p.s);if(mode==='move'){if(!n){say('Chwyć jeden z okrągłych punktów.');return}dragId=n.id;dragPointerId=e.pointerId;dragSnap=JSON.stringify(model.authored());dragOrigin={x:n.x,y:n.y};model.dragging=n.id;stage.setPointerCapture?.(e.pointerId);return}
- if(mode==='point'){if(p.x<14||p.x>W-14||p.y<14||p.y>H-14)return;const old=JSON.stringify(model.authored());const q=model.addNode(p.x,p.y);if(q){persistUndo(old);model.commitDesign();say('Nowy punkt. Teraz połącz go z innymi, żeby naprawdę wpływał na mechanizm.')}else say('Osiągnięto limit punktów.');return}
+ if(mode==='point'){if(p.x<14||p.x>W-14||p.y<14||p.y>H-14)return;const old=JSON.stringify(model.authored());const q=model.addNode(p.x,p.y);if(q){persistUndo(old);model.commitDesign({type:'node-added',node:q});say('Nowy punkt. Teraz połącz go z innymi, żeby naprawdę wpływał na mechanizm.')}else say('Osiągnięto limit punktów.');return}
  if(mode==='rod'){if(n){if(pendingNode===null){pendingNode=n.id;rodPointerId=e.pointerId;stage.setPointerCapture?.(e.pointerId);say('Pierwszy punkt wybrany. Wskaż albo przeciągnij do drugiego.')}else if(n.id!==pendingNode){connect(pendingNode,n.id)}else {pendingNode=null;dirty=true}}else{pendingNode=null;dirty=true}return}
- if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.authored());if(model.togglePin(n.id)){persistUndo(old);model.commitDesign();say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}return}
- if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.authored());if(model.toggleMotor(rod.id)){persistUndo(old);model.commitDesign();say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy i jednego swobodnego końca pręta.');return}
- if(mode==='delete'){if(!n&&!rod)return;const old=JSON.stringify(model.authored());if(n?model.removeNode(n.id):model.removeRod(rod.id)){persistUndo(old);model.commitDesign();say('Element i jego zależności zostały usunięte.')}return}
+ if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.authored());if(model.togglePin(n.id)){persistUndo(old);model.commitDesign({type:'pin-set',id:n.id,pin:n.pin,x:n.x,y:n.y});say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}return}
+ if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.authored());if(model.toggleMotor(rod.id)){persistUndo(old);model.commitDesign({type:'motor-set',motor:model.motor});say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy i jednego swobodnego końca pręta.');return}
+ if(mode==='delete'){if(!n&&!rod)return;const old=JSON.stringify(model.authored());if(n?model.removeNode(n.id):model.removeRod(rod.id)){persistUndo(old);model.commitDesign(n?{type:'node-deleted',id:n.id}:{type:'rod-deleted',id:rod.id});say('Element i jego zależności zostały usunięte.')}return}
 });
 stage.addEventListener('pointermove',e=>{const p=xy(e);if(dragId!==null){if(e.pointerId!==dragPointerId)return;model.moveNode(dragId,p.x,p.y);dirty=true}else if(mode==='rod'&&pendingNode!==null){dirty=true}});
 stage.addEventListener('pointerup',e=>{
- if(dragId!==null){if(e.pointerId!==dragPointerId)return;const node=model.node(dragId),changed=node&&dragOrigin&&Math.hypot(node.x-dragOrigin.x,node.y-dragOrigin.y)>0.001;if(changed){persistUndo(dragSnap);model.commitDesign();say('Nowa pozycja. Połączenia nadal zachowują swoje więzy.')}model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dragOrigin=null;dirty=true}
+ if(dragId!==null){if(e.pointerId!==dragPointerId)return;const node=model.node(dragId),changed=node&&dragOrigin&&Math.hypot(node.x-dragOrigin.x,node.y-dragOrigin.y)>0.001;if(changed){persistUndo(dragSnap);model.commitDesign({type:'node-moved',id:node.id,x:node.x,y:node.y});say('Nowa pozycja. Połączenia nadal zachowują swoje więzy.')}model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dragOrigin=null;dirty=true}
  else if(mode==='rod'&&pendingNode!==null&&e.pointerId===rodPointerId){const p=xy(e),n=nearestNode(p,21/p.s);if(n&&n.id!==pendingNode)connect(pendingNode,n.id)}
 });
 stage.addEventListener('pointercancel',e=>{if(dragId!==null&&e.pointerId===dragPointerId){model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dragOrigin=null;dirty=true}if(mode==='rod'&&e.pointerId===rodPointerId){pendingNode=null;rodPointerId=null;dirty=true}});
