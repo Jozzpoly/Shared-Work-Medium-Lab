@@ -1,0 +1,84 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E2f · Przesunięcie bryły a znaczenie przegubu</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{background:#0d1720;color:#e9f2f4;font:15px/1.45 system-ui;margin:0}
+main{max-width:1100px;padding:18px;margin:auto}h1{font-size:23px;margin:0 0 10px}p{color:#b6c9d4}
+#result{background:#1e323d;padding:12px;border-radius:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;margin:16px 0}
+article{border:1px solid #3b5965;border-radius:10px;background:#122733;padding:12px}
+h2{font-size:16px;margin:0}canvas{width:100%;aspect-ratio:1.6/1;background:#0a1c26;border-radius:7px;margin:8px 0}
+.metric{font-variant-numeric:tabular-nums;font-size:13px}code{font-size:12px}
+</style><main>
+<h1>E2f · Co naprawdę oznacza „przesuń belkę”?</h1>
+<p>Trzy warianty tej samej belki, tego samego zawiasu i napędu w rzeczywistym silniku. Przed edycją zawias przechodzi przez środek belki. Po edycji o 2 jednostki w prawo można świadomie zachować <b>oś w świecie</b> lub <b>miejsce mocowania do belki</b>. Dzisiaj E2e wybiera pierwszą interpretację bez pytania.</p>
+<div id="result" role="status">Ładowanie tego samego modułu E2e…</div>
+<div class="grid">
+ <article><h2>0 · Przed edycją</h2><p>Punkt zaczepienia = środek części.</p><canvas id="before" width="500" height="310"></canvas><div id="beforeMetric" class="metric">—</div></article>
+ <article><h2>A · Przesuń tylko belkę</h2><p>Oś świata stoi w miejscu. Zmienia się lokalne zaczepienie, nawet poza geometrię.</p><canvas id="single" width="500" height="310"></canvas><div id="singleMetric" class="metric">—</div></article>
+ <article><h2>B · Przenieś razem z zawiasem</h2><p>Oś przesuwa się z belką. Jej punkt mocowania w materiale pozostaje ten sam.</p><canvas id="together" width="500" height="310"></canvas><div id="togetherMetric" class="metric">—</div></article>
+</div>
+<p><b>Granica:</b> nie twierdzimy, że A jest błędem solvera. To inna możliwa intencja autora. Przy połączeniu dwóch ruchomych części problem staje się trudniejszy — przesunięcie jednego ogniwa może wymagać decyzji o całym grafie zależności. Ani A, ani B nie jest automatycznie prawidłowe. To eksperyment falsyfikujący niejawne zachowanie UI, nie projekt końcowego schematu.</p>
+<iframe id="lib" src="./e2e-material-workshop.html" style="width:0;height:0;position:absolute;opacity:0;pointer-events:none" tabindex="-1" aria-hidden="true"></iframe>
+<script>
+(async()=>{
+ const status=document.querySelector('#result');const checks=[];
+ const check=(name,v)=>{checks.push({name,pass:!!v});if(!v)throw Error(name)};
+ try{
+  const frame=document.querySelector('#lib');
+  await new Promise((res,rej)=>{if(frame.contentWindow?.E2E?.build)return res();frame.addEventListener('load',res,{once:true});setTimeout(()=>rej(Error('Brak E2e')),12000)});
+  const {build,validate}=frame.contentWindow.E2E;
+  const original={schema:'medium.material-workshop.v0',
+   parts:[{id:1,kind:'box',x:4,y:3.6,w:2,h:.3,angle:0,pinned:false}],
+   joints:[{id:2,kind:'hinge',a:null,b:1,x:4,y:3.6,dx:1,dy:0,motor:true}]};
+  const solo=JSON.parse(JSON.stringify(original));solo.parts[0].x=6;
+  const together=JSON.parse(JSON.stringify(solo));together.joints[0].x=6;
+  const scenarios=[{key:'before',data:original},{key:'single',data:solo},{key:'together',data:together}];
+  const out={};
+  function localAnchor(doc){
+   const p=doc.parts[0],j=doc.joints[0],a=p.angle;
+   const dx=j.x-p.x,dy=j.y-p.y;
+   return {x:dx*Math.cos(a)+dy*Math.sin(a),y:-dx*Math.sin(a)+dy*Math.cos(a)};
+  }
+  function draw(key,info){
+   const el=document.querySelector('#'+key),ctx=el.getContext('2d'),sx=el.width/10,sy=el.height/6.2;
+   const xy=(x,y)=>[x*sx,y*sy];
+   ctx.fillStyle='#0a1c26';ctx.fillRect(0,0,el.width,el.height);
+   ctx.strokeStyle='#243f4c';ctx.lineWidth=1;
+   for(let x=0;x<=10;x++){let X=x*sx;ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,el.height);ctx.stroke()}
+   for(let y=0;y<=6;y++){let Y=y*sy;ctx.beginPath();ctx.moveTo(0,Y);ctx.lineTo(el.width,Y);ctx.stroke()}
+   const doc=info.doc;
+   const p=doc.parts[0],j=doc.joints[0];
+   const center=xy(p.x,p.y),hinge=xy(j.x,j.y);
+   ctx.save();ctx.translate(...center);ctx.rotate(p.angle);
+   ctx.fillStyle='#547e97';ctx.fillRect(-p.w*sx/2,-p.h*sy/2,p.w*sx,p.h*sy);ctx.restore();
+   ctx.beginPath();ctx.setLineDash([8,6]);ctx.strokeStyle='#e7b45f';ctx.lineWidth=2;
+   ctx.moveTo(...center);ctx.lineTo(...hinge);ctx.stroke();ctx.setLineDash([]);
+   ctx.fillStyle='#f4c470';ctx.beginPath();ctx.arc(...hinge,7,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle='#d9f2ff';ctx.beginPath();ctx.arc(...center,4,0,Math.PI*2);ctx.fill();
+   ctx.strokeStyle='#83d4ba';ctx.lineWidth=3;ctx.beginPath();
+   info.track.forEach((t,i)=>{const q=xy(...t);if(!i)ctx.moveTo(...q);else ctx.lineTo(...q)});
+   ctx.stroke();
+   ctx.fillStyle='#d1e2e8';ctx.font='15px system-ui';ctx.fillText('zielony: ślad środka',12,25);ctx.fillText('żółty: oś przegubu',12,45);
+  }
+  for(const scenario of scenarios){
+   const doc=validate(scenario.data),model=build(doc),local=localAnchor(doc),centerStart=model.bodies.get(1).getPosition(),track=[];
+   for(let i=0;i<240;i++){model.world.step(1/120);if(i%3===0){const q=model.bodies.get(1).getPosition();track.push([q.x,q.y])}}
+   const centerEnd=model.bodies.get(1).getPosition();
+   const excursion=Math.hypot(centerEnd.x-centerStart.x,centerEnd.y-centerStart.y);
+   out[scenario.key]={doc,local,excursion,finalAngle:model.bodies.get(1).getAngle(),track};
+   draw(scenario.key,out[scenario.key]);
+   document.querySelector('#'+scenario.key+'Metric').textContent='Lokalne zaczepienie: ('+local.x.toFixed(2)+', '+local.y.toFixed(2)+') · wychylenie środka: '+excursion.toFixed(3);
+  }
+  check('Scenariusze są prawidłowymi dokumentami E2e',Object.values(out).every(x=>!!x.doc));
+  check('Początkowy punkt mocowania w środku materiału',Math.abs(out.before.local.x)<1e-9);
+  check('Aktualny gest E2e niejawnie przesuwa lokalny zaczep poza belkę',Math.abs(out.single.local.x)>original.parts[0].w/2);
+  check('Alternatywny gest zachowuje lokalny punkt mocowania',Math.abs(out.together.local.x)<1e-9);
+  check('Przy tej samej fizyce obie interpretacje mają różne skutki',Math.abs(out.single.excursion-out.together.excursion)>.5);
+  check('Oba warianty wykonują napędzany obrót',Math.abs(out.single.finalAngle)>.8&&Math.abs(out.together.finalAngle)>.8);
+  status.textContent='PASS '+checks.length+'/'+checks.length+' · obecny E2e wybiera jedną z dwóch materialnie różnych intencji bez sygnalizacji. Alternatywa nie jest jeszcze decyzją projektową.';
+  window.INTENT_WITNESS={checks,result:{before:out.before.local,single:out.single.local,together:out.together.local,
+    excursions:{before:out.before.excursion,single:out.single.excursion,together:out.together.excursion}},limit:'Controlled single rigid body + world hinge. No Owner preference test or general connected-graph transformation algorithm.'};
+ }catch(e){status.textContent='FAIL '+String(e.stack||e)+'\n'+checks.map(q=>(q.pass?'✓ ':'✗ ')+q.name).join('\n');window.INTENT_WITNESS={error:String(e),checks}}
+})();
+</script></main></html>
