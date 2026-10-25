@@ -1,0 +1,77 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E2g · Co oznacza obrót i skalowanie bryły z zawiasem?</title>
+<style>
+:root{color-scheme:dark}body{background:#0b1720;color:#e8f1f3;margin:0;font:14px/1.45 system-ui}main{max-width:1180px;margin:auto;padding:16px}
+h1{font-size:23px}p{color:#acc7d1}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+article{border:1px solid #3b5a68;background:#152a36;border-radius:10px;padding:10px}canvas{background:#10212b;width:100%;aspect-ratio:1.45;display:block;border-radius:6px}
+#status{background:#213846;border-radius:8px;padding:12px;margin:12px 0;font-variant-numeric:tabular-nums}
+small{color:#a5bac5}
+</style><main>
+<h1>E2g · Zawias po zmianie geometrii</h1>
+<p>Ta sama fizyka Planck.js i dokument E2e. Dwie rozłączne intencje po obrocie lub zmianie długości belki z zawiasem: zostawić globalne współrzędne zaczepu albo zachować jego lokalne położenie w materiale. <b>Nie wybieramy automatycznie zwycięzcy.</b></p>
+<div id="status" role="status">Uruchamianie kontrprób…</div>
+<div class="grid">
+<article><b>1. Obróć tylko bryłę</b><p>Globalna oś zostaje; lokalne mocowanie wędruje do boku belki.</p><canvas id="rotate-world" width="510" height="350"></canvas><div id="rotate-world-info"></div></article>
+<article><b>2. Obróć względem zawiasu</b><p>Oś zostaje, środek belki obiega oś; miejsce mocowania w materiale zostaje.</p><canvas id="rotate-anchor" width="510" height="350"></canvas><div id="rotate-anchor-info"></div></article>
+<article><b>3. Skróć tylko geometrię</b><p>Zaczep pozostaje w świecie, choć może znaleźć się poza bryłą.</p><canvas id="resize-world" width="510" height="350"></canvas><div id="resize-world-info"></div></article>
+<article><b>4. Skróć względem zawiasu</b><p>Zawias jest w tym samym miejscu w świecie, ale środek belki zmienia pozycję tak, by zachować proporcjonalny punkt mocowania.</p><canvas id="resize-anchor" width="510" height="350"></canvas><div id="resize-anchor-info"></div></article>
+</div>
+<p><small>Test przelicza relacje w rzeczywistych dokumentach <code>medium.material-workshop.v0</code> i buduje każdy wariant przez oryginalny <code>E2E.build</code>. Brak nowego solvera, brak prywatnych danych. Nie badamy tu różnorodności connected components, ergonomii gestów ani zachowania silnika pod ciężkim wieloprzegubowym obciążeniem.</small></p>
+<iframe id="engine" src="./e2e-material-workshop.html" style="width:0;height:0;position:absolute;opacity:0;pointer-events:none" aria-hidden="true" tabindex="-1"></iframe>
+<script>
+(async()=>{
+const target=document.querySelector('#status');const notes=[];
+const check=(name,v)=>{notes.push([name,!!v]);if(!v)throw Error(name)};
+const clone=x=>JSON.parse(JSON.stringify(x));
+const almost=(a,b,eps=1e-6)=>Math.abs(a-b)<=eps;
+const local=(p,j)=>{let dx=j.x-p.x,dy=j.y-p.y,c=Math.cos(p.angle),s=Math.sin(p.angle);return {x:dx*c+dy*s,y:-dx*s+dy*c}};
+const spin=(p,j,angle)=>{const previous=local(p,j),c=Math.cos(angle),s=Math.sin(angle);p.angle+=angle;p.x=j.x-(previous.x*Math.cos(p.angle)-previous.y*Math.sin(p.angle));p.y=j.y-(previous.x*Math.sin(p.angle)+previous.y*Math.cos(p.angle))};
+function graphics(id,item){
+ const canvas=document.querySelector('#'+id),ctx=canvas.getContext('2d'),sw=canvas.width/9,sh=canvas.height/5.8,xy=(x,y)=>[sw*x,sh*y];
+ const {part:p,joint:j,loc:l}=item;ctx.fillStyle='#10212b';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#294857';ctx.lineWidth=1;
+ for(let x=0;x<9;x++){ctx.beginPath();ctx.moveTo(x*sw,0);ctx.lineTo(x*sw,canvas.height);ctx.stroke()}
+ for(let y=0;y<6;y++){ctx.beginPath();ctx.moveTo(0,y*sh);ctx.lineTo(canvas.width,y*sh);ctx.stroke()}
+ ctx.save();ctx.translate(...xy(p.x,p.y));ctx.rotate(p.angle);
+ ctx.fillStyle='#577f98';ctx.strokeStyle='#b5dbeb';ctx.lineWidth=2;ctx.fillRect(-p.w*sw/2,-p.h*sh/2,p.w*sw,p.h*sh);ctx.strokeRect(-p.w*sw/2,-p.h*sh/2,p.w*sw,p.h*sh);ctx.restore();
+ ctx.strokeStyle='#f6c068';ctx.lineWidth=2;ctx.setLineDash([7,4]);ctx.beginPath();ctx.moveTo(...xy(p.x,p.y));ctx.lineTo(...xy(j.x,j.y));ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#f6c068';ctx.beginPath();ctx.arc(...xy(j.x,j.y),7,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#e8f3f4';ctx.font='14px system-ui';ctx.fillText('żółty: globalny zawias',8,24);
+ const inside=Math.abs(l.x)<=p.w/2+1e-8&&Math.abs(l.y)<=p.h/2+1e-8;
+ document.getElementById(id+'-info').textContent='Mocowanie lokalne: ('+l.x.toFixed(3)+', '+l.y.toFixed(3)+') · wewnątrz bryły: '+(inside?'TAK':'NIE');
+}
+try{
+ const frame=document.querySelector('#engine');await new Promise((res,rej)=>{if(frame.contentWindow?.E2E?.build)return res();frame.addEventListener('load',res,{once:true});setTimeout(()=>rej(Error('Nie działa źródłowe E2e')),12000)});
+ const app=frame.contentWindow.E2E;
+ const original={schema:'medium.material-workshop.v0',
+  parts:[{id:1,kind:'box',x:4,y:3.1,w:2,h:.3,angle:0,pinned:false}],
+  joints:[{id:2,kind:'hinge',a:null,b:1,x:4.8,y:3.1,dx:1,dy:0,motor:false}]};
+ const source=app.validate(original),oldLocal=local(source.parts[0],source.joints[0]);
+ check('początkowe mocowanie leży wewnątrz materiału',Math.abs(oldLocal.x)<1&&almost(oldLocal.y,0));
+ const rw=clone(source);rw.parts[0].angle+=Math.PI/2;
+ const ra=clone(source);spin(ra.parts[0],ra.joints[0],Math.PI/2);
+ const sw=clone(source);sw.parts[0].w=1.2;
+ const sa=clone(source);sa.parts[0].w=1.2;
+ // Keep world-pivot coordinate fixed and retain fractional material anchor (0.8 of halfwidth).
+ const relative=oldLocal.x/(source.parts[0].w/2);
+ sa.parts[0].x=sa.joints[0].x-relative*sa.parts[0].w/2;
+ const table={'rotate-world':rw,'rotate-anchor':ra,'resize-world':sw,'resize-anchor':sa};
+ const states={};
+ for(const [id,doc] of Object.entries(table)){
+  const validated=app.validate(doc),physics=app.build(validated),p=validated.parts[0],j=validated.joints[0];
+  const l=local(p,j);graphics(id,{part:p,joint:j,loc:l});
+  states[id]={doc:validated,loc:l,runtime:physics,inside:Math.abs(l.x)<=p.w/2&&Math.abs(l.y)<=p.h/2};
+  for(let step=0;step<240;step++)physics.world.step(1/120);
+  const body=physics.bodies.get(p.id);check(id+' — fizyka nie generuje NaN',Number.isFinite(body.getPosition().x)&&Number.isFinite(body.getAngle()));
+ }
+ check('obrócenie samej bryły zmieniło lokalny punkt zawiasu',Math.abs(states['rotate-world'].loc.y)>.75);
+ check('obrót bryły o zawias zachowuje lokalny punkt',almost(states['rotate-anchor'].loc.x,oldLocal.x)&&almost(states['rotate-anchor'].loc.y,oldLocal.y));
+ check('obrót samą bryłą może wynieść zawias poza geometrię',!states['rotate-world'].inside);
+ check('skrót geometrii z nieruchomą osią wyniósł zawias poza bryłę',!states['resize-world'].inside);
+ check('skrót belki względem zawiasu zachował współczynnik mocowania w materiale',almost(states['resize-anchor'].loc.x/(sa.parts[0].w/2),relative));
+ check('skrócona bryła po korekcie nadal obejmuje zawias',states['resize-anchor'].inside);
+ check('dokument każdej interpretacji nadal ma niezmienną tożsamość zawiasu',Object.values(states).every(q=>q.doc.joints[0].id===2));
+ target.textContent='PASS '+notes.length+'/'+notes.length+' · W E2e dotychczasowy obrót i zmiana rozmiaru mogą przesunąć lokalny zaczep poza materiał. Alternatywne transformacje zachowują intencję mocowania, ale są odrębnymi wyborami autora.';
+ window.GEOMETRY_INTENT={checks:notes,values:Object.fromEntries(Object.entries(states).map(([key,v])=>[key,{local:v.loc,inside:v.inside}]))};
+}catch(err){target.textContent='FAIL '+String(err.stack||err)+'\n'+notes.map(([n,p])=>(p?'✓ ':'✗ ')+n).join('\n');window.GEOMETRY_INTENT={error:String(err)}}
+})();
+</script></main></html>
