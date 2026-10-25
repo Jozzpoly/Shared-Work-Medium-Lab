@@ -8,6 +8,12 @@
 >
 > **Direction:** Do not improve E2e by inertia or ask the Owner to debug it. Freeze this as a bounded technical research donor, with the real Owner FAIL attached. Future authoring work must be judged against intuitive contact-grounded assembly and meaningful construction control, not merely a working solver or a scripted browser gesture. Medium's wider purpose remains discoverable capabilities and reduced Owner orchestration in one Jaskinia home.
 
+>
+> **Source-grounded cause qualification (later review):** `hitCandidates(q)` lists bodies from the last drawn (topmost), `preferredHit(q)` returns one body, and `hinge` mode takes `pending.id` from its first click, then cancels when the next click returns `id===pending.id`; another candidate under the same pixel is not exposed as a direct second-body choice. The `cyclePick` widget was accessible through `move`, but E2h's 15/15 witness tested a hidden body joined to the **world** (its second click hits empty canvas), **not two coincident bodies hinged to each other**. Thus this PASS never covered Owner's failing workflow. Exact user actions were not recorded; do not overclaim an exhaustively reproduced causal trace.
+>
+> **External design contrast, not a requested feature:** Autodesk Fusion's As-Built Joint explicitly selects both already-positioned components and then determines the joint origin/type; Onshape's Mate Connectors are geometry-referenced local frames, with implicit points on faces/edges and explicit adjustment. Official sources: [Fusion As-Built Joint](https://help.autodesk.com/view/fusion360/ENU/?contextId=ASM-CREATE-AS-BUILT-JOINT), [Onshape Mates](https://cad.onshape.com/help/Content/Assembly/mates.htm), [Onshape Mate Connector](https://cad.onshape.com/help/Content/Assembly/assembly_mate_connector.htm). Reference principle only: component identity, location/attachment and allowed degrees of freedom are distinct authoring decisions. Neither app is proof of the right future Studio UX. No code or architecture promotion.
+
+
 
 **Status: ADEQUATE jako techniczny, izolowany falsyfikator; Owner EXPERIENCE i współautorstwo NIEPOTWIERDZONE.**
 Nie jest docelowym Studiem/Jozz Vehicle/Jaskinią ani odpowiedzią na pytanie o wybór solvera.
