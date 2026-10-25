@@ -1,6 +1,6 @@
 # ŁĄCZNIK — mechaniczne relacje zamiast gotowych animacji (25.10.2026)
 
-> **Nowy izolowany falsyfikator E2b:** [autorska prowadnica i pełny stan badań](E2B_STATUS.md) · [samodzielny HTML](authorable-rails.html) · [test przeglądarkowy](browser-selftest.html). Te wyniki nie stanowią Owner PASS i nie są wdrożeniem do Jaskini.
+> **Aktualne kontrpróby E2b–E2d:** [status, granice i następny falsyfikator](E2B_STATUS.md) · [własne prowadnice E2b](authorable-rails.html) · [brak kontaktu E2c](contact-ablation.html) · [przeguby + kontakt E2d (Planck)](planck-joint-contact-probe.html). Żaden wynik nie stanowi Owner PASS ani wdrożenia do Jaskini.
 
 **Eksperyment Medium, nie Jaskinia v6.5, Ruch 2.0, nowy builder JV ani gotowy produkt.**
 
