@@ -59,6 +59,17 @@ check('play frames advance actual engine',()=>{
 check('undo restores previous authored pin decision',()=>{
  handlers.get('undo-click')();assert.equal(model.running,false);assert.equal(model.node(5).pin,false);
 });
+check('foreign finger cannot drag or release another pointer',()=>{
+ handlers.get('tool-move-click')();
+ pointer('pointerdown',290,260);
+ handlers.get('stage-pointermove')({clientX:710,clientY:510,pointerId:9,button:0});
+ handlers.get('stage-pointerup')({clientX:710,clientY:510,pointerId:9,button:0});
+ assert.equal(model.dragging,2);assert.equal(model.node(2).x,290);
+ handlers.get('stage-pointermove')({clientX:330,clientY:250,pointerId:7,button:0});
+ assert.equal(model.node(2).x,330);
+ handlers.get('stage-pointerup')({clientX:330,clientY:250,pointerId:7,button:0});
+ assert.equal(model.dragging,null);
+});
 check('foreign iframe cannot impersonate host',()=>{
  const n=sent.length;
  events.get('win-message')({source:{},origin:'https://test-host',data:{jaskinia:1,type:'hi'}});
