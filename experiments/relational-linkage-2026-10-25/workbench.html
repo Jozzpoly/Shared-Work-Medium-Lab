@@ -25,7 +25,8 @@ input[type=file]{display:none}.small{font-size:11px;opacity:.9}@media(max-width:
 <button data-mode="motor" title="Nadaj napęd łącznikowi mającemu jedną kotwicę">Napęd</button>
 <button data-mode="delete" title="Usuń wskazany punkt lub łącznik">Usuń</button>
 <span class="divider"></span><button id="undo" class="secondary" title="Cofnij zmianę budowy">↶ Cofnij</button>
-<button id="export" class="secondary" title="Zapisuje bieżące położenia i połączenia, nie pierwotną pozę ani historię symulacji">Zapisz stan JSON</button>
+<button id="export-design" class="secondary" title="Zachowaj ostatnią świadomie zatwierdzoną konstrukcję, bez późniejszego ruchu symulacji">Zapisz projekt</button>
+<button id="export-pose" class="secondary" title="Zachowaj bieżącą pozę jako nowy punkt startowy, bez prędkości ani historii">Zapisz pozę</button>
 <label class="importLabel" tabindex="0" title="Otwórz świadomie zachowany układ">Otwórz JSON<input id="import" type="file" accept="application/json,.json"></label>
 </header>
 <main><canvas id="stage" tabindex="0" aria-label="Warsztat mechaniczny: chwytaj punkty, łącz je, zakotwiczaj, napędzaj i przebudowuj" role="application"></canvas>
@@ -66,7 +67,10 @@ function validate(raw){
 }
 class Linkage{
  constructor(state=fresh()){this.load(state)}
- load(raw){const st=validate(raw);this.nodes=st.points.map(x=>({...x,px:x.x,py:x.y}));this.rods=st.rods.map(x=>({...x}));this.motor=st.motor;this.motorSpeed=st.motorSpeed;this.motorAngle=0;this.running=false;this.dragging=null;this.t=0;this.nextNode=Math.max(0,...this.nodes.map(n=>n.id))+1;this.nextRod=Math.max(0,...this.rods.map(n=>n.id))+1;this.syncMotorAngle();return this}
+ load(raw){const st=validate(raw);this.nodes=st.points.map(x=>({...x,px:x.x,py:x.y}));this.rods=st.rods.map(x=>({...x}));this.motor=st.motor;this.motorSpeed=st.motorSpeed;this.motorAngle=0;this.running=false;this.dragging=null;this.t=0;this.nextNode=Math.max(0,...this.nodes.map(n=>n.id))+1;this.nextRod=Math.max(0,...this.rods.map(n=>n.id))+1;this.syncMotorAngle();this.design=this.serial();return this}
+ authored(){return clone(this.design)}
+ commitDesign(){this.design=this.serial();return this.authored()}
+ transfer(kind){if(kind!=='design'&&kind!=='pose')throw Error('Nieznany typ zapisu');return {schema:'medium.linkage.transfer.v1',kind,document:kind==='design'?this.authored():this.serial()}}
  serial(){return {schema:'medium.linkage.v1',points:this.nodes.map(({id,x,y,pin})=>({id,x:+x.toFixed(5),y:+y.toFixed(5),pin})),rods:this.rods.map(({id,a,b,length})=>({id,a,b,length:+length.toFixed(5)})),motor:this.motor,motorSpeed:this.motorSpeed}}
  node(id){return this.nodes.find(n=>n.id===id)}
  rod(id){return this.rods.find(r=>r.id===id)}
@@ -97,21 +101,28 @@ class Linkage{
  }
  maxError(){return this.rods.reduce((m,r)=>{const[a,b]=this.ends(r);return Math.max(m,Math.abs(hypot(a.x-b.x,a.y-b.y)-r.length))},0)}
 }
-root.LINKAGE_CORE={Linkage,validate,fresh,W,H,DT};
+function decodeTransfer(raw){
+ if(raw?.schema==='medium.linkage.transfer.v1'){
+  if(raw.kind!=='design'&&raw.kind!=='pose')throw Error('Nieznany typ zapisu');
+  return {kind:raw.kind,document:validate(raw.document)};
+ }
+ return {kind:'legacy-untagged',document:validate(raw)};
+}
+root.LINKAGE_CORE={Linkage,validate,fresh,decodeTransfer,W,H,DT};
 })(typeof window==='undefined'?globalThis:window);
 </script>
 <script id="linkage-ui">
 (()=>{'use strict';
-const {Linkage,W,H,DT}=window.LINKAGE_CORE,stage=document.getElementById('stage'),ctx=stage.getContext('2d');const model=new Linkage();
-const $=id=>document.getElementById(id);let mode='move',pendingNode=null,dragId=null,dragPointerId=null,rodPointerId=null,dragSnap=null,dirty=true,visible=true,last=0,acc=0,lastReport=0,latestHost=null;const history=[];
+const {Linkage,decodeTransfer,W,H,DT}=window.LINKAGE_CORE,stage=document.getElementById('stage'),ctx=stage.getContext('2d');const model=new Linkage();
+const $=id=>document.getElementById(id);let mode='move',pendingNode=null,dragId=null,dragPointerId=null,rodPointerId=null,dragSnap=null,dragOrigin=null,dirty=true,visible=true,last=0,acc=0,lastReport=0,latestHost=null;const history=[];
 const toolHelp={move:'Chwyć punkt i przesuń go. Możesz to robić także podczas ruchu.',point:'Dotknij pustej przestrzeni, aby utworzyć nowy punkt.',rod:'Wybierz pierwszy punkt, a następnie drugi (lub przeciągnij od jednego do drugiego).',pin:'Dotknij punktu, aby przypiąć go do świata lub uwolnić.',motor:'Dotknij pręta z dokładnie jedną zakotwiczoną końcówką, aby nadać lub odebrać napęd.',delete:'Dotknij pręta lub punktu, aby go usunąć.'};
 let label='Na początek: ▶ Uruchom. Potem chwytaj i przebudowuj układ.';
 function say(s){label=s;$('status').textContent=s;report();dirty=true}
-function persistUndo(snapshot){history.push(snapshot||JSON.stringify(model.serial()));if(history.length>40)history.shift();$('undo').disabled=false}
+function persistUndo(snapshot){history.push(snapshot||JSON.stringify(model.authored()));if(history.length>40)history.shift();$('undo').disabled=false}
 function emit(type,body){if(!latestHost)return;try{window.parent.postMessage({jaskinia:1,type,...body},latestHost)}catch{}}
 function stateData(){return {phase:model.running?'ruch':'pauza',nodes:model.nodes.length,rods:model.rods.length,pins:model.nodes.filter(n=>n.pin).length,motor:model.motor!==null,seconds:+model.t.toFixed(1),authoring:'local-only'}}
 function report(){let d=stateData();$('counts').textContent=`${d.nodes} punkty · ${d.rods} pręty · ${d.pins} kotwice · napęd ${d.motor?'tak':'nie'} · ${d.phase}`;emit('state',{text:`ŁĄCZNIK · ${d.rods} relacji · ${d.phase} · ${label}`.slice(0,240),data:d});emit('signals',{values:{wezly:d.nodes,prety:d.rods,kotwice:d.pins,naped:d.motor?1:0,odchylka:+model.maxError().toFixed(3)}})}
-function setMode(m){if(dragId!==null){model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null}mode=m;pendingNode=null;rodPointerId=null;for(const b of document.querySelectorAll('[data-mode]'))b.classList.toggle('active',b.dataset.mode===m);$('instruction').textContent=toolHelp[m];dirty=true}
+function setMode(m){if(dragId!==null){model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dragOrigin=null}mode=m;pendingNode=null;rodPointerId=null;for(const b of document.querySelectorAll('[data-mode]'))b.classList.toggle('active',b.dataset.mode===m);$('instruction').textContent=toolHelp[m];dirty=true}
 function togglePlay(){model.running=!model.running;$('play').textContent=model.running?'⏸ Pauza':'▶ Uruchom';say(model.running?'Symulacja działa. Zmieniaj połączenia również w ruchu.':'Pauza. Możesz precyzyjnie budować i zmieniać pozycje.');last=0;acc=0}
 function undo(){if(!history.length)return;let snapshot=history.pop();model.load(JSON.parse(snapshot));$('play').textContent='▶ Uruchom';$('undo').disabled=!history.length;pendingNode=null;say('Cofnięto ostatnią zmianę budowy. Układ zatrzymany.');}
 $('play').addEventListener('click',togglePlay);$('undo').addEventListener('click',undo);$('undo').disabled=true;
@@ -120,24 +131,26 @@ function scaleInfo(){const box=stage.getBoundingClientRect();const s=Math.min(bo
 function xy(e){const {box,s,ox,oy}=scaleInfo();return {x:(e.clientX-box.left-ox)/s,y:(e.clientY-box.top-oy)/s,s}}
 function nearestNode(p,rad){let best=null,d=rad;for(const n of model.nodes){let x=Math.hypot(n.x-p.x,n.y-p.y);if(x<=d){best=n;d=x}}return best}
 function nearestRod(p,rad){let best=null,d=rad;for(const r of model.rods){const a=model.node(r.a),b=model.node(r.b),dx=b.x-a.x,dy=b.y-a.y;const f=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));let distance=Math.hypot(a.x+f*dx-p.x,a.y+f*dy-p.y);if(distance<=d){d=distance;best=r}}return best}
-function connect(a,b){const snapshot=JSON.stringify(model.serial());const r=model.addRod(a,b);if(r){persistUndo(snapshot);say('Dodano prawdziwą więź: odległość tych dwóch węzłów jest teraz związana.')}else say('Nie można dodać tej więzi (już istnieje lub punkty zbyt blisko).');pendingNode=null;rodPointerId=null}
+function connect(a,b){const snapshot=JSON.stringify(model.authored());const r=model.addRod(a,b);if(r){persistUndo(snapshot);model.commitDesign();say('Dodano prawdziwą więź: odległość tych dwóch węzłów jest teraz związana.')}else say('Nie można dodać tej więzi (już istnieje lub punkty zbyt blisko).');pendingNode=null;rodPointerId=null}
 stage.addEventListener('pointerdown',e=>{
- if(e.button!==undefined&&e.button!==0)return;if(dragId!==null)return;stage.focus({preventScroll:true});const p=xy(e),r=21/p.s,n=nearestNode(p,r),rod=nearestRod(p,13/p.s);if(mode==='move'){if(!n){say('Chwyć jeden z okrągłych punktów.');return}dragId=n.id;dragPointerId=e.pointerId;dragSnap=JSON.stringify(model.serial());model.dragging=n.id;stage.setPointerCapture?.(e.pointerId);return}
- if(mode==='point'){if(p.x<14||p.x>W-14||p.y<14||p.y>H-14)return;const old=JSON.stringify(model.serial());const q=model.addNode(p.x,p.y);if(q){persistUndo(old);say('Nowy punkt. Teraz połącz go z innymi, żeby naprawdę wpływał na mechanizm.')}else say('Osiągnięto limit punktów.');return}
+ if(e.button!==undefined&&e.button!==0)return;if(dragId!==null)return;stage.focus({preventScroll:true});const p=xy(e),r=21/p.s,n=nearestNode(p,r),rod=nearestRod(p,13/p.s);if(mode==='move'){if(!n){say('Chwyć jeden z okrągłych punktów.');return}dragId=n.id;dragPointerId=e.pointerId;dragSnap=JSON.stringify(model.authored());dragOrigin={x:n.x,y:n.y};model.dragging=n.id;stage.setPointerCapture?.(e.pointerId);return}
+ if(mode==='point'){if(p.x<14||p.x>W-14||p.y<14||p.y>H-14)return;const old=JSON.stringify(model.authored());const q=model.addNode(p.x,p.y);if(q){persistUndo(old);model.commitDesign();say('Nowy punkt. Teraz połącz go z innymi, żeby naprawdę wpływał na mechanizm.')}else say('Osiągnięto limit punktów.');return}
  if(mode==='rod'){if(n){if(pendingNode===null){pendingNode=n.id;rodPointerId=e.pointerId;stage.setPointerCapture?.(e.pointerId);say('Pierwszy punkt wybrany. Wskaż albo przeciągnij do drugiego.')}else if(n.id!==pendingNode){connect(pendingNode,n.id)}else {pendingNode=null;dirty=true}}else{pendingNode=null;dirty=true}return}
- if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.serial());if(model.togglePin(n.id)){persistUndo(old);say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}return}
- if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.serial());if(model.toggleMotor(rod.id)){persistUndo(old);say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy i jednego swobodnego końca pręta.');return}
- if(mode==='delete'){if(!n&&!rod)return;const old=JSON.stringify(model.serial());if(n?model.removeNode(n.id):model.removeRod(rod.id)){persistUndo(old);say('Element i jego zależności zostały usunięte.')}return}
+ if(mode==='pin'){if(!n)return;const old=JSON.stringify(model.authored());if(model.togglePin(n.id)){persistUndo(old);model.commitDesign();say(n.pin?'Węzeł zakotwiczony w świecie.':'Węzeł uwolniony. Napęd może zostać odłączony.')}return}
+ if(mode==='motor'){if(!rod)return;const old=JSON.stringify(model.authored());if(model.toggleMotor(rod.id)){persistUndo(old);model.commitDesign();say(model.motor===rod.id?'Napęd wprawi w ruch cały związany układ.':'Napęd odłączony.')}else say('Napęd wymaga jednej kotwicy i jednego swobodnego końca pręta.');return}
+ if(mode==='delete'){if(!n&&!rod)return;const old=JSON.stringify(model.authored());if(n?model.removeNode(n.id):model.removeRod(rod.id)){persistUndo(old);model.commitDesign();say('Element i jego zależności zostały usunięte.')}return}
 });
 stage.addEventListener('pointermove',e=>{const p=xy(e);if(dragId!==null){if(e.pointerId!==dragPointerId)return;model.moveNode(dragId,p.x,p.y);dirty=true}else if(mode==='rod'&&pendingNode!==null){dirty=true}});
 stage.addEventListener('pointerup',e=>{
- if(dragId!==null){if(e.pointerId!==dragPointerId)return;const changed=dragSnap!==JSON.stringify(model.serial());if(changed){persistUndo(dragSnap);say('Nowa pozycja. Połączenia nadal zachowują swoje więzy.')}model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dirty=true}
+ if(dragId!==null){if(e.pointerId!==dragPointerId)return;const node=model.node(dragId),changed=node&&dragOrigin&&Math.hypot(node.x-dragOrigin.x,node.y-dragOrigin.y)>0.001;if(changed){persistUndo(dragSnap);model.commitDesign();say('Nowa pozycja. Połączenia nadal zachowują swoje więzy.')}model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dragOrigin=null;dirty=true}
  else if(mode==='rod'&&pendingNode!==null&&e.pointerId===rodPointerId){const p=xy(e),n=nearestNode(p,21/p.s);if(n&&n.id!==pendingNode)connect(pendingNode,n.id)}
 });
-stage.addEventListener('pointercancel',e=>{if(dragId!==null&&e.pointerId===dragPointerId){model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dirty=true}if(mode==='rod'&&e.pointerId===rodPointerId){pendingNode=null;rodPointerId=null;dirty=true}});
+stage.addEventListener('pointercancel',e=>{if(dragId!==null&&e.pointerId===dragPointerId){model.dragging=null;dragId=null;dragPointerId=null;dragSnap=null;dragOrigin=null;dirty=true}if(mode==='rod'&&e.pointerId===rodPointerId){pendingNode=null;rodPointerId=null;dirty=true}});
 window.addEventListener('keydown',e=>{if(e.target?.matches('input,textarea,button')||e.altKey||e.ctrlKey||e.metaKey)return;if(e.code==='Space'){e.preventDefault();togglePlay()}else if(e.code==='Escape'){pendingNode=null;setMode('move')}else if(e.key==='z'||e.key==='Z'){undo()}});
-$('export').addEventListener('click',()=>{const file=new Blob([JSON.stringify(model.serial(),null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download='lacznik-uklad.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);say('Pobrano układ na Twoje wyraźne żądanie. Nie zapisuję bazgrołów automatycznie.')});
-$('import').addEventListener('change',async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>120000){say('Plik jest zbyt duży.');return}try{const str=await f.text(),raw=JSON.parse(str);const next=new Linkage(raw);persistUndo(JSON.stringify(model.serial()));model.load(next.serial());$('play').textContent='▶ Uruchom';say('Odzyskano układ. Możesz przebudowywać go od razu.')}catch(err){say('Nie udało się odczytać układu: '+String(err.message||err).slice(0,80))}});
+function download(kind){const payload=model.transfer(kind),file=new Blob([JSON.stringify(payload,null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download=kind==='design'?'lacznik-projekt.json':'lacznik-poza.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);say(kind==='design'?'Pobrano projekt: ostatnia świadoma edycja, bez późniejszego ruchu.':'Pobrano pozę: bieżące położenia, bez prędkości i historii. Nie zapisuję nic automatycznie.')}
+$('export-design').addEventListener('click',()=>download('design'));
+$('export-pose').addEventListener('click',()=>download('pose'));
+$('import').addEventListener('change',async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>120000){say('Plik jest zbyt duży.');return}try{const str=await f.text(),raw=JSON.parse(str),decoded=decodeTransfer(raw);const next=new Linkage(decoded.document);persistUndo(JSON.stringify(model.authored()));model.load(next.serial());$('play').textContent='▶ Uruchom';say(decoded.kind==='design'?'Odzyskano projekt jako edytowalną konstrukcję.':decoded.kind==='pose'?'Odzyskano pozę jako nowy punkt startowy; historia i prędkości nie są przenoszone.':'Odzyskano starszy zapis bez informacji, czy był projektem czy pozą.')}catch(err){say('Nie udało się odczytać układu: '+String(err.message||err).slice(0,80))}});
 function draw(){const {s,ox,oy,box}=scaleInfo(),dpr=Math.min(2,window.devicePixelRatio||1);const ww=Math.max(1,Math.round(box.width*dpr)),hh=Math.max(1,Math.round(box.height*dpr));if(stage.width!==ww||stage.height!==hh){stage.width=ww;stage.height=hh}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,box.width,box.height);ctx.translate(ox,oy);ctx.scale(s,s);ctx.fillStyle='#0b141b';ctx.fillRect(0,0,W,H);
  // Grid and ground are visual only; no fictitious contact physics.
  ctx.strokeStyle='#1b3037';ctx.lineWidth=1/s;for(let x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<=H;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
