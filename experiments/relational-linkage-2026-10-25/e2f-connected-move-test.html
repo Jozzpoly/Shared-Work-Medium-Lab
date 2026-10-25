@@ -1,0 +1,70 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><title>E2f · test zachowania więzi podczas przesuwania</title>
+<style>body{background:#0c1822;color:#e9f1f1;font:14px/1.5 system-ui;margin:15px}pre{white-space:pre-wrap;padding:14px;border-radius:9px;background:#1b3340}iframe{width:100%;height:540px;max-width:1090px;border:1px solid #496676}</style>
+<h2>E2f — pojedyncza część kontra spójny mechanizm</h2>
+<p>Automatyczne gesty DOM na rzeczywistym edytorze i Planck.js. Weryfikujemy, że wybrana interpretacja ruchu zachowuje albo świadomie zmienia punkty mocowania. To nie jest Owner feel test.</p>
+<pre role="status" id="status">Test…</pre><iframe title="Warsztat rzeczywistych części" id="lab" src="./e2e-material-workshop.html"></iframe>
+<script>
+(async()=>{
+const status=document.querySelector('#status'),checks=[];
+const check=(name,ok)=>{checks.push({name,pass:!!ok});if(!ok)throw Error('FAIL: '+name)};
+const eq=(a,b,tol=1e-5)=>Math.abs(a-b)<tol;
+const deep=x=>JSON.parse(JSON.stringify(x));
+try{
+ const frame=document.querySelector('#lab');
+ await new Promise((yes,no)=>{if(frame.contentWindow?.E2E?.model)return yes();frame.addEventListener('load',yes,{once:true});setTimeout(()=>no(Error('Nie otwarto warsztatu')),12000)});
+ const w=frame.contentWindow,d=w.document,app=w.E2E,canvas=d.querySelector('#stage');
+ canvas.setPointerCapture=()=>{};
+ const source={schema:'medium.material-workshop.v0',
+  parts:[
+   {id:1,kind:'box',x:3,y:3,w:1.8,h:.34,angle:0,pinned:false},
+   {id:2,kind:'box',x:4.5,y:3,w:1.8,h:.34,angle:0,pinned:false},
+   {id:3,kind:'disc',x:8,y:5,w:.8,h:.8,angle:0,pinned:false}],
+  joints:[
+   {id:4,kind:'hinge',a:2,b:1,x:3.75,y:3,dx:1,dy:0,motor:false},
+   {id:5,kind:'hinge',a:null,b:1,x:3,y:3,dx:1,dy:0,motor:true}
+  ]};
+ const before=JSON.stringify(source),parts=id=>app.doc.parts.find(p=>p.id===id),joints=id=>app.doc.joints.find(j=>j.id===id);
+ function event(kind,x,y,ptr=31){
+  const rect=canvas.getBoundingClientRect(),s=Math.min(rect.width/12,rect.height/7.3),ox=(rect.width-s*12)/2,oy=(rect.height-s*7.3)/2;
+  canvas.dispatchEvent(new w.PointerEvent(kind,{bubbles:true,pointerType:'touch',pointerId:ptr,button:0,clientX:rect.left+ox+x*s,clientY:rect.top+oy+y*s}));
+ }
+ async function importDoc(value){
+  const file=new w.File([JSON.stringify(value)],'work.json',{type:'application/json'}),dt=new w.DataTransfer();dt.items.add(file);
+  const input=d.querySelector('#import');input.files=dt.files;input.dispatchEvent(new w.Event('change',{bubbles:true}));
+  await new Promise(r=>setTimeout(r,120));
+ }
+ await importDoc(source);check('import trzech brył i dwóch różnych zawiasów',app.doc.parts.length===3&&app.doc.joints.length===2);
+ app.setMode('move');event('pointerdown',3,3);event('pointermove',4,4);event('pointerup',4,4);
+ check('standardowy gest przesuwa tylko jedną część',eq(parts(1).x,4)&&eq(parts(2).x,4.5)&&eq(parts(3).x,8));
+ check('standardowy gest świadomie zachowuje globalne osie',eq(joints(4).x,3.75)&&eq(joints(5).x,3));
+ app.undo();check('undo całkowicie przywraca projekt',JSON.stringify(app.doc)===before);
+ event('pointerdown',3,3);event('pointerup',3,3); // select only
+ const toggle=d.querySelector('#moveWith');check('tryb jest obecny przy wybranej bryle',!!toggle&&!toggle.disabled);
+ toggle.click();check('tryb translacji spójnego mechanizmu jawnie włączony',toggle.classList.contains('active'));
+ event('pointerdown',3,3);event('pointermove',4,4);
+ const during=app.model;
+ check('live preview przesuwa obie związane bryły',eq(during.bodies.get(1).getPosition().x,4)&&eq(during.bodies.get(2).getPosition().x,5.5));
+ check('live preview nie rusza niezwiązanej trzeciej bryły',eq(during.bodies.get(3).getPosition().x,8));
+ check('live preview nie zmienia dokumentu źródłowego',JSON.stringify(app.doc)===before);
+ event('pointerup',4,4);
+ check('gest przenosi wszystkie bryły tej samej spójnej części grafu',eq(parts(1).x,4)&&eq(parts(2).x,5.5));
+ check('niezwiązany obiekt pozostaje w tej samej pozycji',eq(parts(3).x,8)&&eq(parts(3).y,5));
+ check('oba przeguby i kotwica świata przeszły o ten sam wektor',eq(joints(4).x,4.75)&&eq(joints(4).y,4)&&eq(joints(5).x,4)&&eq(joints(5).y,4));
+ check('lokalne zaczepy obydwu brył zostały zachowane',eq(joints(4).x-parts(1).x,.75)&&eq(joints(4).x-parts(2).x,-.75)&&eq(joints(5).x-parts(1).x,0));
+ const moved=deep(app.doc);
+ const physics=app.build(moved);
+ for(let i=0;i<240;i++)physics.world.step(1/120);
+ check('przełożony mechanizm pozostaje uruchamialny w realnym solverze',
+  [...physics.bodies.values()].every(body=>Number.isFinite(body.getPosition().x)&&Number.isFinite(body.getPosition().y)));
+ app.undo();check('undo cofa całe przesunięcie jako jedną operację',JSON.stringify(app.doc)===before);
+ event('pointerdown',3,3);event('pointermove',4,4);event('pointercancel',4,4);
+ check('cancel wycofuje preview całej połączonej konstrukcji',JSON.stringify(app.doc)===before&&eq(app.model.bodies.get(2).getPosition().x,4.5));
+ // Explicitly verify safe limiting near the canvas edge.
+ event('pointerdown',3,3);event('pointermove',99,99);event('pointerup',99,99);
+ check('przesuwanie układu jest ograniczone do dozwolonych współrzędnych',
+  app.doc.parts.every(p=>p.x>=.25-1e-8&&p.x<=11.75+1e-8&&p.y>=.25-1e-8&&p.y<=7.05+1e-8));
+ check('zachowana względna pozycja powiązanych brył również przy granicy',eq(parts(2).x-parts(1).x,1.5));
+ status.textContent=JSON.stringify({status:'PASS',checks:checks.length,mode:'explicit move-alone or translate joint-connected component',limit:'synthetic touch-type PointerEvents, known topology, physical mobile and spontaneous Owner authoring not tested'},null,2)+'\n'+checks.map(c=>'✓ '+c.name).join('\n');
+}catch(e){status.textContent='FAIL '+String(e.stack||e)+'\n'+checks.map(c=>(c.pass?'✓ ':'✗ ')+c.name).join('\n')}
+})();
+</script></html>
