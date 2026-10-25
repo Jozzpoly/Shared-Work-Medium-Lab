@@ -13,6 +13,7 @@ button:hover,label.file:hover{border-color:var(--accent)}
 button.active{background:#91652e;border-color:var(--accent)}
 button.run{background:#235646;border-color:#53917c;font-weight:700}
 button:disabled{opacity:.55;cursor:default}
+button[hidden]{display:none!important}
 .selection-actions{display:none;gap:5px;align-items:center;padding:2px 4px;border-left:1px solid var(--line)}
 .selection-actions.on{display:flex}
 input[type=file]{display:none}
@@ -40,6 +41,7 @@ footer{font-size:11px;padding:4px 10px;color:#aac1c5;border-top:1px solid var(--
 <button id="sizeDown">− Rozmiar</button>
 <button id="sizeUp">+ Rozmiar</button>
 <button id="pin">Kotwica</button>
+<button id="mountIntent" hidden title="Dla bryły z dokładnie jednym zawiasem do świata: obracaj wokół zawiasu lub skaluj z zachowaniem proporcjonalnego mocowania">Zachowaj mocowanie: WYŁ.</button>
 <button id="moveWith" title="Włącz, aby przesuwać wszystkie bryły połączone przegubami oraz punkty ich zaczepienia, jako jedną konstrukcję">Przesuń z połączeniami: WYŁ.</button>
 </div>
 <button id="undo">↶ Cofnij</button>
@@ -58,7 +60,7 @@ const P=window.planck,$=id=>document.getElementById(id);
 const stage=$('stage'),ctx=stage.getContext('2d'),W=12,H=7.3,DT=1/120;
 const clone=x=>JSON.parse(JSON.stringify(x)),number=x=>typeof x==='number'&&Number.isFinite(x);
 const V=(x,y)=>P.Vec2(x,y),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),clamp=(x,lo,hi)=>Math.max(lo,Math.min(hi,x));
-let nextId=3,mode='move',selected=null,pending=null,gesture=null,moveConnected=false,playing=false,model=null,history=[],frames=0,contacts=0;
+let nextId=3,mode='move',selected=null,pending=null,gesture=null,moveConnected=false,preserveMount=false,playing=false,model=null,history=[],frames=0,contacts=0;
 let doc={
  schema:'medium.material-workshop.v0',
  parts:[{id:1,kind:'box',x:4.2,y:3.6,w:2.3,h:.34,angle:0,pinned:false},
@@ -105,6 +107,10 @@ function build(source){
 function say(msg){$('status').textContent=msg}
 function metrics(){
  const panel=$('part-actions');panel.classList.toggle('on',!playing&&mode==='move'&&selected!==null&&doc.parts.some(p=>p.id===selected));
+ const mountEligible=!!eligibleMount(selected);
+ $('mountIntent').hidden=!mountEligible;
+ $('mountIntent').classList.toggle('active',mountEligible&&preserveMount);
+ $('mountIntent').textContent='Zachowaj mocowanie: '+(mountEligible&&preserveMount?'WŁ.':'WYŁ.');
  $('moveWith').classList.toggle('active',moveConnected);$('moveWith').textContent='Przesuń z połączeniami: '+(moveConnected?'WŁ.':'WYŁ.');
  $('metrics').textContent=doc.parts.length+' bryły · '+doc.joints.length+' przegubów · '+(playing?'symulacja ('+frames+' kroków, '+contacts+' kontaktów)':'projekt');
 }
@@ -115,6 +121,20 @@ function edit(fn){
  try{const result=fn(candidate);if(result===false)return false;const valid=validate(candidate);if(JSON.stringify(valid)===before)return false;const staged=build(valid);doc=valid;model=staged;history.push(before);if(history.length>40)history.shift();nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));metrics();return true}catch(e){say('Nie można zmienić: '+e.message);return false}
 }
 function getPart(id){return doc.parts.find(p=>p.id===id)}
+function eligibleMount(id){
+ if(id==null)return null;
+ const incident=doc.joints.filter(j=>j.a===id||j.b===id);
+ return incident.length===1&&incident[0].kind==='hinge'&&incident[0].a===null&&incident[0].b===id?incident[0]:null;
+}
+function attachmentLocal(part,joint){
+ const dx=joint.x-part.x,dy=joint.y-part.y,c=Math.cos(part.angle),s=Math.sin(part.angle);
+ return {x:dx*c+dy*s,y:-dx*s+dy*c};
+}
+function centerFromLocal(part,joint,local){
+ const c=Math.cos(part.angle),s=Math.sin(part.angle);
+ part.x=joint.x-(local.x*c-local.y*s);
+ part.y=joint.y-(local.x*s+local.y*c);
+}
 function activeId(){return selected&&getPart(selected)?selected:null}
 function linkedComponent(source,start){
  const ids=new Set([start]);let changed=true;
@@ -155,7 +175,7 @@ function togglePlay(){
  if(playing){rebuild();frames=0;contacts=0;pending=null;gesture=null;say('Świat działa. Obserwuj konsekwencje i kontakt. Stop powraca do projektu.')}
  else {rebuild();say('Powrócono do zaprojektowanej konstrukcji. Żadnej chwilowej pozy nie zapisano automatycznie.')}
  $('play').textContent=playing?'■ Stop → projekt':'▶ Uruchom';
- for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#moveWith,#undo,#new,#import,#save'))el.disabled=playing;
+ for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#mountIntent,#moveWith,#undo,#new,#import,#save'))el.disabled=playing;
  metrics();
 }
 function sizeInfo(){const rect=stage.getBoundingClientRect(),scale=Math.min(rect.width/W,rect.height/H),x0=(rect.width-W*scale)/2,y0=(rect.height-H*scale)/2;return {rect,scale,x0,y0}}
@@ -203,13 +223,13 @@ function addRail(id,x,y,dx,dy){
   d.joints.push({id:jid,kind:'rail',a:null,b:id,x,y,dx:dx/n,dy:dy/n,motor:false});
  });
 }
-function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;pending=null;gesture=null;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
+function undo(){if(playing||!history.length)return;doc=JSON.parse(history.pop());selected=null;pending=null;gesture=null;preserveMount=false;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));rebuild();say('Cofnięto autorską operację; runtime nie był zapisany.')}
 stage.addEventListener('pointerdown',e=>{
  if(playing||e.button!==undefined&&e.button!==0||gesture!==null)return;
  stage.focus({preventScroll:true});
  const q=xy(e),id=hit(q),jid=hingeAt(q);
  if(mode==='move'){
-  selected=id;metrics();gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),withConnected:moveConnected,pointer:e.pointerId,delta:{x:0,y:0}}:null;
+  if(selected!==id)preserveMount=false;selected=id;metrics();gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),withConnected:moveConnected,pointer:e.pointerId,delta:{x:0,y:0}}:null;
   if(gesture)stage.setPointerCapture?.(e.pointerId);
   else say('Wybierz część.');return;
  }
@@ -278,21 +298,46 @@ stage.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId){ge
 for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));
 $('play').addEventListener('click',togglePlay);
 $('undo').addEventListener('click',undo);
-$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;gesture=null;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
+$('new').addEventListener('click',()=>{if(playing)return;history.push(JSON.stringify(doc));doc=empty();selected=null;pending=null;gesture=null;preserveMount=false;nextId=3;rebuild();say('Pusty świat. Żadna konstrukcja nie jest narzucona.')});
 function changeSelected(kind){
  const id=activeId();if(!id||playing){say('Najpierw zaznacz bryłę w trybie Chwyć.');return}
+ const fixedMount=preserveMount?eligibleMount(id):null;
+ const hasJoint=doc.joints.some(j=>j.a===id||j.b===id);
  const ok=edit(d=>{const p=d.parts.find(p=>p.id===id);
- if(kind==='rotate')p.angle+=Math.PI/12;
- else if(kind==='increase'){p.w=Math.min(3,p.w*1.17);if(p.kind==='box')p.h=Math.min(1.6,p.h*1.11);else p.h=p.w}
- else if(kind==='decrease'){p.w=Math.max(.17,p.w/1.17);if(p.kind==='box')p.h=Math.max(.13,p.h/1.11);else p.h=p.w}
- else if(kind==='pin'){if(!p.pinned&&d.joints.some(j=>j.b===id||j.a===id))return false;p.pinned=!p.pinned}
+  if(!p)return false;
+  if(kind==='rotate'){
+   const local=fixedMount?attachmentLocal(p,fixedMount):null;
+   p.angle+=Math.PI/12;
+   if(local)centerFromLocal(p,fixedMount,local);
+  }else if(kind==='increase'||kind==='decrease'){
+   const local=fixedMount?attachmentLocal(p,fixedMount):null,oldW=p.w,oldH=p.h;
+   const up=kind==='increase';
+   p.w=up?Math.min(3,p.w*1.17):Math.max(.17,p.w/1.17);
+   if(p.kind==='box')p.h=up?Math.min(1.6,p.h*1.11):Math.max(.13,p.h/1.11);
+   else p.h=p.w;
+   if(local)centerFromLocal(p,fixedMount,{x:local.x*p.w/oldW,y:local.y*p.h/oldH});
+  }else if(kind==='pin'){
+   if(!p.pinned&&d.joints.some(j=>j.b===id||j.a===id))return false;
+   p.pinned=!p.pinned;
+  }
  });
- say(ok?'Świadoma zmiana geometrii/trybu w projekcie.':'Zmiana niewykonalna lub bez efektu.');
+ say(!ok?'Zmiana niewykonalna, bez efektu lub przekracza granice świata.':
+  fixedMount?'Zmieniono geometrię z zachowaniem miejsca mocowania w materiale i nieruchomego zawiasu.':
+  hasJoint&&(kind==='rotate'||kind==='increase'||kind==='decrease')?
+  'Zmieniono wyłącznie geometrię. Zawiasy pozostały w świecie; ich zaczepy w materiale mogły się przemieścić.':
+  'Świadoma zmiana części w projekcie.');
 }
 $('rotate').addEventListener('click',()=>changeSelected('rotate'));
 $('sizeUp').addEventListener('click',()=>changeSelected('increase'));
 $('sizeDown').addEventListener('click',()=>changeSelected('decrease'));
 $('pin').addEventListener('click',()=>changeSelected('pin'));
+$('mountIntent').addEventListener('click',()=>{
+ const j=eligibleMount(activeId());
+ if(playing||!j)return;
+ preserveMount=!preserveMount;metrics();
+ say(preserveMount?'Obrót wykona się wokół istniejącego zawiasu; skala zachowa jego proporcjonalne mocowanie w materiale.':
+  'Obrót i zmiana rozmiaru obejmą tylko bryłę. Globalny zawias nie przesunie się.');
+});
 $('moveWith').addEventListener('click',()=>{
  if(playing)return;
  if(gesture?.type==='move'){gesture=null;rebuild()}
@@ -308,7 +353,7 @@ $('save').addEventListener('click',()=>{
 $('import').addEventListener('change',async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;if(file.size>100000){say('Plik zbyt duży.');return}
  try{const candidate=validate(JSON.parse(await file.text())),staged=build(candidate),before=JSON.stringify(doc);
-  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;gesture=null;metrics();
+  history.push(before);doc=candidate;model=staged;nextId=Math.max(3,...doc.parts.map(x=>x.id+1),...doc.joints.map(x=>x.id+1));selected=null;pending=null;gesture=null;preserveMount=false;metrics();
   say('Odzyskano edytowalny projekt. Nie odzyskiwano historii i chwilowych prędkości.')}
  catch(e){say('Odrzucono import bez zmiany projektu: '+String(e.message||e).slice(0,70))}
 });
