@@ -40,6 +40,7 @@ footer{font-size:11px;padding:4px 10px;color:#aac1c5;border-top:1px solid var(--
 <button id="sizeDown">− Rozmiar</button>
 <button id="sizeUp">+ Rozmiar</button>
 <button id="pin">Kotwica</button>
+<button id="moveWith" title="Włącz, aby przesuwać wszystkie bryły połączone przegubami oraz punkty ich zaczepienia, jako jedną konstrukcję">Przesuń z połączeniami: WYŁ.</button>
 </div>
 <button id="undo">↶ Cofnij</button>
 <button id="new">Nowy świat</button>
@@ -57,7 +58,7 @@ const P=window.planck,$=id=>document.getElementById(id);
 const stage=$('stage'),ctx=stage.getContext('2d'),W=12,H=7.3,DT=1/120;
 const clone=x=>JSON.parse(JSON.stringify(x)),number=x=>typeof x==='number'&&Number.isFinite(x);
 const V=(x,y)=>P.Vec2(x,y),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),clamp=(x,lo,hi)=>Math.max(lo,Math.min(hi,x));
-let nextId=3,mode='move',selected=null,pending=null,gesture=null,playing=false,model=null,history=[],frames=0,contacts=0;
+let nextId=3,mode='move',selected=null,pending=null,gesture=null,moveConnected=false,playing=false,model=null,history=[],frames=0,contacts=0;
 let doc={
  schema:'medium.material-workshop.v0',
  parts:[{id:1,kind:'box',x:4.2,y:3.6,w:2.3,h:.34,angle:0,pinned:false},
@@ -103,7 +104,8 @@ function build(source){
 }
 function say(msg){$('status').textContent=msg}
 function metrics(){
- const panel=$('part-actions');panel.classList.toggle('on',!playing&&selected!==null&&doc.parts.some(p=>p.id===selected));
+ const panel=$('part-actions');panel.classList.toggle('on',!playing&&mode==='move'&&selected!==null&&doc.parts.some(p=>p.id===selected));
+ $('moveWith').classList.toggle('active',moveConnected);$('moveWith').textContent='Przesuń z połączeniami: '+(moveConnected?'WŁ.':'WYŁ.');
  $('metrics').textContent=doc.parts.length+' bryły · '+doc.joints.length+' przegubów · '+(playing?'symulacja ('+frames+' kroków, '+contacts+' kontaktów)':'projekt');
 }
 function rebuild(){model=build(doc);metrics()}
@@ -114,6 +116,30 @@ function edit(fn){
 }
 function getPart(id){return doc.parts.find(p=>p.id===id)}
 function activeId(){return selected&&getPart(selected)?selected:null}
+function linkedComponent(source,start){
+ const ids=new Set([start]);let changed=true;
+ while(changed){
+  changed=false;
+  for(const j of source.joints)if(j.a!==null&&(ids.has(j.a)||ids.has(j.b))){
+   if(!ids.has(j.a)){ids.add(j.a);changed=true}
+   if(!ids.has(j.b)){ids.add(j.b);changed=true}
+  }
+ }
+ return ids;
+}
+function shiftedGroup(source,start,dx,dy){
+ const ids=linkedComponent(source,start),parts=source.parts.filter(p=>ids.has(p.id));
+ const lowX=Math.max(...parts.map(p=>.25-p.x)),highX=Math.min(...parts.map(p=>W-.25-p.x));
+ const lowY=Math.max(...parts.map(p=>.25-p.y)),highY=Math.min(...parts.map(p=>H-.25-p.y));
+ const x=clamp(dx,lowX,highX),y=clamp(dy,lowY,highY);
+ return {ids,x,y};
+}
+function translateLinked(source,start,dx,dy){
+ const g=shiftedGroup(source,start,dx,dy);
+ for(const p of source.parts)if(g.ids.has(p.id)){p.x+=g.x;p.y+=g.y}
+ for(const j of source.joints)if(g.ids.has(j.b)||g.ids.has(j.a)){j.x+=g.x;j.y+=g.y}
+ return g;
+}
 function setMode(next){if(gesture?.type==='move')rebuild();mode=next;pending=null;gesture=null;for(const el of document.querySelectorAll('[data-mode]'))el.classList.toggle('active',el.dataset.mode===mode);say({
  move:'Wybierz bryłę i przeciągnij ją. Rozmiar i obrót zmienisz przyciskami.',
  box:'Kliknij dowolne miejsce: utworzysz belkę, także na innej części (mogą pojawić się fizyczne kolizje).',
@@ -129,7 +155,7 @@ function togglePlay(){
  if(playing){rebuild();frames=0;contacts=0;pending=null;gesture=null;say('Świat działa. Obserwuj konsekwencje i kontakt. Stop powraca do projektu.')}
  else {rebuild();say('Powrócono do zaprojektowanej konstrukcji. Żadnej chwilowej pozy nie zapisano automatycznie.')}
  $('play').textContent=playing?'■ Stop → projekt':'▶ Uruchom';
- for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#undo,#new,#import,#save'))el.disabled=playing;
+ for(const el of document.querySelectorAll('[data-mode],#rotate,#sizeDown,#sizeUp,#pin,#moveWith,#undo,#new,#import,#save'))el.disabled=playing;
  metrics();
 }
 function sizeInfo(){const rect=stage.getBoundingClientRect(),scale=Math.min(rect.width/W,rect.height/H),x0=(rect.width-W*scale)/2,y0=(rect.height-H*scale)/2;return {rect,scale,x0,y0}}
@@ -183,7 +209,7 @@ stage.addEventListener('pointerdown',e=>{
  stage.focus({preventScroll:true});
  const q=xy(e),id=hit(q),jid=hingeAt(q);
  if(mode==='move'){
-  selected=id;metrics();gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),pointer:e.pointerId}:null;
+  selected=id;metrics();gesture=id?{type:'move',id,start:q,origin:clone(getPart(id)),withConnected:moveConnected,pointer:e.pointerId,delta:{x:0,y:0}}:null;
   if(gesture)stage.setPointerCapture?.(e.pointerId);
   else say('Wybierz część.');return;
  }
@@ -219,8 +245,17 @@ stage.addEventListener('pointermove',e=>{
  if(!gesture||gesture.pointer!==e.pointerId)return;
  const p=xy(e);gesture.end=p;
  if(gesture.type==='move'){
-  const body=model.bodies.get(gesture.id),dx=p.x-gesture.start.x,dy=p.y-gesture.start.y;
-  body.setTransform(V(clamp(gesture.origin.x+dx,.25,W-.25),clamp(gesture.origin.y+dy,.25,H-.25)),gesture.origin.angle);
+   const dx=p.x-gesture.start.x,dy=p.y-gesture.start.y;
+  if(gesture.withConnected){
+   const g=shiftedGroup(doc,gesture.id,dx,dy);gesture.delta={x:g.x,y:g.y};
+   for(const part of doc.parts)if(g.ids.has(part.id)){
+    model.bodies.get(part.id).setTransform(V(part.x+g.x,part.y+g.y),part.angle);
+   }
+  }else{
+   const body=model.bodies.get(gesture.id),x=clamp(gesture.origin.x+dx,.25,W-.25),y=clamp(gesture.origin.y+dy,.25,H-.25);
+   gesture.delta={x:x-gesture.origin.x,y:y-gesture.origin.y};
+   body.setTransform(V(x,y),gesture.origin.angle);
+  }
  }
 });
 stage.addEventListener('pointerup',e=>{
@@ -230,8 +265,11 @@ stage.addEventListener('pointerup',e=>{
   const dx=q.x-g.start.x,dy=q.y-g.start.y;
   if(Math.hypot(dx,dy)>.05){
    const jointed=doc.joints.some(j=>j.a===g.id||j.b===g.id);
-   const done=edit(d=>{const p=d.parts.find(p=>p.id===g.id);p.x=clamp(g.origin.x+dx,.25,W-.25);p.y=clamp(g.origin.y+dy,.25,H-.25)});
-   say(done?(jointed?'Przesunięto bryłę; istniejące kotwice przegubów nie przesunęły się automatycznie. Sprawdź relacje.':'Przesunięto konstrukcyjną pozycję części. Wznowienie liczy świat od projektu.'):'Bez zmiany pozycji.');
+   const done=edit(d=>{
+    if(g.withConnected)translateLinked(d,g.id,dx,dy);
+    else{const p=d.parts.find(p=>p.id===g.id);p.x=clamp(g.origin.x+dx,.25,W-.25);p.y=clamp(g.origin.y+dy,.25,H-.25)}
+   });
+   say(done?(g.withConnected?'Przeniesiono cały spójny zestaw brył i punktów przegubów, bez zmiany ich lokalnych zaczepów.':jointed?'Przeniesiono tylko bryłę; globalna oś pozostała nieruchoma, więc zmieniło się miejsce mocowania.':'Przeniesiono bryłę, bez przypadkowego zapisu symulacji.'):'Bez zmiany pozycji.');
   }else{rebuild();say('Wybrano bryłę. Zmień rozmiar, obrót lub kotwicę.')}
  }
  if(g.type==='rail'){const ok=addRail(g.id,g.start.x,g.start.y,q.x-g.start.x,q.y-g.start.y);say(ok?'Prowadnica utworzona. To prawdziwy przegub pryzmatyczny do świata.':'Nie dodano prowadnicy; wymagany świadomy kierunek i zgodne relacje.')}
@@ -255,6 +293,12 @@ $('rotate').addEventListener('click',()=>changeSelected('rotate'));
 $('sizeUp').addEventListener('click',()=>changeSelected('increase'));
 $('sizeDown').addEventListener('click',()=>changeSelected('decrease'));
 $('pin').addEventListener('click',()=>changeSelected('pin'));
+$('moveWith').addEventListener('click',()=>{
+ if(playing)return;
+ if(gesture?.type==='move'){gesture=null;rebuild()}
+ moveConnected=!moveConnected;metrics();
+ say(moveConnected?'Przeciąganie przeniesie całą połączoną konstrukcję, wraz z osiami i zaczepami.':'Przeciąganie przeniesie tylko wybraną część; punkty zaczepów w świecie zostaną na miejscu.');
+});
 $('save').addEventListener('click',()=>{
  if(playing){say('Najpierw wróć do projektu.');return}
  const blob=new Blob([JSON.stringify(doc,null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -282,13 +326,16 @@ function draw(){
  for(let y=0;y<=H;y+=.5){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
  for(const j of doc.joints){
   const bx=model.bodies.get(j.b),p=bx.getPosition();
+  const activeGroup=gesture?.type==='move'&&gesture.withConnected?linkedComponent(doc,gesture.id):null;
+  const md=activeGroup&&(activeGroup.has(j.b)||activeGroup.has(j.a))?gesture.delta:{x:0,y:0};
+  const anchor={x:j.x+md.x,y:j.y+md.y};
   if(j.kind==='rail'){
    ctx.beginPath();ctx.moveTo(p.x-j.dx*9,p.y-j.dy*9);ctx.lineTo(p.x+j.dx*9,p.y+j.dy*9);
    ctx.strokeStyle='#6daed0';ctx.setLineDash([.15,.1]);ctx.lineWidth=.035;ctx.stroke();ctx.setLineDash([]);
   }else{
-   ctx.fillStyle=j.motor?'#f7bd69':'#d8f1a6';ctx.beginPath();ctx.arc(j.x,j.y,.095,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle=j.motor?'#f7bd69':'#d8f1a6';ctx.beginPath();ctx.arc(anchor.x,anchor.y,.095,0,Math.PI*2);ctx.fill();
    ctx.strokeStyle='#173341';ctx.lineWidth=.025;ctx.stroke();
-   if(j.motor){ctx.fillStyle='#f7bd69';ctx.font='.22px system-ui';ctx.fillText('↻',j.x+.13,j.y-.11)}
+   if(j.motor){ctx.fillStyle='#f7bd69';ctx.font='.22px system-ui';ctx.fillText('↻',anchor.x+.13,anchor.y-.11)}
   }
  }
  for(const p of doc.parts){
@@ -301,9 +348,12 @@ function draw(){
  }
  // World-pivot markers must be drawn ABOVE the bodies; otherwise motor targets are invisible.
  for(const j of doc.joints)if(j.kind==='hinge'){
-  ctx.beginPath();ctx.arc(j.x,j.y,.12,0,Math.PI*2);ctx.fillStyle=j.motor?'#eeb562':'#def0ae';
+  const activeGroup=gesture?.type==='move'&&gesture.withConnected?linkedComponent(doc,gesture.id):null;
+  const md=activeGroup&&(activeGroup.has(j.b)||activeGroup.has(j.a))?gesture.delta:{x:0,y:0};
+  const x=j.x+md.x,y=j.y+md.y;
+  ctx.beginPath();ctx.arc(x,y,.12,0,Math.PI*2);ctx.fillStyle=j.motor?'#eeb562':'#def0ae';
   ctx.fill();ctx.strokeStyle='#142b35';ctx.lineWidth=.04;ctx.stroke();
-  if(j.motor){ctx.fillStyle='#f7dfb5';ctx.font='.23px system-ui';ctx.fillText('↻',j.x+.13,j.y-.13)}
+  if(j.motor){ctx.fillStyle='#f7dfb5';ctx.font='.23px system-ui';ctx.fillText('↻',x+.13,y-.13)}
  }
  if(pending){ctx.beginPath();ctx.arc(pending.at.x,pending.at.y,.15,0,Math.PI*2);ctx.strokeStyle='#f8c873';ctx.lineWidth=.045;ctx.stroke()}
  if(gesture?.type==='rail'){const end=gesture.end||gesture.start;ctx.beginPath();ctx.moveTo(gesture.start.x,gesture.start.y);ctx.lineTo(end.x,end.y);ctx.strokeStyle='#f1d17a';ctx.lineWidth=.055;ctx.stroke()}
