@@ -15,7 +15,7 @@
 
 
 
-**Status: ADEQUATE jako techniczny, izolowany falsyfikator; Owner EXPERIENCE i współautorstwo NIEPOTWIERDZONE.**
+**AKTUALNY WERDYKT (po doświadczeniu Ownera): techniczny izolowany falsyfikator ADEQUATE; naturalność authoringu i kontrola Ownera FAIL; niezależne użycie przez innego agenta NIEUDOWODNIONE. Dalsze metryki browser PASS nie zmieniają tego werdyktu.**
 Nie jest docelowym Studiem/Jozz Vehicle/Jaskinią ani odpowiedzią na pytanie o wybór solvera.
 
 ## Dlaczego ten etap
@@ -73,11 +73,11 @@ Przykład JSON jest **prawdziwym edytowalnym dokumentem projektu**, bez zależno
 2. **Brak live-edit → test → live-edit bez resetu.** To świadoma, uczciwa granica E1 (projekt vs chwilowa poza), ale może być materialnym Owner FAIL. Należy podważać tę decyzję doświadczeniem, nie usuwać jej po cichu.
 3. **Fizyka ograniczona:** brak zaawansowanych brył, 3D, prawdziwych component assets, świata reagującego na trwałe zmiany, przenośnych lokalnych ramek przegubów jako pełnego języka authoringu, grawitacja celowo zero, motor stały, brak wielopunktowej manipulacji, mało kontroli nad parametrami. Zbieżność rozwiązania fizycznego przy sprzecznych więzach nie jest szeroko zbadana.
 4. **Dostarczenie:** Planck `1.5.1` przez wersjonowany CDN, NIE byte-pinned/offline; brak testu realnego telefonu, Jaskini/Operowego `Przyrządu` i bezpiecznej trwałości na różnych originach. Hostowany preview to **publiczny eksperyment, nie prywatny nośnik**; bez materiałów osobistych.
-5. **Brak Owner PASS i cold-agent PASS.** Testy zostały napisane przez tego samego agenta i deterministycznie odgrywają przygotowane zadania. Dalsze automatyczne zielone metryki nie zmienią tej granicy.
+5. **Owner authoring/control: potwierdzony FAIL; cold-agent: NIEUDOWODNIONE.** Testy zostały napisane przez tego samego agenta i deterministycznie odgrywają przygotowane zadania. Dalsze automatyczne zielone metryki nie zmienią Owner verdict.
 
-## Co dalej, bez rozpędu
+## Historyczne plany sprzed Owner first-contact — NIEAKTUALNE po Owner FAIL
 
-**Nie** rozwijać E2e automatycznie w ogólny builder ani wdrażać do Jaskini. **Najbliższe sensowne kryterium:** gdy realnie jest możliwy bezpieczny, dobrowolny first-contact, obserwować swobodne zbudowanie własnego, nieprzewidzianego mechanizmu i jego przebudowę. Jeżeli nowy język pozostaje serią niewygodnych przycisków, **FAIL** mimo realnej fizyki. W razie dalszej pracy bez Ownera lepsze są testy autorskich semantyk i cold-agent kontynuacji z portable JSON niż produkowanie coraz lepszego solver demo.
+**Zachowana historyczna hipoteza (sprzed first-contact):** należało sprawdzić swobodne tworzenie i przebudowę mechanizmu, zamiast bez końca dodawać testy solvera. **Taką próbę Owner rzeczywiście wykonał: authoring/control FAIL, ambicja i wynik eksperymentalny atrakcyjne. Aktualne rozstrzygnięcie: zamknąć E2e jako donor, nie wykonywać kolejnego cyklu poprawek, nie prosić Ownera o dalszy debugging.**
 
 Cel wyższego rzędu: **Jaskinia jest jednym Domem; Medium ma otwierać działanie ludzi i agentów bez konkurującej rzeczywistości, bez wymuszania monolitu i bez zmieniania autonomicznych projektów w nasze laboratorium.**
 
