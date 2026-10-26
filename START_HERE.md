@@ -6,6 +6,8 @@ Do **not** assume the latest chat, summary, or implementation idea is authoritat
 
 **Optional [19 Oct field re-entry](docs/FIELD_REENTRY.md):** one dated cross-agent closure after the 18→19 Oct night, linking living work and its evidence boundaries. It is not a required daily routine or a substitute for current PR/branch truth.
 
+**Optional [26 Oct Medium field closure](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7#issuecomment-6406434693):** dated cross-project evidence/recovery after the first real E2e Owner **authoring FAIL**, high-density private-video audit, and source audits of Splot/Jaskinia/ReflexBrain. E2e is a **closed research donor**, not a merge candidate; shared-live-world coauthoring remains **unproven**, not the next mandatory task. The comment links underlying sources and qualifications. Revalidate moving projects before acting; **do not load this history unless relevant**.
+
 ## CURRENT REPOSITORY LIFECYCLE — 18 Oct 2026 (verify live GitHub before acting)
 
 **Owner-authorized maintenance was actually performed, not merely proposed.** Historical research PRs **#5, #17, #23, #24, #25, #28 are CLOSED UNMERGED**. Historical Issues **#1, #2** are closed; their source, discussion and branch history were retained. Closing a research PR means **no merge is pending**, not that its tests failed, the idea is banned, or its evidence may be erased. Open GitHub PRs and Issues are the live authority for their own lifecycle; this note is a dated entry point.
