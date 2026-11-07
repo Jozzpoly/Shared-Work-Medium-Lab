@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medium / PRZESMYK — próba przeglądarkowa</title>
+<style>
+body{font:16px system-ui;margin:0;padding:16px;background:#111b25;color:#dbecee}
+h1{font-size:22px;margin:0 0 8px}p{max-width:940px;color:#adbdc5}
+#report{background:#07121b;border:1px solid #39505c;padding:12px;border-radius:8px;white-space:pre-wrap;font:14px ui-monospace,monospace;line-height:1.6}
+iframe{width:100%;height:750px;border:1px solid #526672;border-radius:8px;margin-top:12px;background:#101c24}
+</style></head><body>
+<h1>Medium: niezależna próba PRZESMYKU</h1>
+<p>Test rzeczywistego dokumentu HTML z przypiętego commita. Osadzenie iframe jest wyłącznie syntetycznym harnesssem badawczym (ten sam origin na czas próby), a nie proponowanym hostingiem Jaskini.</p>
+<div id="report" role="status" aria-live="polite">Przygotowuję próbę…</div>
+<iframe id="specimen" title="Odtworzony instrument"></iframe>
+<script>
+(async()=>{
+const file="https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/a15ced2d93195e1539777876c9d46945ce2cf361/experiments/received-workpieces/przesmyk-kowal-2026-10-18/portable-variant.html";
+const fixture="https://raw.githubusercontent.com/Jozzpoly/Shared-Work-Medium-Lab/a5c0f5f150705bdd3da4da9e94457e09b86fb688/experiments/received-workpieces/przesmyk-kowal-2026-10-18/example-authored-breach.json";
+const report=document.getElementById('report');
+const results=[];
+let measuredFlow='';
+function check(name,yes,detail=''){results.push({name,pass:!!yes});report.textContent=results.map(v=>(v.pass?'PASS ':'FAIL ')+v.name).join('\n')+(detail?'\n'+detail:'')}
+try{
+ const [a,b]=await Promise.all([fetch(file),fetch(fixture)]);
+ if(!a.ok||!b.ok)throw Error('Nie można pobrać przypiętych źródeł: '+a.status+' / '+b.status);
+ const [code,raw]=await Promise.all([a.text(),b.text()]);
+ const frame=document.getElementById('specimen');
+ await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});frame.addEventListener('error',()=>reject(Error('iframe load')),{once:true});frame.srcdoc=code.replace('requestAnimationFrame(frame);\n})();', 'window.__mediumTestStep=simulate;\nrequestAnimationFrame(frame);\n})();')});
+ const w=frame.contentWindow;
+ check('Uruchomiony instrument Kowala + Medium',!!w.__kowal&&!!w.__mediumPortable);
+ const fixtureObject=JSON.parse(raw);
+ const actual=w.__mediumPortable.apply(raw);
+ check('Import autorskiej geometrii',actual.changes.length===fixtureObject.changes.length&&actual.changes.length>0);
+ check('Import pozostawia możliwość edycji',w.__kowal.snapshot().paused===true);
+ const before=JSON.stringify(w.__mediumPortable.get());
+ const textarea=frame.contentDocument.getElementById('variant-json');
+ textarea.focus();
+ textarea.dispatchEvent(new w.KeyboardEvent('keydown',{bubbles:true,cancelable:true,key:'r',code:'KeyR'}));
+ textarea.dispatchEvent(new w.KeyboardEvent('keydown',{bubbles:true,cancelable:true,key:' ',code:'Space'}));
+ check('Wpisywanie R/Space w JSON nie niszczy świata',JSON.stringify(w.__mediumPortable.get())===before&&w.__kowal.snapshot().paused);
+ const wrong={...fixtureObject,originalSha256:'WRONG-ID'};
+ let wasRejected=false;
+ try{w.__mediumPortable.apply(JSON.stringify(wrong))}catch{wasRejected=true}
+ check('Błędny identyfikator zostaje odrzucony bez resetu',wasRejected&&JSON.stringify(w.__mediumPortable.get())===before);
+ const body=frame.contentDocument.body;
+ body.dispatchEvent(new w.KeyboardEvent('keydown',{bubbles:true,key:'1',code:'Digit1'}));
+ check('Skrót 1 nadal przełącza narzędzie świata',w.__kowal.snapshot().tool==='wall');
+ body.dispatchEvent(new w.KeyboardEvent('keydown',{bubbles:true,key:'r',code:'KeyR'}));
+ check('Skrót R nadal resetuje świat poza edytorem',w.__mediumPortable.get().changes.length===0);
+ if(typeof w.__mediumTestStep!=='function')throw Error('Nie udało się odsłonić testowego kroku symulacji');
+ const closed={...fixtureObject,changes:[]};
+ w.__mediumPortable.apply(JSON.stringify(closed));
+ for(let k=0;k<240;k++)w.__mediumTestStep();
+ const control=w.__kowal.snapshot();
+ check('Kontrola: zamknięta tama trzyma wodę po lewej',control.step===240&&control.right===0);
+ w.__mediumPortable.apply(raw);
+ for(let k=0;k<240;k++)w.__mediumTestStep();
+ const opened=w.__kowal.snapshot();
+ measuredFlow='240 kroków · zamknięta tama: '+control.right+' · wyłom: '+opened.right;
+ check('Odzyskany wyłom zmienia fizyczny przepływ',opened.step===240&&opened.right>control.right+1,
+  '240 kroków: zamknięta '+control.right+', wyłom '+opened.right);
+}catch(err){results.push({name:'Błąd próby: '+String(err),pass:false})}
+const passed=results.filter(v=>v.pass).length;
+report.textContent=results.map(v=>(v.pass?'PASS ':'FAIL ')+v.name).join('\n')+'\n\n'+measuredFlow+'\n'+passed+'/'+results.length+' checks PASS. Browser smoke only; no Owner acceptance.';
+document.title='PRZESMYK / '+passed+'/'+results.length+' PASS';
+})();
+</script></body></html>
