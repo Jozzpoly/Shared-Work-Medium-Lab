@@ -1,6 +1,16 @@
 # START HERE
 
-This is the canonical entry point for a fresh human or agent entering Shared Work Medium Lab.
+## Scope correction — 7 November 2026
+
+**Owner direction, not a new product brief.** Medium is a developing philosophy, dream and path of shared discovery in the wider creative superorganism — **not a separate application, project-manager UI, or replacement for Jaskinia**. Jaskinia remains the intended shared Home/environment. This `Shared-Work-Medium-Lab` repository is one historical research laboratory and a source of evidence, experiments and potential donors; it does **not** define or contain the whole of Medium.
+
+Keep distinct agents, worlds and projects free to develop their own character. Judge proposed transfers by real downstream capability and experience, not by a published demo, status, green test or a delivery announcement. Earlier World/Library Owner FAILs and all historical PR statuses remain unchanged. This note is not a task, architecture decision, or instruction to Opus, Astra or another recipient.
+
+**Current timing correction:** 11 November is not an automatic GitHub-retirement deadline. The Owner's 6 November decision ended the campaign to export/save the whole ChatGPT Library; do not resurrect that campaign or delete branches merely to satisfy the old date. Use the original dated branch preflight only when a concrete branch operation is actually warranted.
+
+---
+
+This is the canonical entry point **for this research repository**, not a definition of all of Medium.
 
 Do **not** assume the latest chat, summary, or implementation idea is authoritative. Recover the current state from this repository and linked sources.
 
