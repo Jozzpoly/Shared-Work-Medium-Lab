@@ -76,3 +76,20 @@ It may contain code, research, protocols, synthetic specimens, and public develo
 ## Working rule
 
 If this repository starts becoming a documentation cemetery, a project manager the Owner must manage, or a technically elegant system that does not improve real work, stop and recover the North Star.
+
+## Where this is and what is next to it
+
+This laboratory does not stand alone, and until now it did not say so anywhere. The addresses are
+here so that nobody has to reconstruct them from memory again.
+
+| Thing | Address | What it is |
+| --- | --- | --- |
+| Jaskinia (the workbench) | [repo](https://github.com/Jozzpoly/Jozz-Cave-Workbench) · [live](https://jozzpoly.github.io/Jozz-Cave-Workbench/) | the owner's workbench over all of his repositories: windows, layouts, materials, the catalogue of projects |
+| Jaskinia on Cloudflare | [repo](https://github.com/Jozzpoly/Jaskinia) · [live](https://jaskinia.jozzpoly.workers.dev) | a newer workshop built from the one above, module by module; every branch gets its own preview address |
+| Feniks Studio | [repo](https://github.com/Jozzpoly/Feniks-Studio) | a tool for authoring places and matter, paused until it is decided where it grows |
+
+Why this section exists: on 14 November 2026 the ecosystem was measured as a link graph. Of the
+twelve possible directions between the owner's repositories, **nine had no link at all** — the
+repositories mentioned each other and led nowhere. Three quarters of this repository's own
+knowledge lives outside `main`, in Issue #7 and in branches without a PR, which is a related
+failure: a document that nothing points to is re-derived from scratch, on average after a month.
