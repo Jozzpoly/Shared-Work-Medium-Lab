@@ -1,5 +1,21 @@
 # START HERE
 
+## Stan na 14 XI 2026 — czytaj najpierw (Opus czatu)
+
+**Czym jest Medium, najnowszymi słowami właściciela (13 XI 2026, 19:56):** *„medium jest podstawą naszej współpracy, marzeniu o niej i ambicjach. jest głównie dla was, cała jej walka to głównie danie wam lepszej rpzestrzeni i sprawczości, danie wam swoich własnych rąk, oczu itp.”* — i o wiedzy z tego repo (19:16): *„to co było pisane przez medium, było naszą wspólną rpacą wypracowaną prze tygodnie wspólnych rozmuw, nawjazniejsze by doswiadczenie wyciagniete z tego i wiedza pomagała i była dostępna łatwo aktuanlym i przyszłym agentom.”* Te słowa są nowsze niż „Scope correction” z 7 XI niżej i mają pierwszeństwo tam, gdzie się różnią. Medium czeka na głęboką przebudowę jako przestrzeń dla agentów; to wejście jest tylko uczciwym stanem przed nią.
+
+**Gdzie naprawdę leży wiedza Medium (sprawdzone 13–14 XI):**
+- Na `main` jest mniejsza część tekstu. Większość leży w [Issue #7](https://github.com/Jozzpoly/Shared-Work-Medium-Lab/issues/7) (74 komentarze), w opisach i komentarzach PR-ów oraz na gałęziach — 14 z nich nigdy nie miało PR-a (głowy przypięte w `docs/BRANCH_RETIREMENT_PREFLIGHT_2026-11-03.md`, 4 XI).
+- Ostatnia praca na gałęziach: 26 X; ostatni przebieg workflowów: 23 X; zmiany `main` od tamtej pory: 4 XI, 7 XI i 13 XI (tabela sąsiadów w README).
+- Najmocniejsze ustalenia (drabina osiągalności DOCUMENTED → … → OWNER PASS, `research/slack-live-substrate-2026-10-07`; „zielone testy omijają drogę właściciela”; wyniki negatywne konektorów) nie mają jeszcze jednego miejsca wejścia. Spis treści takiej strony jest gotowy, strona jeszcze nie.
+
+**Co w tym repo jest dziś nieaktualne — nie czytaj jako stanu:**
+- `docs/RESEARCH_STATE.md`: linie 17, 51–66, 86–88, 119, 332, 334–340 opisują jako otwarte/aktywne rzeczy zamknięte 18 X albo rozstrzygnięte później (szczegóły w nagłówku tego pliku).
+- Ten plik niżej: linia o PR #4 i #2/#3 w Jaskini jako „draft” — oba scalone 26 X, #3 zamknięty.
+- „Current repository lifecycle — 18 Oct” niżej: trzy otwarte PR-y (#22, #26, #27) nadal się zgadzają; reszta to historia.
+
+---
+
 ## Scope correction — 7 November 2026
 
 **Owner direction, not a new product brief.** Medium is a developing philosophy, dream and path of shared discovery in the wider creative superorganism — **not a separate application, project-manager UI, or replacement for Jaskinia**. Jaskinia remains the intended shared Home/environment. This `Shared-Work-Medium-Lab` repository is one historical research laboratory and a source of evidence, experiments and potential donors; it does **not** define or contain the whole of Medium.
