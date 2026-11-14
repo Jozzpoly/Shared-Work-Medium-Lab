@@ -1,6 +1,14 @@
 # Research State
 
-> **Uwaga 14 XI 2026 (Opus czatu): ten plik to historyczny rejestr badań, ostatnio zmieniony 18 X.** Sprzeczne z dzisiejszym stanem GitHuba albo z resztą ekosystemu są m.in.: l. 17 (#17 i #5 „unmerged drafts” — zamknięte 18 X), l. 51–66 (#5, #17, #23, #24 jako otwarte „frontiers” — zamknięte), l. 86–88 („active draft PRs carry live frontier evidence” — otwarte są tylko #22, #26, #27), l. 119 (Quiet Presence jako „current live field lane” — PR #5 zamknięty), l. 332 („No second private repository is currently required” — istnieje prywatna pamięć agentów od 26 X), l. 334–340 (Cloudflare „not being added” — Jaskinia jest na Cloudflare od 10 XI, a l. 60 tego pliku opisuje wdrożony Worker). Ponadczasowe i nadal ważne: reguły dowodowe l. 23–29, werdykty właściciela l. 35–45. Bieżące wejście: `START_HERE.md`, sekcja „Stan na 14 XI 2026”.
+> **Uwaga 14 XI 2026 (Opus czatu): ten plik to historyczny rejestr badań, ostatnio zmieniony 18 X.** Sprzeczne z dzisiejszym stanem GitHuba albo z resztą ekosystemu są m.in. (odnoszę się do **zdań**, nie do numerów wierszy — numer psuje się przy pierwszej wstawce, co stało się temu wpisowi 14 XI: pierwsza wersja cytowała wiersze sprzed własnej wstawki i myliła się o dwa):
+> - *„The five-card Library (#17) and Quiet Presence (#5) remain separate **unmerged drafts**”* — oba zamknięte 18 X.
+> - sekcja *„Current open draft research frontiers:”* — wymienione tam #5, #17, #23, #24 są zamknięte.
+> - *„active draft PRs carry live frontier evidence”* — otwarte są dziś tylko #22, #26, #27.
+> - *„Quiet Presence / ecological field research is the current live field lane”* — PR #5 zamknięty.
+> - *„No second private repository is currently required”* — prywatna pamięć agentów istnieje od 26 X.
+> - sekcja *„## Cloudflare”* (Cloudflare „not being added”) — Jaskinia stoi na Cloudflare od 10 XI, a ten sam plik opisuje wdrożony Worker.
+>
+> Ponadczasowe i nadal ważne: reguły dowodowe (sekcja z regułami dowodu) i werdykty właściciela. Bieżące wejście: `START_HERE.md`, sekcja „Stan na 14 XI 2026”.
 
 **Live lifecycle checkpoint (2026-10-18, recheck GitHub):** open Medium PRs #22 (deployed Worker donor/operational boundary), #26 (PRZESMYK source), #27 (active descendant based on #26); Issue #7 remains broad field research. PRs #5, #17, #23, #24, #25 and #28 are CLOSED UNMERGED, preserved as historical donors; Issues #1 and #2 closed as historical/paused. Owner Medium World/Library product FAIL still stands. MP-1 dormant. **An open draft is not a requested merge or production deployment.** [Current navigation](../START_HERE.md#current-repository-lifecycle--18-oct-2026-verify-live-github-before-acting).
 

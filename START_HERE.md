@@ -10,7 +10,7 @@
 - Najmocniejsze ustalenia (drabina osiągalności DOCUMENTED → … → OWNER PASS, `research/slack-live-substrate-2026-10-07`; „zielone testy omijają drogę właściciela”; wyniki negatywne konektorów) nie mają jeszcze jednego miejsca wejścia. Spis treści takiej strony jest gotowy, strona jeszcze nie.
 
 **Co w tym repo jest dziś nieaktualne — nie czytaj jako stanu:**
-- `docs/RESEARCH_STATE.md`: linie 17, 51–66, 86–88, 119, 332, 334–340 opisują jako otwarte/aktywne rzeczy zamknięte 18 X albo rozstrzygnięte później (szczegóły w nagłówku tego pliku).
+- `docs/RESEARCH_STATE.md`: sześć zdań opisuje jako otwarte/aktywne rzeczy zamknięte 18 X albo rozstrzygnięte później — **wyliczone i zacytowane w nagłówku tego pliku**. (Były tam numery wierszy; zdjęte 14 XI, bo wstawka nagłówka przesunęła je o dwa. Cytat przeżywa edycję, numer nie.)
 - Ten plik niżej: linia o PR #4 i #2/#3 w Jaskini jako „draft” — oba scalone 26 X, #3 zamknięty.
 - „Current repository lifecycle — 18 Oct” niżej: trzy otwarte PR-y (#22, #26, #27) nadal się zgadzają; reszta to historia.
 
