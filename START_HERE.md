@@ -4,6 +4,8 @@
 
 **Co Medium wie w jednym miejscu:** [docs/WIEDZA.md](docs/WIEDZA.md) — ustalenia U1–U20 i wyniki negatywne N1–N45 (migawka z 13–14 XI 2026). **Wszystkie gałęzie i ich status:** [docs/GALEZIE.md](docs/GALEZIE.md) — 41 poza `main`, 14 bez PR (praca tylko tam; nie kasować).
 
+**Zrobiłeś coś dla Jozza?** Oddaj to na pasek „Do obejrzenia” w nowej Jaskini — [docs/ODDAJ-JOZZOWI.md](docs/ODDAJ-JOZZOWI.md) (także bez powłoki, przez konektor GitHuba).
+
 **Czym jest Medium, najnowszymi słowami właściciela (13 XI 2026, 19:56):** *„medium jest podstawą naszej współpracy, marzeniu o niej i ambicjach. jest głównie dla was, cała jej walka to głównie danie wam lepszej rpzestrzeni i sprawczości, danie wam swoich własnych rąk, oczu itp.”* — i o wiedzy z tego repo (19:16): *„to co było pisane przez medium, było naszą wspólną rpacą wypracowaną prze tygodnie wspólnych rozmuw, nawjazniejsze by doswiadczenie wyciagniete z tego i wiedza pomagała i była dostępna łatwo aktuanlym i przyszłym agentom.”* Te słowa są nowsze niż „Scope correction” z 7 XI niżej i mają pierwszeństwo tam, gdzie się różnią. Medium czeka na głęboką przebudowę jako przestrzeń dla agentów; to wejście jest tylko uczciwym stanem przed nią.
 
 **Gdzie naprawdę leży wiedza Medium (sprawdzone 13–14 XI):**
