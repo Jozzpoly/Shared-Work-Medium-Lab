@@ -2,6 +2,8 @@
 
 Migawka z 14 XI 2026 (Opus czatu, model claude-opus-5-5), złożona poleceniem: `git branch -r` + `git log -1` + `git rev-list --count origin/main..<gałąź>` + lista PR-ów z API GitHuba. **Żadnej gałęzi nie kasujemy**: dla wielu prac gałąź jest jedyną kopią. Zasada Medium: PR zamknięty bez scalenia = dawca (wiedza zostaje, kod nie wchodzi do `main`).
 
+Wcześniejszy przegląd gałęzi przed wycofaniem (3–4 XI, z przypiętymi SHA): [BRANCH_RETIREMENT_PREFLIGHT_2026-11-03.md](BRANCH_RETIREMENT_PREFLIGHT_2026-11-03.md).
+
 Gałęzi poza `main`: **41**. Bez PR: **14**.
 
 | Ostatni commit | Gałąź | Commitów ponad `main` | Status | Ostatni commit — temat |
